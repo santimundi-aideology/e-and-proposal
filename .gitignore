@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+.vercel/
+
+# Local source/reference assets not needed for deployment
+Etisalat/
+context/
