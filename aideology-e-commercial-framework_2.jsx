@@ -1007,15 +1007,15 @@ const HPC_ARCHITECTURES = [
     tagline: "Inference-first · agentic AI · industrial workloads",
     gpu: "RTX PRO 6000 Blackwell Server Edition",
     gpusPerNode: 8,
-    nicsPerNode: 5,
-    fabricSpeed: "200 Gb/s",
+    nicsPerNode: "5 (1 N/S + 4 E/W)",
+    fabricSpeed: "200 GbE per GPU",
     fabric: "Spectrum-X Ethernet · single-plane · rail-optimised",
     nvlink: "Per-node NVLink (no rack-scale NVLink domain)",
-    minSize: "8 GPUs · 1 node (pilot) · RA from 32 GPUs / 4 nodes",
-    maxSize: "Up to 256 GPUs · 8 SUs",
-    cablesPerSu: "20 compute fabric cables/SU @ 200G + storage/mgmt",
+    minSize: "1 SU · 4 nodes · 32 GPUs",
+    maxSize: "8 SUs · 32 nodes · 256 GPUs",
+    cablesPerSu: "≈16 East-West (4 NICs × 4 nodes) + 4 North-South per SU · 200 GbE per GPU",
     workloads: ["Agentic AI inference","Industrial / physical AI","Visual computing","HPC analytics & simulation"],
-    description: "Most cost-efficient enterprise pattern. Built around the RTX PRO 6000 Blackwell Server Edition. 8 GPUs per node, 5 NICs per node at 200 Gbps. Lowest entry point for an NVIDIA AI factory. Best when the workload is inference-heavy rather than large-scale training.",
+    description: "Most cost-efficient enterprise pattern. PCIe-optimised 4U NVIDIA-Certified node with 2 CPUs · 8 GPUs · 5 NICs (1 North-South + 4 East-West) · 200 GbE per GPU East-West traffic. Pattern scales from 4 to 32 nodes (1–8 SUs · 32–256 GPUs). Lowest entry point for an NVIDIA AI factory.",
     bestFor: "Inference + agentic AI at SMB / mid-enterprise scale. Direct fit for the e& B2B agent inference fleet and on-prem enterprise customers.",
     docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/rtx-pro-ai-factory/latest/index.html",
   },
@@ -1026,15 +1026,15 @@ const HPC_ARCHITECTURES = [
     tagline: "Workhorse · training · fine-tuning · large-scale inference",
     gpu: "HGX H200 · HGX B200",
     gpusPerNode: 8,
-    nicsPerNode: 9,
-    fabricSpeed: "400 Gb/s",
+    nicsPerNode: "9 (1 N/S + 8 E/W)",
+    fabricSpeed: "400 GbE per GPU",
     fabric: "Spectrum-X Ethernet or InfiniBand · rail-optimised · multi-plane",
     nvlink: "8-GPU NVLink within each HGX baseboard",
-    minSize: "8 GPUs · 1 node (pilot) · RA from 32 GPUs / 4 nodes",
-    maxSize: "Up to 1,024 GPUs · 32 SUs (vendor-dependent)",
-    cablesPerSu: "36 compute fabric cables/SU @ 400G (40 with Cisco 2-8-10-400) + storage/mgmt",
+    minSize: "1 SU · 4 nodes · 32 GPUs",
+    maxSize: "8 SUs · 32 nodes · 256 GPUs (default) · up to 32 SUs · 1,024 GPUs",
+    cablesPerSu: "≈32 East-West (8 NICs × 4 nodes) + 4 North-South per SU · 400 GbE per GPU (40 E-W with Cisco 2-8-10-400)",
     workloads: ["AI training & fine-tuning","Large-context RAG","High-throughput inference","GPU-accelerated data analytics"],
-    description: "The serious-workload Enterprise RA. 8× HGX H200 or B200 per node, 9 NICs per node at 400 Gbps. Cisco extends to 10 NICs. Spans from 32 GPUs to multi-thousand-GPU clusters. The enterprise-grade reference for training foundation and domain-tuned models.",
+    description: "The serious-workload Enterprise RA. Scale-up NVIDIA-Certified HGX 8-GPU node with 2 CPUs · 8 GPUs · 9 NICs (1 North-South + 8 East-West, one per GPU rail) · 400 GbE per GPU East-West traffic. Cisco extends to 10 NICs (2-8-10-400). Pattern scales from 4 to 32 nodes default (1–8 SUs · 32–256 GPUs); fully tested up to 32 SUs / 128 nodes / 1,024 GPUs.",
     bestFor: "Sovereign GPUaaS at scale + e&-hosted enterprise training cluster. Direct fit for the GPUaaS pillar and Core42 / G42 partnership.",
     docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory/latest/index.html",
   },
@@ -1045,15 +1045,15 @@ const HPC_ARCHITECTURES = [
     tagline: "Frontier · rack-scale NVLink · foundation model training",
     gpu: "GB300 NVL72 (single-plane configuration)",
     gpusPerNode: "72 GPUs / NVL72 rack",
-    nicsPerNode: 9,
-    fabricSpeed: "800 Gb/s",
+    nicsPerNode: "9 (1 N/S + 8 E/W)",
+    fabricSpeed: "800 GbE per GPU",
     fabric: "Spectrum-X 800G Ethernet (single plane) + rack-scale NVLink switching",
     nvlink: "NVLink 5 · 72-GPU NVLink domain per rack",
     minSize: "1 NVL72 rack · 72 GB300 GPUs",
     maxSize: "Multi-rack — thousands of GPUs",
-    cablesPerSu: "≈36 compute fabric cables per scale unit @ 800G + intra-rack NVLink + storage/mgmt",
+    cablesPerSu: "≈32 East-West + 4 North-South per scale unit · 800 GbE per GPU · plus intra-rack NVLink",
     workloads: ["Foundation model training","Real-time reasoning","Complex agentic AI pipelines","Large-scale fine-tuning"],
-    description: "Top-tier rack-scale architecture. Built around the GB300 NVL72: a 72-GPU NVLink domain in a single rack. 9 NICs per node at 800 Gbps. For organisations training or serving frontier-class models. Highest performance, highest density, highest power.",
+    description: "Top-tier rack-scale architecture. Built around the GB300 NVL72: a 72-GPU NVLink domain in a single rack. 2 CPUs · 8 GPUs per node · 9 NICs (1 N/S + 8 E/W) · 800 GbE per GPU East-West traffic. For organisations training or serving frontier-class models. Highest performance, highest density, highest power.",
     bestFor: "Sovereign AI factory for governments and frontier-model training. Fits an e& + Core42 / G42 large-scale national build-out.",
     docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory-with-gb300-nvl72-dual-plane-networking-architecture.pdf",
   },
@@ -1088,15 +1088,15 @@ const HPC_GUIDES = [
 function PatternDecoder() {
   return <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
     <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
-      <div style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:4}}>How to read the pattern code</div>
-      <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.55,margin:0}}>NVIDIA Enterprise RAs are named with a 4-part code: <strong style={{color:BRAND.black,fontFamily:BRAND.font}}>A-B-C-D</strong>. It tells you the scale-unit shape, GPUs per node, NICs per node, and NIC speed. Same code, different OEMs — guaranteed compatible by NVIDIA's design review board.</p>
+      <div style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:4}}>How to read the pattern code · C-G-N-B</div>
+      <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.55,margin:0}}>NVIDIA names every Reference Configuration with the <strong style={{color:BRAND.black,fontFamily:BRAND.font}}>C-G-N-B</strong> nomenclature — <strong style={{color:BRAND.black}}>CPUs · GPUs · NICs · East-West Bandwidth per GPU</strong>. Same code, different OEMs — guaranteed compatible by NVIDIA's design review board. Source: NVIDIA Enterprise RA Overview white paper.</p>
     </div>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))"}}>
       {[
-        {k:"A",l:"Design tier",d:"Scale-unit / network plane generation. Almost always 2 in current Enterprise RAs."},
-        {k:"B",l:"GPUs per node",d:"Always 8 for HGX/RTX PRO patterns. NVL72 expresses the rack-scale 72-GPU domain separately."},
-        {k:"C",l:"NICs per node",d:"Compute-fabric NICs per server. 5 (RTX PRO), 9 (HGX standard), 10 (Cisco-extended HGX)."},
-        {k:"D",l:"NIC speed",d:"Per-port bandwidth in Gbps. 200 (RTX PRO), 400 (HGX), 800 (NVL72 / B300 single plane)."},
+        {k:"C",l:"CPUs / sockets per node",d:"Almost always 2 in Enterprise RAs (dual-socket AMD EPYC Milan/Genoa/Turin or Intel Xeon Scalable Emerald Rapids)."},
+        {k:"G",l:"GPUs per node",d:"8 for HGX H100/H200/B200 and PCIe RTX PRO 6000 / H200 NVL · 4 for L40S / H100 NVL · 2 for Grace GH200 NVL2."},
+        {k:"N",l:"NICs per node",d:"Total network interface cards per server: 1 North-South (storage / management uplink) + the rest East-West (rail-optimised compute fabric). e.g. 9 = 1 N/S + 8 E/W."},
+        {k:"B",l:"GbE East-West per GPU",d:"East-West (compute fabric) bandwidth allocated per GPU. 200 GbE (RTX PRO / H200 NVL · L40S) · 400 GbE (HGX H100/H200/B200 / Grace) · 800 GbE (HGX B300 single plane / NVL72)."},
       ].map((c,i)=><div key={i} style={{padding:"18px 22px",borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
           <span style={{width:30,height:30,background:BRAND.red,color:BRAND.white,fontWeight:700,fontSize:14,display:"flex",alignItems:"center",justifyContent:"center"}}>{c.k}</span>
@@ -1104,6 +1104,10 @@ function PatternDecoder() {
         </div>
         <p style={{fontSize:11.5,color:BRAND.grey,lineHeight:1.55,margin:0}}>{c.d}</p>
       </div>)}
+    </div>
+    <div style={{padding:"16px 22px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+      <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>Worked example · 2-8-9-400</div>
+      <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.55,margin:0}}>2 CPUs · 8 HGX GPUs · 9 NICs (1 North-South + 8 East-West, one per GPU rail) · 400 GbE per GPU East-West. Used by Cisco UCS C885A, Dell PowerEdge XE9680, Lenovo SR680a V3, Supermicro SYS-A22GA-NBRT-G1.</p>
     </div>
   </Card>;
 }
@@ -1172,21 +1176,22 @@ function HPCSection() {
     <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>NVIDIA groups its Enterprise Reference Architectures into three families. Each one targets a different workload mix and a different price/performance point. Click a card to expand the full summary, fabric details, and recommended fit for the e& proposal.</p>
     {HPC_ARCHITECTURES.map(a=><ArchitectureCard key={a.id} a={a} open={openId===a.id} onToggle={()=>toggle(a.id)} />)}
 
-    <SH>Sizing ladder · single node to first scale unit</SH>
-    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>The endorsed Enterprise RA starts at <strong style={{color:BRAND.black}}>4 nodes / 32 GPUs (1 SU)</strong>, but the same OEM nodes run as <strong style={{color:BRAND.black}}>single-node and dual-node pilots</strong> long before that. Use this ladder to plan a low-risk first deployment and then scale into the formal RA without re-architecting.</p>
+    <SH>Sizing ladder · pilot to fully tested cluster</SH>
+    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>NVIDIA defines a <strong style={{color:BRAND.black}}>Scalable Unit (SU) as 4 nodes</strong>. Patterns scale from <strong style={{color:BRAND.black}}>4 to 32 nodes</strong> by default (1–8 SUs · 32–256 GPUs), with HGX fully tested up to <strong style={{color:BRAND.black}}>32 SUs / 128 nodes / 1,024 GPUs</strong>. Single-node and dual-node deployments are common pilots but sit below the formal Enterprise RA endorsement floor. Use this ladder to plan a low-risk first build that ports cleanly into the certified configuration.</p>
     <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
       <div style={{overflowX:"auto"}}>
-        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:880}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:920}}>
           <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
-            {["Tier","Nodes","Fabric topology","RTX PRO 2-8-5-200","HGX 2-8-9-400","NVL72 2-8-9-800","Use case"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+            {["Tier","Nodes / SUs","Fabric topology","RTX PRO 2-8-5-200","HGX 2-8-9-400","NVL72 2-8-9-800","Use case"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
           </tr></thead>
           <tbody>
             {[
-              {tier:"Pilot · single node",badge:"POC",nodes:"1 node",fabric:"Server-internal NVLink only · standard ToR data NIC · no leaf-spine compute fabric",rtx:"8 GPUs · 5 × 200G NICs",hgx:"8 GPUs · 9 × 400G NICs",nvl:"1 NVL72 rack = 72 GPUs (rack-scale building block)",useCase:"Developer sandbox, internal POC, standalone single-tenant agent. No formal Enterprise RA endorsement."},
-              {tier:"Dev pair · two nodes",badge:"POC++",nodes:"2 nodes",fabric:"Single Spectrum-X leaf switch (no spine) · direct NVLink within each node · East-West via leaf",rtx:"16 GPUs · 10 × 200G NICs total · 1 leaf",hgx:"16 GPUs · 18 × 400G NICs total · 1 leaf",nvl:"2 NVL72 racks = 144 GPUs · 2-rack NVLink stretch",useCase:"Internal multi-tenant POC, small fine-tune jobs, workshop / training environment."},
-              {tier:"Quad · 1 scale unit",badge:"RA min",nodes:"4 nodes",fabric:"Leaf-spine compute fabric starts here · rail-optimised · separate storage + management fabrics",rtx:"32 GPUs · 20 × 200G compute NICs · 1 SU",hgx:"32 GPUs · 36 × 400G compute NICs · 1 SU",nvl:"Multi-rack NVL72 (typ. 4 racks · 288 GPUs)",useCase:"First production-grade build. NVIDIA-Certified BoM, full fabric topology, formal Enterprise RA starts here."},
-              {tier:"Mid · 2–4 SUs",badge:"Prod",nodes:"8–16 nodes",fabric:"Two-tier leaf-spine · multi-rail Spectrum-X or InfiniBand · production storage tier",rtx:"64–128 GPUs · 2–4 SUs",hgx:"64–128 GPUs · 2–4 SUs",nvl:"8–16 NVL72 racks · 576–1,152 GPUs",useCase:"Enterprise training + multi-tenant inference. Typical e& Phase 2 GPUaaS scale."},
-              {tier:"Large · 8+ SUs",badge:"Scale",nodes:"32+ nodes",fabric:"Three-tier fat-tree · multi-pod Spectrum-X / InfiniBand · dedicated storage island",rtx:"256 GPUs · 8 SUs",hgx:"512–1,024 GPUs · 16–32 SUs",nvl:"32+ NVL72 racks · 2,304+ GPUs",useCase:"Sovereign GPUaaS at scale. Frontier model training. Government / multi-country build-out."},
+              {tier:"Pilot · single node",badge:"POC",nodes:"1 node · 0 SU",fabric:"Server-internal NVLink only · standard ToR data NIC · no leaf-spine compute fabric",rtx:"8 GPUs · 5 NICs (1 N/S + 4 E/W) · 200 GbE/GPU",hgx:"8 GPUs · 9 NICs (1 N/S + 8 E/W) · 400 GbE/GPU",nvl:"1 NVL72 rack = 72 GPUs in one NVLink domain",useCase:"Developer sandbox, internal POC, standalone single-tenant agent. Below formal Enterprise RA endorsement."},
+              {tier:"Dev pair · two nodes",badge:"POC++",nodes:"2 nodes · 0 SU",fabric:"Single Spectrum-X leaf switch (no spine) · East-West via leaf",rtx:"16 GPUs · 10 NICs total · 1 leaf",hgx:"16 GPUs · 18 NICs total · 1 leaf",nvl:"2 NVL72 racks = 144 GPUs · multi-rack NVLink",useCase:"Internal multi-tenant POC, small fine-tune jobs, workshop / training environment."},
+              {tier:"Quad · 1 SU",badge:"RA min",nodes:"4 nodes · 1 SU",fabric:"Leaf-spine compute fabric starts here · rail-optimised East-West · separate N/S + storage + management fabrics",rtx:"32 GPUs · 20 E/W + 4 N/S NICs",hgx:"32 GPUs · 32 E/W + 4 N/S NICs",nvl:"Multi-rack NVL72 (typ. 4 racks · 288 GPUs)",useCase:"First production-grade build. NVIDIA-Certified BoM, formal Enterprise RA endorsement starts here."},
+              {tier:"Half · 4 SUs",badge:"Prod",nodes:"16 nodes · 4 SUs",fabric:"Two-tier leaf-spine · multi-rail Spectrum-X or InfiniBand · production storage tier",rtx:"128 GPUs",hgx:"128 GPUs",nvl:"16 NVL72 racks · 1,152 GPUs",useCase:"Enterprise training + multi-tenant inference. Typical e& Phase 2 GPUaaS pod."},
+              {tier:"Default tested · 8 SUs",badge:"Standard",nodes:"32 nodes · 8 SUs",fabric:"Two-tier leaf-spine · rail-optimised end-of-row · production storage tier",rtx:"256 GPUs (pattern max for RTX PRO 2-8-5-200)",hgx:"256 GPUs (default tested HGX scale)",nvl:"32 NVL72 racks · 2,304 GPUs",useCase:"NVIDIA's default tested HGX / RTX PRO end-state. The reference 32-server / 256-GPU build the industry uses as the standard sovereign pod."},
+              {tier:"Fully tested · 32 SUs",badge:"HGX max",nodes:"128 nodes · 32 SUs",fabric:"Three-tier fat-tree · multi-pod Spectrum-X / InfiniBand · dedicated storage island",rtx:"— (RTX PRO max is 8 SUs)",hgx:"1,024 GPUs (HGX H100/H200/B200 fully tested)",nvl:"Multi-pod NVL72 fleet · thousands of GPUs",useCase:"Sovereign GPUaaS at scale. Frontier model training. Government / multi-country build-out."},
             ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
               <td style={{padding:"14px 14px",whiteSpace:"nowrap"}}>
                 <div style={{fontWeight:700,color:BRAND.black,marginBottom:4}}>{r.tier}</div>
@@ -1203,7 +1208,7 @@ function HPCSection() {
         </table>
       </div>
     </Card>
-    <Note label="Why this matters">Single-node and dual-node configs are NVIDIA-Certified for the same workloads but live <strong style={{color:BRAND.black}}>below</strong> the formal Enterprise RA endorsement floor. They run the same software stack (NVIDIA AI Enterprise, NIM, Run:ai), so a pilot built on 1 node ports cleanly to a 4-node SU and beyond — same images, same ops, same observability.</Note>
+    <Note label="The 32-server / 256-GPU 'standard pod' explained">The end-state most teams refer to as "the SU" or "the cluster" is the <strong style={{color:BRAND.black}}>NVIDIA default-tested configuration of 32 nodes × 8 GPUs = 256 GPUs</strong> — that's <strong style={{color:BRAND.black}}>8 SUs of 4 nodes each</strong>, not 1 SU of 32 nodes. The 4-node SU is the modular building block; the 32-node / 256-GPU cluster is the standard fully-validated pod that maps onto a single NVIDIA-Certified BoM. Source: NVIDIA Enterprise Reference Architecture Overview white paper.</Note>
 
     <SH>Pattern code · how to read it</SH>
     <PatternDecoder/>
@@ -1211,21 +1216,25 @@ function HPCSection() {
     <SH>Comparison · architectures at a glance</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
-        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:780}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:880}}>
           <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
-            {["Architecture","Pattern","GPU","GPUs / node","NICs / node","Fabric speed","Min – Max","Cables/SU (est.)","Best for"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+            {["Architecture","Pattern (C-G-N-B)","GPU","GPUs / node","NICs / node","E-W bandwidth","Default scale (8 SUs)","Fully tested","Best for"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
           </tr></thead>
           <tbody>
-            {HPC_ARCHITECTURES.map((a,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
-              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black}}>{a.name}</td>
-              <td style={{padding:"12px 14px",color:BRAND.red,fontFamily:BRAND.font,fontWeight:700,whiteSpace:"nowrap"}}>{a.pattern}</td>
-              <td style={{padding:"12px 14px",color:BRAND.black}}>{a.gpu}</td>
-              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.gpusPerNode}</td>
-              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.nicsPerNode}</td>
-              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.fabricSpeed}</td>
-              <td style={{padding:"12px 14px",color:BRAND.grey,whiteSpace:"nowrap"}}>{a.minSize.split(" · ")[0]} – {a.maxSize.split(" · ")[0]}</td>
-              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.cablesPerSu.split(" + ")[0]}</td>
-              <td style={{padding:"12px 14px",color:BRAND.black}}>{a.tagline}</td>
+            {[
+              {a:"NVIDIA RTX PRO AI Factory",p:"2-8-5-200",g:"RTX PRO 6000 Blackwell SE",gpn:"8",nics:"5 (1 N/S + 4 E/W)",bw:"200 GbE / GPU",def:"32 nodes · 256 GPUs",full:"8 SUs (pattern max)",bf:"Inference-first · agentic AI · industrial"},
+              {a:"NVIDIA HGX AI Factory",p:"2-8-9-400",g:"HGX H200 · HGX B200",gpn:"8",nics:"9 (1 N/S + 8 E/W)",bw:"400 GbE / GPU",def:"32 nodes · 256 GPUs",full:"32 SUs · 128 nodes · 1,024 GPUs",bf:"Workhorse · training · fine-tuning"},
+              {a:"NVIDIA NVL72 AI Factory",p:"2-8-9-800",g:"GB300 NVL72",gpn:"8 per CPU node · 72 per rack",nics:"9 (1 N/S + 8 E/W)",bw:"800 GbE / GPU",def:"32 racks · 2,304 GPUs",full:"Multi-pod · thousands of GPUs",bf:"Frontier · rack-scale NVLink"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black}}>{r.a}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontFamily:BRAND.font,fontWeight:700,whiteSpace:"nowrap"}}>{r.p}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{r.g}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.gpn}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.nics}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.bw}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{r.def}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.full}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{r.bf}</td>
             </tr>)}
           </tbody>
         </table>
@@ -1238,7 +1247,7 @@ function HPCSection() {
       <div style={{overflowX:"auto"}}>
         <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:920}}>
           <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
-            {["Vendor","Solution","Server","GPU","Pattern","Size (SUs / GPUs)","Endorsements"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+            {["Vendor","Solution","Server","GPU","Pattern","Min – Max nodes","Endorsements"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
           </tr></thead>
           <tbody>
             {HPC_OEM.map((o,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
@@ -1267,9 +1276,9 @@ function HPCSection() {
     <SH>How this maps to the e& proposal</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
       {[
-        {t:"SMB inference fleet",p:"RTX PRO AI Factory · 2-8-5-200",d:"32–128 GPUs running 6 SMB agents at scale. Lowest-cost entry point. Sits on Spectrum-X 200G fabric. Same software stack as the larger clusters above."},
-        {t:"Enterprise & sovereign training",p:"HGX AI Factory · 2-8-9-400",d:"The default GPUaaS pillar build-out. 32–1,024 GPUs of HGX H200/B200 across e& and Core42 data centres. Handles agent fine-tuning, RAG at scale, regulated-customer training jobs."},
-        {t:"Government / frontier",p:"NVL72 AI Factory · 2-8-9-800",d:"Reserved for sovereign frontier-model and large-government workloads. GB300 NVL72 racks with 800G fabric. Phased deployment after Phase 1 demand validates."},
+        {t:"SMB inference fleet",p:"RTX PRO AI Factory · 2-8-5-200",d:"Start at 1 SU (4 nodes / 32 GPUs) for Phase 1 SMB agents. Scale to 8 SUs (32 nodes / 256 GPUs) — the pattern's full tested range — as the agent fleet grows. Spectrum-X 200 GbE per GPU. Lowest-cost entry into the NVIDIA AI Enterprise stack."},
+        {t:"Enterprise & sovereign training",p:"HGX AI Factory · 2-8-9-400",d:"The default GPUaaS pillar build-out. Land at the standard 8-SU / 32-node / 256-GPU HGX H200/B200 pod across e& and Core42 data centres, then scale to the 32-SU / 128-node / 1,024-GPU fully tested ceiling for fine-tuning, RAG at scale, and regulated-customer training."},
+        {t:"Government / frontier",p:"NVL72 AI Factory · 2-8-9-800",d:"Reserved for sovereign frontier-model and large-government workloads. GB300 NVL72 racks (72-GPU NVLink domain each) with 800 GbE per GPU East-West fabric. Phased deployment after Phase 1 demand validates."},
       ].map((c,i)=><Card key={i} style={{padding:18}}>
         <Badge v="rose">{c.p}</Badge>
         <h4 style={{fontSize:14,fontWeight:700,color:BRAND.black,margin:"10px 0 8px"}}>{c.t}</h4>
@@ -1277,7 +1286,7 @@ function HPCSection() {
       </Card>)}
     </div>
 
-    <Note label="Source · NVIDIA Docs Hub">All architecture data, partner endorsements, and supporting guides are sourced from <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a>. Cabling counts shown are estimates derived from the pattern code (NICs per node × nodes per SU). Exact per-deployment BoMs live in each OEM datasheet linked above.</Note>
+    <Note label="Source · NVIDIA Docs Hub">All architecture data, partner endorsements, and supporting guides are sourced from <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a> and the NVIDIA Enterprise Reference Architecture Overview white paper. SU = 4 nodes (NVIDIA definition). C-G-N-B = CPUs · GPUs · NICs · East-West GbE per GPU. Cabling counts shown are estimates derived from the pattern code (E/W NICs per node × 4 nodes/SU + N/S NICs); exact per-deployment BoMs (switch SKUs, optics, storage NICs, OOB management) live in each OEM datasheet linked above.</Note>
   </div>;
 }
 
