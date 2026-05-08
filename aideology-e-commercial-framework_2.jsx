@@ -24,6 +24,43 @@ const SH = ({children}) => <div style={{margin:"44px 0 18px"}}><h3 style={{fontS
 const Card = ({children,...p}) => <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderRadius:0,padding:24,marginBottom:16,...(p.style||{})}}>{children}</div>;
 const Note = ({label,children,color=BRAND.red,bg=BRAND.lightGrey,border=BRAND.border}) => <div style={{background:bg,border:`1px solid ${border}`,borderLeft:`4px solid ${BRAND.red}`,borderRadius:0,padding:20,marginBottom:16}}><div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color,textTransform:"uppercase",marginBottom:8}}>{label}</div><p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,margin:0}}>{children}</p></div>;
 
+function ZoomableImage({src,alt}) {
+  const [open,setOpen] = useState(false);
+  const [zoom,setZoom] = useState(1.35);
+
+  const changeZoom = (next) => setZoom(Math.min(3, Math.max(0.8, next)));
+
+  return <>
+    <button type="button" onClick={()=>{setOpen(true);setZoom(1.35)}} style={{display:"block",width:"100%",padding:0,border:"none",background:"transparent",cursor:"zoom-in",textAlign:"left"}}>
+      <img src={src} alt={alt} style={{width:"100%",display:"block",border:`1px solid ${BRAND.border}`,background:BRAND.white}} />
+    </button>
+    <div style={{padding:"12px 2px 0",fontSize:11.5,color:"#777",display:"flex",justifyContent:"space-between",gap:12,flexWrap:"wrap"}}>
+      <span>Click the architecture image to view it larger.</span>
+      <button type="button" onClick={()=>{setOpen(true);setZoom(1.8)}} style={{border:"none",background:"transparent",color:BRAND.red,fontWeight:700,cursor:"pointer",padding:0}}>Open zoom view</button>
+    </div>
+    {open && <div role="dialog" aria-modal="true" aria-label={alt} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(17,17,17,0.92)",display:"flex",flexDirection:"column"}}>
+      <div style={{height:64,padding:"0 22px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,borderBottom:"1px solid rgba(255,255,255,0.16)",color:BRAND.white}}>
+        <div>
+          <div style={{fontSize:13,fontWeight:700}}>Phase 0 reference architecture</div>
+          <div style={{fontSize:11,color:"rgba(255,255,255,0.62)",marginTop:2}}>Scroll inside the canvas to inspect details</div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <button type="button" onClick={()=>changeZoom(zoom-0.25)} style={{background:BRAND.white,color:BRAND.black,border:"none",padding:"9px 12px",fontWeight:700,cursor:"pointer"}}>−</button>
+          <div style={{fontSize:12,minWidth:48,textAlign:"center"}}>{Math.round(zoom*100)}%</div>
+          <button type="button" onClick={()=>changeZoom(zoom+0.25)} style={{background:BRAND.white,color:BRAND.black,border:"none",padding:"9px 12px",fontWeight:700,cursor:"pointer"}}>+</button>
+          <button type="button" onClick={()=>setZoom(1.35)} style={{background:"transparent",color:BRAND.white,border:"1px solid rgba(255,255,255,0.35)",padding:"9px 12px",fontWeight:700,cursor:"pointer"}}>Reset</button>
+          <button type="button" onClick={()=>setOpen(false)} style={{background:BRAND.red,color:BRAND.white,border:"none",padding:"9px 14px",fontWeight:700,cursor:"pointer"}}>Close</button>
+        </div>
+      </div>
+      <div style={{flex:1,overflow:"auto",padding:28}}>
+        <div style={{width:`${zoom*100}%`,minWidth:980,margin:"0 auto"}}>
+          <img src={src} alt={alt} style={{width:"100%",display:"block",background:BRAND.white,border:"1px solid rgba(255,255,255,0.2)"}} />
+        </div>
+      </div>
+    </div>}
+  </>;
+}
+
 function CommercialBox({title,icon,iconBg,iconColor,items}) {
   return <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderRadius:0,overflow:"hidden",marginBottom:16}}>
     <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10,background:BRAND.white}}>
@@ -106,6 +143,100 @@ function SMBSegment() {
       <p style={{fontSize:13,color:"#555",lineHeight:1.7}}>
         The first 5–6 agents can be ready in 30 days. By day 60, the platform is production ready. By day 90, e& has the specs, blueprints, and training to scale.
       </p>
+    </Card>
+
+    <SH>Solution growth timeline</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>From AIdeology build to e& scale</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:820}}>
+          AIdeology builds the first solutions, proves demand with live customers, then hands over the specs and operating model so e& can keep expanding the catalog independently.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(320px, 1fr))",gap:0}}>
+        {[
+          {t:"Days 0–30",n:"AIdeology builds the launch set",count:"5–6 solutions",d:"Voice receptionist, WhatsApp FAQ, lead qualification, appointment scheduling, invoice collection, and HR screening. Each solution ships with an SDD spec, guardrails, test cases, and onboarding flow.",owner:"AIdeology leads · e& validates"},
+          {t:"Days 30–60",n:"Pilot and package",count:"8–10 solutions",d:"Improve the first agents from real SMB usage. Add 2–4 adjacent templates based on demand, such as web chat, customer support escalation, and sector-specific FAQ packs.",owner:"AIdeology builds · e& sales pilots"},
+          {t:"Days 60–90",n:"Handover and train",count:"10–15 solutions",d:"Create reusable blueprints, train the e& team, document the creation playbook, and transfer catalog operations. e& can now request, modify, and approve new solutions.",owner:"Joint delivery · e& takes control"},
+          {t:"Months 4–6",n:"e& expands the catalog",count:"20–30 solutions",d:"e& creates new SMB bundles using the blueprint library. AIdeology supports complex templates and quality review while e& owns roadmap, pricing, and launch cadence.",owner:"e& leads · AIdeology supports"},
+          {t:"Months 6–12",n:"Marketplace scales",count:"40–60+ solutions",d:"Solutions expand by vertical and OpCo: healthcare, real estate, retail, hospitality, professional services, and government-adjacent SMB workflows. Third-party providers can plug into the e& control plane.",owner:"e& operates · partners contribute"},
+        ].map((m,i)=><div key={i} style={{padding:24,borderRight:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`,display:"flex",gap:16,alignItems:"flex-start"}}>
+          <div style={{width:38,height:38,background:i<3?BRAND.red:BRAND.black,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,flexShrink:0}}>
+            {String(i+1).padStart(2,"0")}
+          </div>
+          <div style={{minWidth:0}}>
+            <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:10}}>
+              <Badge v={i<3?"teal":"default"}>{m.t}</Badge>
+              <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{m.count}</div>
+            </div>
+            <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:8,lineHeight:1.25}}>{m.n}</h4>
+            <p style={{fontSize:12.5,color:"#666",lineHeight:1.6,margin:"0 0 12px"}}>{m.d}</p>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",lineHeight:1.35}}>{m.owner}</div>
+          </div>
+        </div>)}
+      </div>
+      <div style={{padding:"18px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.55}}>
+          The key asset is not only the first catalog. It is the repeatable factory: SDD specs, approved patterns, control-plane governance, and trained e& operators who can keep launching new solutions without waiting for a full custom build each time.
+        </div>
+      </div>
+    </Card>
+
+    <SH>Continuous improvement and integrations</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Every solution becomes stronger over time</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          The launch catalog is not static. Each agent needs ongoing tuning, new workflow variants, and software integrations. The key design choice is to make every new connector reusable, so one industry integration can strengthen many solutions across the marketplace.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {[
+          {t:"Solution tuning",d:"Improve prompts, scripts, fallback paths, Arabic/English handling, qualification rules, escalation triggers, and success metrics based on live usage."},
+          {t:"Industry connectors",d:"Connect to restaurant POS, reservation, ordering, CRM, booking, payment, inventory, and helpdesk software. Start with one use case, then reuse the connector."},
+          {t:"Shared integration library",d:"A connector built for AI Receptionist can later be used by WhatsApp Agent, Booking Agent, Invoice Collection, Customer Support, and future vertical agents."},
+          {t:"e& managed evolution",d:"e& owns the catalog roadmap. AIdeology supports complex integrations, quality review, and new blueprint design while e& operates the marketplace day to day."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:(i+1)%4?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>0{i+1}</div>
+          <h4 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:7}}>{x.t}</h4>
+          <p style={{fontSize:11.8,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+      <div style={{padding:"18px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
+          Example: an AI Receptionist for restaurants may first connect to reservation and POS tools. Once that connector is approved, the same integration can power WhatsApp ordering, booking changes, loyalty support, complaint handling, and payment follow-up across other agents.
+        </div>
+      </div>
+    </Card>
+
+    <SH>Phase 0 reference architecture</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
+          <Badge v="teal">30 days</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>SMB launch · one managed Kubernetes cluster</span>
+        </div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>One platform, pluggable agents</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:820}}>
+          The Phase 0 architecture keeps e& in control of the customer, the brand, the data, and the margin. Agents can come from AIdeology, e&, or third parties, but they run through an e& control plane: routing, identity, tenant back office, guardrails, billing, and observability.
+        </p>
+      </div>
+      <div style={{background:"#FAFAFA",padding:18,borderBottom:`1px solid ${BRAND.border}`}}>
+        <ZoomableImage src="/phase0-architecture.png" alt="Phase 0 reference architecture for SMB launch" />
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(210px, 1fr))"}}>
+        {[
+          {t:"Frontend",d:"Next web app with SMB onboarding, tenant back office, and Keycloak SSO."},
+          {t:"Agent plane",d:"Provisioning service, Graph + FastAPI shared pool, MCP tools, and versioned OCI templates."},
+          {t:"Model plane",d:"Portkey LLM Gateway routes across OpenInnovation, Azure OpenAI, and Anthropic with fallback."},
+          {t:"Data plane",d:"Postgres with pgvector, Redis for sessions/cache, and blob storage for files and backups."},
+          {t:"Observability",d:"Langfuse, Loki, Prometheus/Grafana, and Alertmanager for traces, logs, metrics, and cost."},
+          {t:"Platform ops",d:"Kubernetes, Helm, GitHub Actions, cert-manager, sealed secrets, external DNS, CDN, Harbor."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<5?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{x.t}</div>
+          <p style={{fontSize:11.5,color:"#777",lineHeight:1.55,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
     </Card>
 
     {/* Software Stack */}
@@ -497,6 +628,75 @@ function GPUSegment() {
       </p>
     </Card>
 
+    {/* Owned platform architecture */}
+    <SH>Owned platform architecture</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",gap:10,alignItems:"center",flexWrap:"wrap",marginBottom:10}}>
+          <Badge v="rose">Owned by e&</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>Agents from anyone · platform, customer, data and margin stay with e&</span>
+        </div>
+        <h4 style={{fontSize:20,fontWeight:700,color:"#111",marginBottom:8}}>The pieces that make ownership real</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:900}}>
+          The technical team’s architecture is not a vendor catalog. It is an e& control plane where third-party and internal agents plug in, while e& controls routing, tenancy, compliance, operations, pricing, and observability.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(250px, 1fr))"}}>
+        {[
+          {n:"LLM Gateway",why:"Routes every model call across providers. Optimizes token cost, isolates rate limits per tenant, and fails over when a provider degrades."},
+          {n:"Agent Template Instancer",why:"Turns templates into live agents in minutes. Supports self-service onboarding without creating a sales or services bottleneck."},
+          {n:"Tenant BackOffice",why:"Each SMB gets an e& branded dashboard to configure agents, manage users, and monitor activity without seeing the underlying provider."},
+          {n:"Trust Tiers & Guardrails",why:"Maps controls to ISO 27001, SOC 2, NESA, and public-sector requirements. e& selects the trust tier by customer segment."},
+          {n:"Unified Observability",why:"One view over conversations, tool calls, traces, token spend, bugs, and cost across every agent, provider, and tenant."},
+          {n:"Marketplace Control Plane",why:"Central console to publish, version, deprecate, price, and govern agents as a business unit, not as a reseller catalog."},
+        ].map((x,i)=><div key={i} style={{padding:20,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontFamily:"monospace",fontWeight:700,color:BRAND.red,letterSpacing:"0.14em",marginBottom:8}}>0{i+1}</div>
+          <h4 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:7}}>{x.n}</h4>
+          <p style={{fontSize:11.5,color:"#777",lineHeight:1.6,margin:0}}>{x.why}</p>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Capability evolution matrix</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"1.3fr repeat(3, 1fr)",background:BRAND.black,color:BRAND.white}}>
+        {[
+          {k:"Roadmap",v:"Same foundations. No rewrites."},
+          {k:"Phase 0 · 30 days",v:"SMB launch · marketplace live · 2–4 agents"},
+          {k:"Phase 1 · 90 days",v:"Enterprise · multi-tier runtime · formal compliance"},
+          {k:"Phase 2 · 180 days",v:"Public sector · sovereign deployments · high assurance"},
+        ].map((p,i)=><div key={i} style={{padding:"18px 20px",borderRight:i<3?"1px solid rgba(255,255,255,0.14)":"none"}}>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",color:"#D8D8D8",marginBottom:5}}>{p.k}</div>
+          <div style={{fontSize:13,fontWeight:700,lineHeight:1.35}}>{p.v}</div>
+        </div>)}
+      </div>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",minWidth:900,fontSize:12}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+              {["Capability","Business enabler","P0 · SMB","P1 · Enterprise","P2 · Government"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase"}}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {c:"LLM Gateway",b:"Cost control, vendor independence, resilience",p0:"Multi-provider routing, virtual keys per tenant, basic budgets, fallback across OpenInnovation, Azure OpenAI and Anthropic.",p1:"Prompt versioning, semantic cache, A/B testing, granular budgets per agent, advanced fallback policies.",p2:"Sovereign vLLM on local GPUs, per-region routing, data-residency policies, full audit of every model call."},
+              {c:"Idle & runtime strategy",b:"SMB unit economics: idle agents must not burn money",p0:"Shared runtime pool serves thousands of SMB tenants with logical isolation by tenant context.",p1:"Dedicated pod with scale-to-zero for enterprise tenants. Namespace-per-tenant isolation.",p2:"Kernel-sandboxed runtime with hibernation, cryptographic isolation, instant resume from snapshot."},
+              {c:"Template Instancer",b:"Self-service at scale. New agents in hours, not weeks",p0:"Provisioning service with queue, idempotency, healthcheck, rollback. Helm-templated agents deployed in minutes.",p1:"Kubernetes Operator with custom Agent resource, signed OCI templates, declarative lifecycle, blue/green upgrades.",p2:"Third-party publishing flow with mandatory signing, sandbox enforcement, and central review before go-live."},
+              {c:"Trust Tiers",b:"Same platform for SMB, Enterprise and Government",p0:"T1 logical multi-tenancy. ISO 27001 baseline, SOC 2 Type I, NESA P1.",p1:"T1 + T2 active. ISO 27017/27018, SOC 2 Type II, NESA P1–P3. Tier selectable per tenant.",p2:"T3 + T4, NESA P1–P4, ISO 42001, NIST AI RMF, HSM, air-gap option."},
+              {c:"Audit & guardrails",b:"Pass audits, reduce legal risk, enter public sector",p0:"Append-only tenant audit log in Postgres, PII redaction and content filter at gateway level.",p1:"Immutable Kafka event stream to OpenSearch + cold storage, Presidio-grade PII handling, jailbreak detection.",p2:"National-grade retention, auditor exports, classification-aware redaction, evidence packs on demand."},
+              {c:"Observability",b:"Defend SLA and predict cost before it spikes",p0:"Langfuse traces every agent step. Prometheus + Grafana for infra metrics. Basic Slack/email alerts.",p1:"Distributed tracing across services, formal SLOs, error budgets, per-tenant cost dashboards, anomaly detection.",p2:"Sovereign-region observability stack, classified-data redaction in traces, regulator-ready dashboards."},
+              {c:"Provisioning resilience",b:"Marketplace stays up under demand spikes",p0:"Worker-pool queue, idempotency, post-provision healthcheck, automated rollback.",p1:"K8s Operator reconciles continuously, drift detection, GitOps deployments, Temporal workflows.",p2:"Multi-cluster federation, regional failover, regulated change-management workflows."},
+              {c:"Cloud-agnostic sovereign-ready",b:"Vendor leverage and public-sector entry without rebuild",p0:"Single managed K8s cluster (AKS, EKS, GKE or OpenInnovation). Open-source pieces self-hosted.",p1:"Multi-cloud ready with same manifests, regional failover option, Vault HA for secrets.",p2:"On-prem OpenShift / RKE2, HSM, air-gap option, full data residency control."},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"14px",fontWeight:700,color:"#111",verticalAlign:"top"}}>{r.c}</td>
+              <td style={{padding:"14px",color:"#555",lineHeight:1.45,verticalAlign:"top"}}>{r.b}</td>
+              {[r.p0,r.p1,r.p2].map((v,j)=><td key={j} style={{padding:"14px",color:"#777",lineHeight:1.45,verticalAlign:"top"}}>{v}</td>)}
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
     {/* Software Stack */}
     <SH>Software stack & technology</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:10,marginBottom:14}}>
@@ -797,12 +997,266 @@ function SummarySection() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* HPC REFERENCE ARCHITECTURES */
+/* ════════════════════════════════════════════════════════════ */
+const HPC_ARCHITECTURES = [
+  {
+    id: "rtx-pro",
+    name: "NVIDIA RTX PRO AI Factory",
+    pattern: "2-8-5-200",
+    tagline: "Inference-first · agentic AI · industrial workloads",
+    gpu: "RTX PRO 6000 Blackwell Server Edition",
+    gpusPerNode: 8,
+    nicsPerNode: 5,
+    fabricSpeed: "200 Gb/s",
+    fabric: "Spectrum-X Ethernet · single-plane · rail-optimised",
+    nvlink: "Per-node NVLink (no rack-scale NVLink domain)",
+    minSize: "32 GPUs · 4 nodes · 1 SU",
+    maxSize: "Up to 256 GPUs · 8 SUs",
+    cablesPerSu: "20 compute fabric cables/SU @ 200G + storage/mgmt",
+    workloads: ["Agentic AI inference","Industrial / physical AI","Visual computing","HPC analytics & simulation"],
+    description: "Most cost-efficient enterprise pattern. Built around the RTX PRO 6000 Blackwell Server Edition. 8 GPUs per node, 5 NICs per node at 200 Gbps. Lowest entry point for an NVIDIA AI factory. Best when the workload is inference-heavy rather than large-scale training.",
+    bestFor: "Inference + agentic AI at SMB / mid-enterprise scale. Direct fit for the e& B2B agent inference fleet and on-prem enterprise customers.",
+    docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/rtx-pro-ai-factory/latest/index.html",
+  },
+  {
+    id: "hgx",
+    name: "NVIDIA HGX AI Factory",
+    pattern: "2-8-9-400 · 2-8-10-400 (Cisco)",
+    tagline: "Workhorse · training · fine-tuning · large-scale inference",
+    gpu: "HGX H200 · HGX B200",
+    gpusPerNode: 8,
+    nicsPerNode: 9,
+    fabricSpeed: "400 Gb/s",
+    fabric: "Spectrum-X Ethernet or InfiniBand · rail-optimised · multi-plane",
+    nvlink: "8-GPU NVLink within each HGX baseboard",
+    minSize: "32 GPUs · 4 nodes · 1 SU",
+    maxSize: "Up to 1,024 GPUs · 32 SUs (vendor-dependent)",
+    cablesPerSu: "36 compute fabric cables/SU @ 400G (40 with Cisco 2-8-10-400) + storage/mgmt",
+    workloads: ["AI training & fine-tuning","Large-context RAG","High-throughput inference","GPU-accelerated data analytics"],
+    description: "The serious-workload Enterprise RA. 8× HGX H200 or B200 per node, 9 NICs per node at 400 Gbps. Cisco extends to 10 NICs. Spans from 32 GPUs to multi-thousand-GPU clusters. The enterprise-grade reference for training foundation and domain-tuned models.",
+    bestFor: "Sovereign GPUaaS at scale + e&-hosted enterprise training cluster. Direct fit for the GPUaaS pillar and Core42 / G42 partnership.",
+    docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory/latest/index.html",
+  },
+  {
+    id: "nvl72",
+    name: "NVIDIA NVL72 AI Factory",
+    pattern: "2-8-9-800",
+    tagline: "Frontier · rack-scale NVLink · foundation model training",
+    gpu: "GB300 NVL72 (single-plane configuration)",
+    gpusPerNode: "72 GPUs / NVL72 rack",
+    nicsPerNode: 9,
+    fabricSpeed: "800 Gb/s",
+    fabric: "Spectrum-X 800G Ethernet (single plane) + rack-scale NVLink switching",
+    nvlink: "NVLink 5 · 72-GPU NVLink domain per rack",
+    minSize: "1 NVL72 rack · 72 GB300 GPUs",
+    maxSize: "Multi-rack — thousands of GPUs",
+    cablesPerSu: "≈36 compute fabric cables per scale unit @ 800G + intra-rack NVLink + storage/mgmt",
+    workloads: ["Foundation model training","Real-time reasoning","Complex agentic AI pipelines","Large-scale fine-tuning"],
+    description: "Top-tier rack-scale architecture. Built around the GB300 NVL72: a 72-GPU NVLink domain in a single rack. 9 NICs per node at 800 Gbps. For organisations training or serving frontier-class models. Highest performance, highest density, highest power.",
+    bestFor: "Sovereign AI factory for governments and frontier-model training. Fits an e& + Core42 / G42 large-scale national build-out.",
+    docUrl: "https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory-with-gb300-nvl72-dual-plane-networking-architecture.pdf",
+  },
+];
+
+const HPC_OEM = [
+  {vendor:"Cisco",solution:"Cisco Nexus Hyperfabric AI ERA",server:"UCS C885A Rack Server",gpu:"HGX H200",pattern:"2-8-9-400 → 2-8-10-400",size:"4 – 128",endorsements:["Infra","Spectrum-X","Networking"],url:"https://www.cisco.com/c/en/us/products/collateral/data-center-networking/nexus-hyperfabric/hyperfabric-ai-era-ds.html"},
+  {vendor:"Cisco",solution:"Cisco Nexus 9000 ERA",server:"UCS C885A Rack Server",gpu:"HGX H200",pattern:"2-8-9-400 → 2-8-10-400",size:"4 – 128",endorsements:["Infra","Spectrum-X","Networking"],url:"https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/nexus-9000-ai-era-ds.html"},
+  {vendor:"Cisco",solution:"Cisco AI POD Infrastructure",server:"UCS C885A M8",gpu:"HGX H200",pattern:"2-8-9-400",size:"4 – 16",endorsements:["Infra","Spectrum-X"],url:"https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/ai-pod-ucs-c885a-servers-nexus-9364e--sg2-switches.html"},
+  {vendor:"Dell Technologies",solution:"Dell AI Factory with NVIDIA",server:"PowerEdge XE7745",gpu:"RTX PRO 6000 Blackwell SE · H200 NVL",pattern:"2-8-5-200",size:"4, 16",endorsements:["Infra","Spectrum-X","Networking"],url:"https://www.delltechnologies.com/asset/en-us/solutions/infrastructure-solutions/briefs-summaries/nvidia-2-8-5-200-era-configuration-endorsed-for-the-dell-ai-factory-with-nvidia-brief.pdf"},
+  {vendor:"Dell Technologies",solution:"Dell AI Factory with NVIDIA",server:"PowerEdge XE7740",gpu:"RTX PRO 6000 Blackwell SE · H200 NVL",pattern:"2-8-5-200",size:"4, 16",endorsements:["Infra","Spectrum-X","Networking"],url:"https://www.delltechnologies.com/asset/en-us/solutions/infrastructure-solutions/briefs-summaries/nvidia-2-8-5-200-era-configuration-endorsed-for-the-dell-ai-factory-with-nvidia-brief.pdf"},
+  {vendor:"Dell Technologies",solution:"Dell AI Factory with NVIDIA",server:"PowerEdge XE9680",gpu:"HGX H200",pattern:"2-8-9-400",size:"4, 12",endorsements:["Infra","Spectrum-X","Networking"],url:"https://www.delltechnologies.com/asset/en-us/solutions/infrastructure-solutions/briefs-summaries/nvidia-2-8-9-400-configuration-era-endorsed-for-the-dell-ai-factory-with-nvidia-brief.pdf"},
+  {vendor:"Dell Federal",solution:"Dell AI Factory for Government",server:"PowerEdge XE7740",gpu:"RTX PRO 6000 Blackwell SE",pattern:"2-8-5-200",size:"4 – 32",endorsements:["Infra","Spectrum-X"],url:"https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/dell-ai-factory-with-nvidia-rtx-pro-6000-on-dell-poweredge-servers-datasheet.pdf"},
+  {vendor:"Dell Federal",solution:"Dell AI Factory for Government",server:"PowerEdge XE7745",gpu:"RTX PRO 6000 Blackwell SE",pattern:"2-8-5-200",size:"4 – 32",endorsements:["Infra","Spectrum-X"],url:"https://www.delltechnologies.com/asset/en-us/products/storage/technical-support/dell-ai-factory-with-nvidia-rtx-pro-6000-on-dell-poweredge-servers-datasheet.pdf"},
+  {vendor:"HPE",solution:"HPE AI Factory with NVIDIA Enterprise RAs",server:"ProLiant DL380a Gen12",gpu:"RTX PRO 6000 Blackwell SE",pattern:"2-8-5-200",size:"16, 32",endorsements:["Infra"],url:"https://www.hpe.com/psnow/doc/a00157780enw"},
+  {vendor:"Lenovo",solution:"Lenovo Hybrid AI 289",server:"ThinkSystem SR680a V3",gpu:"HGX B200 · HGX H200",pattern:"2-8-9-400",size:"4 – 32",endorsements:["Infra","Spectrum-X","Networking"],url:"https://lenovopress.lenovo.com/lp2286-lenovo-hybrid-ai-289-platform-guide"},
+  {vendor:"Supermicro",solution:"AI Factory Solutions · HGX",server:"SYS-A22GA-NBRT-G1",gpu:"HGX B200",pattern:"2-8-9-400",size:"4 – 32",endorsements:["Infra","Spectrum-X"],url:"https://www.supermicro.com/datasheet/Datasheet_Supermicro_NVIDIA_AI_Factories_HGX.pdf"},
+  {vendor:"Supermicro",solution:"AI Factory Solutions · RTX PRO 6000",server:"SYS-522GA-NRT · SYS-422GL-NR · AS-5126GS-TNRT2",gpu:"RTX PRO 6000 Blackwell SE",pattern:"2-8-5-200",size:"4 – 32",endorsements:["Infra","Spectrum-X"],url:"https://www.supermicro.com/datasheet/Datasheet_Supermicro_NVIDIA_AI_Factories_RTX_PRO_6000.pdf"},
+  {vendor:"Supermicro",solution:"AI Factory Solutions · HGX B300 Single Plane",server:"SYS-822GS-NB3RT",gpu:"HGX B300 Single Plane",pattern:"2-8-9-800",size:"4, 8, 32",endorsements:["Infra","Spectrum-X"],url:"https://www.supermicro.com/datasheet/Datasheet_Supermicro_NVIDIA_AI_Factories_HGX_B300.pdf"},
+];
+
+const HPC_GUIDES = [
+  {t:"NVIDIA Enterprise AI Factory Design Guide",d:"Master design guide for single-tenant AI factories. Covers ecosystem partner integrations, automation tooling, and end-to-end deployment strategy.",url:"https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/index.html"},
+  {t:"NVIDIA AI Enterprise · Software Reference Architecture",d:"Software stack reference for OEMs and partners. Same software layer across inference, fine-tuning, and RAG workloads — modular hardware below.",url:"https://docs.nvidia.com/ai-enterprise/reference-architecture/latest/introduction.html"},
+  {t:"NIM LLM with Run:ai and Vanilla Kubernetes",d:"Pack more inference models per GPU using Run:ai fractional GPUs and dynamic scheduling. Performance impact analysis included.",url:"https://docs.nvidia.com/enterprise-reference-architectures/nim-llm-with-run-ai-and-vanilla-kubernetes.pdf"},
+  {t:"AI-Q Research Agent Blueprint",d:"Agentic system that generates detailed reports from internal + external data. Deployment, scaling, and sizing guidance.",url:"https://docs.nvidia.com/enterprise-reference-architectures/ai-q-research-agent-blueprint.pdf"},
+  {t:"Observability Guide for Enterprise RAs",d:"Production-ready observability for AI / HPC environments. Custom dashboards across GPU, CPU, Kubernetes, and applications.",url:"https://docs.nvidia.com/enterprise-reference-architectures/observability-guide.pdf"},
+  {t:"Base Command Manager Deployment Guide",d:"Cluster orchestration tool included in NVIDIA AI Enterprise. Step-by-step bare-metal cluster deployment with HA and image management.",url:"https://docs.nvidia.com/enterprise-reference-architectures/base-command-manager-deployment-guide.pdf"},
+  {t:"Upstream Kubernetes Deployment Guide",d:"Open-source Kubernetes on Base Command Manager 10.x. Node setup, network prerequisites, and software installation.",url:"https://docs.nvidia.com/enterprise-reference-architectures/upstream-kubernetes-deployment-guide.pdf"},
+];
+
+function PatternDecoder() {
+  return <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+    <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+      <div style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:4}}>How to read the pattern code</div>
+      <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.55,margin:0}}>NVIDIA Enterprise RAs are named with a 4-part code: <strong style={{color:BRAND.black,fontFamily:BRAND.font}}>A-B-C-D</strong>. It tells you the scale-unit shape, GPUs per node, NICs per node, and NIC speed. Same code, different OEMs — guaranteed compatible by NVIDIA's design review board.</p>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))"}}>
+      {[
+        {k:"A",l:"Design tier",d:"Scale-unit / network plane generation. Almost always 2 in current Enterprise RAs."},
+        {k:"B",l:"GPUs per node",d:"Always 8 for HGX/RTX PRO patterns. NVL72 expresses the rack-scale 72-GPU domain separately."},
+        {k:"C",l:"NICs per node",d:"Compute-fabric NICs per server. 5 (RTX PRO), 9 (HGX standard), 10 (Cisco-extended HGX)."},
+        {k:"D",l:"NIC speed",d:"Per-port bandwidth in Gbps. 200 (RTX PRO), 400 (HGX), 800 (NVL72 / B300 single plane)."},
+      ].map((c,i)=><div key={i} style={{padding:"18px 22px",borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+          <span style={{width:30,height:30,background:BRAND.red,color:BRAND.white,fontWeight:700,fontSize:14,display:"flex",alignItems:"center",justifyContent:"center"}}>{c.k}</span>
+          <span style={{fontSize:12,fontWeight:700,color:BRAND.black,letterSpacing:"0.04em",textTransform:"uppercase"}}>{c.l}</span>
+        </div>
+        <p style={{fontSize:11.5,color:BRAND.grey,lineHeight:1.55,margin:0}}>{c.d}</p>
+      </div>)}
+    </div>
+  </Card>;
+}
+
+function ArchitectureCard({a, open, onToggle}) {
+  return <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+    <button type="button" onClick={onToggle} aria-expanded={open} style={{display:"block",width:"100%",textAlign:"left",border:"none",background:"transparent",padding:"22px 24px",cursor:"pointer"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:18,flexWrap:"wrap"}}>
+        <div style={{flex:"1 1 320px"}}>
+          <div style={{display:"flex",gap:10,alignItems:"center",marginBottom:8,flexWrap:"wrap"}}>
+            <Badge v="rose">{a.pattern}</Badge>
+            <span style={{fontSize:11,color:BRAND.grey,fontWeight:600,letterSpacing:"0.04em",textTransform:"uppercase"}}>{a.tagline}</span>
+          </div>
+          <h4 style={{fontSize:18,fontWeight:700,color:BRAND.black,margin:"0 0 6px"}}>{a.name}</h4>
+          <div style={{fontSize:12.5,color:BRAND.grey}}>GPU: <strong style={{color:BRAND.black}}>{a.gpu}</strong></div>
+        </div>
+        <div style={{display:"flex",gap:24,flexWrap:"wrap",fontSize:12,color:BRAND.grey}}>
+          <div><div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:BRAND.grey,marginBottom:4}}>Min</div><div style={{color:BRAND.black,fontWeight:600}}>{a.minSize}</div></div>
+          <div><div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:BRAND.grey,marginBottom:4}}>Max</div><div style={{color:BRAND.black,fontWeight:600}}>{a.maxSize}</div></div>
+          <div><div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:BRAND.grey,marginBottom:4}}>Fabric</div><div style={{color:BRAND.black,fontWeight:600}}>{a.fabricSpeed}</div></div>
+          <div style={{alignSelf:"center",fontSize:11,color:BRAND.red,fontWeight:700,letterSpacing:"0.06em",textTransform:"uppercase"}}>{open?"Hide":"Open"} summary</div>
+        </div>
+      </div>
+    </button>
+    {open && <div style={{borderTop:`1px solid ${BRAND.border}`,padding:"22px 24px",background:BRAND.lightGrey}}>
+      <p style={{fontSize:13,color:BRAND.black,lineHeight:1.6,margin:"0 0 18px"}}>{a.description}</p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:18}}>
+        {[
+          {l:"GPUs per node",v:a.gpusPerNode},
+          {l:"NICs per node",v:`${a.nicsPerNode} × ${a.fabricSpeed}`},
+          {l:"Cabling estimate",v:a.cablesPerSu},
+          {l:"Network fabric",v:a.fabric},
+          {l:"NVLink domain",v:a.nvlink},
+        ].map((x,i)=><div key={i} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:14}}>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",color:BRAND.grey,textTransform:"uppercase",marginBottom:6}}>{x.l}</div>
+          <div style={{fontSize:12.5,color:BRAND.black,lineHeight:1.45}}>{x.v}</div>
+        </div>)}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:18}}>
+        <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:16}}>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.06em",color:BRAND.red,textTransform:"uppercase",marginBottom:8}}>Workloads</div>
+          {a.workloads.map((w,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:7,fontSize:12,color:BRAND.black,lineHeight:1.5,marginBottom:4}}>
+            <span style={{color:BRAND.red,flexShrink:0,marginTop:1}}><CheckIcon/></span>{w}
+          </div>)}
+        </div>
+        <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:16}}>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.06em",color:BRAND.red,textTransform:"uppercase",marginBottom:8}}>Best fit for e&</div>
+          <p style={{fontSize:12.5,color:BRAND.black,lineHeight:1.55,margin:0}}>{a.bestFor}</p>
+        </div>
+      </div>
+      <a href={a.docUrl} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:12,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"10px 16px",textDecoration:"none"}}>Open NVIDIA reference doc →</a>
+    </div>}
+  </Card>;
+}
+
+function HPCSection() {
+  const [openId,setOpenId] = useState("hgx");
+  const toggle = (id) => setOpenId(openId===id?null:id);
+  return <div style={{padding:"40px 0"}}>
+    <Badge v="rose">HPC reference architectures</Badge>
+    <h2 style={{fontSize:34,fontWeight:700,color:BRAND.black,margin:"14px 0 12px",lineHeight:1.05,maxWidth:780}}>NVIDIA Enterprise Reference Architectures for e&</h2>
+    <p style={{fontSize:15,color:BRAND.grey,lineHeight:1.55,maxWidth:780,marginBottom:18}}>The blueprints e& and partners can use to build AI factories — from a 32-GPU inference pod to a multi-rack frontier-model cluster. Three NVIDIA RA families, one shared software stack, and a vetted list of OEM-endorsed designs.</p>
+    <div style={{height:4,width:180,background:BRAND.continuum,marginBottom:6}}/>
+
+    <SH>The three Enterprise RA families</SH>
+    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>NVIDIA groups its Enterprise Reference Architectures into three families. Each one targets a different workload mix and a different price/performance point. Click a card to expand the full summary, fabric details, and recommended fit for the e& proposal.</p>
+    {HPC_ARCHITECTURES.map(a=><ArchitectureCard key={a.id} a={a} open={openId===a.id} onToggle={()=>toggle(a.id)} />)}
+
+    <SH>Pattern code · how to read it</SH>
+    <PatternDecoder/>
+
+    <SH>Comparison · architectures at a glance</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:780}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Architecture","Pattern","GPU","GPUs / node","NICs / node","Fabric speed","Min – Max","Cables/SU (est.)","Best for"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {HPC_ARCHITECTURES.map((a,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black}}>{a.name}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontFamily:BRAND.font,fontWeight:700,whiteSpace:"nowrap"}}>{a.pattern}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{a.gpu}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.gpusPerNode}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.nicsPerNode}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.fabricSpeed}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey,whiteSpace:"nowrap"}}>{a.minSize.split(" · ")[0]} – {a.maxSize.split(" · ")[0]}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{a.cablesPerSu.split(" + ")[0]}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{a.tagline}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <SH>Partner-endorsed designs by vendor</SH>
+    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>Each design has been vetted by NVIDIA's Design Review Board: NVIDIA-Certified nodes, network topology aligned to the RA, and a max-scale BoM signed off. Click any vendor row to open the original datasheet.</p>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:920}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Vendor","Solution","Server","GPU","Pattern","Size (SUs / GPUs)","Endorsements"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {HPC_OEM.map((o,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{o.vendor}</td>
+              <td style={{padding:"12px 14px"}}><a href={o.url} target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:600,textDecoration:"none"}}>{o.solution} →</a></td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{o.server}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{o.gpu}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontFamily:BRAND.font,fontWeight:700,whiteSpace:"nowrap"}}>{o.pattern}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey,whiteSpace:"nowrap"}}>{o.size}</td>
+              <td style={{padding:"12px 14px"}}><div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{o.endorsements.map((e,j)=><span key={j} style={{fontSize:10,fontWeight:700,letterSpacing:"0.04em",padding:"3px 8px",background:BRAND.red,color:BRAND.white,textTransform:"uppercase"}}>{e}</span>)}</div></td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <SH>Software & operations · supporting reference docs</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {HPC_GUIDES.map((g,i)=><Card key={i} style={{padding:18}}>
+        <h4 style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:8}}>{g.t}</h4>
+        <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.55,marginBottom:12}}>{g.d}</p>
+        <a href={g.url} target="_blank" rel="noreferrer" style={{fontSize:11.5,fontWeight:700,color:BRAND.red,textDecoration:"none",letterSpacing:"0.04em",textTransform:"uppercase"}}>Open doc →</a>
+      </Card>)}
+    </div>
+
+    <SH>How this maps to the e& proposal</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"SMB inference fleet",p:"RTX PRO AI Factory · 2-8-5-200",d:"32–128 GPUs running 6 SMB agents at scale. Lowest-cost entry point. Sits on Spectrum-X 200G fabric. Same software stack as the larger clusters above."},
+        {t:"Enterprise & sovereign training",p:"HGX AI Factory · 2-8-9-400",d:"The default GPUaaS pillar build-out. 32–1,024 GPUs of HGX H200/B200 across e& and Core42 data centres. Handles agent fine-tuning, RAG at scale, regulated-customer training jobs."},
+        {t:"Government / frontier",p:"NVL72 AI Factory · 2-8-9-800",d:"Reserved for sovereign frontier-model and large-government workloads. GB300 NVL72 racks with 800G fabric. Phased deployment after Phase 1 demand validates."},
+      ].map((c,i)=><Card key={i} style={{padding:18}}>
+        <Badge v="rose">{c.p}</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:BRAND.black,margin:"10px 0 8px"}}>{c.t}</h4>
+        <p style={{fontSize:12.5,color:BRAND.grey,lineHeight:1.6,margin:0}}>{c.d}</p>
+      </Card>)}
+    </div>
+
+    <Note label="Source · NVIDIA Docs Hub">All architecture data, partner endorsements, and supporting guides are sourced from <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a>. Cabling counts shown are estimates derived from the pattern code (NICs per node × nodes per SU). Exact per-deployment BoMs live in each OEM datasheet linked above.</Note>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* MAIN APP */
 /* ════════════════════════════════════════════════════════════ */
 const TABS = ["Small & Medium Business","Enterprise & Government","GPUaaS & e& Platform"];
 export default function App() {
   const [tab,setTab] = useState(0);
-  const [sum,setSum] = useState(false);
+  const [view,setView] = useState("tab");
+  const sum = view==="sum";
+  const hpc = view==="hpc";
   return <div style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font,textAlign:"left"}}>
     <nav style={{position:"sticky",top:0,zIndex:50,background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:72}}>
@@ -826,12 +1280,13 @@ export default function App() {
     </div>
     <div style={{background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`,position:"sticky",top:72,zIndex:40}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"14px 28px",display:"flex",gap:8,overflowX:"auto"}}>
-        {TABS.map((t,i)=>{const a=tab===i&&!sum;return<button key={i} onClick={()=>{setTab(i);setSum(false)}} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.2s"}}>{t}</button>})}
-        <button onClick={()=>setSum(true)} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Summary</button>
+        {TABS.map((t,i)=>{const a=tab===i&&view==="tab";return<button key={i} onClick={()=>{setTab(i);setView("tab")}} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.2s"}}>{t}</button>})}
+        <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Summary</button>
+        <button onClick={()=>setView("hpc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:hpc?BRAND.white:BRAND.black,background:hpc?BRAND.red:BRAND.lightGrey,border:`1px solid ${hpc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>HPC Reference Architectures</button>
       </div>
     </div>
     <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {sum?<SummarySection/>:tab===0?<SMBSegment/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
+      {hpc?<HPCSection/>:sum?<SummarySection/>:tab===0?<SMBSegment/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
     </div>
     <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
