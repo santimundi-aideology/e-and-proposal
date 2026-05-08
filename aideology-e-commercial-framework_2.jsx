@@ -1011,7 +1011,7 @@ const HPC_ARCHITECTURES = [
     fabricSpeed: "200 Gb/s",
     fabric: "Spectrum-X Ethernet · single-plane · rail-optimised",
     nvlink: "Per-node NVLink (no rack-scale NVLink domain)",
-    minSize: "32 GPUs · 4 nodes · 1 SU",
+    minSize: "8 GPUs · 1 node (pilot) · RA from 32 GPUs / 4 nodes",
     maxSize: "Up to 256 GPUs · 8 SUs",
     cablesPerSu: "20 compute fabric cables/SU @ 200G + storage/mgmt",
     workloads: ["Agentic AI inference","Industrial / physical AI","Visual computing","HPC analytics & simulation"],
@@ -1030,7 +1030,7 @@ const HPC_ARCHITECTURES = [
     fabricSpeed: "400 Gb/s",
     fabric: "Spectrum-X Ethernet or InfiniBand · rail-optimised · multi-plane",
     nvlink: "8-GPU NVLink within each HGX baseboard",
-    minSize: "32 GPUs · 4 nodes · 1 SU",
+    minSize: "8 GPUs · 1 node (pilot) · RA from 32 GPUs / 4 nodes",
     maxSize: "Up to 1,024 GPUs · 32 SUs (vendor-dependent)",
     cablesPerSu: "36 compute fabric cables/SU @ 400G (40 with Cisco 2-8-10-400) + storage/mgmt",
     workloads: ["AI training & fine-tuning","Large-context RAG","High-throughput inference","GPU-accelerated data analytics"],
@@ -1171,6 +1171,39 @@ function HPCSection() {
     <SH>The three Enterprise RA families</SH>
     <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>NVIDIA groups its Enterprise Reference Architectures into three families. Each one targets a different workload mix and a different price/performance point. Click a card to expand the full summary, fabric details, and recommended fit for the e& proposal.</p>
     {HPC_ARCHITECTURES.map(a=><ArchitectureCard key={a.id} a={a} open={openId===a.id} onToggle={()=>toggle(a.id)} />)}
+
+    <SH>Sizing ladder · single node to first scale unit</SH>
+    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>The endorsed Enterprise RA starts at <strong style={{color:BRAND.black}}>4 nodes / 32 GPUs (1 SU)</strong>, but the same OEM nodes run as <strong style={{color:BRAND.black}}>single-node and dual-node pilots</strong> long before that. Use this ladder to plan a low-risk first deployment and then scale into the formal RA without re-architecting.</p>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:880}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Tier","Nodes","Fabric topology","RTX PRO 2-8-5-200","HGX 2-8-9-400","NVL72 2-8-9-800","Use case"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {tier:"Pilot · single node",badge:"POC",nodes:"1 node",fabric:"Server-internal NVLink only · standard ToR data NIC · no leaf-spine compute fabric",rtx:"8 GPUs · 5 × 200G NICs",hgx:"8 GPUs · 9 × 400G NICs",nvl:"1 NVL72 rack = 72 GPUs (rack-scale building block)",useCase:"Developer sandbox, internal POC, standalone single-tenant agent. No formal Enterprise RA endorsement."},
+              {tier:"Dev pair · two nodes",badge:"POC++",nodes:"2 nodes",fabric:"Single Spectrum-X leaf switch (no spine) · direct NVLink within each node · East-West via leaf",rtx:"16 GPUs · 10 × 200G NICs total · 1 leaf",hgx:"16 GPUs · 18 × 400G NICs total · 1 leaf",nvl:"2 NVL72 racks = 144 GPUs · 2-rack NVLink stretch",useCase:"Internal multi-tenant POC, small fine-tune jobs, workshop / training environment."},
+              {tier:"Quad · 1 scale unit",badge:"RA min",nodes:"4 nodes",fabric:"Leaf-spine compute fabric starts here · rail-optimised · separate storage + management fabrics",rtx:"32 GPUs · 20 × 200G compute NICs · 1 SU",hgx:"32 GPUs · 36 × 400G compute NICs · 1 SU",nvl:"Multi-rack NVL72 (typ. 4 racks · 288 GPUs)",useCase:"First production-grade build. NVIDIA-Certified BoM, full fabric topology, formal Enterprise RA starts here."},
+              {tier:"Mid · 2–4 SUs",badge:"Prod",nodes:"8–16 nodes",fabric:"Two-tier leaf-spine · multi-rail Spectrum-X or InfiniBand · production storage tier",rtx:"64–128 GPUs · 2–4 SUs",hgx:"64–128 GPUs · 2–4 SUs",nvl:"8–16 NVL72 racks · 576–1,152 GPUs",useCase:"Enterprise training + multi-tenant inference. Typical e& Phase 2 GPUaaS scale."},
+              {tier:"Large · 8+ SUs",badge:"Scale",nodes:"32+ nodes",fabric:"Three-tier fat-tree · multi-pod Spectrum-X / InfiniBand · dedicated storage island",rtx:"256 GPUs · 8 SUs",hgx:"512–1,024 GPUs · 16–32 SUs",nvl:"32+ NVL72 racks · 2,304+ GPUs",useCase:"Sovereign GPUaaS at scale. Frontier model training. Government / multi-country build-out."},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"14px 14px",whiteSpace:"nowrap"}}>
+                <div style={{fontWeight:700,color:BRAND.black,marginBottom:4}}>{r.tier}</div>
+                <span style={{fontSize:10,fontWeight:700,letterSpacing:"0.04em",padding:"3px 8px",background:BRAND.red,color:BRAND.white,textTransform:"uppercase"}}>{r.badge}</span>
+              </td>
+              <td style={{padding:"14px 14px",color:BRAND.black,fontWeight:700,whiteSpace:"nowrap"}}>{r.nodes}</td>
+              <td style={{padding:"14px 14px",color:BRAND.grey,lineHeight:1.5}}>{r.fabric}</td>
+              <td style={{padding:"14px 14px",color:BRAND.black}}>{r.rtx}</td>
+              <td style={{padding:"14px 14px",color:BRAND.black}}>{r.hgx}</td>
+              <td style={{padding:"14px 14px",color:BRAND.black}}>{r.nvl}</td>
+              <td style={{padding:"14px 14px",color:BRAND.grey,lineHeight:1.5}}>{r.useCase}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+    <Note label="Why this matters">Single-node and dual-node configs are NVIDIA-Certified for the same workloads but live <strong style={{color:BRAND.black}}>below</strong> the formal Enterprise RA endorsement floor. They run the same software stack (NVIDIA AI Enterprise, NIM, Run:ai), so a pilot built on 1 node ports cleanly to a 4-node SU and beyond — same images, same ops, same observability.</Note>
 
     <SH>Pattern code · how to read it</SH>
     <PatternDecoder/>
