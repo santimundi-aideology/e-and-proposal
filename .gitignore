@@ -2,6 +2,7 @@ node_modules/
 dist/
 .DS_Store
 .vercel/
+.env.local
 
 # Local source/reference assets not needed for deployment
 Etisalat/

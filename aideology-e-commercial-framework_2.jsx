@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { PROPOSAL_CONTEXT } from "./src/proposalContext.js";
 
 const BRAND = {
   red: "#E00800",
@@ -20,11 +21,37 @@ const Badge = ({children,v="default"}) => {
   const strong = ["teal","violet","rose","gold"].includes(v);
   return <span style={{display:"inline-flex",alignItems:"center",fontSize:10.5,fontWeight:700,letterSpacing:"0.02em",padding:"4px 10px",borderRadius:2,background:strong?BRAND.red:BRAND.lightGrey,color:strong?BRAND.white:BRAND.black,textTransform:"uppercase"}}>{children}</span>;
 };
-const SH = ({children}) => <div style={{margin:"44px 0 18px"}}><h3 style={{fontSize:13,fontWeight:700,color:BRAND.black,letterSpacing:"0.06em",textTransform:"uppercase",margin:"0 0 10px"}}>{children}</h3><div style={{height:3,width:96,background:BRAND.continuum}}/></div>;
-const Card = ({children,...p}) => <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderRadius:0,padding:24,marginBottom:16,...(p.style||{})}}>{children}</div>;
+const SH = ({children,...p}) => <div {...p} style={{margin:"44px 0 18px",...(p.style||{})}}><h3 style={{fontSize:13,fontWeight:700,color:BRAND.black,letterSpacing:"0.06em",textTransform:"uppercase",margin:"0 0 10px"}}>{children}</h3><div style={{height:3,width:96,background:BRAND.continuum}}/></div>;
+const Card = ({children,style,...p}) => <div {...p} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderRadius:0,padding:24,marginBottom:16,...(style||{})}}>{children}</div>;
 const Note = ({label,children,color=BRAND.red,bg=BRAND.lightGrey,border=BRAND.border}) => <div style={{background:bg,border:`1px solid ${border}`,borderLeft:`4px solid ${BRAND.red}`,borderRadius:0,padding:20,marginBottom:16}}><div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color,textTransform:"uppercase",marginBottom:8}}>{label}</div><p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,margin:0}}>{children}</p></div>;
 
-function ZoomableImage({src,alt}) {
+function CollapsibleTimeline({badge,span:spanText,title,desc,footer,defaultOpen=false,children}) {
+  const [open,setOpen] = useState(defaultOpen);
+  return <Card style={{padding:0,overflow:"hidden",marginTop:18}}>
+    <div
+      onClick={()=>setOpen(!open)}
+      style={{padding:"22px 26px",borderBottom:open?`1px solid ${BRAND.border}`:"none",cursor:"pointer",userSelect:"none"}}
+    >
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <Badge v="teal">{badge}</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>{spanText}</span>
+        </div>
+        <span style={{fontSize:14,color:BRAND.grey,transition:"transform 0.2s",transform:open?"rotate(180deg)":"rotate(0deg)",display:"inline-block"}}>&#9660;</span>
+      </div>
+      <h4 style={{fontSize:18,fontWeight:700,color:"#111",margin:"8px 0 0"}}>{title}</h4>
+      {open && desc && <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860,margin:"8px 0 0"}}>{desc}</p>}
+    </div>
+    {open && <>
+      {children}
+      {footer && <div style={{padding:"18px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.55}}>{footer}</div>
+      </div>}
+    </>}
+  </Card>;
+}
+
+function ZoomableImage({src,alt,extraFooter}) {
   const [open,setOpen] = useState(false);
   const [zoom,setZoom] = useState(1.35);
 
@@ -34,14 +61,15 @@ function ZoomableImage({src,alt}) {
     <button type="button" onClick={()=>{setOpen(true);setZoom(1.35)}} style={{display:"block",width:"100%",padding:0,border:"none",background:"transparent",cursor:"zoom-in",textAlign:"left"}}>
       <img src={src} alt={alt} style={{width:"100%",display:"block",border:`1px solid ${BRAND.border}`,background:BRAND.white}} />
     </button>
-    <div style={{padding:"12px 2px 0",fontSize:11.5,color:"#777",display:"flex",justifyContent:"space-between",gap:12,flexWrap:"wrap"}}>
+    <div style={{padding:"12px 2px 0",fontSize:11.5,color:"#777",display:"flex",justifyContent:"space-between",gap:12,flexWrap:"wrap",alignItems:"center"}}>
       <span>Click the architecture image to view it larger.</span>
       <button type="button" onClick={()=>{setOpen(true);setZoom(1.8)}} style={{border:"none",background:"transparent",color:BRAND.red,fontWeight:700,cursor:"pointer",padding:0}}>Open zoom view</button>
+      {extraFooter && <div style={{width:"100%",fontSize:11,color:"#666",lineHeight:1.6,paddingTop:4}}>{extraFooter}</div>}
     </div>
     {open && <div role="dialog" aria-modal="true" aria-label={alt} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(17,17,17,0.92)",display:"flex",flexDirection:"column"}}>
       <div style={{height:64,padding:"0 22px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,borderBottom:"1px solid rgba(255,255,255,0.16)",color:BRAND.white}}>
         <div>
-          <div style={{fontSize:13,fontWeight:700}}>Phase 0 reference architecture</div>
+          <div style={{fontSize:13,fontWeight:700}}>Agentic Intelligence Platform — Forge by AIdeology</div>
           <div style={{fontSize:11,color:"rgba(255,255,255,0.62)",marginTop:2}}>Scroll inside the canvas to inspect details</div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -113,72 +141,875 @@ function ForecastTable({color,bgLight,rows,totalRow,assumptions}) {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* AGENT ROADMAP GRID + MODAL */
+/* ════════════════════════════════════════════════════════════ */
+const AGENT_DETAILS = [
+  {
+    phase:"Phase 1",name:"Customer Agent",badge:"Launch first",icon:"🎯",color:"#0F6E56",
+    mission:"Every inbound interaction handled — voice, WhatsApp, and web — in one AI trained on the business.",
+    overview:"The Customer Agent is the flagship solution and the reason the platform exists. It replaces the front desk, the call centre, the WhatsApp number that nobody answers after 6pm, and the website chat widget that says 'we will get back to you'. Every inbound customer interaction — voice call, WhatsApp message, or web chat — is handled by a single AI agent that knows the business, speaks Arabic and English, remembers prior conversations, and can book appointments, answer FAQs, take orders, escalate to a human, and follow up automatically. It runs 24/7, handles Ramadan hours automatically, greets customers by name if they have called before, and hands off to a human with full context so the customer never repeats themselves.",
+    native:[
+      {t:"AI voice engine",d:"Answers inbound calls, understands intent in Arabic and English, routes or resolves. Handles greetings, FAQs, appointment booking, order status, and complaint logging by voice."},
+      {t:"WhatsApp conversation flow",d:"Full conversational AI on WhatsApp — FAQs, lead capture, appointment booking, order status, payment links, document collection. Supports text, voice notes, images, and location."},
+      {t:"Web chat widget",d:"Embeds on any website with one script tag. Same AI brain as voice and WhatsApp. Seamless handoff between channels — a customer who starts on web chat and calls later gets continuity."},
+      {t:"Unified conversation memory",d:"Every interaction across every channel is stored in one timeline per customer. The agent recalls prior context, preferences, past issues, and purchase history."},
+      {t:"Business knowledge base",d:"Trained on the SMB's own data — FAQs, pricing, hours, menu, service list, branch locations, policies. Updated by the business owner via a simple back-office UI or WhatsApp message."},
+      {t:"Seasonal intelligence",d:"Ramadan hours, Eid greetings, National Day promotions — auto-configured. The agent adjusts its greeting, hours, and responses based on the UAE calendar."},
+      {t:"Human handoff with context",d:"When the agent cannot resolve, it escalates to a human with the full conversation transcript, customer history, and suggested next actions. No repeat questions."},
+      {t:"Multilingual Arabic/English",d:"Not a translation layer — native understanding in both languages. Handles code-switching (Arabic and English in the same sentence), Gulf dialect, and formal Arabic."},
+    ],
+    eand:[
+      {t:"Toll Free 800 number",d:"The business's inbound calling identity. Already in e& product catalog. Customer Agent answers calls on this number."},
+      {t:"CloudTalk PBX",d:"Call routing infrastructure inside e& Office Presence. Handles call queuing, IVR fallback, and recording."},
+      {t:"e& SMS network",d:"Missed call follow-up sent via direct carrier route — higher delivery rate than any SaaS SMS provider."},
+      {t:"Arabic TTS/ASR",d:"Text-to-speech and automatic speech recognition running on e& network — lower latency than cloud-only alternatives."},
+      {t:"e& SIM identity",d:"Verified business caller authentication. The customer sees the business name, not an unknown number."},
+    ],
+    connectors:["Meta WhatsApp API","e& BSP layer","Google Business Profile","Calendly / Cal.com","Clinicmaster (healthcare)","Shopify (retail)","Zapier / Make (custom)","Google Calendar","Outlook Calendar"],
+    connectorNote:"The agent reads the SMB's calendar from Google or Outlook to book appointments. It posts to WhatsApp via Meta API. It pushes leads to whatever CRM the SMB uses. The SMB never touches any of these directly.",
+    useCases:["Restaurant: answers calls, takes reservations via WhatsApp, sends menu, confirms bookings, handles cancellations, follows up with a review request.","Clinic: books appointments, sends reminders 24h before, collects insurance details via WhatsApp photo, handles rescheduling, sends post-visit follow-up.","Real estate: qualifies leads on WhatsApp, schedules viewings, sends property brochures, follows up after viewings, hands warm leads to the sales team.","Retail: answers product questions, checks stock, takes orders via WhatsApp, sends payment links, provides delivery updates.","Professional services: answers initial enquiries, collects requirements via structured WhatsApp flow, books consultation slots, sends quotes."],
+    kpis:["First response time","Resolution rate (no human needed)","Customer satisfaction (CSAT)","Missed call recovery rate","Appointment no-show reduction","Average handling time"],
+  },
+  {
+    phase:"Wave 2A",name:"Sales Agent",badge:"Parallel build",icon:"📈",color:"#534AB7",
+    mission:"Lead to close — native AIdeology CRM with connectors to whatever the SMB already uses.",
+    overview:"The Sales Agent is the revenue engine. It takes every lead that the Customer Agent captures — from a WhatsApp enquiry, a missed call, a web chat — and moves it through a structured sales pipeline. It scores leads by intent, tracks deals through stages, writes follow-up messages automatically, forecasts revenue, and generates proposals in Arabic or English. SMBs that already use Salesforce, HubSpot, or Dynamics 365 keep using them — the Sales Agent syncs there. SMBs with no CRM get a native AIdeology CRM that is simpler and built for the Gulf market. The agent does the selling discipline; the human does the relationship.",
+    native:[
+      {t:"Native CRM",d:"Contacts, leads, deals, pipeline stages. No external tool needed. Designed for SMBs who have never used a CRM — simple, Arabic-first, WhatsApp-native."},
+      {t:"AI lead scoring",d:"Intent signals from Customer Agent conversations are ranked automatically. A customer who asked about pricing twice and requested a callback scores higher than a generic enquiry."},
+      {t:"Visual pipeline tracker",d:"Drag-and-drop deal stages with time-in-stage alerts. If a deal sits in 'proposal sent' for 5 days, the agent nudges the salesperson and drafts a follow-up."},
+      {t:"Automated follow-up sequences",d:"WhatsApp + SMS + email sequences written by AI, personalised to the deal context, sent automatically at the right intervals. The salesperson approves or edits before send."},
+      {t:"Deal forecasting",d:"Revenue prediction from the live pipeline with confidence scores. 'You have AED 120K in pipeline this month, 65% likely to close based on stage velocity.'"},
+      {t:"Customer 360 view",d:"Every interaction — calls, chats, emails, meetings — in one timeline per contact. The salesperson sees the full relationship, not just the last touchpoint."},
+      {t:"Arabic quote and proposal drafting",d:"AI generates a professional proposal from the deal context — scope, pricing, terms — in Arabic or English, branded with the SMB's logo."},
+    ],
+    eand:[
+      {t:"Smart Messaging",d:"Follow-up SMS sent via e& direct carrier route — higher delivery than Twilio or any third-party SMS."},
+      {t:"e& SIM",d:"Sales calls made from the business number, tracked automatically. Call duration, outcome, and notes logged without manual entry."},
+      {t:"Call recordings on sovereign infra",d:"Stored on UAE-sovereign e& infrastructure, not a US SaaS server. Compliant with UAE data residency requirements."},
+    ],
+    connectors:["Dynamics 365","Outlook contacts","Salesforce","HubSpot","Zoho CRM","WhatsApp (follow-ups)","Gmail / G-Suite"],
+    connectorNote:"An SMB already on Dynamics 365? The Sales Agent reads and writes their deals there — nothing changes for them. The agent is the intelligence layer; Dynamics is just a database it syncs with. Same for Salesforce or HubSpot. SMBs with no CRM use the native AIdeology CRM automatically.",
+    useCases:["Auto-creates a lead when Customer Agent captures an enquiry — no manual data entry.","Scores and prioritises 50 new leads so the salesperson calls the hottest ones first.","Drafts a follow-up WhatsApp message for a deal that has gone quiet for 3 days.","Generates a quote in Arabic from a voice call summary and sends it to the customer on WhatsApp.","Alerts the owner: 'You have 3 deals worth AED 85K expiring this week — here are the follow-up actions.'"],
+    kpis:["Lead-to-deal conversion rate","Average deal cycle time","Pipeline value and velocity","Follow-up compliance rate","Forecast accuracy","Revenue per salesperson"],
+  },
+  {
+    phase:"Wave 2B",name:"Comms Hub",badge:"Parallel build",icon:"📡",color:"#185FA5",
+    mission:"All outbound and inbound communications from one AI-powered dashboard — the telco moat made useful.",
+    overview:"The Comms Hub turns e&'s network assets into a business advantage. Every SMB communication channel — WhatsApp, SMS, email, voice, Instagram DM, Teams — is unified into one dashboard with one AI managing all of it. The SMB owner describes a campaign in Arabic ('send a Ramadan offer to customers who ordered last month'), and the AI writes the message, selects the audience from Customer Agent data, schedules the send across all channels, and reports on delivery, opens, and responses. It is the tool that makes e& Smart Messaging, Toll Free 800, and WhatsApp BSP useful to businesses that do not have a marketing team.",
+    native:[
+      {t:"Unified inbox",d:"WhatsApp, SMS, email, voice, Instagram DM — all in one view, one AI handling all conversations. No switching between apps."},
+      {t:"AI campaign builder",d:"Describe the campaign in Arabic or English. AI writes the copy, selects the audience from Customer Agent data, schedules the send, and reports results."},
+      {t:"Omnichannel broadcast",d:"Same message sent across WhatsApp, SMS, and email in one click. The agent picks the best channel per customer based on past engagement."},
+      {t:"Conversation analytics",d:"Response rates, resolution time, agent performance, sentiment analysis. Real-time dashboard showing what is working and what is not."},
+      {t:"Audience segmentation",d:"AI groups customers by behaviour — purchase history, last visit, engagement level, location. Segments update automatically from Customer Agent data."},
+      {t:"Seasonal intelligence",d:"Ramadan, Eid, National Day, Back to School campaigns pre-built with templates. One-tap activate, AI handles the rest."},
+      {t:"Call transcription and summary",d:"Every voice call is automatically transcribed, summarised, and action items extracted. Summaries pushed to the owner via WhatsApp."},
+    ],
+    eand:[
+      {t:"Smart Messaging infrastructure",d:"Direct carrier SMS — not third-party — highest deliverability in the UAE. No SaaS middleman eating the margin."},
+      {t:"Toll Free 800",d:"Outbound caller ID is the business's own 800 number. Recognisable, trusted, professional."},
+      {t:"Teams Direct Routing",d:"Voice calls through e& network to Microsoft Teams. Businesses using Teams get enterprise-grade calling without a separate PBX."},
+      {t:"e& BSP for WhatsApp",d:"WhatsApp Business API owned by e&, not a third-party BSP. e& controls the margin, the template approvals, and the SLA."},
+    ],
+    connectors:["Meta WhatsApp Cloud API","Microsoft Teams","Instagram DM","Gmail / Outlook","Mailchimp (migration)","Amazon SES (email)"],
+    connectorNote:"The Comms Hub orchestrates across every channel — WhatsApp via Meta API, SMS via e& network, email via AWS SES or the SMB's own inbox, voice via e&/Teams. The SMB uses one dashboard. The channels are invisible infrastructure.",
+    useCases:["Restaurant sends a Ramadan iftar offer to 500 past customers via WhatsApp + SMS — AI writes the message, segments the audience, schedules for 3pm.","Clinic sends appointment reminders via WhatsApp, follow-up via SMS, and post-visit survey via email — all automated, all from one dashboard.","Retailer runs a flash sale: broadcast to all customers, track opens and clicks, auto-reply to questions, escalate purchase-ready customers to Sales Agent.","Professional services firm: all client communication archived, searchable, with AI-generated summaries of every call and chat."],
+    kpis:["Message delivery rate","Campaign response rate","Channel preference per customer","Average response time","Sentiment score trend","Broadcast ROI"],
+  },
+  {
+    phase:"Wave 3A",name:"Finance Agent",badge:"Parallel build",icon:"💰",color:"#3B6D11",
+    mission:"Invoices, payments, VAT, cash flow — UAE-native, FTA-certified, connected to what the SMB already uses.",
+    overview:"The Finance Agent automates the financial operations that consume 8–12 hours per week for a typical SMB owner: creating invoices, chasing payments, preparing VAT returns, tracking expenses, and understanding cash flow. It auto-generates invoices from Sales Agent deal closures, sends payment links via WhatsApp, prepares FTA-format VAT returns from transaction data, escalates overdue invoices through WhatsApp → SMS → call sequences, and delivers monthly P&L summaries to the owner on WhatsApp. It connects to e& Pay for payment collection and to QuickBooks, Xero, or Business Central if the SMB already uses one. For the 70%+ of UAE SMBs that use Excel or nothing, it becomes their first real financial system.",
+    native:[
+      {t:"Invoice engine",d:"Auto-generates bilingual Arabic/English invoices from Sales Agent deal closures. Professional templates with the SMB's branding, TRN, and FTA-compliant formatting."},
+      {t:"Payment link generator",d:"One-tap payment links sent via WhatsApp by the Customer Agent. Collected via e& Pay. The customer pays in 3 taps."},
+      {t:"VAT calculation and return prep",d:"FTA-format VAT return pre-filled from transaction data. The agent categorises expenses, calculates input/output VAT, and generates the submission-ready file."},
+      {t:"Invoice reminder sequences",d:"AI escalates overdue invoices: friendly WhatsApp reminder → formal SMS → automated call. Timing and tone adapt based on the relationship and overdue duration."},
+      {t:"Cash flow forecasting",d:"'You have 38 days of runway based on pending invoices, recurring costs, and payment velocity.' Real-time dashboard updated from live financial data."},
+      {t:"Expense tracking",d:"Photo a receipt via WhatsApp — the agent reads it, categorises the expense, logs it, and links it to the right project or cost centre."},
+      {t:"Monthly P&L summary",d:"Auto-generated report pushed to the owner on WhatsApp at month-end. Revenue, expenses, profit margin, cash position, overdue invoices, and VAT liability in one page."},
+    ],
+    eand:[
+      {t:"e& Pay",d:"Payment collection with lower fees than international gateways. Invoice appears alongside the e& telco bill — familiar and trusted."},
+      {t:"e& Money",d:"Instant settlement to the SMB's account. UAE-regulated, no third-party gateway risk, no 3-day hold."},
+      {t:"Oracle OCI Dedicated Region",d:"Financial data stored in e& data centres in the UAE. Full data sovereignty, no cross-border data flow."},
+      {t:"FTA certification",d:"e& already holds FTA certification for invoicing — inherited by the Finance Agent. No re-certification needed."},
+    ],
+    connectors:["QuickBooks","Xero","FreshBooks","Business Central","Oracle Financials","UAE bank APIs","FTA portal (VAT)","Network International","PayTabs"],
+    connectorNote:"SMB already on QuickBooks? The Finance Agent reads their chart of accounts and posts transactions there automatically. Uses Business Central? Syncs invoices and payments. Has a bank account? Pulls statements for reconciliation. AIdeology is the agent — the accounting tool is just a destination.",
+    useCases:["Sales Agent closes a deal → Finance Agent auto-generates the invoice → sends payment link via WhatsApp → customer pays via e& Pay → receipt issued automatically.","End of month: agent compiles all transactions, categorises expenses, calculates VAT, generates FTA return, and pushes a P&L summary to the owner's WhatsApp.","Overdue invoice: Day 3 friendly WhatsApp reminder, Day 7 formal SMS, Day 14 automated call with payment link. Owner is notified only if the customer responds.","Receipt scanning: employee photos a taxi receipt on WhatsApp, agent reads AED 45, categorises as 'Transport', logs to the project."],
+    kpis:["Days sales outstanding (DSO)","Invoice-to-payment cycle time","VAT compliance rate","Cash flow forecast accuracy","Payment collection rate","Expense categorisation accuracy"],
+  },
+  {
+    phase:"Wave 3B",name:"Ops Agent",badge:"Parallel build",icon:"⚙️",color:"#854F0B",
+    mission:"Internal operations automated — triggered by customer interactions, not by human admin.",
+    overview:"The Ops Agent eliminates the manual back-office work that happens after every customer interaction. When the Customer Agent books an appointment, the Ops Agent creates a task for the service team. When a complaint is logged, it creates a service ticket with priority and SLA. When a meeting ends, it extracts action items and assigns them. It manages approval flows, daily operational checklists, SOP documentation, and business reporting — all triggered automatically from real business events, not manual admin. For SMBs on Microsoft Teams, tasks sync to Planner. For Google Workspace users, to Google Tasks. For SMBs using nothing, the native AIdeology task board provides the structure they have never had.",
+    native:[
+      {t:"Task engine",d:"Creates tasks automatically when Customer Agent books, closes, or escalates. Every customer interaction generates the right internal follow-up without human intervention."},
+      {t:"Approval flows",d:"Purchase requests, leave applications, expense claims — routed to the right person by role and amount. Approved via WhatsApp with one tap."},
+      {t:"SOP knowledge base",d:"Searchable in Arabic and English. Updated by the agent from conversations — when a new process is agreed in a meeting, the agent adds it to the SOP."},
+      {t:"Service ticket desk",d:"Internal requests triaged and routed by AI priority. Linked to Customer Agent complaints. SLA tracking with escalation if unresolved."},
+      {t:"Ops checklists",d:"Daily opening routines, compliance checks, inventory counts, recurring tasks — automated, tracked, and reported. Owner sees completion status on WhatsApp."},
+      {t:"Meeting action extractor",d:"Paste a meeting summary or connect a call — AI extracts action items, assigns them to the right people, sets deadlines, and tracks completion."},
+      {t:"Business reports",d:"Daily and weekly ops summaries pushed to the owner on WhatsApp. Tasks completed, tickets open, compliance status, team performance."},
+    ],
+    eand:[
+      {t:"Azure Cloud via e& CSP",d:"Document storage, file sharing, compliance-grade hosting. All data on e& infrastructure."},
+      {t:"e& SIM location and check-in",d:"Field staff location and attendance tied to SIM identity. No biometric hardware, no GPS app — just the SIM they already carry."},
+      {t:"Wi-Fi as a Service data",d:"Device counts, dwell time in premises — feeds into ops analytics. Know how busy your store is without a people counter."},
+    ],
+    connectors:["Microsoft Teams","SharePoint / OneDrive","Outlook Tasks / Planner","Google Workspace","Google Drive","Notion","Slack","AWS S3 (document store)"],
+    connectorNote:"Teams user? The Ops Agent creates tasks in Planner from meeting transcripts. Google Workspace user? Tasks go to Google Tasks, files to Drive. The agent is platform-agnostic — it orchestrates whatever the SMB already has. SMBs with nothing get the native AIdeology task board.",
+    useCases:["Customer Agent books an appointment → Ops Agent creates a task for the technician, reserves the time slot, and sends a preparation checklist.","Customer complaint logged → service ticket created with SLA, assigned to the right team member, escalated if not resolved in 4 hours.","Weekly staff meeting → meeting summary pasted into WhatsApp → agent extracts 6 action items, assigns to 3 people, tracks completion by Friday.","Daily ops: opening checklist sent at 7am, each item confirmed by staff via WhatsApp, non-compliance flagged to the manager automatically."],
+    kpis:["Task completion rate","Average time to resolve tickets","SLA compliance percentage","Checklist completion rate","Action item follow-through","Operational cost per customer interaction"],
+  },
+  {
+    phase:"Wave 4",name:"People Agent",badge:"Scale wave",icon:"👥",color:"#993C1D",
+    mission:"WPS payroll, attendance, leave, onboarding — UAE labour law as default, not a setting.",
+    overview:"The People Agent is the HR department that most SMBs cannot afford. It handles payroll calculation under UAE Labour Law (including overtime, gratuity, and end-of-service), generates WPS SIF files for Ministry of Labour submission, tracks attendance via WhatsApp geofenced check-in linked to e& SIM, manages leave requests and balances via WhatsApp conversation, runs digital onboarding checklists for new hires (Emirates ID collection, visa status tracking, bank account setup), and alerts HR 90/60/30 days before any visa or permit expiry. For SMBs with 5–50 employees, this replaces the Excel spreadsheet, the manual WPS file, and the PRO who tracks visa expiry dates in their head. It is UAE-native by design — labour law compliance is not a setting, it is the default.",
+    native:[
+      {t:"Payroll engine",d:"Calculates salaries, overtime, gratuity, and end-of-service benefits under UAE Labour Law automatically. Handles multiple pay frequencies, allowances, and deductions."},
+      {t:"WPS SIF file generation",d:"Generates the Wage Protection System SIF file in the exact format required by the Ministry of Labour. Submits via e& Pay for salary disbursement."},
+      {t:"Attendance via WhatsApp",d:"Geofenced check-in and check-out via WhatsApp message. Linked to e& SIM for identity verification. No biometric hardware, no GPS app, no time clock."},
+      {t:"Leave management",d:"Request, approve, and track leave balances — all via WhatsApp conversation. Manager approves with one tap. Balances update automatically."},
+      {t:"Digital onboarding",d:"New hire checklist: Emirates ID photo collection, visa status tracking, bank account setup, uniform sizing, training schedule — all via WhatsApp flow."},
+      {t:"Visa and permit reminders",d:"Agent alerts HR and the employee 90/60/30 days before any visa, Emirates ID, labour card, or health insurance expiry. No missed renewals."},
+      {t:"Candidate screening",d:"CV parsing, question scoring based on job requirements, and interview slot booking via WhatsApp. Shortlisted candidates passed to the hiring manager."},
+    ],
+    eand:[
+      {t:"Corporate Employee Plans",d:"e& already holds the SIM for thousands of SMB employees. Attendance and identity verification is SIM-native — no additional hardware."},
+      {t:"e& Pay / WPS",d:"Salary disbursement via e& Money directly to employee accounts. MoHRE-compliant, instant, lower fees than bank transfers."},
+      {t:"e& ID",d:"Verified employee mobile identity using the SIM they already carry. Replaces biometric readers and access cards for SMBs."},
+    ],
+    connectors:["Dynamics 365 HR","Oracle HCM","Bayzat (UAE HR)","Zoho People","MOHRE (Ministry of Labour)","GDRFA (visa)","DEWS / GPSSA (pension)","UAE banking APIs"],
+    connectorNote:"Medium SMBs with Dynamics HR or Oracle HCM? The People Agent syncs employee records there — no migration, just enrichment. Connects to MOHRE for WPS compliance and GDRFA for visa tracking. These are government APIs — the agent navigates them so the SMB never has to.",
+    useCases:["Month-end payroll: agent calculates salaries for 30 employees, generates WPS SIF, submits to MoHRE via e& Pay, sends each employee a pay slip on WhatsApp.","New hire: onboarding checklist triggered automatically — collect Emirates ID photo, verify visa, set up bank account, assign training — all via WhatsApp.","Visa expiring in 30 days: agent alerts HR, schedules the renewal appointment, tracks the application status, and confirms when the new visa is active.","Leave request: employee messages 'I need 3 days off next week' on WhatsApp → agent checks balance, sends approval request to manager, updates the calendar.","Attendance: employee arrives at the office, sends a WhatsApp check-in from within the geofence, SIM identity verified, logged automatically."],
+    kpis:["WPS submission compliance rate","Payroll accuracy","Attendance tracking coverage","Leave balance accuracy","Visa renewal on-time rate","Time-to-onboard new hires"],
+  },
+];
+
+function AgentRoadmapGrid() {
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+  return <>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {AGENT_DETAILS.map((a,i)=><Card key={i} style={{padding:18,borderLeft:`3px solid ${i===0?BRAND.red:BRAND.border}`,cursor:"pointer",transition:"box-shadow 0.15s"}} onClick={()=>setSelectedAgent(a)}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:8,marginBottom:8}}>
+          <Badge v={i===0?"teal":"default"}>{a.phase}</Badge>
+          <div style={{fontSize:10.5,fontWeight:700,color:i===0?BRAND.red:BRAND.grey,textTransform:"uppercase",letterSpacing:"0.04em"}}>{a.badge}</div>
+        </div>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>{a.name}</h4>
+        <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:"0 0 12px"}}>{a.mission}</p>
+        {[
+          ["AIdeology builds",a.native.map(n=>n.t).join(", ")],
+          ["e& network layer",a.eand.map(n=>n.t).join(", ")],
+          ["Partner connectors",a.connectors.join(", ")],
+        ].map(([label,text],j)=><div key={j} style={{paddingTop:9,marginTop:9,borderTop:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10,fontWeight:700,color:j===0?BRAND.red:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{label}</div>
+          <div style={{fontSize:11.2,color:"#777",lineHeight:1.5}}>{text}</div>
+        </div>)}
+        <div style={{marginTop:12,fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.04em",textTransform:"uppercase"}}>Click for full specification →</div>
+      </Card>)}
+    </div>
+
+    {selectedAgent && <div role="dialog" aria-modal="true" onClick={()=>setSelectedAgent(null)} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(17,17,17,0.85)",display:"flex",alignItems:"flex-start",justifyContent:"center",overflowY:"auto",padding:"40px 20px"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:BRAND.white,maxWidth:960,width:"100%",position:"relative"}}>
+        {/* Header */}
+        <div style={{padding:"28px 32px",borderBottom:`3px solid ${selectedAgent.color}`,display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:14}}>
+            <div style={{width:48,height:48,background:selectedAgent.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,borderRadius:0}}>{selectedAgent.icon}</div>
+            <div>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
+                <Badge v="teal">{selectedAgent.phase}</Badge>
+                <span style={{fontSize:11,fontWeight:700,color:BRAND.grey,textTransform:"uppercase",letterSpacing:"0.04em"}}>{selectedAgent.badge}</span>
+              </div>
+              <h3 style={{fontSize:24,fontWeight:700,color:"#111",margin:0}}>{selectedAgent.name}</h3>
+            </div>
+          </div>
+          <button onClick={()=>setSelectedAgent(null)} style={{background:BRAND.red,color:BRAND.white,border:"none",padding:"10px 18px",fontWeight:700,cursor:"pointer",fontSize:12,flexShrink:0}}>Close</button>
+        </div>
+
+        {/* Mission */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+          <div style={{fontSize:14,fontWeight:700,color:"#111",lineHeight:1.55}}>{selectedAgent.mission}</div>
+        </div>
+
+        {/* Overview */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:10}}>What this agent does</div>
+          <p style={{fontSize:13,color:"#444",lineHeight:1.7,margin:0}}>{selectedAgent.overview}</p>
+        </div>
+
+        {/* AIdeology builds */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.red,textTransform:"uppercase",marginBottom:14}}>AIdeology builds — core capabilities</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+            {selectedAgent.native.map((n,i)=><div key={i} style={{padding:14,border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+              <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4}}>{n.t}</div>
+              <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{n.d}</div>
+            </div>)}
+          </div>
+        </div>
+
+        {/* e& network layer */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`,background:"#F8FAFB"}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:"#185FA5",textTransform:"uppercase",marginBottom:14}}>e& network layer</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+            {selectedAgent.eand.map((n,i)=><div key={i} style={{padding:14,border:"1px solid #D8E8F4",background:BRAND.white}}>
+              <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4}}>{n.t}</div>
+              <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{n.d}</div>
+            </div>)}
+          </div>
+        </div>
+
+        {/* Partner connectors */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Partner connectors — the agent syncs to these</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
+            {selectedAgent.connectors.map((c,i)=><span key={i} style={{fontSize:11,padding:"4px 10px",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,fontWeight:600,color:"#555"}}>{c}</span>)}
+          </div>
+          <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0,fontStyle:"italic"}}>{selectedAgent.connectorNote}</p>
+        </div>
+
+        {/* Use cases */}
+        <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:selectedAgent.color,textTransform:"uppercase",marginBottom:12}}>Real-world use cases</div>
+          {selectedAgent.useCases.map((uc,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10}}>
+            <span style={{width:6,height:6,background:selectedAgent.color,flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:12.5,color:"#444",lineHeight:1.6}}>{uc}</span>
+          </div>)}
+        </div>
+
+        {/* KPIs */}
+        <div style={{padding:"24px 32px"}}>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Key performance indicators</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+            {selectedAgent.kpis.map((k,i)=><span key={i} style={{fontSize:11,padding:"6px 12px",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,fontWeight:600,color:"#333"}}>{k}</span>)}
+          </div>
+        </div>
+      </div>
+    </div>}
+  </>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* SMB SEGMENT */
 /* ════════════════════════════════════════════════════════════ */
-function SMBSegment() {
+function SMBSegment({onViewChange}) {
+  const [showMarketBenchmarks, setShowMarketBenchmarks] = useState(false);
+
+  const goToPlatformEvolutionMatrix = () => {
+    if (!onViewChange) return;
+    onViewChange("sum");
+    setTimeout(() => {
+      const target = document.getElementById("platform-evolution-matrix");
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
+
   return <div>
     <div style={{padding:"44px 0 36px"}}>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}><Badge v="teal">Pillar 01</Badge><span style={{fontSize:12,color:"#888"}}>Marketplace · SDD</span></div>
       <h2 style={{fontSize:34,fontWeight:700,color:"#111",lineHeight:1.08,marginBottom:14,fontFamily:BRAND.font}}>Sell AI to SMBs</h2>
       <p style={{fontSize:14.5,color:"#666",maxWidth:620,lineHeight:1.7,marginBottom:28}}>
-        Give UAE businesses ready-to-use AI agents they can buy through e&. Start with reception, WhatsApp, booking, and web chat. Use Spec-Driven Development to launch fast and repeat the model.
+        e& will be first to industrialise platform-centric SMB agentic solutions at scale: not a catalog of small bots, but a growing AI operating layer for every business function. The first release will deliver the base platform and one flagship Customer Agent; every later wave will add two larger agentic solutions in parallel, compounding into a reusable AI factory that can extend across e& OpCos.
       </p>
       <div style={{display:"flex",gap:28,flexWrap:"wrap"}}>
-        {[{v:"5–6",l:"AI agents at launch"},{v:"30 days",l:"Platform baseline"},{v:"60 days",l:"Production v1"},{v:"2,500+",l:"Target SMBs Y1"}].map((s,i)=><div key={i} style={{minWidth:90}}>
+        {[{v:"1",l:"Flagship agentic solution"},{v:"30 days",l:"Base platform MVP"},{v:"2",l:"Parallel solutions per wave"}].map((s,i)=><div key={i} style={{minWidth:90}}>
           <div style={{fontSize:22,fontWeight:700,color:"#E00800",fontFamily:BRAND.font}}>{s.v}</div>
           <div style={{fontSize:10.5,color:"#999",marginTop:2}}>{s.l}</div>
         </div>)}
       </div>
     </div>
 
-    {/* What we build */}
-    <SH>What we build</SH>
+    {/* What we will build */}
+    <SH>What we will build</SH>
     <Card>
       <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:14}}>
-        Customers browse, subscribe, and launch agents from one marketplace. Each agent is tied to a clear job: answer calls, qualify leads, book appointments, or support customers on WhatsApp and web chat.
+        Customers will not be buying disconnected point tools. They will subscribe to an e& AI operating layer where each agentic solution owns a business function end-to-end: Customer, Sales, Communications, Finance, Operations, and People.
       </p>
       <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:14}}>
-        The platform includes a storefront, onboarding, billing integration, usage analytics, and reusable specs. e& can keep adding agents after handover.
+        The platform will include onboarding, tenant back office, identity, billing, analytics, connector management, observability, and reusable SDD blueprints. The first solution will fund and validate the base platform; later solutions will reuse the same infrastructure.
+      </p>
+      <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:14}}>
+        The SMB build also introduces the platform's P1 capability layer: enterprise-grade automation, compliance controls, audit trails, RBAC, guardrails, and operational workflows. This is deployed as part of Wave 2 so the platform is not only an SMB marketplace, but the foundation for future enterprise and regulated-market expansion.
       </p>
       <p style={{fontSize:13,color:"#555",lineHeight:1.7}}>
-        The first 5–6 agents can be ready in 30 days. By day 60, the platform is production ready. By day 90, e& has the specs, blueprints, and training to scale.
+        The first Customer Agent will launch with the platform foundation. After that, AIdeology will build two larger agentic solutions in parallel per wave, because the heavy platform work will already be in place.
       </p>
     </Card>
 
-    <SH>Solution growth timeline</SH>
-    <Card style={{padding:0,overflow:"hidden"}}>
-      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>From AIdeology build to e& scale</h4>
-        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:820}}>
-          AIdeology builds the first solutions, proves demand with live customers, then hands over the specs and operating model so e& can keep expanding the catalog independently.
+    <SH>Platform-centric agent roadmap</SH>
+    <Note label="One platform · larger solutions">
+      AIdeology will build the agent brain, UX, workflow, memory, Arabic/English understanding and decision logic. e& network assets become the infrastructure layer. Partners remain connectors at the edge, invisible to the SMB. Click any agent card to see the full specification.
+    </Note>
+    <AgentRoadmapGrid />
+
+    <SH>SMB launch plan · parallel tracks</SH>
+    <CollapsibleTimeline
+      badge="Wave 1"
+      span="W1–W13 · 13 weeks"
+      title="Base platform first, then two solutions in parallel"
+      desc="Five workstreams will still run in parallel, but the first delivery will focus on one agentic solution because it also creates the base platform: identity, memory, connectors, e& network assets, billing, observability, and onboarding. Once that foundation exists, the next waves can deliver two larger agentic solutions in parallel."
+      footer="Launch readiness gate at end of W12: base platform stability green, Customer Agent passing acceptance tests, beta customers in production, support and billing flows live. GA opens with one flagship solution; the Sales Agent and Comms Hub enter the next parallel build wave."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W1-2","W3-4","W5-6","W7-8","W9-10","W11-12","W13"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · Platform build",c:BRAND.red,bars:[
+                {span:2,t:"Infra · K8s · DBs · observability"},
+                {span:2,t:"Frontend · onboarding · SSO"},
+                {span:2,t:"Agent + Model plane · Portkey"},
+                {span:2,t:"Billing · analytics · hardening"},
+                {span:0},{span:0},{span:0},
+              ]},
+              {n:"B · Solution build",c:"#E00800",bars:[
+                {span:2,t:"SDD · Customer Agent + base platform"},
+                {span:3,t:"Build: voice · WhatsApp · web · memory"},
+                {span:0},{span:0},
+                {span:2,t:"Start next pair: Sales + Comms"},
+                {span:0},{span:0},
+              ]},
+              {n:"C · Internal QA",c:"#222",bars:[
+                {span:0},{span:0},
+                {span:2,t:"Alpha · AIdeology + e& team"},
+                {span:0},
+                {span:2,t:"Security · telephony · load tests"},
+                {span:1,t:"Bug bash"},
+                {span:0},
+              ]},
+              {n:"D · Beta customers",c:"#0099A8",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Recruit 10–20 SMBs"},
+                {span:0},
+                {span:2,t:"Closed beta · feedback loops"},
+                {span:1,t:"Iterate · graduate beta"},
+                {span:0},
+              ]},
+              {n:"E · Commercial launch",c:"#7A52F4",bars:[
+                {span:0},{span:0},{span:0},
+                {span:1,t:"Pricing · sales enablement"},
+                {span:1,t:"Marketing assets · launch site"},
+                {span:1,t:"GTM rehearsal · readiness gate"},
+                {span:1,t:"GA launch · marketplace open"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<7){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"Platform foundations",w:"End of W2",d:"Cluster, databases, identity, CI/CD, observability and Agentic Intelligence Platform (Forge) stood up. Base images and tenant model approved."},
+            {m:"M2",t:"Customer Agent + alpha",w:"End of W6",d:"Voice, WhatsApp, web chat, memory and handoff working end-to-end. AIdeology + e& staff using the agent daily. Telephony, billing and observability integrated."},
+            {m:"M3",t:"Closed beta live",w:"End of W9",d:"10–20 paying or pre-committed SMBs onboarded with real call/chat traffic, real CSAT and CAC data, and real escalation flows."},
+            {m:"M4",t:"GA launch + wave 2 start",w:"W13",d:"Customer Agent passes security, performance and Arabic/English tests. Marketplace opens. e& sales force enabled. Sales Agent and Comms Hub start as the next parallel build."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div>
+              <div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div>
+            </div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    {/* Wave 2 timeline */}
+    <CollapsibleTimeline
+      badge="Wave 2"
+      span="W13–W18 · 6 weeks"
+      title="Sales Agent + Comms Hub + P1 platform layer"
+      desc="Platform is live. Wave 2 ships the next two agentic solutions and deploys the P1 enterprise-readiness layer: automation workflows, compliance controls, audit trails, RBAC and operational guardrails."
+      footer="Both solutions share the platform connectors built in Wave 1. Sales Agent adds CRM and lead-scoring logic; Comms Hub adds omnichannel broadcast and campaign automation. In parallel, the P1 layer upgrades the platform with enterprise-grade automation and compliance capabilities that future waves and enterprise deployments can reuse."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W13","W14","W15","W16","W17","W18"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · Sales Agent",c:BRAND.red,bars:[
+                {span:2,t:"SDD · CRM architecture"},
+                {span:2,t:"Build: lead scoring · pipeline · sequences"},
+                {span:1,t:"QA + Arabic"},
+                {span:1,t:"GA release"},
+              ]},
+              {n:"B · Comms Hub",c:"#E00800",bars:[
+                {span:2,t:"SDD · channel architecture"},
+                {span:2,t:"Build: inbox · campaigns · broadcast"},
+                {span:1,t:"QA + Arabic"},
+                {span:1,t:"GA release"},
+              ]},
+              {n:"C · P1 automation & compliance layer",c:"#7A52F4",bars:[
+                {span:1,t:"Automation + compliance design"},
+                {span:2,t:"Audit trail · RBAC · guardrails"},
+                {span:2,t:"Workflow deployment"},
+                {span:1,t:"P1 readiness gate"},
+              ]},
+              {n:"D · Integration & QA",c:"#222",bars:[
+                {span:0},
+                {span:1,t:"Connector tests"},
+                {span:2,t:"E2E · security · load tests"},
+                {span:1,t:"Bug fix"},
+                {span:0},
+              ]},
+              {n:"E · Beta customers",c:"#0099A8",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Onboard beta SMBs"},
+                {span:2,t:"Feedback loops"},
+                {span:1,t:"Graduate beta"},
+              ]},
+              {n:"F · Commercial launch",c:"#185FA5",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Sales enablement"},
+                {span:1,t:"Marketing assets"},
+                {span:1,t:"GTM prep"},
+                {span:1,t:"Marketplace live"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"SDD + P1 architecture complete",w:"End of W14",d:"Solution Design Documents for Sales Agent and Comms Hub approved. CRM connector architecture, channel routing design, data models, audit trail, RBAC and compliance-control design signed off."},
+            {m:"M2",t:"Agents + P1 layer in dev",w:"End of W16",d:"Sales Agent with lead scoring, pipeline tracking and follow-up sequences working. Comms Hub with unified inbox, campaign builder and omnichannel broadcast functional. P1 automation workflows, guardrails and audit logging deployed to staging."},
+            {m:"M3",t:"Beta + compliance QA passed",w:"End of W17",d:"Beta SMBs using both agents with live data. E2E, security, compliance workflow and load tests passed. Arabic/English quality benchmarks met. Bug backlog resolved."},
+            {m:"M4",t:"GA release + P1 deployed",w:"W18",d:"Sales Agent and Comms Hub live in the marketplace. P1 enterprise-readiness layer deployed across the platform. Sales enablement complete. e& sales force trained on both solutions."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div>
+              <div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div>
+            </div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    {/* Wave 3 timeline */}
+    <CollapsibleTimeline
+      badge="Wave 3"
+      span="W19–W24 · 6 weeks"
+      title="Finance Agent + Ops Agent — parallel build"
+      desc="Builds on the same platform and reuses connectors from Waves 1–2. Finance Agent connects e& Pay and FTA compliance. Ops Agent wires into Teams, SharePoint, and e& SIM location data."
+      footer="Finance Agent integrates e& Pay, e& Money, and FTA-compliant VAT flows. Ops Agent reuses Teams and calendar connectors from earlier waves and adds task-engine logic. Milestone payment: 50/50 across two milestones."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W19","W20","W21","W22","W23","W24"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · Finance Agent",c:BRAND.red,bars:[
+                {span:2,t:"SDD · invoicing architecture"},
+                {span:2,t:"Build: VAT · payments · cash flow"},
+                {span:1,t:"QA + Arabic"},
+                {span:1,t:"GA release"},
+              ]},
+              {n:"B · Ops Agent",c:"#E00800",bars:[
+                {span:2,t:"SDD · task engine architecture"},
+                {span:2,t:"Build: approvals · SOP · service desk"},
+                {span:1,t:"QA + Arabic"},
+                {span:1,t:"GA release"},
+              ]},
+              {n:"C · Integration & QA",c:"#222",bars:[
+                {span:0},
+                {span:1,t:"Connector tests"},
+                {span:2,t:"E2E · e& Pay · security tests"},
+                {span:1,t:"Bug fix"},
+                {span:0},
+              ]},
+              {n:"D · Beta customers",c:"#0099A8",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Onboard beta SMBs"},
+                {span:2,t:"Feedback loops"},
+                {span:1,t:"Graduate beta"},
+              ]},
+              {n:"E · Commercial launch",c:"#7A52F4",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Sales enablement"},
+                {span:1,t:"Marketing assets"},
+                {span:1,t:"GTM prep"},
+                {span:1,t:"Marketplace update"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"SDD + architecture complete",w:"End of W20",d:"Solution Design Documents for Finance Agent and Ops Agent approved. e& Pay integration architecture, FTA compliance path, task-engine data model signed off."},
+            {m:"M2",t:"Both agents in dev",w:"End of W22",d:"Finance Agent with invoicing, VAT prep, payment links and cash-flow forecasting working. Ops Agent with task engine, approvals, SOP knowledge base and service desk functional."},
+            {m:"M3",t:"Beta + QA passed",w:"End of W23",d:"Beta SMBs using both agents with real invoices and task flows. E2E, e& Pay, and security tests passed. Arabic/English quality benchmarks met."},
+            {m:"M4",t:"GA release",w:"W24",d:"Finance Agent and Ops Agent live in the marketplace. Five agents now available to SMBs. Sales enablement and marketing assets updated for the expanded catalog."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div>
+              <div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div>
+            </div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    {/* Wave 4 timeline */}
+    <CollapsibleTimeline
+      badge="Wave 4"
+      span="W25–W30 · 6 weeks"
+      title="People Agent"
+      desc="Wave 4 delivers the People Agent — WPS payroll, attendance via e& SIM, leave management, visa tracking and digital onboarding. Once live, all 6 agentic solutions are in production."
+      footer="Wave 4 delivers the sixth and final agentic solution. People Agent goes live with WPS SIF payroll, WhatsApp-native attendance, leave management and visa expiry tracking. Wave 5 then runs a dedicated hardening and handoff programme across the full platform."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W25","W26","W27","W28","W29","W30"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · People Agent",c:BRAND.red,bars:[
+                {span:2,t:"SDD · payroll + HR architecture"},
+                {span:2,t:"Build: WPS · attendance · onboarding"},
+                {span:1,t:"QA + Arabic"},
+                {span:1,t:"GA release"},
+              ]},
+              {n:"B · Integration & QA",c:"#222",bars:[
+                {span:0},
+                {span:1,t:"Connector tests · MOHRE / GDRFA"},
+                {span:2,t:"E2E regression · People Agent"},
+                {span:1,t:"Final bug fix"},
+                {span:0},
+              ]},
+              {n:"C · Beta customers",c:"#0099A8",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Onboard beta SMBs"},
+                {span:2,t:"Real payroll runs · feedback"},
+                {span:1,t:"Graduate beta"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"SDD + HR architecture complete",w:"End of W26",d:"Solution Design Document for People Agent approved. WPS payroll engine, attendance model, visa-tracking workflow and MOHRE/GDRFA connector designs signed off."},
+            {m:"M2",t:"People Agent in development",w:"End of W28",d:"WPS SIF generation, attendance check-in, leave management and digital onboarding working end-to-end. MOHRE and GDRFA connectors integrated and passing sandbox tests."},
+            {m:"M3",t:"Beta + QA passed",w:"End of W29",d:"Beta SMBs running real payroll cycles with People Agent. Full QA across People Agent completed. Arabic / English quality benchmarks met."},
+            {m:"M4",t:"People Agent GA · all 6 agents live",w:"W30",d:"People Agent released to marketplace. All six agentic solutions are now live. Platform handed to Wave 5 for full hardening and ownership transfer."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div>
+              <div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div>
+            </div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    {/* Wave 5 timeline */}
+    <CollapsibleTimeline
+      badge="Wave 5"
+      span="W31–W36 · 6 weeks"
+      title="Platform hardening & full e& handoff"
+      desc="With all 6 agents live, Wave 5 runs a full security audit and performance hardening across the complete platform — then delivers a clean, documented ownership transfer to e&."
+      footer="Wave 5 closes the programme. Running the security audit and pen test after all agents are live means the entire platform is tested as a whole, not piece by piece. The handoff is a dedicated 6-week programme — documentation, e& team training, runbooks, SLA definitions, on-call rotation, and final ownership transfer. e& leaves Wave 5 owning everything."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W31","W32","W33","W34","W35","W36"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · Security audit & pen test",c:"#993C1D",bars:[
+                {span:1,t:"Scope + kick-off"},
+                {span:2,t:"Security audit + penetration test"},
+                {span:1,t:"Findings + remediation"},
+                {span:1,t:"Re-test + sign-off"},
+                {span:0},
+              ]},
+              {n:"B · Performance hardening",c:"#E00800",bars:[
+                {span:1,t:"Baseline all 6 agents"},
+                {span:2,t:"Optimisation + scale tests"},
+                {span:1,t:"Load test + fix"},
+                {span:0},{span:0},
+              ]},
+              {n:"C · Documentation & runbooks",c:"#222",bars:[
+                {span:2,t:"Architecture docs + runbooks"},
+                {span:2,t:"SLA definitions + on-call rotation"},
+                {span:1,t:"Final review"},
+                {span:0},
+              ]},
+              {n:"D · e& team training",c:"#185FA5",bars:[
+                {span:0},
+                {span:2,t:"Platform deep-dives + workshops"},
+                {span:2,t:"Ops training + incident drills"},
+                {span:1,t:"Sign-off"},
+              ]},
+              {n:"E · Ownership transfer",c:"#7A52F4",bars:[
+                {span:0},{span:0},{span:0},
+                {span:1,t:"Staged handoff begins"},
+                {span:1,t:"Keys + access transfer"},
+                {span:1,t:"Full ownership · programme close"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"Audit started + docs kicked off",w:"End of W32",d:"Security audit and penetration test underway across all 6 agents and platform. Architecture documentation, runbooks and SLA definitions drafted and in review."},
+            {m:"M2",t:"Audit complete + platform hardened",w:"End of W33",d:"All security findings resolved and re-tested. Performance optimisation complete across all agents. Load testing passed. Platform ready for full e& operation."},
+            {m:"M3",t:"e& team training complete",w:"End of W35",d:"e& team trained on all 6 agents, platform operations, incident response, on-call rotation, and the localisation playbook for future OpCo expansion."},
+            {m:"M4",t:"Full ownership transfer · programme close",w:"W36",d:"All access, keys, credentials, runbooks, SLA definitions and on-call rotation formally transferred to e&. Programme closed. AIdeology moves to Year 1 platform partnership."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div>
+              <div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div>
+            </div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    {/* Master timeline — all waves */}
+    <CollapsibleTimeline
+      badge="Full programme"
+      span="36 weeks · 9 months"
+      title="All waves — end-to-end delivery timeline"
+      desc="Wave 1 builds the platform and the first flagship agent. Waves 2–4 each deliver agents on repeatable 6-week cadences. Wave 5 is a dedicated hardening and handoff programme after all 6 agents are live."
+      footer="Total programme: 36 weeks from kick-off to full ownership transfer. Wave 1 is longer (12 weeks) because it builds the base platform alongside the first agent. Waves 2–4 run on a repeatable 6-week cadence. Wave 5 hardens the complete platform and formally transfers ownership to e&. e& starts earning SaaS revenue from Week 13 and compounds it with each new agent release."
+      defaultOpen
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:900}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:200}}>Wave</th>
+              {["W1–6","W7–12","W13–18","W19–24","W25–30","W31–36"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"Wave 1 · Platform + Customer Agent",c:BRAND.red,bars:[
+                {span:1,t:"Platform build + SDD"},
+                {span:1,t:"Customer Agent + beta + GA"},
+                {span:0},{span:0},{span:0},{span:0},
+              ]},
+              {n:"Wave 2 · Sales + Comms + P1 Layer",c:"#D14600",bars:[
+                {span:0},{span:0},
+                {span:1,t:"Parallel build + P1 deployment → GA"},
+                {span:0},{span:0},{span:0},
+              ]},
+              {n:"Wave 3 · Finance Agent + Ops Agent",c:"#0099A8",bars:[
+                {span:0},{span:0},{span:0},
+                {span:1,t:"Parallel build → GA"},
+                {span:0},{span:0},
+              ]},
+              {n:"Wave 4 · People Agent",c:"#7A52F4",bars:[
+                {span:0},{span:0},{span:0},{span:0},
+                {span:1,t:"Build · QA · GA"},
+                {span:0},
+              ]},
+              {n:"Wave 5 · Hardening & Handoff",c:"#993C1D",bars:[
+                {span:0},{span:0},{span:0},{span:0},{span:0},
+                {span:1,t:"Security audit · training · ownership transfer"},
+              ]},
+              {n:"Cumulative agents live",c:"#222",bars:[
+                {span:0},
+                {span:1,t:"1 agent"},
+                {span:1,t:"3 agents"},
+                {span:1,t:"5 agents"},
+                {span:1,t:"6 agents live"},
+                {span:1,t:"Full handoff complete"},
+              ]},
+              {n:"e& SaaS revenue",c:"#004B2E",bars:[
+                {span:0},{span:0},
+                {span:1,t:"First subscriptions"},
+                {span:1,t:"Scaling"},
+                {span:1,t:"Full marketplace"},
+                {span:1,t:"Growing · handoff running"},
+              ]},
+            ].map((row,ri)=>{
+              const cells=[];
+              let i=0;
+              for(const b of row.bars){
+                if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}
+                cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+                  <div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div>
+                </td>);
+                i+=b.span;
+              }
+              while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>
+                {cells}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <Note label="Assumption · access to e& technical specs">
+      The plan above assumes e& will grant timely access to the technical foundations, sandbox environments, cloud/GPU resources, security approvals, and integration owners required to build the platform and the first e& AI Solutions in parallel. Without these inputs, the timeline will slip workstream by workstream because engineering cannot validate deployment, data flows, identity, billing, voice, WhatsApp, observability, and beta operations in isolation.
+    </Note>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:18}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>Required technical specifications from e&</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0,maxWidth:860}}>
+          To run the build, internal testing and beta in parallel, AIdeology will need documentation, sandbox credentials, and named technical owners for the items below. Each item maps directly to a workstream above.
         </p>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(320px, 1fr))",gap:0}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
         {[
-          {t:"Days 0–30",n:"AIdeology builds the launch set",count:"5–6 solutions",d:"Voice receptionist, WhatsApp FAQ, lead qualification, appointment scheduling, invoice collection, and HR screening. Each solution ships with an SDD spec, guardrails, test cases, and onboarding flow.",owner:"AIdeology leads · e& validates"},
-          {t:"Days 30–60",n:"Pilot and package",count:"8–10 solutions",d:"Improve the first agents from real SMB usage. Add 2–4 adjacent templates based on demand, such as web chat, customer support escalation, and sector-specific FAQ packs.",owner:"AIdeology builds · e& sales pilots"},
-          {t:"Days 60–90",n:"Handover and train",count:"10–15 solutions",d:"Create reusable blueprints, train the e& team, document the creation playbook, and transfer catalog operations. e& can now request, modify, and approve new solutions.",owner:"Joint delivery · e& takes control"},
-          {t:"Months 4–6",n:"e& expands the catalog",count:"20–30 solutions",d:"e& creates new SMB bundles using the blueprint library. AIdeology supports complex templates and quality review while e& owns roadmap, pricing, and launch cadence.",owner:"e& leads · AIdeology supports"},
-          {t:"Months 6–12",n:"Marketplace scales",count:"40–60+ solutions",d:"Solutions expand by vertical and OpCo: healthcare, real estate, retail, hospitality, professional services, and government-adjacent SMB workflows. Third-party providers can plug into the e& control plane.",owner:"e& operates · partners contribute"},
-        ].map((m,i)=><div key={i} style={{padding:24,borderRight:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`,display:"flex",gap:16,alignItems:"flex-start"}}>
-          <div style={{width:38,height:38,background:i<3?BRAND.red:BRAND.black,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,flexShrink:0}}>
-            {String(i+1).padStart(2,"0")}
-          </div>
-          <div style={{minWidth:0}}>
-            <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:10}}>
-              <Badge v={i<3?"teal":"default"}>{m.t}</Badge>
-              <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{m.count}</div>
-            </div>
-            <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:8,lineHeight:1.25}}>{m.n}</h4>
-            <p style={{fontSize:12.5,color:"#666",lineHeight:1.6,margin:"0 0 12px"}}>{m.d}</p>
-            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",lineHeight:1.35}}>{m.owner}</div>
-          </div>
+          {t:"e& cloud / GPU environment",d:"Access to the target e& or G42 cloud landing zone, GPU or inference capacity, Kubernetes namespace or cluster access, container registry, approved base images, quota limits, and environment sizing assumptions for dev, staging, beta and production."},
+          {t:"Runtime & deployment access",d:"CI/CD permissions, GitHub or GitLab integration, Helm chart approval path, secrets management, service accounts, network policies, rollback process, and change windows for deploying platform services."},
+          {t:"Model gateway & inference",d:"Approved LLM providers, Portkey or gateway credentials, routing policies, rate limits, data residency rules, model fallback policy, logging redaction requirements, and cost/budget guardrails per tenant and solution."},
+          {t:"Telephony & voice",d:"SIP trunk / e& UCaaS specs, DID provisioning process, voice codec support, recording and consent handling, fallback IVR."},
+          {t:"WhatsApp Business",d:"BSP path (e& or partner), template approval flow, sender numbers, opt-in / opt-out, message rate limits and pricing tiers."},
+          {t:"Billing & subscriptions",d:"e& billing API contract (auth, products, charges, refunds), tax rules, invoice formats, dunning policy, partner revenue-share reporting."},
+          {t:"Identity & SSO",d:"Federation with e& IAM (OIDC/SAML), tenant model, role mapping, SMB customer auth, admin and support user directories."},
+          {t:"Networking & DNS",d:"VPC/VNet design, private subnets, ingress controller rules, firewall allowlists, subdomain delegation (e.g. *.smb.eand.ae), TLS certificate issuance, CDN, NAT/egress policy, VPN or private link access to e& systems."},
+          {t:"Data residency & compliance",d:"Approved hosting region, NESA / TDRA / ADDA controls, data classification policy, logging retention, audit access."},
+          {t:"Security & observability",d:"SIEM/Loki integration, Prometheus/Grafana access, Langfuse or trace store approval, secret management, vulnerability scanning, penetration-test path, incident response contacts, change management process."},
+          {t:"Channels & connectors",d:"Sandbox credentials for e& telephony, WhatsApp Business, calendar, CRM, payment, and web channels needed for the Customer Agent, then reusable connector credentials for the Sales and Comms waves."},
+          {t:"Data & knowledge sources",d:"Approved sample FAQs, call scripts, product data, branch/service information, escalation rules, Arabic/English terminology, anonymised beta transcripts, and data-sharing boundaries for retrieval and testing."},
+          {t:"Tenant and support operations",d:"SMB tenant provisioning rules, support roles, escalation queues, human handoff policy, admin console access, customer onboarding checklist, and operational SLAs for beta and launch."},
+          {t:"Beta access",d:"Named e& account managers, list of 10–20 SMB beta candidates by vertical, NDA template, feedback channel and SLA expectations."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>0{i+1}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</h5>
+          <p style={{fontSize:11.8,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
         </div>)}
-      </div>
-      <div style={{padding:"18px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
-        <div style={{fontSize:12,color:"#555",lineHeight:1.55}}>
-          The key asset is not only the first catalog. It is the repeatable factory: SDD specs, approved patterns, control-plane governance, and trained e& operators who can keep launching new solutions without waiting for a full custom build each time.
-        </div>
       </div>
     </Card>
 
@@ -187,14 +1018,14 @@ function SMBSegment() {
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
         <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Every solution becomes stronger over time</h4>
         <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
-          The launch catalog is not static. Each agent needs ongoing tuning, new workflow variants, and software integrations. The key design choice is to make every new connector reusable, so one industry integration can strengthen many solutions across the marketplace.
+          The launch catalog is not static. Each e& AI Solution needs ongoing tuning, new workflow variants, and software integrations. The key design choice is to make every new connector reusable, so one industry integration can strengthen many solutions across the marketplace.
         </p>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
         {[
           {t:"Solution tuning",d:"Improve prompts, scripts, fallback paths, Arabic/English handling, qualification rules, escalation triggers, and success metrics based on live usage."},
           {t:"Industry connectors",d:"Connect to restaurant POS, reservation, ordering, CRM, booking, payment, inventory, and helpdesk software. Start with one use case, then reuse the connector."},
-          {t:"Shared integration library",d:"A connector built for AI Receptionist can later be used by WhatsApp Agent, Booking Agent, Invoice Collection, Customer Support, and future vertical agents."},
+          {t:"Shared integration library",d:"A connector built for AI Receptionist can later be used by WhatsApp, booking, invoice collection, customer support, and future vertical e& AI Solutions."},
           {t:"e& managed evolution",d:"e& owns the catalog roadmap. AIdeology supports complex integrations, quality review, and new blueprint design while e& operates the marketplace day to day."},
         ].map((x,i)=><div key={i} style={{padding:22,borderRight:(i+1)%4?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
           <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>0{i+1}</div>
@@ -204,25 +1035,39 @@ function SMBSegment() {
       </div>
       <div style={{padding:"18px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
         <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
-          Example: an AI Receptionist for restaurants may first connect to reservation and POS tools. Once that connector is approved, the same integration can power WhatsApp ordering, booking changes, loyalty support, complaint handling, and payment follow-up across other agents.
+          Example: an AI Receptionist for restaurants may first connect to reservation and POS tools. Once that connector is approved, the same integration can power WhatsApp ordering, booking changes, loyalty support, complaint handling, and payment follow-up across other e& AI Solutions.
         </div>
       </div>
     </Card>
 
-    <SH>Phase 0 reference architecture</SH>
+    <SH>Agentic Intelligence Platform — Forge by AIdeology</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
           <Badge v="teal">30 days</Badge>
           <span style={{fontSize:11.5,color:"#888"}}>SMB launch · one managed Kubernetes cluster</span>
         </div>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>One platform, pluggable agents</h4>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>One platform, pluggable e& AI Solutions</h4>
         <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:820}}>
-          The Phase 0 architecture keeps e& in control of the customer, the brand, the data, and the margin. Agents can come from AIdeology, e&, or third parties, but they run through an e& control plane: routing, identity, tenant back office, guardrails, billing, and observability.
+          The Phase 0 architecture keeps e& in control of the customer, the brand, the data, and the margin. Solutions can come from AIdeology, e&, or third parties, but they run through an e& control plane: routing, identity, tenant back office, guardrails, billing, and observability.
         </p>
       </div>
       <div style={{background:"#FAFAFA",padding:18,borderBottom:`1px solid ${BRAND.border}`}}>
-        <ZoomableImage src="/phase0-architecture.png" alt="Phase 0 reference architecture for SMB launch" />
+        <ZoomableImage
+          src="/phase0-architecture.png"
+          alt="Agentic Intelligence Platform — Forge by AIdeology"
+          extraFooter={<>
+            This architecture represents backend <strong>v0</strong> for launch. The platform will harden and expand iteratively as usage grows.
+            {" "}
+            <button
+              type="button"
+              onClick={goToPlatformEvolutionMatrix}
+              style={{border:"none",background:"transparent",color:BRAND.red,fontWeight:700,cursor:"pointer",padding:0}}
+            >
+              See PLATFORM EVOLUTION MATRIX in Summary →
+            </button>
+          </>}
+        />
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(210px, 1fr))"}}>
         {[
@@ -239,12 +1084,43 @@ function SMBSegment() {
       </div>
     </Card>
 
+    <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
+      <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
+          <Badge v="teal">P1 · 90 days</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>Enterprise-readiness layer deployed during Wave 2</span>
+        </div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Next software phase — from SMB launch to enterprise-grade platform</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          Phase 0 gets the SMB marketplace live quickly: one managed Kubernetes cluster, shared runtime pools, tenant onboarding, billing, observability and the first pluggable agents. Phase 1 does not replace that architecture. It hardens and extends it with automation, compliance, auditability and controlled deployment patterns so the same platform can serve larger SMBs, enterprise accounts and regulated use cases.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {[
+          {step:"01",t:"Runtime evolution",from:"P0: shared runtime pool for fast SMB launch.",to:"P1: dedicated pods with scaling-to-zero, stronger tenant isolation and upgrade control."},
+          {step:"02",t:"Automation layer",from:"P0: manual provisioning service, queue, rollback and Helm templates.",to:"P1: K8s Operator, GitOps workflows, signed templates and repeatable deployment automation."},
+          {step:"03",t:"Compliance controls",from:"P0: ISO/SOC/NESA baseline, PII redaction and gateway guardrails.",to:"P1: selectable trust tiers, immutable audit streams, policy versions, RBAC and enterprise compliance evidence."},
+          {step:"04",t:"Observability & governance",from:"P0: traces, logs, metrics and basic alerting.",to:"P1: distributed tracing, SLOs, tenant cost dashboards, operational guardrails and compliance-ready reporting."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:(i+1)%4?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>{x.step}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>{x.t}</h5>
+          <div style={{fontSize:11.5,color:"#777",lineHeight:1.5,marginBottom:6}}><strong style={{color:"#555"}}>First architecture:</strong> {x.from}</div>
+          <div style={{fontSize:11.5,color:"#777",lineHeight:1.5}}><strong style={{color:BRAND.red}}>Second architecture:</strong> {x.to}</div>
+        </div>)}
+      </div>
+      <div style={{padding:"16px 24px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0}}>
+          <strong>Why it matters:</strong> Wave 2 deploys this P1 layer while Sales Agent and Comms Hub go live, so enterprise-readiness becomes part of the SMB platform foundation early. e& does not need a second platform later — it gets one architecture that matures from SMB speed to enterprise control.
+        </p>
+      </div>
+    </Card>
+
     {/* Software Stack */}
     <SH>Software stack & technology</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
       <Card style={{borderLeft:"3px solid #E00800"}}>
         <div style={{fontSize:13,fontWeight:600,color:"#111",marginBottom:6}}>SDD — Spec-Driven Development</div>
-        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>A spec-first methodology for rapid AI agent creation. SDD converts business outcomes into structured implementation specs: user journeys, agent behavior, tools, integrations, data rules, guardrails, test cases, and acceptance criteria. Each agent is defined as a blueprint that can be instantiated, customised, tested, and scaled without re-engineering.</p>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>A spec-first methodology for rapid e& AI Solution creation. SDD converts business outcomes into structured implementation specs: user journeys, solution behavior, tools, integrations, data rules, guardrails, test cases, and acceptance criteria. Each solution is defined as a blueprint that can be instantiated, customised, tested, and scaled without re-engineering.</p>
       </Card>
       <Card>
         <div style={{fontSize:13,fontWeight:600,color:"#111",marginBottom:6}}>Agent orchestration layer</div>
@@ -259,129 +1135,675 @@ function SMBSegment() {
         <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>Multi-model inference (GPT-4o, Claude, Llama, Falcon) via API gateway. Model selection per agent based on task complexity and cost. Future: on-premise inference on e& / G42 GPU infrastructure for sovereign workloads. Voice: Twilio / e& telephony + Deepgram / Whisper STT + TTS pipeline.</p>
       </Card>
     </div>
-
-    {/* Roadmap */}
-    <SH>Delivery roadmap</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(270px, 1fr))",gap:12,marginBottom:14}}>
-      {[
-        {p:"Phase 1",t:"Platform & First Agents",time:"Days 1–30",d:"AIdeology deploys on-premise at e& to build the marketplace platform baseline and first 5–6 AI use cases. SDD-generated agents include AI Voice Receptionist, WhatsApp Business Agent, Auto Web-Crawl Receptionist, Booking Agent, and Chat Assistant. Platform includes storefront, onboarding flow, and billing hooks.",items:["SDD specs and blueprints for each agent","Platform storefront & self-service onboarding","e& billing API integration","Voice + chat + WhatsApp channels","Arabic & English NLP baseline"]},
-        {p:"Phase 2",t:"Iterate & First Customers",time:"Days 30–60",d:"Iterate from early customer feedback, polish UX, onboard first 10–20 reference SMBs, deliver production-ready v1. Tune Arabic NLP, add analytics dashboard for e& leadership, finalise subscription tiers and pricing.",items:["Production hardening & QA","First 10–20 live customers","Analytics dashboard for e&","Subscription tier finalisation","Performance monitoring & SLA setup"]},
-        {p:"Phase 3",t:"Blueprints & Knowledge Transfer",time:"Days 60–90",d:"Create reusable SDD specs and blueprints for each agent type so e&'s team can build new agents independently. Full training programme — technical (how to write specs, modify agents, run acceptance tests) and commercial (how to sell, how to onboard). Scale-ready documentation and support SLAs.",items:["SDD spec and blueprint documentation","e& team training (3–5 people)","Playbook: new agent creation","Support & escalation SLA definition","Handoff & IP transfer"]},
-      ].map((p,i)=><Card key={i}>
-        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
-          <span style={{fontSize:10.5,fontWeight:600,color:"#999"}}>{p.p}</span><Badge v="teal">{p.time}</Badge>
-        </div>
-        <h4 style={{fontSize:15.5,fontWeight:600,color:"#111",marginBottom:6}}>{p.t}</h4>
-        <p style={{fontSize:12,color:"#777",lineHeight:1.6,marginBottom:12}}>{p.d}</p>
-        {p.items.map((item,j)=><div key={j} style={{display:"flex",alignItems:"center",gap:7,fontSize:12,color:"#555",marginBottom:4}}>
-          <span style={{color:"#E00800",flexShrink:0}}><CheckIcon/></span>{item}
-        </div>)}
-      </Card>)}
-    </div>
-
-    {/* Phase 1 agent catalog */}
-    <SH>Phase 1 agents at launch</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
-      {[
-        {n:"Voice Receptionist",d:"Answer, qualify, and route inbound calls. 24/7. Voice + IVR.",a:"$5–10K",dep:"Call rules, FAQs"},
-        {n:"WhatsApp FAQ Bot",d:"Automated chat with human tone. WhatsApp Business API.",a:"$3–8K",dep:"FAQ + vector DB"},
-        {n:"Lead Qualification (SMB)",d:"Score and route inbound leads. Simple rules, no CRM lock-in.",a:"$6–12K",dep:"Qualification rules"},
-        {n:"Appointment Scheduler",d:"Calendar sync, reminders, rescheduling. No back-and-forth.",a:"$4–9K",dep:"Calendar API"},
-        {n:"Invoice Collection",d:"Polite chase on overdue invoices. Logs status to accounting.",a:"$5–10K",dep:"Accounting data"},
-        {n:"HR Screening Bot",d:"First-line CV screening against role criteria. Shortlist for HR.",a:"$4–8K",dep:"Role criteria"},
-      ].map((s,i)=><Card key={i} style={{padding:18}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-          <Badge v="teal">Phase 1</Badge>
-          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.a}/yr</div>
-        </div>
-        <h4 style={{fontSize:13.5,fontWeight:700,color:"#111",marginBottom:4}}>{s.n}</h4>
-        <p style={{fontSize:11.5,color:"#777",lineHeight:1.5,marginBottom:8}}>{s.d}</p>
-        <div style={{fontSize:10.5,color:"#999"}}>Data: {s.dep}</div>
-      </Card>)}
-    </div>
-
-    {/* Phase 2 enterprise vertical agents */}
-    <SH>Phase 2 vertical agents</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
-      {[
-        {n:"KYC / AML Compliance",d:"Sanctions screening and risk scoring for fintech and banking.",v:"Fintech",a:"$100–200K"},
-        {n:"Customer Support Escalation",d:"Reads CRM and ticket context. Drafts responses, escalates exceptions.",v:"Telecom · E-com",a:"$80–150K"},
-        {n:"Patient Triage",d:"Symptom intake and routing. HIPAA-aligned synthetic data ready.",v:"Healthcare",a:"$75–125K"},
-        {n:"Property Inquiry",d:"Qualifies inbound leads, books viewings, syncs to CRM.",v:"Real estate",a:"$60–100K"},
-      ].map((s,i)=><Card key={i} style={{padding:18}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-          <Badge v="violet">Phase 2</Badge>
-          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.a}/yr</div>
-        </div>
-        <h4 style={{fontSize:13.5,fontWeight:700,color:"#111",marginBottom:4}}>{s.n}</h4>
-        <p style={{fontSize:11.5,color:"#777",lineHeight:1.5,marginBottom:8}}>{s.d}</p>
-        <div style={{fontSize:10.5,color:"#999"}}>Vertical: {s.v}</div>
-      </Card>)}
-    </div>
-
-    {/* Vertical templates */}
-    <SH>Vertical templates</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(180px, 1fr))",gap:10,marginBottom:14}}>
-      {[
-        {n:"Fintech / Banking",arpu:"$200–400K",y1:"20–30 customers"},
-        {n:"Healthcare",arpu:"$150–300K",y1:"30–40 customers"},
-        {n:"Hospitality",arpu:"$80–150K",y1:"50–80 customers"},
-        {n:"Real estate",arpu:"$100–200K",y1:"40–60 customers"},
-        {n:"Government",arpu:"$120–250K",y1:"15–25 customers"},
-        {n:"Retail",arpu:"$60–120K",y1:"100–150 customers"},
-      ].map((v,i)=><Card key={i} style={{padding:16}}>
-        <h4 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{v.n}</h4>
-        <div style={{fontSize:11,color:"#777",marginBottom:3}}>ARPU: <strong style={{color:BRAND.red}}>{v.arpu}</strong></div>
-        <div style={{fontSize:11,color:"#777"}}>Year 1: {v.y1}</div>
-      </Card>)}
-    </div>
-
-    {/* 3-segment strategy */}
-    <SH>Three-segment strategy</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
-      {[
-        {seg:"SMB",vol:"80% of volume",arpu:"$30–60K ARPU",y1:"500–1,000 customers · $20–40M Y1",gtm:"Marketplace, referrals, affiliate partners",foc:"Self-serve templates, minimal customisation, no support overhead"},
-        {seg:"Enterprise",vol:"15% of volume",arpu:"$200–500K ARPU",y1:"50–100 customers · $12–25M Y1",gtm:"Direct sales, white-glove POCs, e& OpCo anchors",foc:"Custom integrations, compliance, premium SLA"},
-        {seg:"Professional services",vol:"5% of volume · Resale",arpu:"$50–150K ARPU",y1:"100–150 partners · $8–12M Y1",gtm:"Partner enablement, 20–30% margin, certification",foc:"White-label delivery, client customisation, implementation services"},
-      ].map((s,i)=><Card key={i} style={{padding:18,borderLeft:`3px solid ${BRAND.red}`}}>
-        <Badge v="teal">{s.seg}</Badge>
-        <div style={{fontSize:11,color:"#999",marginTop:8}}>{s.vol}</div>
-        <div style={{fontSize:18,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,margin:"6px 0"}}>{s.arpu}</div>
-        <div style={{fontSize:12,color:"#444",fontWeight:600,marginBottom:6}}>{s.y1}</div>
-        <p style={{fontSize:11.5,color:"#777",lineHeight:1.55,marginBottom:6}}>{s.foc}</p>
-        <div style={{fontSize:11,color:"#888",lineHeight:1.5}}><strong>GTM:</strong> {s.gtm}</div>
-      </Card>)}
-    </div>
-    <Note label="Year 1 combined opportunity">$40–77M revenue across 650–1,250 customers. Average gross margin ~65% (60% SMB, 70% Enterprise, 65% PS). Driven by self-serve SMB volume plus enterprise vertical anchors and partner resale.</Note>
-
-    {/* Commercials */}
+    <Note label="AIdeology proprietary library">
+      AIdeology will use a proprietary library of reusable SDD blueprints, tested prompt patterns, guardrail packs, and connector accelerators that will shorten build cycles, improve consistency, and reduce implementation risk across every e& AI Solution.
+    </Note>
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* COMMERCIAL MODEL */}
+    {/* ════════════════════════════════════════════════════════════ */}
     <SH>Commercial model</SH>
-    <CommercialBox title="SMB Marketplace Commercials" icon="$" iconBg="#F5F5F5" iconColor="#E00800" items={[
-      {label:"Implementation",value:"$150K–$250K",color:"#E00800",type:"Fixed fee",desc:"Platform build, 5–6 SDD-specified agents, on-premise deployment, blueprints & training."},
-      {label:"Revenue Share",value:"10–20%",color:"#E00800",type:"Of gross subscription revenue",desc:"Ongoing % of SMB subscriptions. Degressive tiers as volume scales."},
-      {label:"New Blueprints",value:"$15K–$30K",color:"#E00800",type:"Per SDD spec + blueprint",desc:"Additional agents beyond initial 5–6, scoped by workflow and integration complexity."},
+    <Note label="Consolidated SMB commercial package">
+      This section now consolidates the full SMB economics: AIdeology build and support fees to e&, e& revenue share, SMB subscription pricing, market benchmarks, e& break-even, revenue forecasts, and AIdeology revenue. The handover and knowledge-transfer plan follows after the commercial terms.
+    </Note>
+    <CommercialBox title="AIdeology fees to e& — SMB Platform Build, Support & Innovation" icon="$" iconBg="#F5F5F5" iconColor="#E00800" items={[
+      {label:"Wave 1 — Platform + Customer Agent",value:"$1,250,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"SDD, architecture, platform MVP, Customer Agent (voice + WhatsApp) live, e& team training and documentation. Includes Years 1–3 L3 platform support, knowledge transfer and transition coverage."},
+      {label:"Wave 2 — Sales + Comms + P1 Layer",value:"$700,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"Sales Agent + Comms Hub live, plus deployment of the P1 enterprise-readiness layer: automation workflows, compliance controls, audit trail, RBAC and operational guardrails. Includes beta support, L3 platform escalation, documentation updates and knowledge transfer."},
+      {label:"Wave 3 — Finance + Ops Agents",value:"$600,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"Finance Agent (invoicing, VAT, FTA compliance) + Ops Agent (tasks, approvals). Includes L3 platform escalation, connector compatibility, release support and knowledge transfer."},
+      {label:"Wave 4 — People Agent",value:"$275,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"People Agent (WPS payroll, attendance via e& SIM, leave management, visa tracking, digital onboarding). Includes L3 platform escalation, release support and knowledge transfer; hardening and handoff are separated into Wave 5."},
+      {label:"Wave 5 — Platform hardening & full handoff",value:"$618,621",color:"#E00800",type:"Fixed fee · hardening + support included",desc:"Full security audit + pen test across all 6 agents, performance hardening, complete documentation, e& team training, runbooks, SLA definitions and formal ownership transfer. Includes the support framework for Years 1–3."},
+      {label:"Total fixed-fee envelope",value:"$3,443,621",color:"#E00800",type:"All 5 waves · build + 3-year support",desc:"Full programme delivery across 12 milestones over 36 weeks. The total includes platform build, all 6 agents, Wave 5 hardening, full handoff, and Years 1–3 AIdeology L3 platform support."},
+      {label:"3-year L3 platform support",value:"Included",color:"#E00800",type:"Included in Wave 1–5 pricing",desc:"Covers AIdeology L3 platform escalation, security patches, connector compatibility, release support, runbook updates and knowledge transfer through Years 1–3. e& owns L1 and L2 from Day 1. Commercially, this support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during Years 1–3."},
     ]}/>
+    <Note label="3-year support included in fixed pricing">
+      The Wave 1–5 fixed pricing includes AIdeology L3 platform support through Years 1–3. This covers platform escalation, patches, connector compatibility, release support, runbook updates and knowledge transfer. e& owns L1 and L2 from Day 1. Commercially, Years 1–3 support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during the transition period.
+    </Note>
 
-    <SH>AIdeology commercials — 3-year view</SH>
-    <CommercialBox title="AIdeology Revenue Breakdown" icon="A" iconBg="#F5F5F5" iconColor="#E00800" items={[
-      {label:"Year 1",value:"$200K–$350K",color:"#E00800",type:"Implementation + rev-share ramp",desc:"Bulk from fixed fee. Rev-share from Month 3 as first SMBs subscribe."},
-      {label:"Year 2",value:"$180K–$400K",color:"#E00800",type:"Rev-share + new blueprints",desc:"1,500–3,000 subscribers. Plus 3–5 new SDD specs and blueprints at $15K–$30K each."},
-      {label:"Year 3",value:"$250K–$600K",color:"#E00800",type:"Rev-share at scale",desc:"3,000–5,000+ subs. Blueprints & advisory on expansion to new markets."},
-    ]}/>
+    {/* --- Revenue share: declining model --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
+        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
+        <div>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Revenue share — 65/35 declining model</h4>
+          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>e& keeps majority from Day 1. AIdeology share declines as e& team takes ownership.</p>
+        </div>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Period","e& share","AIdeology share","AIdeology responsibility","e& readiness"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {period:"Year 1–2",eShare:"65%",aShare:"35%",aResp:"Platform engineering, agent development, training & consulting",eReady:"2–3 FTE embedded, learning"},
+            {period:"Year 3",eShare:"72%",aShare:"28%",aResp:"Platform maintenance, new integrations, knowledge transfer",eReady:"6–8 FTE, owns 80% of agent dev"},
+            {period:"Year 4+",eShare:"80%",aShare:"20%",aResp:"Platform updates, security patches, new connectors (licensing model)",eReady:"8–10 FTE, owns entire operation"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.period}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:16}}>{r.eShare}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111",fontFamily:BRAND.font,fontSize:16}}>{r.aShare}</td>
+            <td style={{padding:"12px 14px",color:"#555",lineHeight:1.45}}>{r.aResp}</td>
+            <td style={{padding:"12px 14px",color:"#777",lineHeight:1.45}}>{r.eReady}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"16px 26px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
+          {[
+            {label:"Year 5+ option",value:"e& acquires AIdeology IP outright — or AIdeology licenses to other telcos"},
+            {label:"Acquisition trigger",value:"By Year 3–4, paying 20–28% forever is more expensive than buying out the platform"},
+          ].map((n,i)=><div key={i} style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{n.label}</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>{n.value}</div>
+          </div>)}
+        </div>
+      </div>
+    </Card>
 
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* SUPPORT, KNOWLEDGE TRANSFER & LONG-TERM PARTNERSHIP       */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>Support, knowledge transfer & long-term partnership</SH>
+    <Note label="Build · Transfer · Partner">
+      AIdeology will not be a permanent vendor. The engagement is designed as a three-phase transition: full-service build, progressive knowledge transfer, and a long-term platform partnership where e& owns day-to-day operations and AIdeology remains the innovation layer. Commercial support pricing is included in the AIdeology fees section above.
+    </Note>
+
+    {/* --- Platform Support Model --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">4 tiers</Badge><span style={{fontSize:11.5,color:"#888"}}>L1 & L2 → e& · L3 & L4 → AIdeology</span></div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Platform support model</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          AIdeology does not provide L1 or L2 support. e& owns the customer relationship at every touchpoint from Day 1. AIdeology provides the platform knowledge base, escalation decision trees, and troubleshooting guides so e& support teams can resolve issues independently. AIdeology focuses exclusively on L3 platform engineering and L4 innovation.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Tier","Owner","Scope","Examples","SLA"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {tier:"L1",owner:"e& (100%)",scope:"Customer-facing triage",examples:"Login, billing, onboarding, UI navigation, 'is the service down?', FAQ-level agent questions",sla:"Per e& customer care SLA",color:"#185FA5"},
+            {tier:"L2",owner:"e& (100%)",scope:"Technical support",examples:"Agent configuration, prompt tuning, connector failures, tenant debugging, integration errors, performance complaints, dashboard bugs",sla:"Per e& technical support SLA",color:"#185FA5"},
+            {tier:"L3",owner:"AIdeology",scope:"Platform engineering",examples:"Orchestration engine bugs, memory layer issues, guardrail failures, Kubernetes/DB incidents, security patches, connector library bugs, platform releases",sla:"P1: 1h response / 4h fix · P2: 4h / 24h · P3: 1 day / next release",color:BRAND.red},
+            {tier:"L4",owner:"AIdeology",scope:"Innovation & architecture",examples:"New agent development, platform architecture changes, market localisation, major feature design, model evaluation, complex integration architecture",sla:"Scoped per project",color:BRAND.red},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i<2?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"12px 14px"}}><span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:28,height:28,background:r.color,color:BRAND.white,fontSize:10,fontWeight:700}}>{r.tier}</span></td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:i<2?"#185FA5":BRAND.red}}>{r.owner}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.scope}</td>
+            <td style={{padding:"12px 14px",color:"#666",fontSize:11.5,lineHeight:1.45}}>{r.examples}</td>
+            <td style={{padding:"12px 14px",color:"#555",fontSize:11.5,lineHeight:1.45,whiteSpace:"pre-line"}}>{r.sla}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"16px 26px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
+          <div style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>Escalation flow</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>SMB customer → e& L1 (triage) → e& L2 (technical) → AIdeology L3 (platform) → AIdeology L4 (architecture)</div>
+          </div>
+          <div style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>AIdeology provides to e&</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>Knowledge base, troubleshooting decision trees, escalation criteria, runbooks, and video library — so L1 and L2 never need AIdeology involvement.</div>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <CollapsibleTimeline
+      badge="Details"
+      span="Engagement · team · IP · knowledge transfer · infrastructure · expansion"
+      title="Full support and handover plan"
+      desc="Expand to see the three-phase engagement model, team scaling, IP ownership, knowledge transfer deliverables, infrastructure responsibility split, and geographic expansion plan."
+    >
+    <div style={{padding:"22px 26px"}}>
+
+    {/* --- 1. Three-Phase Engagement Model --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">3 phases</Badge><span style={{fontSize:11.5,color:"#888"}}>Full service → Transition → Partnership</span></div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Three-phase engagement model</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          The relationship evolves from full-service delivery to e& independence, with AIdeology transitioning from builder to platform partner.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {[
+          {phase:"Phase 1",span:"Year 1",title:"Full service",color:BRAND.red,items:["AIdeology is the primary development team","e& provides infrastructure (G42 / Azure), customer access, support","2–3 e& engineers embedded with AIdeology for hands-on learning","All agents and platform built end-to-end by AIdeology","Weekly knowledge transfer sessions with e& engineering"]},
+          {phase:"Phase 2",span:"Year 2",title:"Transition",color:"#185FA5",items:["e& team takes over 40–50% of development","AIdeology focuses on platform architecture, complex features, new agents","e& team owns bug fixes, customer support, minor feature work","Knowledge transfer sessions shift from weekly to bi-weekly","Joint code reviews and architecture decision records"]},
+          {phase:"Phase 3",span:"Year 3+",title:"Partnership",color:"#004B2E",items:["e& owns agents and day-to-day development","AIdeology becomes platform maintainer + innovation partner","Revenue model shifts to licensing + variable fee on new features","e& can call AIdeology for complex features, new agents, optimisation","e& team leads OpCo expansion independently — using the transferred localisation playbook and fine-tuning methodology with no structural dependency on AIdeology"]},
+        ].map((p,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{width:28,height:28,background:p.color,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700,borderRadius:0}}>{i+1}</span>
+            <div>
+              <div style={{fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{p.phase} · {p.span}</div>
+              <div style={{fontSize:14,fontWeight:700,color:"#111"}}>{p.title}</div>
+            </div>
+          </div>
+          {p.items.map((item,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:6}}>
+            <span style={{width:5,height:5,background:p.color,flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:11.8,color:"#555",lineHeight:1.55}}>{item}</span>
+          </div>)}
+        </div>)}
+      </div>
+    </Card>
+
+    {/* --- 3. IP Ownership Strategy --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Intellectual property ownership</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          A clear split that removes vendor lock-in for e& while preserving the defensible platform layer for AIdeology.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr"}}>
+        <div style={{padding:22,borderRight:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <span style={{width:28,height:28,background:"#185FA5",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700}}>e&</span>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>e& owns — Agent IP</div>
+          </div>
+          {["Full source code for all 6 agents delivered by Month 24","Freedom to customize, fork, and extend agents independently","Agent training data, prompt libraries, and workflow definitions","Customer-facing UX components and conversation flows","Right to hire and build internal AI team to maintain agents"].map((item,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:6}}>
+            <span style={{width:5,height:5,background:"#185FA5",flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:11.8,color:"#555",lineHeight:1.55}}>{item}</span>
+          </div>)}
+        </div>
+        <div style={{padding:22,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <span style={{width:28,height:28,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700}}>A</span>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>AIdeology owns — Platform IP</div>
+          </div>
+          {["Orchestration engine, deployment framework, and connector management","Analytics engine, observability layer, and tenant management","SDD methodology, blueprint library, and accelerator packs","Multi-agent coordination, memory, and guardrail infrastructure","Licensed to e& under long-term partnership agreement"].map((item,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:6}}>
+            <span style={{width:5,height:5,background:BRAND.red,flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:11.8,color:"#555",lineHeight:1.55}}>{item}</span>
+          </div>)}
+        </div>
+      </div>
+      <div style={{padding:"16px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0,fontStyle:"italic"}}>
+          This structure removes e&'s lock-in anxiety — they own all customer-facing IP. AIdeology retains the platform layer, which can be licensed to other telcos without competing with e&'s agent business.
+        </p>
+      </div>
+    </Card>
+
+    {/* --- 4. Knowledge Transfer Deliverables --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Knowledge transfer deliverables</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          Knowledge transfer is not a one-time event at handoff. It begins on Day 1 with embedded engineers and builds progressively so that by Year 3, e& can operate independently.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {[
+          {t:"Platform architecture docs",d:"Complete system architecture, data flow diagrams, API contracts, infrastructure-as-code, and decision records explaining every architectural trade-off."},
+          {t:"Agent source code + docs",d:"Full annotated source for all 6 agents with inline documentation, prompt engineering guides, and workflow decision trees."},
+          {t:"Operational runbooks",d:"Step-by-step procedures for deployment, rollback, incident response, scaling, database maintenance, and disaster recovery."},
+          {t:"SLA definitions & on-call",d:"Service level agreements for every component, escalation matrices, on-call rotation templates, and monitoring alert playbooks."},
+          {t:"Embedded engineer program",d:"2–3 e& engineers work alongside AIdeology from Day 1 — not parachuted in at handoff. Pair programming, joint PRs, shared on-call."},
+          {t:"Training curriculum",d:"Structured learning path: platform fundamentals (W1–4), agent development (W5–12), advanced topics (W13–24), independent operation (W25–30)."},
+          {t:"Weekly → bi-weekly sessions",d:"Weekly knowledge transfer in Year 1, bi-weekly in Year 2, monthly in Year 3+. Recorded, with written summaries and action items tracked."},
+          {t:"Video library & workshops",d:"Recorded deep-dives on every subsystem. Live workshops on new features, debugging techniques, and production incident reviews."},
+          {t:"Connector development guide",d:"How to build, test, and deploy new third-party connectors using the shared integration library — so e& can add integrations independently."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>0{i+1}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</h5>
+          <p style={{fontSize:11.8,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* --- 6. Infrastructure Responsibility Split --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Infrastructure responsibility split</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          A clear separation of who owns what — so neither party carries risk for the other's domain.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr"}}>
+        <div style={{padding:22,borderRight:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <span style={{width:28,height:28,background:"#185FA5",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700}}>e&</span>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>e& owns</div>
+          </div>
+          {[
+            {t:"Cloud & GPU contracts",d:"G42, Azure, AWS — e&'s negotiating power, e&'s pricing"},
+            {t:"LLM / compute cost risk",d:"If inference prices spike, that is e&'s budget line, not AIdeology's"},
+            {t:"Uptime & SLA guarantees",d:"Infrastructure availability SLAs are e&'s responsibility to their SMB customers"},
+            {t:"Data residency compliance",d:"NESA, TDRA, ADDA, UAE data localisation — e& holds the compliance posture"},
+          ].map((item,i)=><div key={i} style={{marginBottom:12}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#111",marginBottom:2}}>{item.t}</div>
+            <div style={{fontSize:11.5,color:"#666",lineHeight:1.5}}>{item.d}</div>
+          </div>)}
+        </div>
+        <div style={{padding:22,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+            <span style={{width:28,height:28,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700}}>A</span>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>AIdeology owns</div>
+          </div>
+          {[
+            {t:"Platform orchestration",d:"Running on e&'s compute — agent routing, memory, tools, guardrails, tenant management"},
+            {t:"Agent logic & connectors",d:"Business logic, prompt engineering, third-party integrations, workflow automation"},
+            {t:"User experience",d:"Dashboard, back-office UI, onboarding flows, analytics views"},
+            {t:"Orchestration reliability",d:"The platform works correctly — distinct from whether the underlying LLM is available"},
+          ].map((item,i)=><div key={i} style={{marginBottom:12}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#111",marginBottom:2}}>{item.t}</div>
+            <div style={{fontSize:11.5,color:"#666",lineHeight:1.5}}>{item.d}</div>
+          </div>)}
+        </div>
+      </div>
+      <div style={{padding:"16px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0,fontStyle:"italic"}}>
+          This split means AIdeology's COGS stays lean (no LLM inference costs, no cloud hosting fees) and e& retains full control of their infrastructure economics and compliance posture.
+        </p>
+      </div>
+    </Card>
+
+    {/* --- 7. Geographic Expansion Phasing --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">18 OpCos</Badge><span style={{fontSize:11.5,color:"#888"}}>Agents first · then expand · e& leads</span></div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Geographic expansion — build first, scale with e&</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          Geographic expansion starts only after all 6 agentic solutions are live and proven in the UAE (post-W30). AIdeology's role in each new market is strictly advisory: we transfer the capability to localise and fine-tune the platform to e&'s own team, so e& operates each new OpCo independently with no structural dependency on AIdeology.
+        </p>
+      </div>
+
+      {/* Build-first principle */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{padding:"20px 26px",borderRight:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Phase 0 — UAE build (W1–W36)</div>
+          <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>All 6 agents live and handed over before expansion</div>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>Customer, Sales, Comms, Finance, Ops and People agents are built, hardened (Wave 5 security audit), and fully transferred to e& UAE. The UAE deployment is the reference model — all future markets replicate a complete, hardened platform, not a work-in-progress version.</p>
+        </div>
+        <div style={{padding:"20px 26px"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:"#185FA5",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Phase 1+ — OpCo rollout (post-W30)</div>
+          <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>e& leads each market · AIdeology supports</div>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>e&'s own team localises the platform for each new OpCo — language, compliance, connectors, pricing. AIdeology provides the localisation playbook, fine-tuning methodology, and light-touch advisory. No hard dependency on AIdeology to enter a new market.</p>
+        </div>
+      </div>
+
+      {/* What AIdeology transfers */}
+      <div style={{padding:"18px 26px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:10}}>What AIdeology transfers to e& for OpCo independence</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:12}}>
+          {[
+            {t:"Market localisation playbook",d:"Step-by-step guide to adapt agents for a new language, dialect, culture, calendar and communication style."},
+            {t:"Fine-tuning methodology",d:"How to retrain prompts, adjust guardrails, update knowledge bases and validate agent quality for a new market — entirely by e&'s team."},
+            {t:"Compliance framework",d:"Template for mapping local data residency, labour law, tax, and regulatory requirements onto the platform's existing controls."},
+            {t:"Connector reuse guide",d:"Catalogue of existing connectors and how to adapt or extend them for local third-party tools without re-engineering from scratch."},
+          ].map((x,i)=><div key={i} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:14}}>
+            <div style={{fontSize:11.5,fontWeight:700,color:"#111",marginBottom:4}}>{x.t}</div>
+            <div style={{fontSize:11,color:"#666",lineHeight:1.5}}>{x.d}</div>
+          </div>)}
+        </div>
+      </div>
+
+      {/* OpCo rollout sequence */}
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              {["Phase","Market","Timing (post-launch)","Who drives","AIdeology role","Why this market"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {phase:"1",market:"UAE",timing:"W1–W36 (build + handoff)",driver:"AIdeology + e& UAE",role:"Primary builder & trainer",why:"Proof of model — 320k addressable SMBs. Reference deployment for all future markets.",color:BRAND.red},
+              {phase:"2",market:"Saudi Arabia",timing:"M1–M6 post-launch",driver:"e& KSA team",role:"Localisation advisory only",why:"Largest MENA market (2M+ SMBs), same language. e& team adapts Arabic dialect, VAT, ZATCA compliance.",color:"#185FA5"},
+              {phase:"3",market:"Morocco",timing:"M7–M12 post-launch",driver:"e& MAR team",role:"Remote advisory",why:"Francophone + Darija Arabic gateway. e& team localises language, telecom connectors, local payments.",color:"#004B2E"},
+              {phase:"4",market:"Egypt / Kuwait",timing:"M13–M18 post-launch",driver:"e& OpCo teams",role:"Playbook only",why:"High SMB density. e& teams run full localisation using the transferred methodology.",color:"#7A52F4"},
+              {phase:"5",market:"Remaining OpCos",timing:"M19+ post-launch",driver:"e& (fully independent)",role:"None required",why:"e& owns the capability. New markets follow the same playbook with no AIdeology involvement.",color:"#993C1D"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent"}}>
+              <td style={{padding:"12px 14px"}}><span style={{width:24,height:24,background:r.color,display:"inline-flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:10,fontWeight:700}}>{r.phase}</span></td>
+              <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.market}</td>
+              <td style={{padding:"12px 14px",color:"#555"}}>{r.timing}</td>
+              <td style={{padding:"12px 14px",fontWeight:700,color:i===0?BRAND.red:"#185FA5"}}>{r.driver}</td>
+              <td style={{padding:"12px 14px",color:i===0?"#555":BRAND.red,fontSize:11.5,fontWeight:i===0?400:700}}>{r.role}</td>
+              <td style={{padding:"12px 14px",color:"#666",fontSize:11.5,lineHeight:1.45}}>{r.why}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"16px 26px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`}}>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0}}>
+          <strong>The goal:</strong> by Phase 3, e&'s team can enter any new OpCo market without AIdeology involvement — using the transferred playbook, fine-tuning methodology, and connector library. AIdeology's value in expansion shifts from delivery to platform evolution and new agent innovation.
+        </p>
+      </div>
+    </Card>
+
+    </div>
+    </CollapsibleTimeline>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* SMB SUBSCRIPTION PRICING — PER-AGENT, 3 TIERS            */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>Recommended SMB subscription pricing</SH>
+    <Note label="Per-agent pricing model">
+      Each Agentic AI Solution is priced independently across three tiers — Spark, Scale and Command. SMBs subscribe to the agents they need, starting with one and expanding over time. All prices are in AED/month, benchmarked against UAE market competitors.
+    </Note>
+
+    {/* --- tier legend --- */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:18}}>
+      {[
+        {tier:"Spark",color:"#A16207",bg:"#FFF8E7",border:"#F4C842",desc:"Entry tier — core features, ideal for micro and small businesses starting with AI."},
+        {tier:"Scale",color:"#4338CA",bg:"#EEF2FF",border:"#8B7CF6",desc:"Growth tier — more capacity, integrations and multi-channel coverage for expanding teams."},
+        {tier:"Command",color:"#15803D",bg:"#F0FDF4",border:"#22C55E",desc:"Premium tier — unlimited usage, advanced features, custom workflows and dedicated support."},
+      ].map((t,i)=><div key={i} style={{background:t.bg,border:`2px solid ${t.border}`,borderRadius:0,padding:"16px 20px"}}>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:t.color,marginBottom:6}}>{t.tier}</div>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.55,margin:0}}>{t.desc}</p>
+      </div>)}
+    </div>
+
+    {/* --- per-agent pricing table --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>Per-agent pricing (AED/month)</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Prices validated against UAE market competitors. Recommendations applied from competitive audit.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Agentic AI Solution","","✦ Spark","◈ Scale","⬡ Command","Key differentiator vs competitors"].map((h,i)=><th key={i} style={{textAlign:i>1&&i<5?"center":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {icon:"🎯",n:"Customer Agent",s:"AED 199",sc:"AED 349",c:"AED 999",diff:"Arabic + voice + WhatsApp + web in one — no competitor bundles all three"},
+            {icon:"📈",n:"Sales Agent",s:"AED 149",sc:"AED 349",c:"AED 699",diff:"AI proposal drafting + WhatsApp sequences — HubSpot/Salesforce don't offer natively"},
+            {icon:"📡",n:"Comms Hub",s:"AED 99",sc:"AED 299",c:"AED 649",diff:"e& network-native SMS + WhatsApp BSP + AI copy — converts existing e& Smart Messaging users"},
+            {icon:"💰",n:"Finance Agent",s:"AED 199",sc:"AED 449",c:"AED 849",diff:"FTA-certified VAT + e& Pay WhatsApp payment links — unique in UAE market"},
+            {icon:"⚙️",n:"Ops Agent",s:"AED 149",sc:"AED 299",c:"AED 599",diff:"WhatsApp-native task notifications + AI workflows — cheaper than Monday/Asana for teams"},
+            {icon:"👥",n:"People Agent",s:"AED 199",sc:"AED 449",c:"AED 849",diff:"SIM-based attendance + WPS payroll + WhatsApp leave — no HR tool integrates e& SIM data"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.n}</td>
+            <td style={{padding:"6px 8px",fontSize:16,textAlign:"center"}}>{r.icon}</td>
+            <td style={{padding:"12px 14px",textAlign:"center",fontWeight:700,color:"#A16207",fontFamily:BRAND.font,background:"#FFFDF5"}}>{r.s}</td>
+            <td style={{padding:"12px 14px",textAlign:"center",fontWeight:700,color:"#4338CA",fontFamily:BRAND.font,background:"#F8F7FF"}}>{r.sc}</td>
+            <td style={{padding:"12px 14px",textAlign:"center",fontWeight:700,color:"#15803D",fontFamily:BRAND.font,background:"#F5FFF8"}}>{r.c}</td>
+            <td style={{padding:"12px 14px",color:"#777",fontSize:11.5,lineHeight:1.45}}>{r.diff}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* --- example monthly spend --- */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:16}}>
+      {[
+        {title:"Micro SMB (1–5 staff)",agents:"Customer Spark only",total:"AED 199",usd:"~$54",desc:"Receptionist agent handles calls, WhatsApp and web chat 24/7."},
+        {title:"Growing SMB (5–20 staff)",agents:"Customer Scale + Sales Spark + Comms Spark",total:"AED 697",usd:"~$190",desc:"Multi-channel customer service, CRM-connected sales follow-up, and unified comms."},
+        {title:"Established SMB (20–50 staff)",agents:"Customer Scale + Sales Scale + Finance Scale + Ops Spark",total:"AED 1,246",usd:"~$340",desc:"Full business operations layer — customer, sales, invoicing and task management."},
+      ].map((e,i)=><Card key={i} style={{padding:18,borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{fontSize:12,fontWeight:700,color:"#111",marginBottom:6}}>{e.title}</div>
+        <div style={{fontSize:11,color:"#777",lineHeight:1.5,marginBottom:10}}>{e.agents}</div>
+        <div style={{display:"flex",alignItems:"baseline",gap:6,marginBottom:8}}>
+          <span style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{e.total}</span>
+          <span style={{fontSize:12,color:"#999"}}>/mo ({e.usd})</span>
+        </div>
+        <p style={{fontSize:11.5,color:"#666",lineHeight:1.5,margin:0}}>{e.desc}</p>
+      </Card>)}
+    </div>
+
+    {/* --- ARPU calculation --- */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>ARPU growth trajectory</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>
+          ARPU grows as SMBs adopt more agents and upgrade tiers. Starting at <strong style={{color:BRAND.red}}>AED 285/mo</strong> (Year 1 — mostly single-agent Spark), rising to <strong style={{color:BRAND.red}}>AED 350/mo</strong> (Year 2 — 2+ agents) and <strong style={{color:BRAND.red}}>AED 420/mo</strong> (Year 3 — multi-agent Scale/Command adoption).
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,background:BRAND.border}}>
+        {[
+          {label:"Year 1 ARPU",value:"AED 285/mo",sub:"~$78 · 24K customers by EOY"},
+          {label:"Year 2 ARPU",value:"AED 350/mo",sub:"~$96 · 62K customers by EOY"},
+          {label:"Year 3 ARPU",value:"AED 420/mo",sub:"~$115 · 85K customers by EOY"},
+          {label:"Year 4+ ARPU",value:"AED 420+/mo",sub:"100K+ customers · stable"},
+        ].map((m,i)=><div key={i} style={{background:BRAND.white,padding:"18px 20px"}}>
+          <div style={{fontSize:10.5,color:BRAND.grey,fontWeight:700,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{m.label}</div>
+          <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,marginBottom:4}}>{m.value}</div>
+          <div style={{fontSize:11,color:"#999"}}>{m.sub}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <Note label="Annual contracts recommended">
+      Offer 2 months free for annual commitment — reduces churn, improves LTV, and aligns with enterprise procurement cycles. Monthly billing available for Spark tier only.
+    </Note>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* MARKET BENCHMARKS — PER AGENT                              */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>UAE market pricing benchmarks</SH>
+    <Note label="Competitive advantage">
+      No competitor in the UAE offers Arabic-first, multi-agent, telco-integrated AI for SMBs. Prices are benchmarked against single-function tools — e& bundles far more into each agent.
+    </Note>
+    <button
+      type="button"
+      onClick={() => setShowMarketBenchmarks((v) => !v)}
+      aria-expanded={showMarketBenchmarks}
+      style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,background:BRAND.white,border:`1px solid ${BRAND.border}`,borderLeft:`4px solid ${BRAND.red}`,padding:"16px 20px",marginBottom:showMarketBenchmarks?12:16,cursor:"pointer",textAlign:"left"}}
+    >
+      <div>
+        <div style={{fontSize:12,fontWeight:700,color:"#111",letterSpacing:"0.04em",textTransform:"uppercase",marginBottom:4}}>
+          {showMarketBenchmarks ? "Hide UAE competitor benchmarks" : "Show UAE competitor benchmarks"}
+        </div>
+        <div style={{fontSize:12,color:"#777",lineHeight:1.5}}>
+          Six agent categories, benchmarked against UAE and global SMB software alternatives.
+        </div>
+      </div>
+      <span style={{fontSize:20,fontWeight:700,color:BRAND.red,lineHeight:1}}>
+        {showMarketBenchmarks ? "−" : "+"}
+      </span>
+    </button>
+    {showMarketBenchmarks && [
+      {agent:"Customer Agent",icon:"🎯",comps:[
+        {c:"Ringly.io / similar",p:"AED 90–185",what:"AI voice receptionist (basic), 50–200 mins, no Arabic"},
+        {c:"WATI / BotPenguin",p:"AED 70–92",what:"WhatsApp AI starter, 1 number, no voice"},
+        {c:"SleekFlow Scale",p:"AED 700–1,300",what:"Omnichannel AI (WhatsApp + web + social)"},
+        {c:"Autometa AI (Dubai)",p:"AED 250–600 + setup",what:"Real estate vertical only"},
+        {c:"Moneypenny",p:"AED 550–2,000",what:"Voice only, no Arabic, UK-based"},
+      ]},
+      {agent:"Sales Agent",icon:"📈",comps:[
+        {c:"Zoho CRM Standard",p:"AED 51–73/user",what:"~AED 150–220/mo for 3 users, no AI"},
+        {c:"Pipedrive Essential",p:"AED 51/user",what:"~AED 153/mo for 3 users"},
+        {c:"HubSpot Starter",p:"AED 183/mo",what:"2 users, basic email sequences"},
+        {c:"Salesforce Starter",p:"AED 92/user",what:"~AED 275/mo for 3 users"},
+        {c:"Monday CRM Pro",p:"AED 220/user",what:"~AED 660/mo for 3 users"},
+      ]},
+      {agent:"Comms Hub",icon:"📡",comps:[
+        {c:"WATI Growth",p:"AED 220",what:"WhatsApp BSP, 500 convos/mo + Meta fees"},
+        {c:"MessageBird / Bird",p:"AED 183–1,100",what:"Omnichannel platform, Meta fees extra"},
+        {c:"Brevo (Sendinblue)",p:"AED 165–550",what:"Email + SMS campaigns"},
+        {c:"e& Smart Messaging",p:"AED 99–350",what:"SMS only, no AI, no WhatsApp"},
+        {c:"Go4whatsup Pro",p:"AED 550–1,100",what:"Full WhatsApp management"},
+      ]},
+      {agent:"Finance Agent",icon:"💰",comps:[
+        {c:"Zoho Books UAE",p:"AED 110–290",what:"Invoicing + VAT, FTA-certified, no AI"},
+        {c:"QuickBooks Online UAE",p:"AED 138–415",what:"Accounting + VAT, US-centric"},
+        {c:"Xero UAE",p:"AED 128–385",what:"Cloud accounting, no Arabic"},
+        {c:"FreshBooks UAE",p:"AED 55–275",what:"Invoicing + payments, limited VAT"},
+      ]},
+      {agent:"Ops Agent",icon:"⚙️",comps:[
+        {c:"Notion Business",p:"AED 58/user",what:"~AED 290/mo for 5 users, no AI workflows"},
+        {c:"Monday.com Pro",p:"AED 220/user",what:"~AED 1,100/mo for 5 users"},
+        {c:"ClickUp Business",p:"AED 44/user",what:"~AED 220/mo for 5 users, no Arabic AI"},
+        {c:"Asana Premium",p:"AED 176/user",what:"~AED 880/mo for 5 users"},
+      ]},
+      {agent:"People Agent",icon:"👥",comps:[
+        {c:"Zoho Payroll UAE",p:"AED 70–110",what:"WPS payroll + SIF, AED 7–11/employee"},
+        {c:"GulfHR",p:"AED 200–250",what:"Full HR + payroll, AED 20–25/employee"},
+        {c:"Bayzat",p:"AED 200–400",what:"HR + payroll + benefits, insurance bundle"},
+        {c:"greytHR UAE",p:"AED 60–150",what:"HR + payroll + compliance, AED 6–15/employee"},
+      ]},
+    ].map((a,ai)=><Card key={ai} style={{padding:0,overflow:"hidden",marginBottom:12}}>
+      <div style={{padding:"14px 20px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey,display:"flex",alignItems:"center",gap:10}}>
+        <span style={{fontSize:16}}>{a.icon}</span>
+        <span style={{fontSize:13,fontWeight:700,color:"#111"}}>{a.agent}</span>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5}}>
+        <thead>
+          <tr>
+            {["UAE competitor","Price (AED/mo)","What you get"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"8px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {a.comps.map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"8px 14px",fontWeight:600,color:"#111"}}>{r.c}</td>
+            <td style={{padding:"8px 14px",color:BRAND.red,fontWeight:600,fontFamily:"monospace",whiteSpace:"nowrap"}}>{r.p}</td>
+            <td style={{padding:"8px 14px",color:"#777"}}>{r.what}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>)}
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* e& BREAK-EVEN ANALYSIS                                     */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>e& break-even & scale economics</SH>
+    <Note label="Scale advantage">
+      With 24,000 customers by Year 1 and a 65/35 revenue split, e& retains the majority of SaaS revenue from day one. The declining rev-share means e& margins improve every year even before an acquisition.
+    </Note>
+
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>e& revenue share over time</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          e& keeps 65% of gross SaaS revenue in Years 1–2, rising to 72% in Year 3 and 80% in Year 4+. At scale, e& retains <strong style={{color:BRAND.red}}>AED 272M+ of AED 378M gross revenue</strong> by Year 3.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Year","Customers (EOY)","ARPU","Gross SaaS revenue","e& share","e& keeps","AIdeology share"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {y:"Year 1",cust:"24,000",arpu:"AED 285",gross:"AED 36.5M",ePct:"65%",eKeeps:"AED 23.7M",aPct:"35% (AED 12.8M)"},
+            {y:"Year 2",cust:"62,000",arpu:"AED 350",gross:"AED 154M",ePct:"65%",eKeeps:"AED 100.1M",aPct:"35% (AED 53.9M)"},
+            {y:"Year 3",cust:"85,000",arpu:"AED 420",gross:"AED 378M",ePct:"72%",eKeeps:"AED 272.2M",aPct:"28% (AED 105.8M)"},
+            {y:"Year 4+",cust:"100,000+",arpu:"AED 420+",gross:"AED 450M+",ePct:"80%",eKeeps:"AED 360M+",aPct:"20% (AED 90M)"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===2?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.y}</td>
+            <td style={{padding:"12px 14px",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font}}>{r.cust}</td>
+            <td style={{padding:"12px 14px",color:"#555",fontFamily:"monospace"}}>{r.arpu}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.gross}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:14}}>{r.ePct}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.eKeeps}</td>
+            <td style={{padding:"12px 14px",color:"#777"}}>{r.aPct}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:1,background:BRAND.border,border:`1px solid ${BRAND.border}`,overflow:"hidden",marginBottom:16}}>
+      {[
+        {label:"e& 3-year gross SaaS revenue",value:"AED 568.5M",sub:"~$155M across 3 years"},
+        {label:"e& 3-year retained revenue (after rev-share)",value:"AED 396M",sub:"~$108M · avg 70% retention"},
+        {label:"e& Year 4 annual run-rate",value:"AED 360M+",sub:"~$98M · 80% retained at scale"},
+      ].map((m,i)=><div key={i} style={{background:i===2?"#111":BRAND.white,padding:"22px 24px"}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:i===2?"rgba(255,255,255,0.5)":BRAND.grey,marginBottom:8}}>{m.label}</div>
+        <div style={{fontSize:24,fontWeight:700,color:i===2?BRAND.white:BRAND.red,fontFamily:BRAND.font,marginBottom:6}}>{m.value}</div>
+        <div style={{fontSize:11.5,color:i===2?"rgba(255,255,255,0.6)":"#999",lineHeight:1.5}}>{m.sub}</div>
+      </div>)}
+    </div>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* e& REVENUE FORECAST                                        */}
+    {/* ════════════════════════════════════════════════════════════ */}
     <SH>e& revenue forecast</SH>
     <ForecastTable color="#E00800" bgLight="#F5F5F5"
       rows={[
-        {s:"SMB subscriptions (gross)",y1:"$360K–$720K",y2:"$1.08M–$2.16M",y3:"$2.16M–$5.4M"},
-        {s:"Less: AIdeology rev-share (15%)",y1:"($54K–$108K)",y2:"($162K–$324K)",y3:"($324K–$810K)"},
-        {s:"Net subscription revenue",y1:"$306K–$612K",y2:"$918K–$1.84M",y3:"$1.84M–$4.59M"},
-        {s:"Connectivity upsell",y1:"$100K–$200K",y2:"$300K–$600K",y3:"$600K–$1.2M"},
-        {s:"Bundle premium",y1:"$50K–$100K",y2:"$150K–$300K",y3:"$300K–$600K"},
+        {s:"SMB subscriptions (gross SaaS)",y1:"AED 36.5M (~$10M)",y2:"AED 154M (~$42M)",y3:"AED 378M (~$103M)"},
+        {s:"Less: AIdeology rev-share",y1:"35% → AED 12.8M",y2:"35% → AED 53.9M",y3:"28% → AED 105.8M"},
+        {s:"e& net SaaS revenue",y1:"AED 23.7M (~$6.5M)",y2:"AED 100.1M (~$27.3M)",y3:"AED 272.2M (~$74.3M)"},
+        {s:"Connectivity upsell (Toll Free, SMS, WhatsApp)",y1:"AED 5M (~$1.4M)",y2:"AED 15M (~$4.1M)",y3:"AED 30M (~$8.2M)"},
       ]}
-      totalRow={{y1:"$456K–$912K",y2:"$1.37M–$2.74M",y3:"$2.74M–$6.39M"}}
-      assumptions={["500 subs Y1→1,500 Y2→3,000+ Y3","ARPU $60/mo avg","15% mid-range rev-share","20–30% take connectivity bundles","Churn ~5%→3%/mo"]}
+      totalRow={{y1:"AED 28.7M (~$7.8M)",y2:"AED 115.1M (~$31.4M)",y3:"AED 302.2M (~$82.5M)"}}
+      assumptions={["24K subs Y1 → 62K Y2 → 85K Y3 → 100K+ Y4","ARPU AED 285 → 350 → 420 (agent & tier expansion)","Rev-share 65/35 (Y1–2) → 72/28 (Y3) → 80/20 (Y4+)","Connectivity bundle uptake grows with subscriber base"]}
     />
-    <Note label="Agreement structure">24-month partnership with minimum implementation fee commitment and rev-share floor. After Phase 3, e& retains full IP ownership of SDD specs, blueprints, and agent configurations and can scale independently. AIdeology remains invested via rev-share — incentives aligned with marketplace success.</Note>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* WHY e& IS UNIQUELY POSITIONED                              */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>Why e& wins this market</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:1,background:BRAND.border,border:`1px solid ${BRAND.border}`,overflow:"hidden",marginBottom:16}}>
+      {[
+        {icon:"📱",label:"320K+ paying SMBs",desc:"Existing customer base already on monthly billing. No competitor starts with a captive audience this large."},
+        {icon:"🧾",label:"Monthly invoice relationship",desc:"Adding AI to an existing bill is frictionless. Zero marginal CAC for customers 1 through 320K."},
+        {icon:"📡",label:"Network moat",desc:"Toll Free 800, SMS, SIM identity, CloudTalk PBX — e& owns the infrastructure layer that makes voice + WhatsApp agents possible."},
+        {icon:"🔒",label:"Trust & compliance",desc:"UAE businesses already trust e& with their communications. Sovereign data, local compliance and Arabic-first are not optional — they're expected."},
+        {icon:"🌍",label:"18 OpCos to scale",desc:"Saudi, Morocco, Egypt, Kuwait and 14 more markets. Once all 6 agents are live in UAE, e&'s own team localises and deploys to each new OpCo — no rebuild, no AIdeology dependency."},
+      ].map((c,i)=><div key={i} style={{background:BRAND.white,padding:"20px 22px"}}>
+        <div style={{fontSize:20,marginBottom:8}}>{c.icon}</div>
+        <div style={{fontSize:12,fontWeight:700,color:"#111",marginBottom:6}}>{c.label}</div>
+        <p style={{fontSize:11.5,color:"#777",lineHeight:1.5,margin:0}}>{c.desc}</p>
+      </div>)}
+    </div>
+    <Note label="The strategic position">
+      No other competitor can offer pre-built, evolving AI agents bundled on a monthly invoice. Copilot makes you build your own. Aleria tries to be ready-made but lacks the network. Standalone SaaS tools are isolated and don't talk to each other. e& + AIdeology together have the moat: e& can't build AI fast enough, AIdeology can't reach 320K SMBs. Together, the combination is defensible.
+    </Note>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* KEY ASSUMPTIONS & SENSITIVITIES                            */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <SH>Key assumptions & sensitivities</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"16px 20px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+          <div style={{fontSize:12,fontWeight:700,color:"#111"}}>Core assumptions</div>
+        </div>
+        <div style={{padding:"16px 20px"}}>
+          {[
+            {k:"Trial-to-paid conversion",v:"12%",note:"Achievable given e& invoice relationship — no new payment setup required"},
+            {k:"Monthly churn",v:"4–5%",note:"Higher than enterprise SaaS (price-sensitive SMBs) but lower than expected (network switching cost)"},
+            {k:"ARPU growth driver",v:"Agent & tier expansion",note:"SMBs start with 1 agent at Spark, expand to 2–3 agents at Scale over 12 months"},
+            {k:"COGS per customer",v:"~AED 25/mo",note:"LLM ~AED 10 + support ~AED 12 + engineering ~AED 2–3"},
+            {k:"e& addressable base",v:"320K–340K paying SMBs",note:"Current UAE telco base. 1M total UAE businesses."},
+          ].map((a,i)=><div key={i} style={{padding:"8px 0",borderBottom:i<4?`1px solid ${BRAND.border}`:"none"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:3}}>
+              <span style={{fontSize:12,fontWeight:600,color:"#111"}}>{a.k}</span>
+              <span style={{fontSize:12,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{a.v}</span>
+            </div>
+            <div style={{fontSize:11,color:"#999",lineHeight:1.4}}>{a.note}</div>
+          </div>)}
+        </div>
+      </Card>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"16px 20px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+          <div style={{fontSize:12,fontWeight:700,color:"#111"}}>What breaks the model — and what to watch</div>
+        </div>
+        <div style={{padding:"16px 20px"}}>
+          {[
+            {signal:"Adoption < 20K by Month 12",risk:"High",action:"Review GTM strategy — product may not resonate with e& SMB segment",color:"#E00800"},
+            {signal:"Monthly churn > 6%",risk:"High",action:"Product issues — deploy NPS diagnostics and rapid feature fixes",color:"#E00800"},
+            {signal:"ARPU stays below AED 250",risk:"Medium",action:"Multi-agent bundles not working — revisit vertical packaging",color:"#A16207"},
+            {signal:"e& team ramp slower than plan",risk:"Medium",action:"Extend AIdeology training commitment; delay rev-share transition",color:"#A16207"},
+          ].map((s,i)=><div key={i} style={{padding:"10px 0",borderBottom:i<3?`1px solid ${BRAND.border}`:"none"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+              <span style={{fontSize:10,fontWeight:700,color:BRAND.white,background:s.color,padding:"2px 8px",letterSpacing:"0.04em",textTransform:"uppercase"}}>{s.risk}</span>
+              <span style={{fontSize:12,fontWeight:600,color:"#111"}}>{s.signal}</span>
+            </div>
+            <div style={{fontSize:11,color:"#777",lineHeight:1.4}}>{s.action}</div>
+          </div>)}
+        </div>
+        <div style={{padding:"14px 20px",borderTop:`1px solid ${BRAND.border}`,background:"#F0FDF4"}}>
+          <div style={{fontSize:11,fontWeight:600,color:"#15803D"}}>Upside accelerators</div>
+          <div style={{fontSize:11.5,color:"#555",lineHeight:1.5,marginTop:4}}>
+            Adoption reaches 50K by Month 12 → Y3 revenue doubles to AED 700M+. ARPU hits AED 500+ → margin expansion to 80%+. Expand to 5 e& OpCos → addressable market 5x larger (2M+ SMBs).
+          </div>
+        </div>
+      </Card>
+    </div>
+
+    {/* ════════════════════════════════════════════════════════════ */}
+    {/* AGREEMENT STRUCTURE                                        */}
+    {/* ════════════════════════════════════════════════════════════ */}
+    <Note label="Agreement structure">
+      4-year minimum partnership. Build-then-transfer model: AIdeology builds and trains, e& progressively takes ownership. Agent IP transfers to e& by end of Year 2. Platform IP remains AIdeology property (non-exclusive license to e&). 65/35 revenue share declining to 80/20 as e& team ramps. Years 1–3 L3 platform support is included in the fixed Wave 1–5 platform + agent pricing and commercially covered within the AIdeology revenue share, with no separate support invoice during the transition period. Year 3–4 acquisition trigger: by then e& owns agents, customers and infrastructure — paying 20% forever becomes more expensive than a one-time buyout. Platform valuation at acquisition: AED 1.5B–2.5B.
+    </Note>
   </div>;
 }
 
@@ -662,7 +2084,7 @@ function GPUSegment() {
       <div style={{display:"grid",gridTemplateColumns:"1.3fr repeat(3, 1fr)",background:BRAND.black,color:BRAND.white}}>
         {[
           {k:"Roadmap",v:"Same foundations. No rewrites."},
-          {k:"Phase 0 · 30 days",v:"SMB launch · marketplace live · 2–4 agents"},
+          {k:"Phase 0 · 30 days",v:"SMB launch · base platform + Customer Agent"},
           {k:"Phase 1 · 90 days",v:"Enterprise · multi-tier runtime · formal compliance"},
           {k:"Phase 2 · 180 days",v:"Public sector · sovereign deployments · high assurance"},
         ].map((p,i)=><div key={i} style={{padding:"18px 20px",borderRight:i<3?"1px solid rgba(255,255,255,0.14)":"none"}}>
@@ -829,9 +2251,21 @@ function GPUSegment() {
 /* ════════════════════════════════════════════════════════════ */
 /* SUMMARY */
 /* ════════════════════════════════════════════════════════════ */
+const MaturityWidget = ({level,compact=false}) => {
+  const active = level===3 ? BRAND.red : "#8DBA2B";
+  const Tag = compact ? "span" : "div";
+  return <Tag style={{display:compact?"inline-flex":"flex",alignItems:"center",gap:6,marginTop:compact?0:8}}>
+    <span style={{display:"inline-flex",alignItems:"flex-end",gap:3}}>
+      {[1,2,3].map(n=><span key={n} style={{width:5,height:5+n*3,borderRadius:1,background:n<=level?active:BRAND.border,opacity:n<=level?1:0.45,display:"inline-block"}}/>)}
+    </span>
+    <span style={{fontSize:10,fontWeight:700,color:level===3?BRAND.red:"#6fa31d",letterSpacing:"0.06em"}}>L{level}</span>
+  </Tag>;
+};
+
 function SummarySection() {
   const thStyle = {textAlign:"left",padding:"10px 14px",fontSize:10,fontWeight:600,color:"#999",letterSpacing:"0.06em",textTransform:"uppercase"};
   const tdStyle = {padding:"12px 14px",fontSize:12,color:"#666",borderBottom:"1px solid #f0f0f0"};
+  const matrixStickyTop = 128;
   return <div style={{padding:"44px 0 0"}}>
     <SH>Consolidated summary</SH>
     <div style={{overflowX:"auto",marginBottom:32}}>
@@ -844,7 +2278,7 @@ function SummarySection() {
         </tr></thead>
         <tbody>
           {[
-            {d:"What we build",a:"AI marketplace + 5–6 SDD-specified agents",b:"Custom AI + adapted agents + on-prem infra",c:"GPU infra, middleware & SDD platform"},
+            {d:"What we build",a:"AI platform + first Customer Agent, then 2-agent parallel waves",b:"Custom AI + adapted agents + on-prem infra",c:"GPU infra, middleware & SDD platform"},
             {d:"Core tech",a:"SDD specs and blueprints, multi-tenant platform",b:"Agent orchestration, ERP/CRM integration, sovereign",c:"K8s/Slurm, vLLM/TGI, SDD agent builder"},
             {d:"Timeline",a:"60–90 days",b:"8–20 weeks per project",c:"6 months full platform"},
             {d:"Upfront fee",a:"$150K–$250K",b:"$300K–$600K cloud · $600K–$1M sovereign/on-prem",c:"$300K–$600K build"},
@@ -916,6 +2350,58 @@ function SummarySection() {
       </Card>)}
     </div>
 
+    <SH id="platform-evolution-matrix">Platform evolution matrix</SH>
+    <Note label="Same architecture · deeper capability">The platform does not get rebuilt for each segment. It starts with a fast SMB launch, then the P1 enterprise-readiness layer is deployed during SMB Wave 2: automation, compliance, auditability, RBAC and operational guardrails. Later enterprise and public-sector offers reuse the same platform foundations rather than creating a second architecture.</Note>
+    <Card style={{padding:0,overflow:"visible",marginBottom:16}}>
+      <div style={{position:"sticky",top:matrixStickyTop,zIndex:35,padding:"16px 20px",background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`,borderTop:`1px solid ${BRAND.border}`,boxShadow:"0 8px 18px -16px rgba(17,17,17,0.35)"}}>
+        <div style={{display:"grid",gridTemplateColumns:"1.4fr repeat(3, 1fr)",gap:12,alignItems:"center"}}>
+          {[
+            ["Roadmap","Three phases · same foundations · no rewrites"],
+            ["P0 · 30 days","SMB platform · Customer Agent · self-service"],
+            ["P1 · 90 days","Wave 2 layer · automation · compliance"],
+            ["P2 · 180 days","Government · sovereign · high assurance"],
+          ].map((p,i)=><div key={i}>
+            <div style={{fontSize:10,fontWeight:700,color:i===0?BRAND.grey:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>{p[0]}</div>
+            <div style={{fontSize:12.5,fontWeight:600,color:BRAND.black,lineHeight:1.35}}>{p[1]}</div>
+          </div>)}
+        </div>
+      </div>
+      <div style={{overflowX:"auto",overflowY:"visible"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:920}}>
+          <tbody>
+            {[
+              {group:"Scale & unit economics"},
+              {c:"LLM Gateway",b:"Cost control · vendor independence · resilience",p0:"Multi-provider routing · virtual keys · basic budgets",p1:"Prompt versioning · semantic cache · A/B testing",p2:"Sovereign vLLM · regional routing · full model-call audit"},
+              {c:"Idle & runtime strategy",b:"SMB unit economics when thousands of agents sit idle",p0:"Shared runtime pool for SMB tenants",p1:"Dedicated pod with scaling-to-zero",p2:"Kernel-sandboxed runtime · hibernation · cryptographic isolation"},
+              {c:"Agent Template Instancer",b:"Self-service at scale · agent launch in hours",p0:"Provisioning service · queue · rollback · Helm templates",p1:"K8s Operator · signed OCI templates · blue/green upgrades",p2:"Third-party publishing · mandatory signing · central review"},
+              {group:"Compliance & governance"},
+              {c:"Trust Tiers framework",b:"One platform for SMB, Enterprise and Government",p0:"T1 logical multi-tenancy · ISO/SOC/NESA baseline",p1:"T1 + T2 · enterprise compliance selectable per tenant",p2:"T3 + T4 · NESA P1-P4 · ISO 42001 · HSM / air-gap"},
+              {c:"Audit trail & guardrails",b:"Pass audits · reduce legal risk · enter public sector",p0:"Append-only audit log · PII redaction · gateway filter",p1:"Immutable event stream · jailbreak detection · policy versions",p2:"National-grade retention · evidence packs · classified redaction"},
+              {group:"Observability & operations"},
+              {c:"Unified observability",b:"Defensible SLAs · cost control · proactive support",p0:"Langfuse traces · Prometheus / Grafana · basic alerts",p1:"Distributed tracing · SLOs · tenant cost dashboards",p2:"Sovereign observability · regulator-ready dashboards"},
+              {c:"Provisioning resilience",b:"Marketplace survives demand spikes",p0:"Worker pool · idempotency · healthcheck · rollback",p1:"K8s Operator · GitOps · Temporal workflows",p2:"Multi-cluster federation · regional failover · change control"},
+              {group:"Sovereignty & agnosticism"},
+              {c:"Cloud-agnostic & sovereign-ready",b:"Vendor leverage · public sector without rebuilds",p0:"Single managed K8s · open-source pieces self-hosted",p1:"Multi-cloud manifests · regional failover · Vault HA",p2:"OpenShift / RKE2 · HSM · air-gap · full data residency"},
+            ].map((r,i)=>r.group?<tr key={i}>
+              <td colSpan={5} style={{padding:"10px 14px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`,fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase"}}>{r.group}</td>
+            </tr>:<tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black}}>{r.c}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey,lineHeight:1.45}}>{r.b}</td>
+              <td style={{padding:"12px 14px",color:BRAND.black,lineHeight:1.45,verticalAlign:"top"}}><div>{r.p0}</div><MaturityWidget level={1}/></td>
+              <td style={{padding:"12px 14px",color:BRAND.black,lineHeight:1.45,verticalAlign:"top"}}><div>{r.p1}</div><MaturityWidget level={2}/></td>
+              <td style={{padding:"12px 14px",color:BRAND.black,lineHeight:1.45,verticalAlign:"top"}}><div>{r.p2}</div><MaturityWidget level={3}/></td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"14px 18px",borderTop:`1px solid ${BRAND.border}`,display:"flex",gap:18,flexWrap:"wrap",alignItems:"center",background:BRAND.white}}>
+        <span style={{fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase"}}>Level of maturity</span>
+        <span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11.5,color:BRAND.grey}}><MaturityWidget level={1} compact/> minimum viable</span>
+        <span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11.5,color:BRAND.grey}}><MaturityWidget level={2} compact/> enterprise-ready</span>
+        <span style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:11.5,color:BRAND.grey}}><MaturityWidget level={3} compact/> sovereign / high-assurance</span>
+      </div>
+    </Card>
+
     <SH>Operating reality e& must run on</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:12,marginBottom:16}}>
       {[
@@ -960,7 +2446,7 @@ function SummarySection() {
     <SH>90-day validation metrics</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(250px, 1fr))",gap:12,marginBottom:16}}>
       {[
-        {v:"teal",t:"SMB Marketplace",items:["5–6 live agent blueprints","10–20 reference SMBs onboarded","First paid subscriptions active","Activation time under 48 hours","Arabic/English quality benchmark approved"]},
+        {v:"teal",t:"SMB Marketplace",items:["Base platform live","Customer Agent in production","10–20 reference SMBs onboarded","First paid subscriptions active","Sales + Comms wave ready to start","Arabic/English quality benchmark approved"]},
         {v:"violet",t:"Enterprise & Government",items:["3 priority vertical offers packaged","5–10 qualified e& account opportunities","1–2 paid discovery or pilot engagements","Security/compliance template agreed","Delivery pod and escalation model defined"]},
         {v:"rose",t:"GPUaaS & Platform",items:["GPUaaS reference architecture approved","Vendor shortlist and sizing model complete","MVP platform scope locked","Billing and metering model defined","First sovereign AI workload selected"]},
       ].map((m,i)=><Card key={i} style={{padding:18}}>
@@ -992,6 +2478,208 @@ function SummarySection() {
         <span style={{width:24,height:24,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:BRAND.white,flexShrink:0}}>{i+1}</span>
         <span style={{fontSize:13,color:"#555",lineHeight:1.5,paddingTop:2}}>{s}</span>
       </div>)}
+    </Card>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/* ECOSYSTEM */
+/* ════════════════════════════════════════════════════════════ */
+const ECOSYSTEM_LAYERS = [
+  {k:"01",t:"Market owner",n:"e&",d:"Customers · channels · billing · account control",items:["SMB base","Enterprise accounts","Government access","OpCo expansion"]},
+  {k:"02",t:"Platform builder",n:"AIdeology",d:"SDD · agent factory · delivery system",items:["Agent blueprints","Spec-driven delivery","Core platform","Quality governance"]},
+  {k:"03",t:"Compute layer",n:"e& DCs · Core42 · NVIDIA · OEMs",d:"GPUaaS · sovereign hosting · reference architectures",items:["RTX PRO","HGX","NVL72","Dell · Cisco · HPE · Lenovo · Supermicro"]},
+  {k:"04",t:"Model layer",n:"OpenAI · Anthropic · Google · open-source",d:"Model routing by cost, latency, risk and task",items:["Premium LLMs","Cost models","Open-source","Customer models"]},
+  {k:"05",t:"Data layer",n:"Customer systems · CRM · ERP · vertical software",d:"The business context that makes agents useful",items:["Salesforce","Dynamics","Booking systems","Industry tools"]},
+  {k:"06",t:"Developer layer",n:"AIdeology · e& · partners",d:"Reusable solutions built once and localised many times",items:["Core team","e& platform team","Certified partners","Vertical developers"]},
+  {k:"07",t:"Go-to-market layer",n:"e& B2B · OpCos · SI partners",d:"Packaging, sales, onboarding and managed service",items:["Bundles","Channel enablement","Customer onboarding","Support"]},
+  {k:"08",t:"Customer layer",n:"SMB · Enterprise · Government",d:"Adopt agents, consume compute, fund expansion",items:["Monthly agents","Custom builds","Sovereign AI","GPUaaS"]},
+];
+
+const ECOSYSTEM_ROLES = [
+  ["e&","Own demand","Customer base · sales teams · contracts · billing"],
+  ["AIdeology","Own product method","SDD · templates · agent roadmap · delivery quality"],
+  ["Core42 / G42","Own sovereign AI cloud option","GPU capacity · regulated hosting · UAE AI credibility"],
+  ["NVIDIA","Own reference stack","Enterprise RAs · NIM · AI Enterprise · GPU architecture"],
+  ["OEMs","Own hardware BoM","Dell · Cisco · HPE · Lenovo · Supermicro validated designs"],
+  ["LLM vendors","Own model choice","OpenAI · Anthropic · Google · Cohere · open-source"],
+  ["System integrators","Own rollout capacity","Implementation · migration · local delivery support"],
+  ["Vertical software partners","Own industry connectors","Restaurants · clinics · real estate · finance · retail"],
+  ["Certified developers","Own long-tail supply","New templates · connectors · localisation · maintenance"],
+  ["Customers","Own use cases and data","Workflows · approvals · integrations · success metrics"],
+];
+
+const SCALE_VELOCITY_STAGES = [
+  {v:"10–30%",t:"Individual velocity",d:"Copilot-style assistants improve personal output.",m:"Code completion · drafts · summaries"},
+  {v:"60–80%",t:"Agentic velocity",d:"Specialised agents complete contained tasks.",m:"Tests · bug fixes · docs · analysis"},
+  {v:"Up to 500%",t:"Systemic velocity",d:"Multiple agents run workflows end-to-end.",m:"Roadmap → design → build → test → release"},
+  {v:"1000x",t:"Moonshot velocity",d:"The ecosystem compounds across markets, developers, agents and compute.",m:"One platform → many industries → many OpCos → many builders"},
+];
+
+function EcosystemSection() {
+  return <div style={{padding:"40px 0"}}>
+    <Badge v="rose">Scale velocity in AI</Badge>
+    <h2 style={{fontSize:34,fontWeight:700,color:BRAND.black,margin:"14px 0 12px",lineHeight:1.05,maxWidth:760}}>A moonshot ecosystem for AI scale</h2>
+    <p style={{fontSize:15,color:BRAND.grey,lineHeight:1.55,maxWidth:820,marginBottom:18}}>Scale velocity is the speed at which an organisation moves from AI pilots to enterprise-wide workflows that create measurable value. This is not a 10x productivity plan. It is a 1000x platform ambition: agents, developers, data, compute and distribution compounding through e&.</p>
+    <div style={{height:4,width:180,background:BRAND.continuum,marginBottom:6}}/>
+
+    <SH>Velocity thesis</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:12,marginBottom:14}}>
+      {SCALE_VELOCITY_STAGES.map((s,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0}}>
+        <div style={{padding:"16px 18px",background:i===2?BRAND.red:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:26,fontWeight:700,color:i===2?BRAND.white:BRAND.red,lineHeight:1}}>{s.v}</div>
+          <div style={{fontSize:11,fontWeight:700,color:i===2?BRAND.white:BRAND.black,letterSpacing:"0.06em",textTransform:"uppercase",marginTop:8}}>{s.t}</div>
+        </div>
+        <div style={{padding:18}}>
+          <p style={{fontSize:12.5,color:BRAND.black,lineHeight:1.5,margin:"0 0 10px"}}>{s.d}</p>
+          <div style={{fontSize:11,color:BRAND.grey,lineHeight:1.45}}>{s.m}</div>
+        </div>
+      </Card>)}
+    </div>
+
+    <SH>Moonshot logic</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(190px, 1fr))"}}>
+        {[
+          ["10x","Better tools","One person works faster."],
+          ["100x","Agent factory","Many agents automate repeatable workflows."],
+          ["1000x","Ecosystem compounding","Many builders ship many agents into many markets."],
+          ["e& role","Scale engine","Distribution, trust, billing, cloud and OpCos turn invention into adoption."],
+        ].map((x,i)=><div key={i} style={{padding:"20px",background:i===2?BRAND.red:BRAND.white,borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:24,fontWeight:700,color:i===2?BRAND.white:BRAND.red,lineHeight:1,marginBottom:10}}>{x[0]}</div>
+          <div style={{fontSize:13,fontWeight:700,color:i===2?BRAND.white:BRAND.black,marginBottom:6}}>{x[1]}</div>
+          <div style={{fontSize:11.5,color:i===2?"rgba(255,255,255,0.78)":BRAND.grey,lineHeight:1.45}}>{x[2]}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Why the ecosystem exists</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(210px, 1fr))"}}>
+        {[
+          ["Data foundation","Connect the silos before agents can act."],
+          ["Agentic orchestration","Move from isolated copilots to managed workflows."],
+          ["Integrated testing","Run validation in parallel with AI-generated change."],
+          ["Governance first","Avoid BYOAI, shadow tools, risk and technical debt."],
+          ["Learning velocity","Turn feedback into better products faster."],
+        ].map((x,i)=><div key={i} style={{padding:"18px 20px",borderRight:i<4?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:12,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x[0]}</div>
+          <div style={{fontSize:12.5,color:BRAND.black,lineHeight:1.5}}>{x[1]}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Ecosystem map · scale velocity stack</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(230px, 1fr))",gap:10,marginBottom:16}}>
+      {ECOSYSTEM_LAYERS.map((x,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0}}>
+        <div style={{padding:"14px 16px",background:i===0?BRAND.red:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+            <span style={{fontSize:11,fontWeight:700,color:i===0?BRAND.white:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase"}}>{x.k} · {x.t}</span>
+            <span style={{fontSize:16,fontWeight:700,color:i===0?BRAND.white:BRAND.black}}>{i<ECOSYSTEM_LAYERS.length-1?"→":"✓"}</span>
+          </div>
+        </div>
+        <div style={{padding:16}}>
+          <h4 style={{fontSize:15,fontWeight:700,color:BRAND.black,margin:"0 0 6px"}}>{x.n}</h4>
+          <p style={{fontSize:12,color:BRAND.grey,lineHeight:1.45,margin:"0 0 12px"}}>{x.d}</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+            {x.items.map((it,j)=><span key={j} style={{fontSize:10.5,fontWeight:700,color:BRAND.black,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,padding:"4px 7px"}}>{it}</span>)}
+          </div>
+        </div>
+      </Card>)}
+    </div>
+
+    <SH>Operating flow · governed agentic workflow</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(150px, 1fr))"}}>
+        {[
+          ["1","Define","Use case · data · KPIs"],
+          ["2","Build","SDD spec · agent · tests"],
+          ["3","Certify","Security · quality · reusable IP"],
+          ["4","Package","SMB bundle · enterprise offer"],
+          ["5","Sell","e& channel · OpCos · partners"],
+          ["6","Deploy","Cloud · G42 · on-prem"],
+          ["7","Improve","Connectors · prompts · models"],
+        ].map((s,i)=><div key={i} style={{padding:"18px 16px",borderRight:i<6?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{width:26,height:26,background:BRAND.red,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,marginBottom:10}}>{s[0]}</div>
+          <div style={{fontSize:14,fontWeight:700,color:BRAND.black,marginBottom:5}}>{s[1]}</div>
+          <div style={{fontSize:11.5,color:BRAND.grey,lineHeight:1.45}}>{s[2]}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Velocity gap</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"The gap",d:"Employees adopt AI faster than enterprises enable it."},
+        {t:"The risk",d:"BYOAI creates security exposure, fragmented workflows and technical debt."},
+        {t:"The answer",d:"Governance-first architecture: supervised agents, approved data, tested outputs."},
+      ].map((x,i)=><Card key={i} style={{padding:18,background:i===1?BRAND.lightGrey:BRAND.white}}>
+        <Badge v={i===1?"rose":"default"}>{x.t}</Badge>
+        <p style={{fontSize:13,color:BRAND.black,lineHeight:1.55,margin:"12px 0 0"}}>{x.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Role matrix</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:720}}>
+          <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+            {["Actor","Primary role","What they provide"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {ECOSYSTEM_ROLES.map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{r[0]}</td>
+              <td style={{padding:"12px 16px",color:BRAND.red,fontWeight:700}}>{r[1]}</td>
+              <td style={{padding:"12px 16px",color:BRAND.grey}}>{r[2]}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <SH>Developer model · from copilot to agent factory</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(250px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"Core build",o:"AIdeology",d:"Platform, first agents, SDD specs, reference connectors."},
+        {t:"Internal scale",o:"e& platform team",d:"Own roadmap, approvals, customer onboarding, operations."},
+        {t:"Certified partner network",o:"SIs + developers",d:"Vertical templates, local integrations, OpCo rollouts."},
+        {t:"Marketplace supply",o:"Customers + partners",d:"Reusable connectors and agents approved into the catalog."},
+      ].map((c,i)=><Card key={i} style={{padding:18}}>
+        <Badge v="rose">{c.t}</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:BRAND.black,margin:"10px 0 6px"}}>{c.o}</h4>
+        <p style={{fontSize:12.5,color:BRAND.grey,lineHeight:1.55,margin:0}}>{c.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Metrics · from velocity to vector</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))"}}>
+        {[
+          ["Old metric","Story points · PR count · tickets closed"],
+          ["New metric","Learning velocity · experiment cycle time · time-to-value"],
+          ["Vector metric","Speed + direction toward strategic outcomes"],
+          ["e& measure","Revenue impact · adoption · reuse · compliance · customer retention"],
+        ].map((x,i)=><div key={i} style={{padding:"18px 20px",borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:11,fontWeight:700,color:i===0?BRAND.grey:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x[0]}</div>
+          <div style={{fontSize:13,color:BRAND.black,lineHeight:1.5}}>{x[1]}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Commercial logic · monetise velocity</SH>
+    <Card style={{background:BRAND.lightGrey,padding:20}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:12}}>
+        {[
+          ["Build once","Core IP funded by first deployments"],
+          ["Reuse many times","Templates and connectors move across sectors"],
+          ["Sell through e&","Channel lowers acquisition cost"],
+          ["Host sovereign","e& / Core42 keep regulated workloads local"],
+          ["Share upside","Platform, services, compute and rev-share compound"],
+        ].map((x,i)=><div key={i} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:14}}>
+          <div style={{fontSize:12,fontWeight:700,color:BRAND.black,marginBottom:5}}>{x[0]}</div>
+          <div style={{fontSize:11.5,color:BRAND.grey,lineHeight:1.45}}>{x[1]}</div>
+        </div>)}
+      </div>
     </Card>
   </div>;
 }
@@ -1276,7 +2964,7 @@ function HPCSection() {
     <SH>How this maps to the e& proposal</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
       {[
-        {t:"SMB inference fleet",p:"RTX PRO AI Factory · 2-8-5-200",d:"Start at 1 SU (4 nodes / 32 GPUs) for Phase 1 SMB agents. Scale to 8 SUs (32 nodes / 256 GPUs) — the pattern's full tested range — as the agent fleet grows. Spectrum-X 200 GbE per GPU. Lowest-cost entry into the NVIDIA AI Enterprise stack."},
+        {t:"SMB inference fleet",p:"RTX PRO AI Factory · 2-8-5-200",d:"Start at 1 SU (4 nodes / 32 GPUs) for the Phase 0 SMB platform and Customer Agent. Scale to 8 SUs (32 nodes / 256 GPUs) — the pattern's full tested range — as the platform-centric agent fleet grows. Spectrum-X 200 GbE per GPU. Lowest-cost entry into the NVIDIA AI Enterprise stack."},
         {t:"Enterprise & sovereign training",p:"HGX AI Factory · 2-8-9-400",d:"The default GPUaaS pillar build-out. Land at the standard 8-SU / 32-node / 256-GPU HGX H200/B200 pod across e& and Core42 data centres, then scale to the 32-SU / 128-node / 1,024-GPU fully tested ceiling for fine-tuning, RAG at scale, and regulated-customer training."},
         {t:"Government / frontier",p:"NVL72 AI Factory · 2-8-9-800",d:"Reserved for sovereign frontier-model and large-government workloads. GB300 NVL72 racks (72-GPU NVLink domain each) with 800 GbE per GPU East-West fabric. Phased deployment after Phase 1 demand validates."},
       ].map((c,i)=><Card key={i} style={{padding:18}}>
@@ -1291,14 +2979,790 @@ function HPCSection() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* AI CHAT ASSISTANT */
+/* ════════════════════════════════════════════════════════════ */
+const ChatIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>;
+const SendIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>;
+const CloseIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const SettingsIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68 1.65 1.65 0 0 0 10 3.17V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>;
+
+const SEARCH_STOPWORDS = new Set(["the", "a", "an", "and", "or", "to", "of", "in", "on", "for", "with", "from", "is", "are", "was", "were", "be", "as", "by", "at", "it", "this", "that", "about", "into", "than", "then"]);
+
+function tokenizeQuery(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((t) => t.length > 2 && !SEARCH_STOPWORDS.has(t));
+}
+
+function buildChunks(corpusText, maxChunkLen = 900) {
+  if (!corpusText) return [];
+  const paragraphs = corpusText
+    .split(/\n+/)
+    .map((p) => p.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+  const chunks = [];
+  let current = "";
+  paragraphs.forEach((p) => {
+    if ((current + " " + p).length > maxChunkLen && current) {
+      chunks.push(current);
+      current = p;
+    } else {
+      current = current ? `${current}\n${p}` : p;
+    }
+  });
+  if (current) chunks.push(current);
+  return chunks;
+}
+
+function selectRelevantChunks(corpusText, query, maxResults = 6) {
+  const terms = tokenizeQuery(query);
+  const chunks = buildChunks(corpusText);
+  if (!terms.length || !chunks.length) return chunks.slice(0, maxResults);
+
+  const scored = chunks
+    .map((chunk) => {
+      const text = chunk.toLowerCase();
+      let score = 0;
+      terms.forEach((term) => {
+        if (text.includes(term)) score += 1;
+        const phrase = `${term} `;
+        if (text.includes(phrase)) score += 0.5;
+      });
+      return { chunk, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (!scored.length) return chunks.slice(0, maxResults);
+  return scored.slice(0, maxResults).map((x) => x.chunk);
+}
+
+function AIChat({ proposalCorpus }) {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "Hello! I'm your AI strategy assistant for the AIdeology x e& partnership. I can help you explore any aspect of the commercial framework — SMB marketplace, enterprise deals, GPUaaS, financials, timelines, technology, or competitive strategy. What would you like to discuss?" }
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [chatEndpoint, setChatEndpoint] = useState(() => {
+    const envEndpoint = import.meta.env.VITE_CHAT_ENDPOINT || "/api/chat/completions";
+    try { return localStorage.getItem("eand_chat_endpoint") || envEndpoint; } catch { return envEndpoint; }
+  });
+  const [model, setModel] = useState(import.meta.env.VITE_OPENAI_MODEL || "gpt-4o");
+  const [replicaId, setReplicaId] = useState(() => {
+    const envReplica = import.meta.env.VITE_TAVUS_REPLICA_ID || "";
+    try { return localStorage.getItem("eand_tavus_replica_id") || envReplica; } catch { return envReplica; }
+  });
+  const [personaId, setPersonaId] = useState(() => {
+    const envPersona = import.meta.env.VITE_TAVUS_PERSONA_ID || "";
+    try { return localStorage.getItem("eand_tavus_persona_id") || envPersona; } catch { return envPersona; }
+  });
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarLoading, setAvatarLoading] = useState(false);
+  const [avatarError, setAvatarError] = useState("");
+  const messagesEndRef = { current: null };
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const saveChatEndpoint = (endpoint) => {
+    setChatEndpoint(endpoint);
+    try { localStorage.setItem("eand_chat_endpoint", endpoint); } catch {}
+  };
+
+  const saveReplicaId = (id) => {
+    setReplicaId(id);
+    try { localStorage.setItem("eand_tavus_replica_id", id); } catch {}
+  };
+
+  const savePersonaId = (id) => {
+    setPersonaId(id);
+    try { localStorage.setItem("eand_tavus_persona_id", id); } catch {}
+  };
+
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
+    if (!chatEndpoint) {
+      setShowSettings(true);
+      return;
+    }
+
+    const userMessage = { role: "user", content: input.trim() };
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const relevantChunks = selectRelevantChunks(proposalCorpus || "", userMessage.content, 6);
+      const retrievedContext = relevantChunks.length
+        ? relevantChunks.map((chunk, i) => `Excerpt ${i + 1}:\n${chunk}`).join("\n\n")
+        : "";
+      const systemPrompt = `${PROPOSAL_CONTEXT}
+
+Use the retrieved proposal excerpts below as primary evidence for factual answers. If details are missing from excerpts, rely on the framework summary above and say when something is not explicitly stated.
+
+${retrievedContext ? `Retrieved proposal excerpts:\n${retrievedContext}` : ""}`;
+
+      const response = await fetch(chatEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...newMessages.map(m => ({ role: m.role, content: m.content })),
+          ],
+          temperature: 0.7,
+          max_tokens: 1500,
+        }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error?.message || `API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const assistantMessage = { role: "assistant", content: data.choices[0].message.content };
+      setMessages([...newMessages, assistantMessage]);
+    } catch (error) {
+      setMessages([...newMessages, { role: "assistant", content: `Error: ${error.message}. Please check the backend chat endpoint in settings.` }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const startAvatarMeeting = async () => {
+    if (!replicaId.trim() || !personaId.trim() || avatarLoading) {
+      setShowSettings(true);
+      return;
+    }
+
+    setAvatarLoading(true);
+    setAvatarError("");
+
+    try {
+      const response = await fetch("/api/tavus/conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          replica_id: replicaId.trim(),
+          persona_id: personaId.trim(),
+          conversational_context: `${PROPOSAL_CONTEXT}\n\nMeeting mode: respond as an AIDeology employee in a live e& strategy discussion. Keep spoken answers concise enough for a meeting, and cite proposal ranges when discussing numbers.`,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || data.message || `Tavus API error: ${response.status}`);
+
+      const nextUrl = data.conversation_url || data.conversationUrl || data.join_url || data.url;
+      if (!nextUrl) throw new Error("Tavus did not return a conversation URL.");
+
+      setAvatarUrl(nextUrl);
+    } catch (error) {
+      setAvatarError(error.message || "Could not start the Tavus avatar meeting.");
+    } finally {
+      setAvatarLoading(false);
+    }
+  };
+
+  const suggestedQuestions = [
+    "What's the total 3-year revenue opportunity?",
+    "Compare the three pillars",
+    "Explain the SDD methodology",
+    "What are the risks?",
+    "Timeline for SMB launch?",
+    "How does the B2B Acceleration Program work?",
+  ];
+
+  return <>
+    {/* Floating button */}
+    <button
+      onClick={() => setOpen(!open)}
+      style={{
+        position: "fixed", bottom: 28, right: 28, zIndex: 100,
+        width: 56, height: 56, borderRadius: "50%",
+        background: BRAND.red, color: BRAND.white,
+        border: "none", cursor: "pointer",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 4px 20px rgba(224,8,0,0.35)",
+        transition: "transform 0.2s",
+        transform: open ? "rotate(0deg)" : "rotate(0deg)",
+      }}
+      title="AI Strategy Assistant"
+    >
+      {open ? <CloseIcon /> : <ChatIcon />}
+    </button>
+
+    {/* Chat panel */}
+    {open && <div style={{
+      position: "fixed", bottom: 96, right: 28, zIndex: 99,
+      width: 420, maxWidth: "calc(100vw - 56px)",
+      height: 560, maxHeight: "calc(100vh - 140px)",
+      background: BRAND.white, border: `1px solid ${BRAND.border}`,
+      display: "flex", flexDirection: "column",
+      overflow: "hidden",
+      boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+    }}>
+      {/* Header */}
+      <div style={{
+        padding: "16px 20px", borderBottom: `1px solid ${BRAND.border}`,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        background: BRAND.white,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{
+            width: 32, height: 32, background: BRAND.red, color: BRAND.white,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 11, fontWeight: 700, borderRadius: "50%",
+          }}>AI</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: BRAND.black }}>Strategy Assistant</div>
+            <div style={{ fontSize: 10, color: BRAND.grey }}>AIdeology x e& Framework</div>
+          </div>
+        </div>
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          style={{
+            background: "transparent", border: "none", cursor: "pointer",
+            color: showSettings ? BRAND.red : BRAND.grey, padding: 6,
+          }}
+          title="Settings"
+        >
+          <SettingsIcon />
+        </button>
+      </div>
+
+      {/* Settings panel */}
+      {showSettings && <div style={{
+        padding: "14px 20px", borderBottom: `1px solid ${BRAND.border}`,
+        background: BRAND.lightGrey,
+      }}>
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: BRAND.grey, textTransform: "uppercase", marginBottom: 8 }}>Shared intelligence endpoint</div>
+        <input
+          value={chatEndpoint}
+          onChange={(e) => saveChatEndpoint(e.target.value)}
+          placeholder="/api/chat/completions"
+          style={{
+            width: "100%", padding: "8px 12px", fontSize: 12,
+            border: `1px solid ${BRAND.border}`, background: BRAND.white,
+            fontFamily: "monospace", outline: "none", boxSizing: "border-box",
+          }}
+        />
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: BRAND.grey, textTransform: "uppercase", marginTop: 10, marginBottom: 6 }}>Model</div>
+        <input
+          list="model-options"
+          value={model}
+          onChange={(e) => setModel(e.target.value)}
+          placeholder="e.g. gpt-4.1 or your 5.x model id"
+          style={{
+            width: "100%", padding: "8px 12px", fontSize: 12,
+            border: `1px solid ${BRAND.border}`, background: BRAND.white,
+            outline: "none", boxSizing: "border-box",
+          }}
+        />
+        <datalist id="model-options">
+          <option value="gpt-4.1" />
+          <option value="gpt-4.1-mini" />
+          <option value="gpt-4o" />
+          <option value="gpt-4o-mini" />
+          <option value="gpt-4-turbo" />
+          <option value="gpt-3.5-turbo" />
+        </datalist>
+        <div style={{ fontSize: 10.5, color: BRAND.grey, marginTop: 8, lineHeight: 1.5 }}>
+          The page chat and Tavus persona should use this same OpenAI-compatible endpoint. Put OpenAI and Tavus keys in server env variables, not in the browser.
+        </div>
+        <div style={{ height: 1, background: BRAND.border, margin: "14px 0" }} />
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: BRAND.grey, textTransform: "uppercase", marginBottom: 8 }}>Tavus meeting avatar</div>
+        <input
+          value={replicaId}
+          onChange={(e) => saveReplicaId(e.target.value)}
+          placeholder="replica_id"
+          style={{
+            width: "100%", padding: "8px 12px", fontSize: 12,
+            border: `1px solid ${BRAND.border}`, background: BRAND.white,
+            fontFamily: "monospace", outline: "none", boxSizing: "border-box", marginBottom: 8,
+          }}
+        />
+        <input
+          value={personaId}
+          onChange={(e) => savePersonaId(e.target.value)}
+          placeholder="persona_id"
+          style={{
+            width: "100%", padding: "8px 12px", fontSize: 12,
+            border: `1px solid ${BRAND.border}`, background: BRAND.white,
+            fontFamily: "monospace", outline: "none", boxSizing: "border-box",
+          }}
+        />
+        <button
+          onClick={startAvatarMeeting}
+          disabled={avatarLoading || !replicaId.trim() || !personaId.trim()}
+          style={{
+            marginTop: 10, width: "100%", padding: "9px 12px",
+            background: replicaId.trim() && personaId.trim() ? BRAND.red : BRAND.border,
+            color: replicaId.trim() && personaId.trim() ? BRAND.white : BRAND.grey,
+            border: "none", fontSize: 11.5, fontWeight: 700,
+            cursor: replicaId.trim() && personaId.trim() ? "pointer" : "default",
+          }}
+        >
+          {avatarLoading ? "Starting Tavus meeting..." : "Start AIDeology Avatar Meeting"}
+        </button>
+        {avatarError && <div style={{ fontSize: 10.5, color: BRAND.red, marginTop: 8, lineHeight: 1.5 }}>
+          {avatarError}
+        </div>
+        }
+      </div>}
+
+      {avatarUrl && <div style={{
+        borderBottom: `1px solid ${BRAND.border}`,
+        background: BRAND.black,
+      }}>
+        <div style={{
+          padding: "8px 12px", display: "flex", justifyContent: "space-between",
+          alignItems: "center", color: BRAND.white,
+        }}>
+          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Live AIDeology avatar</div>
+          <button
+            onClick={() => setAvatarUrl("")}
+            style={{ background: "transparent", border: "none", color: BRAND.white, cursor: "pointer", fontSize: 11 }}
+          >
+            Close
+          </button>
+        </div>
+        <iframe
+          src={avatarUrl}
+          allow="camera; microphone; autoplay; fullscreen; display-capture"
+          title="AIDeology Tavus Avatar"
+          style={{ width: "100%", height: 240, border: 0, display: "block", background: BRAND.black }}
+        />
+      </div>}
+
+      {/* Messages */}
+      <div style={{
+        flex: 1, overflowY: "auto", padding: "16px 20px",
+        display: "flex", flexDirection: "column", gap: 14,
+      }}>
+        {messages.map((msg, i) => (
+          <div key={i} style={{
+            display: "flex",
+            justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+          }}>
+            <div style={{
+              maxWidth: "85%", padding: "10px 14px",
+              background: msg.role === "user" ? BRAND.red : BRAND.lightGrey,
+              color: msg.role === "user" ? BRAND.white : BRAND.black,
+              fontSize: 12.5, lineHeight: 1.6,
+              borderRadius: msg.role === "user" ? "14px 14px 2px 14px" : "14px 14px 14px 2px",
+              whiteSpace: "pre-wrap",
+            }}>
+              {msg.content}
+            </div>
+          </div>
+        ))}
+        {loading && <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <div style={{
+            padding: "10px 14px", background: BRAND.lightGrey,
+            borderRadius: "14px 14px 14px 2px",
+            display: "flex", gap: 4, alignItems: "center",
+          }}>
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{
+                width: 6, height: 6, borderRadius: "50%", background: BRAND.grey,
+                animation: `pulse 1.4s infinite ${i * 0.2}s`,
+                opacity: 0.4,
+              }} />
+            ))}
+          </div>
+        </div>}
+        {messages.length === 1 && !loading && <div style={{ marginTop: 8 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: BRAND.grey, textTransform: "uppercase", marginBottom: 10 }}>Try asking</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {suggestedQuestions.map((q, i) => (
+              <button
+                key={i}
+                onClick={() => { setInput(q); }}
+                style={{
+                  padding: "6px 10px", fontSize: 11, color: BRAND.black,
+                  background: BRAND.white, border: `1px solid ${BRAND.border}`,
+                  cursor: "pointer", borderRadius: 2, textAlign: "left",
+                  lineHeight: 1.3,
+                }}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        </div>}
+        <div ref={el => { messagesEndRef.current = el; }} />
+      </div>
+
+      {/* Input */}
+      <div style={{
+        padding: "12px 16px", borderTop: `1px solid ${BRAND.border}`,
+        display: "flex", gap: 8, alignItems: "flex-end",
+        background: BRAND.white,
+      }}>
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask about the proposal..."
+          rows={1}
+          style={{
+            flex: 1, padding: "10px 12px", fontSize: 12.5,
+            border: `1px solid ${BRAND.border}`, background: BRAND.lightGrey,
+            resize: "none", outline: "none", fontFamily: BRAND.font,
+            lineHeight: 1.5, minHeight: 38, maxHeight: 100,
+            borderRadius: 2,
+          }}
+        />
+        <button
+          onClick={sendMessage}
+          disabled={loading || !input.trim()}
+          style={{
+            width: 38, height: 38,
+            background: input.trim() ? BRAND.red : BRAND.lightGrey,
+            color: input.trim() ? BRAND.white : BRAND.grey,
+            border: "none", cursor: input.trim() ? "pointer" : "default",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            borderRadius: 2, flexShrink: 0,
+          }}
+        >
+          <SendIcon />
+        </button>
+      </div>
+    </div>}
+
+    {/* Animation keyframes */}
+    <style>{`
+      @keyframes pulse {
+        0%, 80%, 100% { opacity: 0.4; transform: scale(1); }
+        40% { opacity: 1; transform: scale(1.2); }
+      }
+    `}</style>
+  </>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/* HAITHAM MEETING */
+/* ════════════════════════════════════════════════════════════ */
+function HaithamMeetingSection() {
+  const talkTrack = [
+    {min:"0–3",title:"The opportunity nobody owns yet",talk:"Haitham, e& has 700K+ SMBs and the strongest telco brand in the Gulf. Nobody — not Microsoft, not G42, not Salesforce — is giving these businesses an AI operating layer built into e& infrastructure. This is a land-grab. Whoever ships first wins the installed base. We can have e& shipping a live AI marketplace with paying customers in 90 days."},
+    {min:"3–8",title:"What the first 90 days look like",talk:"Day 1 to 30: we stand up the platform on e& sovereign infra and ship the first Customer Agent — handles voice calls, WhatsApp, and web for any SMB. Day 30 to 60: closed beta with 10–20 real businesses, real traffic, real revenue. Day 60 to 90: marketplace goes live, sales force starts selling, and Wave 2 starts the next two agents plus the P1 enterprise-readiness layer: automation, compliance, audit trails, RBAC and guardrails. After that, every 6 weeks you get more agents on the same maturing platform."},
+    {min:"8–12",title:"Why AIdeology — Scale Acceleration",talk:"We are not a consulting firm that needs 40 people and 6 months to give you a PowerPoint. We are a small, senior team that has already built this — the platform, the agent architecture, the Arabic/English pipeline, the e& integration layer. We call it Scale Acceleration: 8 engineers that move like 40 because the platform already exists. You are buying speed and IP, not headcount. And we transfer everything to your team over 4 years — you end up owning it all."},
+    {min:"12–18",title:"The money — simple",talk:"Fixed fee of $3.4M paid across milestones over 9 months. You only pay when we deliver. Revenue split is 65/35 in your favour from Day 1, declining to 80/20 as your team takes over. Year 1 alone, your SaaS revenue is projected at AED 36.5M — that is 24,000 paying SMBs at AED 285 average. By Year 3 you are looking at AED 378M gross and 85,000 customers. The fixed fee pays for itself in Month 4 of SaaS revenue."},
+    {min:"18–23",title:"What we need from e&",talk:"Three things: 1) Cloud environment and GPU access — we build on your infra, your data stays sovereign. 2) Named technical owners for telephony, WhatsApp BSP, billing APIs, identity — we need specs, not meetings. 3) 10–20 beta SMBs by Week 5. That is it. No committees. Specs, sandbox, beta list. We handle the rest."},
+    {min:"23–28",title:"Conditions and decision",talk:"Exclusive AI platform partner for SMB in the UAE. 4-year minimum term with build-then-transfer. Milestone-based payments — no risk, no delivery means no payment. We start within 2 weeks of sign-off. The first paying customers are live before Q3 ends."},
+    {min:"28–30",title:"Close",talk:"Haitham, this is not another partnership MOU that sits on a shelf. This is a revenue line. 90 days from sign-off, e& has an AI product in market, customers paying, and Wave 2 is already turning the same SMB platform into an enterprise-ready architecture. The question is not whether to do this — it is whether to be first or let someone else take the position."},
+  ];
+
+  return <div>
+    <div style={{padding:"44px 0 36px"}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
+        <div style={{width:44,height:44,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:18,fontWeight:700}}>H</div>
+        <div>
+          <div style={{fontSize:11,color:BRAND.red,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>Meeting prep · 30 minutes</div>
+          <h2 style={{fontSize:32,fontWeight:700,color:BRAND.black,margin:0,lineHeight:1.1}}>Haitham Meeting</h2>
+        </div>
+      </div>
+      <p style={{fontSize:15,color:BRAND.grey,maxWidth:720,lineHeight:1.6,margin:"0 0 20px"}}>
+        Focused executive conversation. No slides, no technical deep-dives. Four blocks: the opportunity, what AIdeology brings, the deliverables, and the conditions.
+      </p>
+      <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
+        {[{v:"30 min",l:"Meeting duration"},{v:"4 blocks",l:"Discussion structure"},{v:"90 days",l:"First revenue"},{v:"$3.4M",l:"Total fixed fee"}].map((s,i)=><div key={i} style={{minWidth:100}}>
+          <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+          <div style={{fontSize:11,color:BRAND.grey,fontWeight:600}}>{s.l}</div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* KNOW YOUR AUDIENCE */}
+    <Note label="Know your audience">
+      Haitham is an EVP. Short attention span. No technical AI background. Jumps between ideas — Qualcomm partnerships, G42 reselling, sovereign pods. He thinks in deals and speed. Keep everything in business outcomes, revenue, and timeline. Never say "architecture", "Kubernetes", "LLM", or "orchestration" — say "platform", "agents", "live customers", "revenue".
+    </Note>
+
+    {/* MEETING RULES */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:20}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
+        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700}}>!</span>
+        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Meeting rules for yourself</span>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))"}}>
+        {[
+          {r:"No slides",d:"Conversation only. Have the numbers in your head. If he asks, pull up the live demo on your phone."},
+          {r:"Answer fast, then stop",d:"He will interrupt. Let him. Answer in one sentence, then ask: 'Should we go deeper or move on?'"},
+          {r:"Redirect, don't resist",d:"When he jumps to Qualcomm / G42 / pods — say: 'Great idea. Let's get the first thing live in 90 days, then layer that in Wave 2.'"},
+          {r:"End with a decision",d:"The meeting must close with a yes/no on starting. Not 'let's schedule another call'. Push for: 'Can we start in 2 weeks?'"},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:6}}>{x.r}</div>
+          <div style={{fontSize:12,color:BRAND.grey,lineHeight:1.55}}>{x.d}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* ════════ BLOCK 1: THE 90 DAYS ════════ */}
+    <SH>Block 1 · What e& should do in 90 days</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>From zero to live AI marketplace in 90 days</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          The pitch to Haitham: e& has the customers, the brand, the infra. Nobody is owning the SMB AI space in the Gulf yet. Whoever ships first locks in the installed base. Here is exactly what happens in 90 days.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {day:"Day 1–30",title:"Platform + first agent",color:BRAND.red,items:["Stand up AI platform on e& sovereign infra","Ship Customer Agent (voice + WhatsApp + web)","Identity, billing, observability wired in","Arabic/English ready from Day 1"]},
+          {day:"Day 30–60",title:"Real customers, real revenue",color:"#D14600",items:["10–20 beta SMBs with live traffic","Real CSAT, real call data, real revenue","Sales force sees the product working","Fix, tune, iterate with real feedback"]},
+          {day:"Day 60–90",title:"Marketplace goes live",color:"#004B2E",items:["GA launch — any SMB can buy","Sales force fully enabled","Start next 2 agents (Sales + Comms)","First monthly SaaS revenue booked"]},
+        ].map((col,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",color:BRAND.white,background:col.color,padding:"4px 10px",display:"inline-block",marginBottom:10}}>{col.day}</div>
+          <h5 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:10,margin:"0 0 10px"}}>{col.title}</h5>
+          {col.items.map((it,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:8}}>
+            <span style={{width:5,height:5,background:col.color,flexShrink:0,marginTop:5}}/>
+            <span style={{fontSize:12,color:"#555",lineHeight:1.45}}>{it}</span>
+          </div>)}
+        </div>)}
+      </div>
+      <div style={{padding:"16px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12.5,color:"#333",fontWeight:700}}>Key line for Haitham: <span style={{color:BRAND.red}}>"90 days from sign-off, e& has an AI product in market with paying customers. Nobody else can promise that."</span></div>
+      </div>
+    </Card>
+
+    <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
+        <span style={{width:30,height:30,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}>vs</span>
+        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Why speed matters — competitive window</span>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))"}}>
+        {[
+          {who:"Microsoft / Azure",risk:"Building Copilot for SMB globally but not localised for Gulf. No Arabic-first, no e& integration, no sovereign hosting. If e& ships first, Microsoft becomes a connector, not the platform."},
+          {who:"G42",risk:"Strong GPU infra but no SMB AI product. They sell compute, not solutions. e& + AIdeology ships the solution layer they cannot build themselves."},
+          {who:"Salesforce / HubSpot",risk:"CRM-first, not telco-first. No voice, no WhatsApp BSP, no e& billing integration. They require the SMB to come to them. e& can push AI to every existing customer."},
+          {who:"Do nothing",risk:"Every month without a product is 2,000+ SMBs that sign up with a competitor's tool instead. The installed base goes to whoever ships first. Switching costs in AI are high."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:12,fontWeight:700,color:BRAND.red,marginBottom:6}}>{x.who}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.risk}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* ════════ BLOCK 2: WHY AIDEOLOGY ════════ */}
+    <SH>Block 2 · Why AIdeology — Scale Acceleration</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Scale Acceleration — not headcount, speed</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          AIdeology is not a consulting firm that puts 40 people on a project for 6 months and delivers a PDF. It is a senior team of 8 engineers who have already built the platform, the agent architecture, and the Arabic/English pipeline. e& is buying speed and IP, not bodies.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {n:"01",title:"Platform already exists",d:"The AI operating layer — identity, memory, connectors, model routing, billing, observability — is built. We are not starting from scratch. e& gets a proven engine, not a science project."},
+          {n:"02",title:"8 people move like 40",d:"Senior engineers who own the full stack. No handoffs, no project managers, no scope creep. SDD methodology: 48-hour design, build in weeks, ship to production. We call it Scale Acceleration."},
+          {n:"03",title:"Built for e&, transferred to e&",d:"Build-then-transfer model. Year 1: we build and run. Year 2: 50/50. Year 3: your team owns 80%. Year 4: you own everything. We are not here to create dependency — we are here to make you independent, fast."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:8}}>{x.n}</div>
+          <h5 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8,margin:"0 0 8px"}}>{x.title}</h5>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+    </Card>
+
+    <Card style={{padding:22,marginTop:14}}>
+      <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:10}}>When Haitham jumps to other ideas — redirect pattern</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+        {[
+          {trigger:'"I want to be Qualcomm\'s GPU partner in the Gulf"',redirect:'"Love it. The platform we are building can sit on top of any hardware — Qualcomm, Dell, whoever. Let\'s get the software live first, then you have something to demo to Qualcomm in 90 days instead of a pitch deck."'},
+          {trigger:'"I\'m signing a reseller deal with G42 for Compass"',redirect:'"Perfect. G42 Compass can be one of the AI models our platform routes to. We already support multi-model. You resell Compass and run your own agents on top of it — that is how you capture the margin, not just the referral fee."'},
+          {trigger:'"I want sovereign pods with Dell hardware"',redirect:'"Exactly what Wave 5 enables. Once the software platform is hardened and the agents are proven with real customers, you package everything into a Dell pod and sell it as an e& product. Software first, then hardware. 90-day sequence."'},
+          {trigger:'"Can we do this for other OpCos too?"',redirect:'"That is the endgame. The platform is designed to be multi-OpCo from Day 1. Prove it in UAE, then roll it out to Stc, Mobily, Zain — each one becomes a new revenue stream with zero platform rebuild."'},
+        ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,marginBottom:6}}>He says: {x.trigger}</div>
+          <div style={{fontSize:11.5,color:"#444",lineHeight:1.55,fontStyle:"italic"}}>You say: {x.redirect}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* ════════ BLOCK 3: DELIVERABLES & TIMING ════════ */}
+    <SH>Block 3 · Deliverables, timing, and requirements</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>What e& gets — and when</h4>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Wave","What ships","When","e& payment"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {w:"Wave 1",what:"AI Platform + Customer Agent (voice, WhatsApp, web)",when:"Weeks 1–12",pay:"$1.25M across milestones"},
+            {w:"Wave 2",what:"Sales Agent + Comms Hub + P1 automation/compliance layer",when:"Weeks 13–18",pay:"$700K across 2 milestones"},
+            {w:"Wave 3",what:"Finance Agent + Ops Agent",when:"Weeks 19–24",pay:"$600K across 2 milestones"},
+            {w:"Wave 4",what:"People Agent",when:"Weeks 25–30",pay:"$275K across 2 milestones"},
+            {w:"Wave 5",what:"Platform hardening + security audit + full handoff",when:"Weeks 31–36",pay:"$618.6K across 2 milestones"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.w}</td>
+            <td style={{padding:"14px 18px",color:"#333",fontSize:12}}>{r.what}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12,fontFamily:"monospace"}}>{r.when}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.pay}</td>
+          </tr>)}
+          <tr style={{borderTop:`2px solid ${BRAND.red}`,background:BRAND.lightGrey}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>Total</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>6 AI agents + full platform</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,fontFamily:"monospace"}}>36 weeks</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red}}>$3.44M</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111"}}>What e& needs to provide — 3 things only</h4>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {n:"1",title:"Cloud + GPU access",d:"Give us a Kubernetes namespace on e& sovereign infra. Container registry, base images, network access. We deploy everything there — e& data never leaves."},
+          {n:"2",title:"Technical specs + owners",d:"Named people for telephony, WhatsApp BSP, billing API, identity/SSO. We need documentation and sandbox access, not meetings. One owner per system."},
+          {n:"3",title:"10–20 beta SMBs",d:"Account managers pick 10–20 real businesses by Week 5. We onboard them to closed beta. They become reference customers for the GA launch."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{width:28,height:28,background:BRAND.red,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,marginBottom:10}}>{x.n}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6,margin:"0 0 6px"}}>{x.title}</h5>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+      <div style={{padding:"14px 24px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:BRAND.red,fontWeight:700}}>Key line: "We don't need committees. We need specs, a sandbox, and a beta list. We handle everything else."</div>
+      </div>
+    </Card>
+
+    {/* ════════ BLOCK 4: CONDITIONS ════════ */}
+    <SH>Block 4 · Conditions</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Deal terms — simple</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          Present these as non-negotiable foundations, not line items. Frame as "this is how we protect both sides".
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))"}}>
+        {[
+          {term:"Revenue split",detail:"65% e& / 35% AIdeology",sub:"From Day 1, e& keeps the majority. Declines to 80/20 by Year 4 as e& takes ownership. e& always earns more."},
+          {term:"Milestone payments",detail:"Pay only on delivery",sub:"$3.44M total, broken across 5 waves and 12 milestones. If we don't deliver, you don't pay. Zero risk."},
+          {term:"Exclusivity",detail:"AI platform partner for SMB UAE",sub:"AIdeology builds exclusively for e& in this market. In return, e& does not build a competing platform or bring in another AI partner for SMB."},
+          {term:"Term",detail:"4-year minimum",sub:"Build-then-transfer over 4 years. By Year 4, e& owns the agents, the team, and the customer base. AIdeology retains platform IP with a licensing model."},
+          {term:"Start date",detail:"2 weeks from sign-off",sub:"We are ready. Engineering team allocated. No ramp-up needed. The 90-day clock starts when e& gives us cloud access."},
+          {term:"IP ownership",detail:"Agents → e&, Platform → AIdeology",sub:"e& owns all agents and customer data from Day 1. AIdeology owns the orchestration platform and licenses it. Clean separation."},
+        ].map((x,i)=><div key={i} style={{padding:20,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{x.term}</div>
+          <div style={{fontSize:16,fontWeight:700,color:"#111",marginBottom:6}}>{x.detail}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.sub}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* REVENUE SNAPSHOT */}
+    <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
+        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}>$</span>
+        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Revenue snapshot — have these numbers ready</span>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {yr:"Year 1",cust:"24,000 SMBs",rev:"AED 36.5M",note:"First customers from Month 4. $3.44M fixed fee pays for itself."},
+          {yr:"Year 2",cust:"62,000 SMBs",rev:"AED 154M",note:"4.2x growth. Fixed fees done. Pure SaaS revenue."},
+          {yr:"Year 3",cust:"85,000 SMBs",rev:"AED 378M",note:"e& team owns 80% of development. Platform valuation AED 2-3B."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none",textAlign:"center"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x.yr}</div>
+          <div style={{fontSize:28,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,marginBottom:4}}>{x.rev}</div>
+          <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.cust}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.45}}>{x.note}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* TALK TRACK */}
+    <SH>Minute-by-minute talk track</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:4}}>30-minute conversation flow</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Not a script — a structure. Adapt to his energy. If he is engaged on a block, stay there. If he jumps, redirect and move to the next block.</p>
+      </div>
+      {talkTrack.map((s,i)=><div key={i} style={{padding:"16px 24px",borderBottom:i<talkTrack.length-1?`1px solid ${BRAND.border}`:"none",display:"flex",gap:18,alignItems:"flex-start"}}>
+        <div style={{minWidth:52,flexShrink:0}}>
+          <div style={{fontSize:10,fontWeight:700,color:BRAND.white,background:i===talkTrack.length-1?"#004B2E":BRAND.red,padding:"4px 8px",textAlign:"center",letterSpacing:"0.04em"}}>{s.min}</div>
+          <div style={{fontSize:9,color:BRAND.grey,textAlign:"center",marginTop:3}}>min</div>
+        </div>
+        <div>
+          <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:4}}>{s.title}</div>
+          <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>{s.talk}</div>
+        </div>
+      </div>)}
+    </Card>
+
+    {/* CLOSING CHECKLIST */}
+    <SH>Closing checklist</SH>
+    <Card style={{padding:22}}>
+      <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:14}}>Before you leave the room, confirm:</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+        {[
+          "Does Haitham agree to start within 2 weeks?",
+          "Who is the named sponsor to unblock cloud access?",
+          "Does he accept milestone-based payment (no upfront lump sum)?",
+          "Is he comfortable with 65/35 revenue split?",
+          "Who assigns the technical owners for telephony, WhatsApp, billing?",
+          "Who picks the 10–20 beta SMBs?",
+          "Does he want to be in the first beta demo (Week 6)?",
+          "Next step: send term sheet or schedule contract review?",
+        ].map((q,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:10,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+          <div style={{width:18,height:18,border:`2px solid ${BRAND.red}`,flexShrink:0,marginTop:1}}/>
+          <span style={{fontSize:12,color:"#333",lineHeight:1.45}}>{q}</span>
+        </div>)}
+      </div>
+    </Card>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* MAIN APP */
 /* ════════════════════════════════════════════════════════════ */
 const TABS = ["Small & Medium Business","Enterprise & Government","GPUaaS & e& Platform"];
 export default function App() {
   const [tab,setTab] = useState(0);
   const [view,setView] = useState("tab");
+  const [proposalCorpus, setProposalCorpus] = useState("");
+  const fullProposalRef = useRef(null);
+  const eco = view==="eco";
   const sum = view==="sum";
   const hpc = view==="hpc";
+  const htm = view==="htm";
+
+  useEffect(() => {
+    if (!fullProposalRef.current) return;
+    const text = fullProposalRef.current.textContent || "";
+    const normalized = text.replace(/\s+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+    setProposalCorpus(normalized);
+  }, []);
+
   return <div style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font,textAlign:"left"}}>
     <nav style={{position:"sticky",top:0,zIndex:50,background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:72}}>
@@ -1316,19 +3780,21 @@ export default function App() {
       <div style={{maxWidth:1120,margin:"0 auto",padding:"72px 28px 58px"}}>
         <div style={{fontSize:12,color:BRAND.red,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:16}}>AI go-to-market partnership</div>
         <h1 style={{fontSize:48,fontWeight:700,color:BRAND.black,lineHeight:1.02,margin:"0 0 20px",fontFamily:BRAND.font,maxWidth:640}}>Build AI revenue with e&</h1>
-        <p style={{fontSize:18,color:BRAND.grey,maxWidth:640,lineHeight:1.5,margin:"0 0 28px"}}>Three clear offers: SMB agents, enterprise AI, and sovereign compute. Each one is built from specs, shipped fast, and measured against revenue.</p>
+        <p style={{fontSize:18,color:BRAND.grey,maxWidth:640,lineHeight:1.5,margin:"0 0 28px"}}>Three clear offers: SMB AI platform, enterprise AI, and sovereign compute. Each one is built from specs, shipped fast, and measured against revenue.</p>
         <div style={{height:4,width:180,background:BRAND.continuum}}/>
       </div>
     </div>
     <div style={{background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`,position:"sticky",top:72,zIndex:40}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"14px 28px",display:"flex",gap:8,overflowX:"auto"}}>
         {TABS.map((t,i)=>{const a=tab===i&&view==="tab";return<button key={i} onClick={()=>{setTab(i);setView("tab")}} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.2s"}}>{t}</button>})}
-        <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Summary</button>
+        <button onClick={()=>setView("eco")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:eco?BRAND.white:BRAND.black,background:eco?BRAND.red:BRAND.lightGrey,border:`1px solid ${eco?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Ecosystem</button>
+        <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Summary</button>
         <button onClick={()=>setView("hpc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:hpc?BRAND.white:BRAND.black,background:hpc?BRAND.red:BRAND.lightGrey,border:`1px solid ${hpc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>HPC Reference Architectures</button>
+        <button onClick={()=>setView("htm")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:htm?BRAND.white:BRAND.black,background:htm?"#222":BRAND.lightGrey,border:`1px solid ${htm?"#222":BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Haitham Meeting</button>
       </div>
     </div>
     <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {hpc?<HPCSection/>:sum?<SummarySection/>:tab===0?<SMBSegment/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
+      {htm?<HaithamMeetingSection/>:hpc?<HPCSection/>:sum?<SummarySection/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView}/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
     </div>
     <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
@@ -1338,5 +3804,18 @@ export default function App() {
         </div>
       </div>
     </div>
+    <div
+      ref={fullProposalRef}
+      aria-hidden="true"
+      style={{position:"absolute",left:-99999,top:0,width:1,height:1,overflow:"hidden",opacity:0,pointerEvents:"none"}}
+    >
+      <SMBSegment />
+      <EnterpriseSegment />
+      <GPUSegment />
+      <EcosystemSection />
+      <SummarySection />
+      <HPCSection />
+    </div>
+    <AIChat proposalCorpus={proposalCorpus} />
   </div>;
 }
