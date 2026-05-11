@@ -1045,11 +1045,14 @@ function SMBSegment({onViewChange}) {
       <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
           <Badge v="teal">Forge schema</Badge>
-          <span style={{fontSize:11.5,color:"#888"}}>4 layers · 4 core functions · multi-cloud · multi-LLM</span>
+          <span style={{fontSize:11.5,color:"#888"}}>4 layers · 8 core functions · multi-cloud · multi-LLM</span>
         </div>
         <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Open platform schema from Forge deep dive</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860,margin:"0 0 10px"}}>
+          Forge is not a collection of agents. It is the <strong>agentic intelligence layer</strong> that lets e& run <strong>multi-agent workflows</strong> across clouds, models, connectors and compliance regimes without rebuilding each agent.
+        </p>
         <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860,margin:0}}>
-          Forge is not a collection of agents. It is the agentic intelligence layer that lets e& run multi-agent workflows across clouds, models, connectors and compliance regimes without rebuilding each agent.
+          Unlike platforms built around a <strong>single closed agent stack</strong>, Forge is <strong>agnostic to the tech each agent runs on</strong> and behaves as a <strong>marketplace</strong> — so e& is never locked in while the underlying agentic tech keeps changing every few months.
         </p>
       </div>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
@@ -1058,7 +1061,7 @@ function SMBSegment({onViewChange}) {
             {layer:"Layer 1",title:"Agentic applications",sub:"What SMBs use",items:["Customer Agent","Sales Agent","Finance Agent","Ops Agent","Comms Hub","People Agent"],color:BRAND.red},
             {layer:"Layer 2",title:"Forge orchestration middleware",sub:"What AIdeology owns",items:["Multi-agent coordination","State & memory","LLM abstraction","Connector management","Prompt versioning","Observability","Guardrails","Multi-tenant orchestration"],color:"#D14600"},
             {layer:"Layer 3",title:"Infrastructure abstraction",sub:"Where e& chooses to run it",items:["G42 / OCI + H100","Azure / OpenAI API","AWS / Bedrock","On-prem future option"],color:"#7A52F4"},
-            {layer:"Layer 4",title:"LLM choice layer",sub:"Swappable, not locked",items:["Claude","GPT","Llama","Mixtral","Custom models"],color:"#004B2E"},
+            {layer:"Layer 4",title:"LLM choice layer",sub:"Swappable, not locked",items:["Claude","GPT","Llama","Mistral","Custom models"],color:"#004B2E"},
           ].map((l,i)=><div key={i} style={{border:`1px solid ${BRAND.border}`,background:BRAND.white,display:"grid",gridTemplateColumns:"220px 1fr",minHeight:86,boxShadow:i===1?"0 8px 18px -18px rgba(17,17,17,0.35)":"none"}}>
             <div style={{padding:"16px 18px",background:l.color,color:BRAND.white,display:"flex",flexDirection:"column",justifyContent:"center"}}>
               <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",opacity:0.8}}>{l.layer}</div>
@@ -1078,10 +1081,14 @@ function SMBSegment({onViewChange}) {
         <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:12}}>Forge core functions</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:12}}>
           {[
-            {n:"01",t:"Agent orchestration",d:"Coordinates multiple agents, shares context across workflows, handles failover, rate limits and load balancing. Example: Customer Agent qualifies a lead, Sales Agent creates a proposal, Finance Agent generates the invoice."},
-            {n:"02",t:"LLM abstraction",d:"Provides one API across Claude, GPT, Llama or local models. e& can switch models or routing policies for cost, speed or compliance without rewriting agent code."},
-            {n:"03",t:"Connector management",d:"Centralises reusable integrations, credential storage, data mapping and transformation for CRM, finance, communication, payment and productivity tools."},
-            {n:"04",t:"Observability & governance",d:"Tracks agent behaviour, cost per agent, response times, success rates, audit logs, PII masking, approval workflows and safety guardrails."},
+            {n:"01",t:"Agent orchestration",d:<>Coordinates <strong>multiple agents</strong>, shares <strong>context</strong> across workflows, handles <strong>failover</strong>, rate limits and load balancing. Example: Customer Agent qualifies a lead, Sales Agent creates a proposal, Finance Agent generates the invoice.</>},
+            {n:"02",t:"LLM abstraction & gateway",d:<><strong>One API</strong> across Claude, GPT, Llama or <strong>sovereign models</strong>, with <strong>virtual keys</strong>, <strong>semantic caching</strong> and <strong>automatic fallbacks</strong>. e& can switch <strong>provider, cloud or region</strong> for cost, latency or compliance — without touching agent code.</>},
+            {n:"03",t:"Connector management",d:<>Centralises <strong>reusable integrations</strong>, <strong>credential storage</strong>, data mapping and transformation for CRM, finance, communication, payment and productivity tools.</>},
+            {n:"04",t:"Observability & governance",d:<>Tracks agent behaviour, <strong>cost per agent</strong>, response times, success rates, <strong>audit logs</strong>, <strong>PII masking</strong>, approval workflows and <strong>safety guardrails</strong>.</>},
+            {n:"05",t:"Idle & runtime strategy",d:<>Protects <strong>SMB unit economics</strong> when thousands of agents sit idle most of the day. Forge <strong>shares runtime</strong> across light tenants, <strong>scales dedicated workloads to zero</strong> and <strong>hibernates</strong> regulated ones — so e& pays compute only when agents are actually working.</>},
+            {n:"06",t:"Agent template instancer",d:<>Every agent ships as a <strong>signed, versioned template</strong> — onboarding a new SMB takes <strong>hours, not weeks</strong>. Forge handles <strong>provisioning</strong>, <strong>blue/green upgrades</strong> and <strong>per-tenant rollback</strong>, and lets <strong>vetted third parties publish</strong> under central review.</>},
+            {n:"07",t:"Provisioning resilience",d:<>Keeps the marketplace running through <strong>demand spikes</strong> and <strong>regional outages</strong>. Forge spreads provisioning across <strong>clusters and clouds</strong> with <strong>idempotent retries</strong>, <strong>GitOps change control</strong> and <strong>regional failover</strong> — a single-region failure never breaks onboarding.</>},
+            {n:"08",t:"Trust tiers & compliance",d:<>One platform spans <strong>SMB, Enterprise and Government</strong> on graduated <strong>trust tiers</strong> — from logical multi-tenancy up to <strong>NESA P4</strong>, <strong>ISO 42001</strong> and <strong>HSM-backed isolation</strong>. <strong>Immutable audit trails</strong>, <strong>jailbreak detection</strong> and <strong>evidence packs</strong> make e& ready for regulated buyers and public-sector tenders.</>},
           ].map((f,i)=><div key={i} style={{padding:16,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
             <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace",marginBottom:6}}>{f.n}</div>
             <h5 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{f.t}</h5>
@@ -1091,7 +1098,7 @@ function SMBSegment({onViewChange}) {
       </div>
       <div style={{padding:"16px 26px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`}}>
         <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0}}>
-          <strong>Strategic implication:</strong> agents are the applications, but Forge is the durable platform IP. e& can add clouds, models, connectors and new agents over time while keeping one orchestration, governance and observability layer.
+          <strong>Strategic implication:</strong> agents are the applications, but Forge is the <strong>durable platform IP</strong>. e& can add <strong>clouds, models, connectors and new agents</strong> over time while keeping <strong>one orchestration, governance and observability layer</strong>.
         </p>
       </div>
     </Card>
@@ -1103,7 +1110,7 @@ function SMBSegment({onViewChange}) {
         </div>
         <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>One platform, pluggable e& AI Solutions</h4>
         <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:820}}>
-          The Phase 0 architecture keeps e& in control of the customer, the brand, the data, and the margin. Solutions can come from AIdeology, e&, or third parties, but they run through an e& control plane: routing, identity, tenant back office, guardrails, billing, and observability.
+          The Phase 0 architecture keeps e& in control of the <strong>customer, the brand, the data, and the margin</strong>. Solutions can come from <strong>AIdeology, e&, or third parties</strong>, but they run through an <strong>e& control plane</strong>: routing, identity, tenant back office, guardrails, billing, and observability.
         </p>
       </div>
       <div style={{background:"#FAFAFA",padding:18,borderBottom:`1px solid ${BRAND.border}`}}>
