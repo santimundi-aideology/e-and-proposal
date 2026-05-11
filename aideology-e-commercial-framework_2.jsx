@@ -1044,6 +1044,60 @@ function SMBSegment({onViewChange}) {
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
+          <Badge v="teal">Forge schema</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>4 layers · 4 core functions · multi-cloud · multi-LLM</span>
+        </div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Open platform schema from Forge deep dive</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860,margin:0}}>
+          Forge is not a collection of agents. It is the agentic intelligence layer that lets e& run multi-agent workflows across clouds, models, connectors and compliance regimes without rebuilding each agent.
+        </p>
+      </div>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"grid",gap:10}}>
+          {[
+            {layer:"Layer 1",title:"Agentic applications",sub:"What SMBs use",items:["Customer Agent","Sales Agent","Finance Agent","Ops Agent","Comms Hub","People Agent"],color:BRAND.red},
+            {layer:"Layer 2",title:"Forge orchestration middleware",sub:"What AIdeology owns",items:["Multi-agent coordination","State & memory","LLM abstraction","Connector management","Prompt versioning","Observability","Guardrails","Multi-tenant orchestration"],color:"#D14600"},
+            {layer:"Layer 3",title:"Infrastructure abstraction",sub:"Where e& chooses to run it",items:["G42 / OCI + H100","Azure / OpenAI API","AWS / Bedrock","On-prem future option"],color:"#7A52F4"},
+            {layer:"Layer 4",title:"LLM choice layer",sub:"Swappable, not locked",items:["Claude","GPT","Llama","Mixtral","Custom models"],color:"#004B2E"},
+          ].map((l,i)=><div key={i} style={{border:`1px solid ${BRAND.border}`,background:BRAND.white,display:"grid",gridTemplateColumns:"220px 1fr",minHeight:86,boxShadow:i===1?"0 8px 18px -18px rgba(17,17,17,0.35)":"none"}}>
+            <div style={{padding:"16px 18px",background:l.color,color:BRAND.white,display:"flex",flexDirection:"column",justifyContent:"center"}}>
+              <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",opacity:0.8}}>{l.layer}</div>
+              <div style={{fontSize:15,fontWeight:700,marginTop:3,lineHeight:1.25}}>{l.title}</div>
+              <div style={{fontSize:10.5,opacity:0.85,marginTop:4}}>{l.sub}</div>
+            </div>
+            <div style={{padding:"16px 18px",display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(160px, 1fr))",gap:"6px 14px",alignContent:"center"}}>
+              {l.items.map((item,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:8}}>
+                <span style={{width:5,height:5,background:l.color,flexShrink:0,marginTop:6}}/>
+                <span style={{fontSize:11.5,color:"#666",lineHeight:1.45}}>{item}</span>
+              </div>)}
+            </div>
+          </div>)}
+        </div>
+      </div>
+      <div style={{padding:"20px 26px"}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:12}}>Forge core functions</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:12}}>
+          {[
+            {n:"01",t:"Agent orchestration",d:"Coordinates multiple agents, shares context across workflows, handles failover, rate limits and load balancing. Example: Customer Agent qualifies a lead, Sales Agent creates a proposal, Finance Agent generates the invoice."},
+            {n:"02",t:"LLM abstraction",d:"Provides one API across Claude, GPT, Llama or local models. e& can switch models or routing policies for cost, speed or compliance without rewriting agent code."},
+            {n:"03",t:"Connector management",d:"Centralises reusable integrations, credential storage, data mapping and transformation for CRM, finance, communication, payment and productivity tools."},
+            {n:"04",t:"Observability & governance",d:"Tracks agent behaviour, cost per agent, response times, success rates, audit logs, PII masking, approval workflows and safety guardrails."},
+          ].map((f,i)=><div key={i} style={{padding:16,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace",marginBottom:6}}>{f.n}</div>
+            <h5 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{f.t}</h5>
+            <p style={{fontSize:11.5,color:"#666",lineHeight:1.55,margin:0}}>{f.d}</p>
+          </div>)}
+        </div>
+      </div>
+      <div style={{padding:"16px 26px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`}}>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:0}}>
+          <strong>Strategic implication:</strong> agents are the applications, but Forge is the durable platform IP. e& can add clouds, models, connectors and new agents over time while keeping one orchestration, governance and observability layer.
+        </p>
+      </div>
+    </Card>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8,flexWrap:"wrap"}}>
           <Badge v="teal">30 days</Badge>
           <span style={{fontSize:11.5,color:"#888"}}>SMB launch · one managed Kubernetes cluster</span>
         </div>
@@ -1808,9 +1862,522 @@ function SMBSegment({onViewChange}) {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* ENTERPRISE TIER PROPOSAL PAGES — Tier 1 / Tier 2 / Tier 3   */
+/* ════════════════════════════════════════════════════════════ */
+
+function TierHero({eyebrow, title, lead, sub, stats}) {
+  return <div style={{padding:"44px 0 36px"}}>
+    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+      <Badge v="violet">Pillar 02 · Enterprise & Government</Badge>
+      <span style={{fontSize:12,color:"#888"}}>{eyebrow}</span>
+    </div>
+    <h2 style={{fontSize:34,fontWeight:700,color:"#111",lineHeight:1.08,marginBottom:14,fontFamily:BRAND.font}}>{title}</h2>
+    <p style={{fontSize:14.5,color:"#666",maxWidth:680,lineHeight:1.7,marginBottom:10}}>{lead}</p>
+    {sub && <p style={{fontSize:13,color:"#888",maxWidth:680,lineHeight:1.7,marginBottom:28}}>{sub}</p>}
+    <div style={{display:"flex",gap:28,flexWrap:"wrap"}}>
+      {stats.map((s,i)=><div key={i} style={{minWidth:90}}>
+        <div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:10.5,color:"#999",marginTop:2}}>{s.l}</div>
+      </div>)}
+    </div>
+  </div>;
+}
+
+function DeploymentOptions({tier}) {
+  const opts = {
+    1: [
+      {n:"e& Cloud",d:"Default for Tier 1. Multi-tenant landing zone with enterprise RBAC, audit, and SSO. Day-0 templates ready.",badges:["Fastest","Lowest TCO"]},
+      {n:"G42 / Core42 Sovereign",d:"For customers requiring UAE-sovereign cloud — health authorities, government agencies, regulated finance.",badges:["Sovereign","Fast"]},
+      {n:"Customer Cloud / On-Prem",d:"Available for Tier 1 only when customer already operates a private landing zone — uplift quoted via Tier 3 add-on.",badges:["By exception"]},
+    ],
+    2: [
+      {n:"e& Cloud",d:"Preferred environment for Tier 2 builds. Dedicated VPC per customer, full audit, AIdeology operates the AI plane.",badges:["Default"]},
+      {n:"G42 / Core42 Sovereign",d:"Sovereign cloud option for healthcare regulators, government, and CBUAE-supervised entities.",badges:["Sovereign"]},
+      {n:"Customer Private Cloud",d:"OCI Dedicated Region, Azure UAE-sovereign, or AWS UAE — when the customer mandates their own tenancy.",badges:["Customer-owned"]},
+    ],
+    3: [
+      {n:"Customer On-Premise (default)",d:"Customer data centre. NVIDIA-Certified BoM from Cisco, Dell, HPE, Lenovo or Supermicro. AIdeology designs, e& integrates, partner OEM ships.",badges:["Air-gap capable","Full sovereignty"]},
+      {n:"e& Sovereign POD",d:"Customer-dedicated POD inside an e& UAE data centre. Physical separation, single-tenant network, customer-owned encryption keys.",badges:["UAE-resident"]},
+      {n:"G42 / Core42 Sovereign POD",d:"Customer-dedicated tenancy in Core42 sovereign region. Suited for federal entities aligned with G42 reference architectures.",badges:["Federal-fit"]},
+    ],
+  };
+  return <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+    {opts[tier].map((o,i)=><Card key={i} style={{padding:18}}>
+      <h4 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8}}>{o.n}</h4>
+      <p style={{fontSize:12,color:"#777",lineHeight:1.6,marginBottom:10}}>{o.d}</p>
+      <div style={{display:"flex",flexWrap:"wrap",gap:5}}>{o.badges.map((b,j)=><Badge key={j} v="violet">{b}</Badge>)}</div>
+    </Card>)}
+  </div>;
+}
+
+/* ──────────── TIER 1 — ADAPTED SMB AGENTS ──────────── */
+function Tier1Page() {
+  const adapted = [
+    {n:"Customer Agent",sm:"Voice + WhatsApp + web chat in Arabic/English",up:"Multi-branch routing, CRM/ERP customer 360, compliance-grade transcripts, fine-tuned on customer scripts and tone of voice.",icon:"🎯"},
+    {n:"Sales Agent",sm:"Lead-to-close pipeline + AI follow-ups",up:"Native sync with Salesforce / Dynamics / Oracle Sales / SAP CX, deal-team RBAC, audit trail on every commercial output, fine-tuned for sector pricing logic.",icon:"📈"},
+    {n:"Comms Hub",sm:"Unified inbox + AI campaign orchestration",up:"Brand & legal review gates, multi-language broadcast, segment governance, e& BSP enterprise tier with template approval workflow and DLP.",icon:"📡"},
+    {n:"Finance Agent",sm:"Invoices, VAT, cash flow, expenses",up:"Deep ERP integration (Oracle Fusion, SAP S/4HANA, Business Central, NetSuite), multi-entity & multi-currency, audit-grade journal posting, FTA e-invoicing.",icon:"💰"},
+    {n:"Ops Agent",sm:"Tasks, approvals, SOPs, tickets",up:"ServiceNow / Jira Service Management / Remedy connectors, ITIL-grade ticketing, multi-step approval flows with delegation, SOP versioning + RBAC.",icon:"⚙️"},
+    {n:"People Agent",sm:"WPS payroll, attendance, leave",up:"Oracle HCM / SuccessFactors / Workday integration, MOHRE/GDRFA workflows, multi-emirate compliance, sensitive-data masking, employee SSO.",icon:"👥"},
+  ];
+  const uplifts = [
+    {t:"Multi-branch & multi-entity",d:"Routing, RBAC and reporting that handle 5 to 500 branches, multiple legal entities, and cross-border subsidiaries. Customer agents follow the same conversation across any branch."},
+    {t:"Deep ERP / CRM / HIS connectivity",d:"Production-grade connectors to Oracle Fusion, SAP S/4HANA, Microsoft Dynamics, Salesforce, Epic, Cerner, Temenos and Finacle — read/write with reconciliation, retries, and dead-letter queues."},
+    {t:"Compliance logging & RBAC",d:"Every agent action logged to an immutable trail. Per-role permission matrices, data masking, redaction, and customer-signed audit exports for DHA, CBUAE, NESA and ADDA."},
+    {t:"Domain fine-tuning",d:"Each agent fine-tuned on the customer's terminology, products, scripts and policies. Medical Arabic, banking Arabic, legal Arabic — handled natively, not as a translation layer."},
+  ];
+  return <div>
+    <TierHero
+      eyebrow="Tier 1 · Adapted Agents · Co-sell · Deliver · Operate"
+      title="Tier 1 — Adapted SMB Agents for Enterprise"
+      lead="Take the proven six-agent suite that powers the SMB platform and harden it for one specific enterprise customer. Same architecture, deeper integrations, fine-tuned models, and an SLA-backed delivery wrap."
+      sub="Built on the SMB platform baseline. Each adapted agent ships in 4–6 weeks. The first agent absorbs the integration work; subsequent agents reuse the connectors at 60% then 50% of the first-agent fee."
+      stats={[{v:"6 agents",l:"Catalogued & ready"},{v:"60 days",l:"First agent live"},{v:"–40%",l:"Agent #2 cost"},{v:"–50%",l:"Agent #3+ cost"},{v:"SLA-backed",l:"Delivery wrap"}]}
+    />
+
+    <Note label="The proposition">
+      The customer is not buying a chatbot. They are buying production agents — already proven on the SMB platform — adapted to their ERP, branches, compliance posture and tone of voice. The first agent carries the integration tax (SSO, ERP connector, audit fabric); every additional agent rides on top of that platform tax for a fraction of the cost.
+    </Note>
+
+    <SH>The six adapted agents</SH>
+    <p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,maxWidth:820,marginBottom:18}}>Each agent inherits the SMB build, then gets an enterprise uplift: multi-branch routing, deeper systems-of-record connectors, compliance logging, RBAC, and domain fine-tuning on the customer's data.</p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:14}}>
+      {adapted.map((a,i)=><Card key={i} style={{padding:18}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+          <span style={{width:34,height:34,background:BRAND.lightGrey,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{a.icon}</span>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>{a.n}</h4>
+        </div>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:5}}>SMB baseline</div>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.55,marginBottom:10}}>{a.sm}</p>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.red,textTransform:"uppercase",marginBottom:5}}>Enterprise uplift</div>
+        <p style={{fontSize:12,color:"#555",lineHeight:1.6}}>{a.up}</p>
+      </Card>)}
+    </div>
+
+    <SH>What changes vs the SMB version</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:12,marginBottom:14}}>
+      {uplifts.map((u,i)=><Card key={i} style={{padding:18}}>
+        <span style={{fontSize:10,fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>0{i+1}</span>
+        <h4 style={{fontSize:13,fontWeight:700,color:"#111",margin:"4px 0 8px"}}>{u.t}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>{u.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Industry packaging — which agents fit which sector</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:760}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Sector","Lead agents","Systems of record","Compliance"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {s:"Healthcare",a:"Customer · Ops · People",sys:"Epic, Cerner, ClinicMaster, Oracle Health",c:"DHA, MOH, ADDA"},
+              {s:"Banking & Insurance",a:"Customer · Sales · Comms · Finance",sys:"Temenos, Finacle, Oracle Flexcube, Salesforce FS Cloud",c:"CBUAE, AML, ADGM, FATCA"},
+              {s:"Real Estate",a:"Customer · Sales · Ops",sys:"Yardi, Salesforce RE, Oracle CX, DLD APIs",c:"DLD, RERA"},
+              {s:"Retail & QSR",a:"Customer · Comms · Finance · People",sys:"Oracle Retail, SAP CAR, Shopify Plus, NetSuite",c:"FTA e-invoicing, MOHRE"},
+              {s:"Energy & Utilities",a:"Ops · People · Comms",sys:"SAP S/4HANA, Maximo, OSIsoft, ServiceNow",c:"NESA, ADDA, OSHAD"},
+              {s:"Government",a:"Customer · Ops · Comms",sys:"Oracle Fusion, SharePoint, gov-cloud directories",c:"ADDA, NESA, federal data residency"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:"#111",whiteSpace:"nowrap"}}>{r.s}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontWeight:600}}>{r.a}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.sys}</td>
+              <td style={{padding:"12px 14px",color:"#111"}}>{r.c}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <SH>Engagement model — three phases per agent</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {st:"Phase 01 · Discovery & SDD",time:"Weeks 1–2",t:"Spec it before we build",d:"Customer workshops, systems-of-record audit, integration map, SDD blueprint with acceptance criteria. e& account team co-leads.",items:["Customer journey & data audit","SDD spec & blueprint signed","Integration & RBAC plan","Go / no-go gate"]},
+        {st:"Phase 02 · Build & UAT",time:"Weeks 3–6",t:"Adapt the agent to the customer",d:"AIdeology adapts the SMB agent on the platform baseline. Live ERP/CRM/HIS connectors. Domain fine-tune on customer data. UAT with named customer reviewers.",items:["SMB agent adapted","Connectors live, audit on","Fine-tune cycle complete","UAT sign-off gate"]},
+        {st:"Phase 03 · Launch & Hypercare",time:"Weeks 7–8 + 30 days",t:"Go live and stabilise",d:"Production cut-over, SLA-backed monitoring, weekly performance review. Handover into the managed service. e& field engineers shadow throughout.",items:["Production launch","30-day hypercare","Managed service handover","KPI baseline locked"]},
+      ].map((s,i)=><Card key={i} style={{padding:18}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+          <span style={{fontSize:10.5,fontWeight:700,color:"#999"}}>{s.st}</span><Badge v="violet">{s.time}</Badge>
+        </div>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>{s.t}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,marginBottom:10}}>{s.d}</p>
+        {s.items.map((it,j)=><div key={j} style={{display:"flex",alignItems:"center",gap:7,fontSize:12,color:"#555",marginBottom:4}}>
+          <span style={{color:BRAND.red,flexShrink:0}}><CheckIcon/></span>{it}
+        </div>)}
+      </Card>)}
+    </div>
+
+    <SH>Pricing — per agent, per customer</SH>
+    <CommercialBox title="Tier 1 · Adapted Agents — list pricing" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
+      {label:"Setup fee — Agent #1",value:"$60K–$80K",type:"per first agent · per customer",desc:"Includes SSO, ERP/CRM connector, audit fabric, RBAC. The first agent absorbs the integration tax."},
+      {label:"Setup fee — Agent #2",value:"$36K–$48K",type:"60% of first-agent price",desc:"Reuses connectors and audit fabric. Only the agent-specific build, fine-tune and UAT remain."},
+      {label:"Setup fee — Agent #3+",value:"$30K–$40K",type:"50% of first-agent price",desc:"Full integration leverage. Each additional agent ships against the same platform tax already paid."},
+      {label:"Managed service",value:"$5K–$15K",type:"per customer · per month",desc:"24/7 monitoring, model drift management, monthly evolution releases, customer-success cadence."},
+    ]}/>
+    <Note label="Amortisation example — 3 agents for one bank">
+      Customer Agent (#1) at $80K + Sales Agent (#2) at $48K + Finance Agent (#3) at $40K = $168K total setup. Versus three independent first-agents at $240K → <strong style={{color:BRAND.black}}>30% saving</strong> by ordering three together. The customer keeps the bundle pricing on every additional agent for the duration of the contract.
+    </Note>
+
+    <SH>Deployment options</SH>
+    <DeploymentOptions tier={1}/>
+
+    <SH>Timeline — first three agents</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:720}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Milestone","Agent #1","Agent #2","Agent #3"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {m:"Discovery & SDD signed",a1:"Day 14",a2:"Day 7",a3:"Day 5"},
+              {m:"Connectors live",a1:"Day 28",a2:"Reused",a3:"Reused"},
+              {m:"Build complete",a1:"Day 42",a2:"Day 21",a3:"Day 18"},
+              {m:"UAT sign-off",a1:"Day 50",a2:"Day 28",a3:"Day 24"},
+              {m:"Production go-live",a1:"Day 60",a2:"Day 35",a3:"Day 30"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:600,color:"#111"}}>{r.m}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.a1}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.a2}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{r.a3}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+
+    <SH>Commercial model</SH>
+    <CommercialBox title="Tier 1 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
+      {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"e& fronts the customer, sells, and books the contract. AIdeology delivers and is the technical author of record."},
+      {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the AI plane. e& contributes account management, hosting & connectivity. Reviewed annually."},
+      {label:"Hosting & connectivity",value:"100% e&",type:"On top of project & managed",desc:"e& cloud, G42 colocation, SIM, SMS, Toll Free 800 — all carried on the e& bill, full margin to e&."},
+    ]}/>
+
+    <SH>Why Tier 1 wins</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"Faster than Copilot",d:"Microsoft Copilot configures workflows; Tier 1 ships a production-grade agent in 60 days, fine-tuned on the customer's own data, integrated to their actual ERP."},
+        {t:"Cheaper than custom build",d:"A SI-led custom equivalent runs $250K–$400K and 6 months. Tier 1 starts at $60K and 60 days because the SMB platform did the heavy lifting."},
+        {t:"Already in production",d:"The same agent runs across hundreds of SMBs. Maturity, guardrails and Arabic NLP are field-tested before the first enterprise customer signs."},
+        {t:"e& is the front, AIdeology is the engine",d:"Customer signs an e& contract with an e& SLA. AIdeology is invisible to procurement — and irreplaceable to delivery."},
+      ].map((c,i)=><Card key={i} style={{padding:18}}>
+        <h4 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{c.t}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>{c.d}</p>
+      </Card>)}
+    </div>
+  </div>;
+}
+
+/* ──────────── TIER 2 — CUSTOM AI SOLUTIONS ──────────── */
+function Tier2Page() {
+  return <div>
+    <TierHero
+      eyebrow="Tier 2 · Custom AI · Multi-agent · e& / G42 cloud"
+      title="Tier 2 — Custom AI Solutions"
+      lead="When a customer's workflow is too specific for an adapted agent, Tier 2 builds a multi-agent solution from spec. Five solution families ship today, headlined by the AI Contact Centre Software for enterprises."
+      sub="Tier 2 deploys into e& cloud or G42 / Core42 sovereign cloud — controlled, repeatable environments where AIdeology owns the AI plane and e& owns the customer relationship."
+      stats={[{v:"5 families",l:"Solution catalog"},{v:"16–22 wks",l:"Per project"},{v:"$300K–$680K",l:"Typical project"},{v:"e& / G42",l:"Default cloud"},{v:"Multi-agent",l:"Architecture"}]}
+    />
+
+    <Note label="The proposition">
+      Tier 1 adapts proven agents. Tier 2 builds the workflow itself. Where the customer needs document processing at scale, multi-step approval orchestration, predictive operations, or a full AI-native contact centre — Tier 2 ships a custom multi-agent platform with named human-in-the-loop gates, deep integrations, and a managed service from day one. The cloud is e&'s; the architecture is AIdeology's; the customer relationship stays with e&.
+    </Note>
+
+    <SH>The five Tier 2 solution families</SH>
+
+    {/* HEADLINE — AI Contact Centre */}
+    <Card style={{padding:0,overflow:"hidden",borderLeft:`4px solid ${BRAND.red}`,marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+          <Badge v="violet">Headline solution</Badge>
+          <span style={{fontSize:11.5,color:"#888"}}>Voice · WhatsApp · web · agent assist · supervisor</span>
+        </div>
+        <h3 style={{fontSize:22,fontWeight:700,color:"#111",margin:"0 0 8px"}}>AI Contact Centre Software for Enterprises</h3>
+        <p style={{fontSize:13,color:"#555",lineHeight:1.7,maxWidth:820,margin:0}}>A full AI-native contact centre platform — voice, WhatsApp, web chat, agent assist, supervisor analytics — deployed into e& or G42 cloud. AI handles tier-1 traffic end-to-end; humans handle escalation with live agent assist. Connects to the customer's CRM, ERP, HIS, ticketing and IVR — and is fully integrated with e& Smart Messaging, Toll Free 800, and BSP.</p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))"}}>
+        {[
+          {t:"AI front line",d:"Voice + WhatsApp + web chat handled by an AI agent fine-tuned on customer scripts. Resolves ~50–70% of tier-1 traffic without escalation."},
+          {t:"Agent assist & co-pilot",d:"Live transcription, knowledge retrieval, next-best-action and post-call summary for human agents. Halves average handle time."},
+          {t:"Supervisor analytics",d:"Sentiment, compliance, FCR, AHT, first-response, escalation reasons — live dashboards and automated coaching plans."},
+          {t:"Integrations",d:"CRM (Salesforce, Dynamics, Oracle CX), ERP, HIS, ticketing (ServiceNow, Zendesk), IVR, e& BSP, Toll Free 800, Smart Messaging."},
+          {t:"Compliance",d:"PCI redaction, call recording, RBAC, audit, sentiment-driven escalation. CBUAE, DHA, NESA controls supported."},
+          {t:"Deployment",d:"e& or G42 cloud. Sovereign POD option. AIdeology operates 24/7. Outcome-based pricing available."},
+        ].map((c,i)=><div key={i} style={{padding:18,borderRight:i<5?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.06em",color:BRAND.red,textTransform:"uppercase",marginBottom:6}}>{c.t}</div>
+          <div style={{fontSize:12,color:"#666",lineHeight:1.55}}>{c.d}</div>
+        </div>)}
+      </div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 26px",borderTop:`1px solid ${BRAND.border}`,flexWrap:"wrap",gap:10}}>
+        <div style={{fontSize:12,color:"#777",lineHeight:1.55,maxWidth:560}}>Sample sizing — 200-seat enterprise contact centre, three customer journeys, full integration with Salesforce and the customer's IVR.</div>
+        <div style={{display:"flex",alignItems:"baseline",gap:14}}>
+          <div><div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>$550K–$680K</div><div style={{fontSize:10.5,color:"#999"}}>Build · once-off</div></div>
+          <div><div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>$25K–$45K</div><div style={{fontSize:10.5,color:"#999"}}>Managed · per month</div></div>
+        </div>
+      </div>
+    </Card>
+
+    {/* The four other Tier 2 families */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {n:"Document Intelligence Suite",d:"Bulk extraction, classification and downstream actioning of contracts, KYC packs, claims, invoices, lab reports — Arabic and English. Deep ingestion to ERP/CRM/HIS.",bullets:["OCR + LLM extraction","Multi-format Arabic","RAG knowledge base","Audit trail per document"],price:"$320K–$480K",managed:"$15K–$28K / mo"},
+        {n:"Approval Orchestration Platform",d:"Multi-step business approvals (procurement, credit, expense, expense, contract redlines) automated end-to-end with named human gates and deterministic policy.",bullets:["Workflow designer","Policy as code","Human-in-loop gates","SLA & escalation engine"],price:"$300K–$450K",managed:"$12K–$22K / mo"},
+        {n:"Predictive Maintenance Agent",d:"Sensor + ERP fusion to predict equipment failure, schedule field intervention and pre-order parts. Built for energy, utilities, large facilities, and manufacturing.",bullets:["Time-series + LLM fusion","SAP PM integration","Field ops dispatch","Reliability dashboard"],price:"$420K–$600K",managed:"$20K–$35K / mo"},
+        {n:"Security & Compliance Agent",d:"Continuous policy monitoring across logs, transactions and agent outputs. Auto-flags anomalies, drafts incident reports, and feeds into the customer's SIEM and Help AG operations.",bullets:["Policy as code","SIEM integration","Anomaly detection","Auto-draft incident reports"],price:"$350K–$520K",managed:"$18K–$30K / mo"},
+      ].map((s,i)=><Card key={i} style={{padding:18,display:"flex",flexDirection:"column"}}>
+        <Badge v="violet">Tier 2 · solution</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 6px"}}>{s.n}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,marginBottom:12}}>{s.d}</p>
+        <div style={{flex:1,display:"flex",flexDirection:"column",gap:5,marginBottom:14}}>
+          {s.bullets.map((b,j)=><div key={j} style={{display:"flex",alignItems:"center",gap:7,fontSize:12,color:"#555"}}>
+            <span style={{color:BRAND.red,flexShrink:0}}><CheckIcon/></span>{b}
+          </div>)}
+        </div>
+        <div style={{borderTop:`1px solid ${BRAND.border}`,paddingTop:12,display:"flex",justifyContent:"space-between",alignItems:"baseline",flexWrap:"wrap",gap:8}}>
+          <div><div style={{fontSize:18,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.price}</div><div style={{fontSize:10.5,color:"#999"}}>Build</div></div>
+          <div style={{textAlign:"right"}}><div style={{fontSize:14,fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{s.managed}</div><div style={{fontSize:10.5,color:"#999"}}>Managed</div></div>
+        </div>
+      </Card>)}
+    </div>
+
+    <SH>Architecture pattern — multi-agent with named gates</SH>
+    <Card style={{padding:24}}>
+      <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:14}}>Every Tier 2 solution is built on the same architectural skeleton — a multi-agent system with deterministic policy at the edges and a managed service in the middle.</p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12}}>
+        {[
+          {n:"01 Channels",d:"Voice, WhatsApp, web, email, IVR, Teams, ticketing — handled through the customer's existing front-door."},
+          {n:"02 Orchestrator",d:"Multi-agent framework routes between specialised agents, calls tools, manages memory, enforces guardrails."},
+          {n:"03 Agents",d:"Specialist agents per task — extractor, classifier, approver, drafter, verifier — each with tool permissions."},
+          {n:"04 Connectors",d:"Read/write to ERP/CRM/HIS/SIEM through the API gateway. Reconciliation, retries, dead-letter queues, schema mapping."},
+          {n:"05 Human gates",d:"Named reviewers (compliance, legal, clinical, finance) approve before any commitment, payment or external send."},
+          {n:"06 Audit & RBAC",d:"Immutable trail of every action, prompt, retrieval and decision. Per-role permission matrix and customer-signed exports."},
+        ].map((b,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.04em",marginBottom:4}}>{b.n}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{b.d}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>Engagement model — five stages</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {st:"01 Discovery",time:"Wks 1–3",d:"Workshops, data audit, integration map, success metrics. e& account team co-leads."},
+        {st:"02 SDD",time:"Wks 4–6",d:"Spec-Driven Design: agent blueprints, acceptance criteria, test plan, RACI, security review."},
+        {st:"03 Build",time:"Wks 7–14",d:"Multi-agent build, connector integration, fine-tune, internal QA. Bi-weekly demo."},
+        {st:"04 Pilot",time:"Wks 15–18",d:"Limited production with named users. Live KPIs, weekly iteration, named human gates active."},
+        {st:"05 Scale",time:"Wks 19–22",d:"Full rollout, SLA-backed handover into managed service, customer success cadence locked."},
+      ].map((s,i)=><Card key={i} style={{padding:16}}>
+        <div style={{fontSize:11,fontWeight:700,color:"#999"}}>{s.st}</div>
+        <Badge v="violet">{s.time}</Badge>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.55,marginTop:10}}>{s.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Deployment options</SH>
+    <DeploymentOptions tier={2}/>
+
+    <SH>Industry use cases</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+      {[
+        {n:"Bank · 24/7 AI Contact Centre",d:"AI handles 60% of tier-1 retail traffic across voice, WhatsApp and web. Live agent assist on the rest. CBUAE compliance built-in. e& BSP and Toll Free 800 carry the volume."},
+        {n:"Health regulator · Document Intelligence",d:"Bulk processing of clinical files in Arabic. Triage to inspectors with audit-grade RAG. Sovereign G42 cloud."},
+        {n:"Federal entity · Approval Orchestration",d:"Procurement and tender approvals automated end-to-end with policy-as-code and named ministerial review gates."},
+        {n:"Energy major · Predictive Maintenance",d:"Sensor + SAP PM fusion across 14 sites. Field dispatch automated, parts pre-ordered, MTBF improved 22%."},
+      ].map((u,i)=><Card key={i} style={{padding:18}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:6}}>{u.n}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>{u.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Commercial model</SH>
+    <CommercialBox title="Tier 2 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
+      {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"Build fee invoiced by e&. AIdeology delivers as the technical sub-contractor of record."},
+      {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the platform 24/7. Outcome-based pricing available on the AI Contact Centre."},
+      {label:"Hosting & connectivity",value:"100% e&",type:"e& cloud or G42",desc:"Compute, storage, networking, e& BSP and Toll Free 800 all on the e& bill."},
+    ]}/>
+
+    <Note label="Custom bespoke — outside the catalog">
+      For requirements that fall outside the five Tier 2 families — fully bespoke industrial AI, scientific copilots, or proprietary trading tools — AIdeology runs a custom bespoke engagement on a time-and-materials basis. Same delivery method, same commercial model, scoped per opportunity. Bespoke work that proves repeatable becomes a sixth Tier 2 family.
+    </Note>
+  </div>;
+}
+
+/* ──────────── TIER 3 — SOVEREIGN & ON-PREM ──────────── */
+function Tier3Page() {
+  return <div>
+    <TierHero
+      eyebrow="Tier 3 · Sovereign · Air-gap capable · Customer site"
+      title="Tier 3 — Sovereign & On-Prem Deployments"
+      lead="Take any Tier 2 solution and deploy it into the customer's own data centre — air-gap capable, NESA-grade, with NVIDIA-Certified hardware sized to the workload. Tier 3 is the answer when cloud is not allowed."
+      sub="The HPC Reference Architecture library means every BoM is pre-vetted by NVIDIA's Design Review Board. AIdeology designs, e& integrates, the chosen OEM ships — Cisco, Dell, HPE, Lenovo or Supermicro."
+      stats={[{v:"6 layers",l:"Sovereign uplift"},{v:"24–30 wks",l:"Per project"},{v:"$600K–$1M+",l:"Build fee"},{v:"5 OEMs",l:"NVIDIA-Certified"},{v:"32–256 GPU",l:"Standard pod"}]}
+    />
+
+    <Note label="The proposition">
+      Tier 3 is Tier 2 with a customer-site uplift. The customer keeps the data, the perimeter, the keys and the audit trail. AIdeology designs and operates the AI plane; e& integrates the network, security and managed service; the OEM ships the NVIDIA-Certified iron from a pre-vetted reference architecture. The HPC RA library means we can quote a binding BoM on day one — not after a six-week design phase.
+    </Note>
+
+    <SH>What we deliver — Tier 2 baseline + sovereign uplift</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:14}}>
+      <Card style={{padding:18}}>
+        <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",color:BRAND.grey,textTransform:"uppercase",marginBottom:8}}>Tier 2 baseline (inherited)</div>
+        <p style={{fontSize:12.5,color:"#666",lineHeight:1.7}}>Multi-agent orchestrator, named-agent specialists, ERP/CRM/HIS connectors, RAG and fine-tuning, human-in-the-loop gates, audit & RBAC, managed service. Same software stack as cloud Tier 2.</p>
+      </Card>
+      <Card style={{padding:18,borderLeft:`4px solid ${BRAND.red}`}}>
+        <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",color:BRAND.red,textTransform:"uppercase",marginBottom:8}}>Tier 3 sovereign uplift (added)</div>
+        <p style={{fontSize:12.5,color:"#666",lineHeight:1.7}}>Customer-site architecture, NVIDIA-Certified BoM coordination, air-gap capable build, customer-owned encryption keys, sovereign data residency, Help AG security wrap, on-site commissioning, on-call sovereign managed service.</p>
+      </Card>
+    </div>
+
+    <SH>The six sovereign layers</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+      {[
+        {n:"01",t:"Customer-specific architecture",d:"Site survey, network design, identity integration, and DC-floor plan tailored to the customer's existing operations and security posture."},
+        {n:"02",t:"NVIDIA-Certified hardware",d:"BoM picked from the HPC RA library — Cisco, Dell, HPE, Lenovo or Supermicro. Pattern, NIC count, fabric and storage tier signed off by NVIDIA's Design Review Board before quote."},
+        {n:"03",t:"Air-gap & network isolation",d:"Optional fully air-gapped build. Multi-rail Spectrum-X or InfiniBand fabric. North-south, east-west, storage and management fabrics physically separated as required."},
+        {n:"04",t:"Help AG security wrap",d:"Sovereign managed security: SOC integration, IAM/PAM, DLP, SIEM, vulnerability management, NESA controls. e&'s wholly-owned cyber arm — same paper, same SLA."},
+        {n:"05",t:"Sovereign data residency",d:"All data, models, weights, embeddings, transcripts and logs remain on customer site. Customer-owned encryption keys via HSM. Full audit export under customer signature."},
+        {n:"06",t:"Operationalisation & handover",d:"24-week build, 30-day hypercare, optional 12–36-month managed service. AIdeology trains the customer's MLOps team for full handover by year 2."},
+      ].map((l,i)=><Card key={i} style={{padding:16}}>
+        <span style={{fontSize:10,fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{l.n}</span>
+        <h4 style={{fontSize:13,fontWeight:600,color:"#111",margin:"4px 0"}}>{l.t}</h4>
+        <p style={{fontSize:11.5,color:"#777",lineHeight:1.55}}>{l.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>HPC RA library — agility on every BoM</SH>
+    <Card style={{padding:24,borderLeft:`4px solid ${BRAND.red}`,marginBottom:16}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10,flexWrap:"wrap"}}>
+        <Badge v="rose">Pre-vetted by NVIDIA Design Review Board</Badge>
+        <span style={{fontSize:11.5,color:"#888"}}>3 RA families · 5 OEMs · 8+ NVIDIA-Certified BoMs</span>
+      </div>
+      <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:8}}>
+        The HPC Reference Architectures page (top-nav) is the BoM engine. For every Tier 3 opportunity we pick a pattern (RTX PRO 2-8-5-200, HGX 2-8-9-400, or NVL72 2-8-9-800), pick an OEM, pick a node count, and lift the BoM directly into the proposal. The customer gets a binding spec on day one; the OEM is committed; e& integrates against a known design.
+      </p>
+      <p style={{fontSize:13,color:"#555",lineHeight:1.7,margin:0}}>
+        That agility is what makes Tier 3 viable at fixed price. Without the RA library, every sovereign deal would need a six-week design phase before the customer sees a number.
+      </p>
+    </Card>
+
+    <SH>OEM partners — pick the BoM, ship the iron</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:10,marginBottom:14}}>
+      {[
+        {v:"Cisco",d:"UCS X-Series with HGX H200/B200. Spectrum-X 400 GbE fabric. Strong fit when customer is already a Cisco network shop."},
+        {v:"Dell Technologies",d:"PowerEdge XE9680 / XE9685 — flagship HGX node. Dell AI Factory reference. Broadest customer footprint in the UAE."},
+        {v:"HPE",d:"ProLiant Compute XD685 + Cray EX. PCAI software stack. Strong in government and federal accounts."},
+        {v:"Lenovo",d:"ThinkSystem SR685a V3 with HGX H200. Tight fit for healthcare and academic research clusters."},
+        {v:"Supermicro",d:"GPU SuperServer SYS-821GE / SYS-A21GE for HGX and RTX PRO. Most flexible BoM at the lowest entry point."},
+      ].map((o,i)=><Card key={i} style={{padding:14}}>
+        <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:5}}>{o.v}</div>
+        <div style={{fontSize:11.5,color:"#777",lineHeight:1.55}}>{o.d}</div>
+      </Card>)}
+    </div>
+
+    <SH>Sizing options — from department to standard pod</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:760}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Sizing","Nodes","GPUs","Use case","Indicative hardware*"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {s:"Department pilot",n:"4 nodes · 1 SU",g:"32 GPUs",u:"Single-department production agent. First production-grade Tier 3 build.",hw:"$0.9M–$1.6M"},
+              {s:"Standard pod",n:"32 nodes · 8 SUs",g:"256 GPUs",u:"NVIDIA's default-tested HGX/RTX PRO end-state. Multi-department, multi-solution sovereign AI factory.",hw:"$6M–$10M"},
+              {s:"Max pod (HGX)",n:"128 nodes · 32 SUs",g:"1,024 GPUs",u:"Frontier model training, multi-country sovereign AI factory, gov flagship.",hw:"$22M–$35M"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:"#111",whiteSpace:"nowrap"}}>{r.s}</td>
+              <td style={{padding:"12px 14px",color:"#111"}}>{r.n}</td>
+              <td style={{padding:"12px 14px",color:"#111"}}>{r.g}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey,lineHeight:1.5}}>{r.u}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontWeight:700,whiteSpace:"nowrap"}}>{r.hw}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"10px 14px",fontSize:10.5,color:"#999"}}>* Hardware indicative · NVIDIA-Certified BoM, OEM list price before AIdeology design fee, e& integration, networking, storage, software and Help AG wrap.</div>
+    </Card>
+
+    <SH>Help AG security partnership</SH>
+    <Card style={{padding:18,borderLeft:`4px solid ${BRAND.red}`,marginBottom:14}}>
+      <p style={{fontSize:13,color:"#555",lineHeight:1.7,margin:0}}>
+        Every Tier 3 build ships with the Help AG sovereign security wrap as standard. SOC, IAM, PAM, DLP, SIEM, NESA controls and incident response — all on the same e& contract, with one SLA. Help AG is e&'s wholly-owned cyber arm, which means the customer never has a third-party security vendor in the chain.
+      </p>
+    </Card>
+
+    <SH>Engagement model — six phases</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {st:"01 Discovery",time:"Wks 1–4",d:"Workshops, site survey, security review, BoM short-list from the HPC RA library."},
+        {st:"02 SDD + BoM lock",time:"Wks 5–8",d:"Spec-Driven Design signed. NVIDIA-Certified BoM committed. Help AG security plan locked."},
+        {st:"03 OEM ship & install",time:"Wks 9–14",d:"OEM ships hardware. e& field engineers install. AIdeology commissions the AI plane."},
+        {st:"04 Build",time:"Wks 15–22",d:"Multi-agent solution built and fine-tuned on customer data inside the perimeter."},
+        {st:"05 Pilot",time:"Wks 23–26",d:"Limited production with named users, named human gates, live KPI tracking."},
+        {st:"06 Scale & handover",time:"Wks 27–30",d:"Full rollout. 30-day hypercare. Optional managed service or full handover to customer MLOps."},
+      ].map((s,i)=><Card key={i} style={{padding:16}}>
+        <div style={{fontSize:11,fontWeight:700,color:"#999"}}>{s.st}</div>
+        <Badge v="violet">{s.time}</Badge>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.55,marginTop:10}}>{s.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Pricing structure — modular by line</SH>
+    <CommercialBox title="Tier 3 · build & operate" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
+      {label:"AIdeology design & build",value:"$600K–$1M",type:"per project · once-off",desc:"Tier 2 baseline + sovereign uplift. SDD, multi-agent build, fine-tune, audit fabric, on-site commissioning."},
+      {label:"NVIDIA-Certified BoM",value:"At cost",type:"OEM list · pass-through",desc:"Hardware sized via the HPC RA library. AIdeology coordinates, e& invoices, OEM ships."},
+      {label:"Help AG security wrap",value:"$80K–$220K",type:"build · then monthly",desc:"Initial onboarding plus an ongoing SOC retainer. NESA-aligned. One contract, one SLA."},
+      {label:"Sovereign managed service",value:"$25K–$60K",type:"per month",desc:"24/7 AI plane operations on customer site. Fine-tune cycles, model evolution, audit support."},
+    ]}/>
+
+    <SH>Customer scenarios</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+      {[
+        {n:"Federal government — sovereign AI factory",d:"Standard pod (32 nodes · 256 GPUs) on a federal data centre. Full air-gap. Approval Orchestration + Document Intelligence at federal scale. Help AG SOC integrated."},
+        {n:"National bank — on-prem AI Contact Centre",d:"Department pilot (4 nodes · 32 GPUs) inside the bank's tier-IV data centre. CBUAE-compliant call recording, PCI redaction, customer-owned keys."},
+        {n:"Health regulator — clinical document intelligence",d:"4-node sovereign pod with HGX H200. Bulk processing of clinical files in Arabic. DHA-aligned controls. AIdeology operates, regulator owns the data."},
+        {n:"Energy major — predictive operations",d:"8-node POD inside the operator's existing OT data centre. SAP PM and OSIsoft fusion. NESA-grade controls. 22% MTBF improvement target."},
+      ].map((u,i)=><Card key={i} style={{padding:18}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:6}}>{u.n}</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6}}>{u.d}</p>
+      </Card>)}
+    </div>
+
+    <SH>Deployment options</SH>
+    <DeploymentOptions tier={3}/>
+
+    <SH>Commercial model</SH>
+    <CommercialBox title="Tier 3 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
+      {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"e& is the prime contractor and customer-of-record. AIdeology delivers as the technical author. Help AG line is e&-led."},
+      {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the AI plane on customer site. e& covers integration, NOC, and Help AG security wrap."},
+      {label:"Hardware",value:"100% e&",type:"OEM pass-through",desc:"NVIDIA-Certified BoM invoiced by e&, full margin on hardware and integration."},
+    ]}/>
+
+    <Note label="Why Tier 3 wins for sovereign customers">
+      The customer keeps full sovereignty — data, keys, audit trail and physical perimeter all on their site. e& is the one paper, one SLA, one-throat-to-choke partner. AIdeology is the AI plane that no SI can match in Arabic depth and agent maturity. The HPC RA library means a binding BoM lands on the customer's desk on day one — not after six weeks of design.
+    </Note>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* ENTERPRISE & GOV */
 /* ════════════════════════════════════════════════════════════ */
+const ENT_TABS = ["Overview","Tier 1 — Adapted Agents","Tier 2 — Custom AI","Tier 3 — Sovereign On-Prem"];
 function EnterpriseSegment() {
+  const [entTab, setEntTab] = useState(0);
+  return <div>
+    {/* Sub-tab navigation */}
+    <div style={{display:"flex",gap:6,flexWrap:"wrap",padding:"24px 0 0"}}>
+      {ENT_TABS.map((t,i)=>{const a=entTab===i;return<button key={i} onClick={()=>{setEntTab(i);if(typeof window!=="undefined")window.scrollTo({top:0,behavior:"smooth"})}} style={{padding:"10px 18px",fontSize:12,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.15s"}}>{t}</button>})}
+    </div>
+
+    {entTab===0 && <EnterpriseOverview onTierSelect={setEntTab}/>}
+    {entTab===1 && <Tier1Page/>}
+    {entTab===2 && <Tier2Page/>}
+    {entTab===3 && <Tier3Page/>}
+  </div>;
+}
+
+function EnterpriseOverview({onTierSelect}) {
   return <div>
     <div style={{padding:"44px 0 36px"}}>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}><Badge v="violet">Pillar 02</Badge><span style={{fontSize:12,color:"#888"}}>Co-sell · Deliver · Operate</span></div>
@@ -1910,6 +2477,7 @@ function EnterpriseSegment() {
         <div style={{borderTop:"1px solid #f0f0f0",paddingTop:14}}>
           <div style={{fontSize:20,fontWeight:700,color:"#E00800",fontFamily:BRAND.font}}>{t.price}</div>
           <div style={{fontSize:10.5,color:"#999",marginTop:2}}>{t.note}</div>
+          {onTierSelect && <button onClick={()=>{onTierSelect(i+1);if(typeof window!=="undefined")window.scrollTo({top:0,behavior:"smooth"})}} style={{marginTop:12,padding:"9px 14px",fontSize:11,fontWeight:700,color:BRAND.white,background:BRAND.red,border:"none",cursor:"pointer",letterSpacing:"0.04em",textTransform:"uppercase"}}>View full proposal →</button>}
         </div>
       </Card>)}
     </div>
@@ -3460,72 +4028,66 @@ ${retrievedContext ? `Retrieved proposal excerpts:\n${retrievedContext}` : ""}`;
 }
 
 /* ════════════════════════════════════════════════════════════ */
-/* HAITHAM MEETING */
+/* HAITHAM MEETING — 3-page layout */
 /* ════════════════════════════════════════════════════════════ */
-function HaithamMeetingSection() {
-  const talkTrack = [
-    {min:"0–3",title:"The opportunity nobody owns yet",talk:"Haitham, e& has 700K+ SMBs and the strongest telco brand in the Gulf. Nobody — not Microsoft, not G42, not Salesforce — is giving these businesses an AI operating layer built into e& infrastructure. This is a land-grab. Whoever ships first wins the installed base. We can have e& shipping a live AI marketplace with paying customers in 90 days."},
-    {min:"3–8",title:"What the first 90 days look like",talk:"Day 1 to 30: we stand up the platform on e& sovereign infra and ship the first Customer Agent — handles voice calls, WhatsApp, and web for any SMB. Day 30 to 60: closed beta with 10–20 real businesses, real traffic, real revenue. Day 60 to 90: marketplace goes live, sales force starts selling, and Wave 2 starts the next two agents plus the P1 enterprise-readiness layer: automation, compliance, audit trails, RBAC and guardrails. After that, every 6 weeks you get more agents on the same maturing platform."},
-    {min:"8–12",title:"Why AIdeology — Scale Acceleration",talk:"We are not a consulting firm that needs 40 people and 6 months to give you a PowerPoint. We are a small, senior team that has already built this — the platform, the agent architecture, the Arabic/English pipeline, the e& integration layer. We call it Scale Acceleration: 8 engineers that move like 40 because the platform already exists. You are buying speed and IP, not headcount. And we transfer everything to your team over 4 years — you end up owning it all."},
-    {min:"12–18",title:"The money — simple",talk:"Fixed fee of $3.4M paid across milestones over 9 months. You only pay when we deliver. Revenue split is 65/35 in your favour from Day 1, declining to 80/20 as your team takes over. Year 1 alone, your SaaS revenue is projected at AED 36.5M — that is 24,000 paying SMBs at AED 285 average. By Year 3 you are looking at AED 378M gross and 85,000 customers. The fixed fee pays for itself in Month 4 of SaaS revenue."},
-    {min:"18–23",title:"What we need from e&",talk:"Three things: 1) Cloud environment and GPU access — we build on your infra, your data stays sovereign. 2) Named technical owners for telephony, WhatsApp BSP, billing APIs, identity — we need specs, not meetings. 3) 10–20 beta SMBs by Week 5. That is it. No committees. Specs, sandbox, beta list. We handle the rest."},
-    {min:"23–28",title:"Conditions and decision",talk:"Exclusive AI platform partner for SMB in the UAE. 4-year minimum term with build-then-transfer. Milestone-based payments — no risk, no delivery means no payment. We start within 2 weeks of sign-off. The first paying customers are live before Q3 ends."},
-    {min:"28–30",title:"Close",talk:"Haitham, this is not another partnership MOU that sits on a shelf. This is a revenue line. 90 days from sign-off, e& has an AI product in market, customers paying, and Wave 2 is already turning the same SMB platform into an enterprise-ready architecture. The question is not whether to do this — it is whether to be first or let someone else take the position."},
-  ];
-
-  return <div>
-    <div style={{padding:"44px 0 36px"}}>
-      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
-        <div style={{width:44,height:44,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:18,fontWeight:700}}>H</div>
-        <div>
-          <div style={{fontSize:11,color:BRAND.red,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>Meeting prep · 30 minutes</div>
-          <h2 style={{fontSize:32,fontWeight:700,color:BRAND.black,margin:0,lineHeight:1.1}}>Haitham Meeting</h2>
-        </div>
-      </div>
-      <p style={{fontSize:15,color:BRAND.grey,maxWidth:720,lineHeight:1.6,margin:"0 0 20px"}}>
-        Focused executive conversation. No slides, no technical deep-dives. Four blocks: the opportunity, what AIdeology brings, the deliverables, and the conditions.
-      </p>
-      <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
-        {[{v:"30 min",l:"Meeting duration"},{v:"4 blocks",l:"Discussion structure"},{v:"90 days",l:"First revenue"},{v:"$3.4M",l:"Total fixed fee"}].map((s,i)=><div key={i} style={{minWidth:100}}>
-          <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
-          <div style={{fontSize:11,color:BRAND.grey,fontWeight:600}}>{s.l}</div>
-        </div>)}
-      </div>
-    </div>
-
-    {/* KNOW YOUR AUDIENCE */}
-    <Note label="Know your audience">
-      Haitham is an EVP. Short attention span. No technical AI background. Jumps between ideas — Qualcomm partnerships, G42 reselling, sovereign pods. He thinks in deals and speed. Keep everything in business outcomes, revenue, and timeline. Never say "architecture", "Kubernetes", "LLM", or "orchestration" — say "platform", "agents", "live customers", "revenue".
-    </Note>
-
-    {/* MEETING RULES */}
-    <Card style={{padding:0,overflow:"hidden",marginBottom:20}}>
-      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700}}>!</span>
-        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Meeting rules for yourself</span>
+function HaithamExecSummary() {
+  return <>
+    {/* THE OPPORTUNITY */}
+    <SH>The opportunity</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>700K+ SMBs. No one owns the AI layer yet.</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          e& has the strongest telco brand in the Gulf and the largest SMB customer base. Nobody — not Microsoft, not G42, not Salesforce — is giving these businesses an AI operating layer built into e& infrastructure. Whoever ships first wins the installed base.
+        </p>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))"}}>
         {[
-          {r:"No slides",d:"Conversation only. Have the numbers in your head. If he asks, pull up the live demo on your phone."},
-          {r:"Answer fast, then stop",d:"He will interrupt. Let him. Answer in one sentence, then ask: 'Should we go deeper or move on?'"},
-          {r:"Redirect, don't resist",d:"When he jumps to Qualcomm / G42 / pods — say: 'Great idea. Let's get the first thing live in 90 days, then layer that in Wave 2.'"},
-          {r:"End with a decision",d:"The meeting must close with a yes/no on starting. Not 'let's schedule another call'. Push for: 'Can we start in 2 weeks?'"},
+          {who:"Microsoft / Azure",risk:"Building Copilot globally but not localised for Gulf. No Arabic-first, no e& integration, no sovereign hosting."},
+          {who:"G42",risk:"Strong GPU infra but no SMB AI product. They sell compute, not solutions."},
+          {who:"Salesforce / HubSpot",risk:"CRM-first, not telco-first. No voice, no WhatsApp BSP, no e& billing integration."},
+          {who:"Do nothing",risk:"Every month without a product is 2,000+ SMBs that sign up with a competitor's tool instead. Switching costs in AI are high."},
         ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
-          <div style={{fontSize:13,fontWeight:700,color:BRAND.black,marginBottom:6}}>{x.r}</div>
-          <div style={{fontSize:12,color:BRAND.grey,lineHeight:1.55}}>{x.d}</div>
+          <div style={{fontSize:12,fontWeight:700,color:BRAND.red,marginBottom:6}}>{x.who}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.risk}</div>
         </div>)}
       </div>
     </Card>
 
-    {/* ════════ BLOCK 1: THE 90 DAYS ════════ */}
-    <SH>Block 1 · What e& should do in 90 days</SH>
+    {/* WHAT WE DELIVER */}
+    <SH>What we deliver</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>From zero to live AI marketplace in 90 days</h4>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>6 AI agents across 5 waves in 36 weeks</h4>
         <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
-          The pitch to Haitham: e& has the customers, the brand, the infra. Nobody is owning the SMB AI space in the Gulf yet. Whoever ships first locks in the installed base. Here is exactly what happens in 90 days.
+          Not disconnected bots — a platform where each agent owns an entire business function end-to-end: Customer, Sales, Communications, Finance, Operations, and People.
         </p>
       </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Wave","What ships","Timeline"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {w:"Wave 1",what:"AI Platform + Customer Agent (voice, WhatsApp, web)",when:"Weeks 1–12"},
+            {w:"Wave 2",what:"Sales Agent + Comms Hub + P1 automation/compliance layer",when:"Weeks 13–18"},
+            {w:"Wave 3",what:"Finance Agent + Ops Agent",when:"Weeks 19–24"},
+            {w:"Wave 4",what:"People Agent (WPS payroll, attendance, visa tracking)",when:"Weeks 25–30"},
+            {w:"Wave 5",what:"Platform hardening + security audit + full handoff",when:"Weeks 31–36"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.w}</td>
+            <td style={{padding:"14px 18px",color:"#333",fontSize:12}}>{r.what}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12,fontFamily:"monospace"}}>{r.when}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* 90-DAY LAUNCH SEQUENCE */}
+    <SH>90-day launch sequence</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
         {[
           {day:"Day 1–30",title:"Platform + first agent",color:BRAND.red,items:["Stand up AI platform on e& sovereign infra","Ship Customer Agent (voice + WhatsApp + web)","Identity, billing, observability wired in","Arabic/English ready from Day 1"]},
@@ -3541,137 +4103,400 @@ function HaithamMeetingSection() {
         </div>)}
       </div>
       <div style={{padding:"16px 26px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
-        <div style={{fontSize:12.5,color:"#333",fontWeight:700}}>Key line for Haitham: <span style={{color:BRAND.red}}>"90 days from sign-off, e& has an AI product in market with paying customers. Nobody else can promise that."</span></div>
+        <div style={{fontSize:12.5,color:"#333",fontWeight:700}}>Key line: <span style={{color:BRAND.red}}>"90 days from sign-off, e& has an AI product in market with paying customers. Nobody else can promise that."</span></div>
+      </div>
+    </Card>
+
+    {/* e& REVENUE PROJECTIONS */}
+    <SH>e& revenue projections</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111"}}>Gross SaaS revenue to e& from SMB subscriptions</h4>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)"}}>
+        {[
+          {yr:"Year 1",rev:"AED 36.5M",cust:"24,000 SMBs",arpu:"AED 285/mo"},
+          {yr:"Year 2",rev:"AED 154M",cust:"62,000 SMBs",arpu:"AED 350/mo"},
+          {yr:"Year 3",rev:"AED 378M",cust:"85,000 SMBs",arpu:"AED 420/mo"},
+          {yr:"Year 4+",rev:"AED 450M+",cust:"100,000+ SMBs",arpu:"AED 450+/mo"},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<3?`1px solid ${BRAND.border}`:"none",textAlign:"center"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x.yr}</div>
+          <div style={{fontSize:28,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,marginBottom:4}}>{x.rev}</div>
+          <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:4}}>{x.cust}</div>
+          <div style={{fontSize:11,color:"#888"}}>{x.arpu}</div>
+        </div>)}
       </div>
     </Card>
 
     <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
-      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:30,height:30,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}>vs</span>
-        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Why speed matters — competitive window</span>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))"}}>
-        {[
-          {who:"Microsoft / Azure",risk:"Building Copilot for SMB globally but not localised for Gulf. No Arabic-first, no e& integration, no sovereign hosting. If e& ships first, Microsoft becomes a connector, not the platform."},
-          {who:"G42",risk:"Strong GPU infra but no SMB AI product. They sell compute, not solutions. e& + AIdeology ships the solution layer they cannot build themselves."},
-          {who:"Salesforce / HubSpot",risk:"CRM-first, not telco-first. No voice, no WhatsApp BSP, no e& billing integration. They require the SMB to come to them. e& can push AI to every existing customer."},
-          {who:"Do nothing",risk:"Every month without a product is 2,000+ SMBs that sign up with a competitor's tool instead. The installed base goes to whoever ships first. Switching costs in AI are high."},
-        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
-          <div style={{fontSize:12,fontWeight:700,color:BRAND.red,marginBottom:6}}>{x.who}</div>
-          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.risk}</div>
-        </div>)}
-      </div>
-    </Card>
-
-    {/* ════════ BLOCK 2: WHY AIDEOLOGY ════════ */}
-    <SH>Block 2 · Why AIdeology — Scale Acceleration</SH>
-    <Card style={{padding:0,overflow:"hidden"}}>
-      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Scale Acceleration — not headcount, speed</h4>
-        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
-          AIdeology is not a consulting firm that puts 40 people on a project for 6 months and delivers a PDF. It is a senior team of 8 engineers who have already built the platform, the agent architecture, and the Arabic/English pipeline. e& is buying speed and IP, not bodies.
-        </p>
-      </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
-        {[
-          {n:"01",title:"Platform already exists",d:"The AI operating layer — identity, memory, connectors, model routing, billing, observability — is built. We are not starting from scratch. e& gets a proven engine, not a science project."},
-          {n:"02",title:"8 people move like 40",d:"Senior engineers who own the full stack. No handoffs, no project managers, no scope creep. SDD methodology: 48-hour design, build in weeks, ship to production. We call it Scale Acceleration."},
-          {n:"03",title:"Built for e&, transferred to e&",d:"Build-then-transfer model. Year 1: we build and run. Year 2: 50/50. Year 3: your team owns 80%. Year 4: you own everything. We are not here to create dependency — we are here to make you independent, fast."},
-        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
-          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:8}}>{x.n}</div>
-          <h5 style={{fontSize:14,fontWeight:700,color:"#111",marginBottom:8,margin:"0 0 8px"}}>{x.title}</h5>
-          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
-        </div>)}
-      </div>
-    </Card>
-
-    <Card style={{padding:22,marginTop:14}}>
-      <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:10}}>When Haitham jumps to other ideas — redirect pattern</div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-        {[
-          {trigger:'"I want to be Qualcomm\'s GPU partner in the Gulf"',redirect:'"Love it. The platform we are building can sit on top of any hardware — Qualcomm, Dell, whoever. Let\'s get the software live first, then you have something to demo to Qualcomm in 90 days instead of a pitch deck."'},
-          {trigger:'"I\'m signing a reseller deal with G42 for Compass"',redirect:'"Perfect. G42 Compass can be one of the AI models our platform routes to. We already support multi-model. You resell Compass and run your own agents on top of it — that is how you capture the margin, not just the referral fee."'},
-          {trigger:'"I want sovereign pods with Dell hardware"',redirect:'"Exactly what Wave 5 enables. Once the software platform is hardened and the agents are proven with real customers, you package everything into a Dell pod and sell it as an e& product. Software first, then hardware. 90-day sequence."'},
-          {trigger:'"Can we do this for other OpCos too?"',redirect:'"That is the endgame. The platform is designed to be multi-OpCo from Day 1. Prove it in UAE, then roll it out to Stc, Mobily, Zain — each one becomes a new revenue stream with zero platform rebuild."'},
-        ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
-          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,marginBottom:6}}>He says: {x.trigger}</div>
-          <div style={{fontSize:11.5,color:"#444",lineHeight:1.55,fontStyle:"italic"}}>You say: {x.redirect}</div>
-        </div>)}
-      </div>
-    </Card>
-
-    {/* ════════ BLOCK 3: DELIVERABLES & TIMING ════════ */}
-    <SH>Block 3 · Deliverables, timing, and requirements</SH>
-    <Card style={{padding:0,overflow:"hidden"}}>
-      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>What e& gets — and when</h4>
-      </div>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead>
           <tr style={{background:BRAND.lightGrey}}>
-            {["Wave","What ships","When","e& payment"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            {["Metric","Year 1","Year 2","Year 3","Year 4+"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
           </tr>
         </thead>
         <tbody>
           {[
-            {w:"Wave 1",what:"AI Platform + Customer Agent (voice, WhatsApp, web)",when:"Weeks 1–12",pay:"$1.25M across milestones"},
-            {w:"Wave 2",what:"Sales Agent + Comms Hub + P1 automation/compliance layer",when:"Weeks 13–18",pay:"$700K across 2 milestones"},
-            {w:"Wave 3",what:"Finance Agent + Ops Agent",when:"Weeks 19–24",pay:"$600K across 2 milestones"},
-            {w:"Wave 4",what:"People Agent",when:"Weeks 25–30",pay:"$275K across 2 milestones"},
-            {w:"Wave 5",what:"Platform hardening + security audit + full handoff",when:"Weeks 31–36",pay:"$618.6K across 2 milestones"},
+            {s:"Paying SMB customers",y1:"24,000",y2:"62,000",y3:"85,000",y4:"100,000+"},
+            {s:"Average ARPU",y1:"AED 285/mo",y2:"AED 350/mo",y3:"AED 420/mo",y4:"AED 450+/mo"},
+            {s:"Gross SaaS revenue",y1:"AED 36.5M",y2:"AED 154M",y3:"AED 378M",y4:"AED 450M+"},
+            {s:"e& share of revenue",y1:"65%",y2:"65%",y3:"72%",y4:"80%"},
+            {s:"e& net revenue",y1:"AED 23.7M",y2:"AED 100.1M",y3:"AED 272.2M",y4:"AED 360M+"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===4?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"14px 18px",fontWeight:i===4?700:500,color:i===4?BRAND.red:BRAND.black}}>{r.s}</td>
+            {[r.y1,r.y2,r.y3,r.y4].map((v,j)=><td key={j} style={{padding:"14px 18px",textAlign:"right",fontWeight:i===4?700:500,color:i===4?BRAND.red:BRAND.grey,fontFamily:BRAND.font}}>{v}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <Note label="3-Year e& Revenue" color={BRAND.red}>
+      e& cumulative net revenue over 3 years: AED 396M+ (~$108M). By Year 4, e& retains 80% of a growing AED 450M+ revenue stream while owning the entire agent development operation.
+    </Note>
+
+    {/* CUSTOMER GROWTH */}
+    <SH>Customer growth trajectory</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Phase","Customers","Growth driver"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {p:"Launch (Month 4–6)",c:"1,000–5,000",d:"Beta graduates + early adopters via e& sales force"},
+            {p:"Year 1 end",c:"24,000",d:"Customer Agent live, Sales + Comms launching"},
+            {p:"Year 2 end",c:"62,000",d:"5 agents live, geographic expansion to Saudi + Morocco"},
+            {p:"Year 3 end",c:"85,000",d:"All 6 agents, full marketplace, enterprise upsell"},
+            {p:"Year 4+",c:"100,000+",d:"Multi-OpCo replication, vertical depth"},
           ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
-            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.w}</td>
-            <td style={{padding:"14px 18px",color:"#333",fontSize:12}}>{r.what}</td>
-            <td style={{padding:"14px 18px",color:"#666",fontSize:12,fontFamily:"monospace"}}>{r.when}</td>
-            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.pay}</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,fontSize:12}}>{r.p}</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.c}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.d}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* WHY AIDEOLOGY */}
+    <SH>Why AIdeology — Scale Acceleration</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {n:"01",title:"Platform already exists",d:"The AI operating layer — identity, memory, connectors, model routing, billing, observability — is built. e& gets a proven engine, not a science project."},
+          {n:"02",title:"8 people move like 40",d:"Senior engineers who own the full stack. No handoffs, no PMs, no scope creep. SDD methodology: 48-hour design, build in weeks, ship to production."},
+          {n:"03",title:"Built for e&, transferred to e&",d:"Build-then-transfer. Year 1: we build. Year 2: 50/50. Year 3: e& owns 80%. Year 4: e& owns everything. No dependency created."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:8}}>{x.n}</div>
+          <h5 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 8px"}}>{x.title}</h5>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+    </Card>
+  </>;
+}
+
+function HaithamFinancials() {
+  return <>
+    {/* REVENUE MODEL */}
+    <SH>Revenue model overview</SH>
+    <div style={{display:"flex",gap:16,marginBottom:18,flexWrap:"wrap"}}>
+      {[{v:"$3.44M",l:"Total fixed fees"},{v:"35% → 20%",l:"Revenue share (declining)"},{v:"~$52.7M",l:"3-Year AIdeology cash"},{v:"14.5x",l:"ROI on investment"}].map((s,i)=><div key={i} style={{minWidth:120}}>
+        <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:11,color:BRAND.grey,fontWeight:600}}>{s.l}</div>
+      </div>)}
+    </div>
+
+    {/* e& GROSS REVENUE FORECAST */}
+    <SH>e& gross revenue forecast</SH>
+    <ForecastTable
+      rows={[
+        {s:"Paying customers (avg)",y1:"24,000",y2:"62,000",y3:"85,000"},
+        {s:"Average ARPU",y1:"AED 285/mo",y2:"AED 350/mo",y3:"AED 420/mo"},
+        {s:"Gross SaaS revenue",y1:"AED 36.5M",y2:"AED 154M",y3:"AED 378M"},
+      ]}
+      totalRow={{y1:"AED 36.5M",y2:"AED 154M",y3:"AED 378M"}}
+      assumptions={["Subscriber ramp based on e& SMB penetration","20% annual churn","ARPU growth from multi-agent upsell"]}
+    />
+
+    {/* AIDEOLOGY REVENUE BY YEAR */}
+    <SH>AIdeology revenue breakdown</SH>
+
+    <CommercialBox title="Year 1 — AIdeology revenue" icon="1" items={[
+      {label:"Fixed fees",value:"$3.44M",type:"AED 12.6M",desc:"Waves 1–4 milestone payments, paid on delivery"},
+      {label:"Revenue share",value:"$3.5M",type:"AED 12.8M",desc:"35% of AED 36.5M SaaS revenue (from Month 4)"},
+      {label:"Total Y1",value:"~$7.1M",type:"AED 25.4M",desc:"Fixed fees + recurring revenue share"},
+    ]} />
+
+    <CommercialBox title="Year 2 — AIdeology revenue" icon="2" items={[
+      {label:"Fixed fees",value:"$0",type:"Complete",desc:"All waves delivered"},
+      {label:"Revenue share",value:"~$15.4M",type:"AED 53.9M",desc:"35% of AED 154M — pure recurring revenue"},
+      {label:"Total Y2",value:"~$15.4M",type:"AED 53.9M",desc:"Revenue share only"},
+    ]} />
+
+    <CommercialBox title="Year 3 — AIdeology revenue" icon="3" items={[
+      {label:"Fixed fees",value:"$0",type:"",desc:""},
+      {label:"Revenue share",value:"~$30.2M",type:"AED 105.8M",desc:"28% of AED 378M — reduced share as e& owns more"},
+      {label:"Total Y3",value:"~$30.2M",type:"AED 105.8M",desc:"Revenue share only"},
+    ]} />
+
+    {/* COST STRUCTURE */}
+    <SH>AIdeology cost structure (COGS)</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Cost item","Year 1","Year 2","Year 3"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"Platform engineering team",y1:"AED 4.5M (8 FTE)",y2:"AED 4.8M (8 FTE)",y3:"AED 3.6M (6 FTE)"},
+            {s:"Training & consulting",y1:"AED 3.2M",y2:"AED 2.0M",y3:"AED 1.2M"},
+            {s:"Operating expenses",y1:"AED 1.2M",y2:"AED 1.5M",y3:"AED 1.0M"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"14px 18px",color:BRAND.black,fontWeight:500}}>{r.s}</td>
+            {[r.y1,r.y2,r.y3].map((v,j)=><td key={j} style={{padding:"14px 18px",textAlign:"right",color:BRAND.grey,fontFamily:BRAND.font}}>{v}</td>)}
           </tr>)}
           <tr style={{borderTop:`2px solid ${BRAND.red}`,background:BRAND.lightGrey}}>
-            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>Total</td>
-            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>6 AI agents + full platform</td>
-            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,fontFamily:"monospace"}}>36 weeks</td>
-            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red}}>$3.44M</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>Total COGS</td>
+            {["AED 8.9M","AED 8.3M","AED 5.8M"].map((v,i)=><td key={i} style={{padding:"14px 18px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{v}</td>)}
           </tr>
         </tbody>
       </table>
     </Card>
 
-    <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
-      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:15,fontWeight:700,color:"#111"}}>What e& needs to provide — 3 things only</h4>
+    {/* EBITDA */}
+    <SH>Profitability (EBITDA)</SH>
+    <div style={{display:"flex",gap:16,marginBottom:18,flexWrap:"wrap"}}>
+      {[{v:"65%",l:"Year 1 EBITDA margin"},{v:"85%",l:"Year 2 EBITDA margin"},{v:"94%",l:"Year 3 EBITDA margin"},{v:"97%",l:"Year 4+ EBITDA margin"}].map((s,i)=><div key={i} style={{minWidth:130}}>
+        <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:11,color:BRAND.grey,fontWeight:600}}>{s.l}</div>
+      </div>)}
+    </div>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Metric","Year 1","Year 2","Year 3"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"AIdeology revenue",y1:"AED 25.4M",y2:"AED 53.9M",y3:"AED 105.8M",bold:false},
+            {s:"COGS",y1:"(AED 8.9M)",y2:"(AED 8.3M)",y3:"(AED 5.8M)",bold:false},
+            {s:"Gross profit",y1:"AED 16.5M",y2:"AED 45.6M",y3:"AED 100M",bold:true},
+            {s:"EBITDA margin",y1:"65%",y2:"85%",y3:"94%",bold:true},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:r.bold?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"14px 18px",fontWeight:r.bold?700:500,color:r.bold?BRAND.black:BRAND.black}}>{r.s}</td>
+            {[r.y1,r.y2,r.y3].map((v,j)=><td key={j} style={{padding:"14px 18px",textAlign:"right",fontWeight:r.bold?700:500,color:r.bold?BRAND.red:BRAND.grey,fontFamily:BRAND.font}}>{v}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* 3-YEAR SUMMARY */}
+    <SH>3-Year cumulative summary</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(2, 1fr)",gap:14,marginBottom:18}}>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
+          <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}>$</span>
+          <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Cash to AIdeology</span>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr"}}>
+          {[{l:"Total fixed fees",v:"$3.44M"},{l:"Total rev share",v:"$49.3M"},{l:"Total 3-year cash",v:"~$52.7M"}].map((x,i)=><div key={i} style={{padding:18,textAlign:"center",borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+            <div style={{fontSize:22,fontWeight:700,color:i===2?BRAND.red:BRAND.black,fontFamily:BRAND.font}}>{x.v}</div>
+            <div style={{fontSize:10.5,color:BRAND.grey,marginTop:4}}>{x.l}</div>
+          </div>)}
+        </div>
+      </Card>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
+          <span style={{width:30,height:30,background:"#004B2E",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}><TrendUp/></span>
+          <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Return & valuation</span>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr"}}>
+          {[{l:"ROI on investment",v:"14.5x"},{l:"Platform valuation (Y4)",v:"AED 2–3B"}].map((x,i)=><div key={i} style={{padding:18,textAlign:"center",borderRight:i<1?`1px solid ${BRAND.border}`:"none"}}>
+            <div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{x.v}</div>
+            <div style={{fontSize:10.5,color:BRAND.grey,marginTop:4}}>{x.l}</div>
+          </div>)}
+        </div>
+      </Card>
+    </div>
+
+    {/* YEAR 4+ LICENSING */}
+    <SH>Year 4+ licensing model</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Metric","Year 4","Year 5+"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"e& SaaS customers",y4:"100K+",y5:"120K+"},
+            {s:"e& gross revenue",y4:"AED 450M+",y5:"AED 550M+"},
+            {s:"AIdeology revenue share (20%)",y4:"AED 90M",y5:"AED 110M"},
+            {s:"Platform licensing fee (flat)",y4:"AED 2–3M",y5:"AED 2–3M"},
+            {s:"Total AIdeology revenue",y4:"AED 92–93M",y5:"AED 112–113M"},
+            {s:"COGS (4–5 FTE platform team)",y4:"AED 2.5M",y5:"AED 2.5M"},
+            {s:"EBITDA margin",y4:"97%",y5:"97%"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:(i===4||i===6)?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"14px 18px",fontWeight:(i===4||i===6)?700:500,color:BRAND.black}}>{r.s}</td>
+            {[r.y4,r.y5].map((v,j)=><td key={j} style={{padding:"14px 18px",textAlign:"right",fontWeight:(i===4||i===6)?700:500,color:(i===4||i===6)?BRAND.red:BRAND.grey,fontFamily:BRAND.font}}>{v}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+    <Note label="Perpetual revenue stream">
+      By Year 4, AIdeology earns AED 90M+/year from a 20% platform royalty with only 4–5 FTE maintaining the platform. This is a 97% margin licensing business that compounds with e&'s customer growth.
+    </Note>
+  </>;
+}
+
+function HaithamDealStructure() {
+  return <>
+    {/* REVENUE SHARE MODEL */}
+    <SH>Revenue share model</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>65/35 declining to 80/20</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          e& keeps the majority from Day 1. The split declines in e&'s favour as their team takes ownership of agent development and operations.
+        </p>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
-        {[
-          {n:"1",title:"Cloud + GPU access",d:"Give us a Kubernetes namespace on e& sovereign infra. Container registry, base images, network access. We deploy everything there — e& data never leaves."},
-          {n:"2",title:"Technical specs + owners",d:"Named people for telephony, WhatsApp BSP, billing API, identity/SSO. We need documentation and sandbox access, not meetings. One owner per system."},
-          {n:"3",title:"10–20 beta SMBs",d:"Account managers pick 10–20 real businesses by Week 5. We onboard them to closed beta. They become reference customers for the GA launch."},
-        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
-          <div style={{width:28,height:28,background:BRAND.red,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,marginBottom:10}}>{x.n}</div>
-          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6,margin:"0 0 6px"}}>{x.title}</h5>
-          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
-        </div>)}
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Period","e& share","AIdeology share","Rationale"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {p:"Year 1–2",e:"65%",a:"35%",r:"AIdeology builds and runs; e& team learns"},
+            {p:"Year 3",e:"72%",a:"28%",r:"e& team handles ~40% of agent development"},
+            {p:"Year 4+",e:"80%",a:"20%",r:"e& owns agents fully; AIdeology owns platform IP"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.p}</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:"#004B2E",fontSize:14}}>{r.e}</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.grey,fontSize:14}}>{r.a}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.r}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+    <Note label="Key insight" color={BRAND.red}>
+      By giving e& majority revenue share from Day 1, we remove acquisition anxiety. By retaining platform IP and declining to 20%, we make acquisition inevitable — paying 20% forever is more expensive than buying outright by Year 4.
+    </Note>
+
+    {/* BUILD-THEN-TRANSFER */}
+    <SH>Build-then-transfer model</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Systematic ownership transfer over 4 years</h4>
       </div>
-      <div style={{padding:"14px 24px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
-        <div style={{fontSize:12,color:BRAND.red,fontWeight:700}}>Key line: "We don't need committees. We need specs, a sandbox, and a beta list. We handle everything else."</div>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:800}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              {["Function","Year 1 (AIdeology leads)","Year 2 (50/50)","Year 3 (e& leads)","Year 4+ (e& owns)"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {f:"Platform architecture",y1:"100% AIdeology",y2:"100% AIdeology",y3:"100% AIdeology",y4:"100% AIdeology"},
+              {f:"Agent development",y1:"100% AIdeology",y2:"50 / 50",y3:"20% / 80% e&",y4:"0% / 100% e&"},
+              {f:"Infrastructure",y1:"100% e&",y2:"100% e&",y3:"100% e&",y4:"100% e&"},
+              {f:"Customer support",y1:"20% / 80% e&",y2:"10% / 90% e&",y3:"5% / 95% e&",y4:"0% / 100% e&"},
+              {f:"Integration work",y1:"100% AIdeology",y2:"60% / 40% e&",y3:"50% / 50%",y4:"40% / 60% e&"},
+              {f:"Team — AIdeology",y1:"8 FTE",y2:"8 FTE",y3:"6 FTE",y4:"4–5 FTE"},
+              {f:"Team — e&",y1:"2–3 FTE",y2:"4–5 FTE",y3:"6–8 FTE",y4:"8–10 FTE"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i>=5?BRAND.lightGrey:"transparent"}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black,fontSize:11.5}}>{r.f}</td>
+              {[r.y1,r.y2,r.y3,r.y4].map((v,j)=><td key={j} style={{padding:"12px 14px",color:BRAND.grey,fontSize:11.5}}>{v}</td>)}
+            </tr>)}
+          </tbody>
+        </table>
       </div>
     </Card>
 
-    {/* ════════ BLOCK 4: CONDITIONS ════════ */}
-    <SH>Block 4 · Conditions</SH>
+    {/* MILESTONE PAYMENTS */}
+    <SH>Fixed-fee milestone payments</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Deal terms — simple</h4>
-        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
-          Present these as non-negotiable foundations, not line items. Frame as "this is how we protect both sides".
-        </p>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>$3.44M total — pay only on delivery</h4>
       </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Wave","Deliverable","Fee","Timeline","Milestones"].map((h,i)=><th key={i} style={{textAlign:i===2?"right":"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {w:"Wave 1",what:"Platform + Customer Agent",fee:"$1,147,621",when:"Weeks 1–12",ms:"4 milestones @ 25%"},
+            {w:"Wave 2",what:"Sales Agent + Comms Hub",fee:"$575,000",when:"Weeks 13–18",ms:"2 milestones @ 50%"},
+            {w:"Wave 3",what:"Finance Agent + Ops Agent",fee:"$575,000",when:"Weeks 19–24",ms:"2 milestones @ 50%"},
+            {w:"Wave 4",what:"People Agent + Platform Hardening",fee:"$1,146,000",when:"Weeks 25–30",ms:"2 milestones @ 50%"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.w}</td>
+            <td style={{padding:"14px 18px",color:"#333",fontSize:12}}>{r.what}</td>
+            <td style={{padding:"14px 18px",textAlign:"right",fontWeight:700,color:BRAND.black,fontSize:12}}>{r.fee}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12,fontFamily:"monospace"}}>{r.when}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.ms}</td>
+          </tr>)}
+          <tr style={{borderTop:`2px solid ${BRAND.red}`,background:BRAND.lightGrey}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>Total</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>6 AI agents + full platform</td>
+            <td style={{padding:"14px 18px",textAlign:"right",fontWeight:700,color:BRAND.red,fontSize:14}}>$3,443,621</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,fontFamily:"monospace"}}>30 weeks</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black}}>10 milestones</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    {/* IP OWNERSHIP */}
+    <SH>IP ownership — clean separation</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:"#004B2E",display:"flex",alignItems:"center",gap:10}}>
+          <span style={{fontSize:15,fontWeight:700,color:BRAND.white}}>e& owns — Agent IP</span>
+        </div>
+        <div style={{padding:22}}>
+          {["All agent source code, customisations, prompts","Full transfer by end of Year 2","All customer data — AIdeology gets only anonymised usage analytics","Infrastructure, hosting, deployment"].map((x,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:10}}>
+            <CheckIcon /><span style={{fontSize:12,color:"#555",lineHeight:1.5}}>{x}</span>
+          </div>)}
+        </div>
+      </Card>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.red,display:"flex",alignItems:"center",gap:10}}>
+          <span style={{fontSize:15,fontWeight:700,color:BRAND.white}}>AIdeology owns — Platform IP</span>
+        </div>
+        <div style={{padding:22}}>
+          {["Orchestration platform (Forge) remains AIdeology property","e& receives non-exclusive license","AIdeology retains right to license to other telcos after Year 4","Platform updates, security patches, new connectors"].map((x,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:10}}>
+            <CheckIcon /><span style={{fontSize:12,color:"#555",lineHeight:1.5}}>{x}</span>
+          </div>)}
+        </div>
+      </Card>
+    </div>
+
+    {/* KEY TERMS */}
+    <SH>Key terms</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))"}}>
         {[
-          {term:"Revenue split",detail:"65% e& / 35% AIdeology",sub:"From Day 1, e& keeps the majority. Declines to 80/20 by Year 4 as e& takes ownership. e& always earns more."},
-          {term:"Milestone payments",detail:"Pay only on delivery",sub:"$3.44M total, broken across 5 waves and 12 milestones. If we don't deliver, you don't pay. Zero risk."},
-          {term:"Exclusivity",detail:"AI platform partner for SMB UAE",sub:"AIdeology builds exclusively for e& in this market. In return, e& does not build a competing platform or bring in another AI partner for SMB."},
-          {term:"Term",detail:"4-year minimum",sub:"Build-then-transfer over 4 years. By Year 4, e& owns the agents, the team, and the customer base. AIdeology retains platform IP with a licensing model."},
-          {term:"Start date",detail:"2 weeks from sign-off",sub:"We are ready. Engineering team allocated. No ramp-up needed. The 90-day clock starts when e& gives us cloud access."},
-          {term:"IP ownership",detail:"Agents → e&, Platform → AIdeology",sub:"e& owns all agents and customer data from Day 1. AIdeology owns the orchestration platform and licenses it. Clean separation."},
+          {term:"Revenue split",detail:"65% e& / 35% AIdeology",sub:"From Day 1, e& keeps the majority. Declines to 80/20 by Year 4 as e& takes ownership."},
+          {term:"Milestone payments",detail:"Pay only on delivery",sub:"$3.44M across 4 waves and 10 milestones. If we don't deliver, e& doesn't pay."},
+          {term:"Exclusivity",detail:"AI platform partner for SMB UAE",sub:"AIdeology builds exclusively for e& in this market."},
+          {term:"Term",detail:"4-year minimum",sub:"Build-then-transfer over 4 years. e& owns agents and team by Year 4."},
+          {term:"Start date",detail:"2 weeks from sign-off",sub:"Engineering team allocated. No ramp-up needed."},
+          {term:"Non-compete",detail:"No telco SMB AI in UAE/Saudi Y1–3",sub:"AIdeology can license platform to other telcos with 90-day notice after Year 4."},
+          {term:"SLA",detail:"99.5% platform uptime",sub:"2-hour critical incident response. 24-hour resolution. 5% penalty per breach, capped at 20%."},
+          {term:"Termination",detail:"12-month notice after Year 4",sub:"AIdeology retains perpetual 20% royalty or lump-sum buyout negotiated."},
+          {term:"IP ownership",detail:"Agents → e&, Platform → AIdeology",sub:"e& owns all agents and customer data. AIdeology owns the orchestration platform and licenses it."},
         ].map((x,i)=><div key={i} style={{padding:20,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
           <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{x.term}</div>
           <div style={{fontSize:16,fontWeight:700,color:"#111",marginBottom:6}}>{x.detail}</div>
@@ -3680,65 +4505,109 @@ function HaithamMeetingSection() {
       </div>
     </Card>
 
-    {/* REVENUE SNAPSHOT */}
+    {/* ACQUISITION TRIGGER */}
+    <SH>Acquisition trigger — Year 3–4</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Why e& will acquire by Year 3–4</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          By Year 3, e& faces a choice: keep paying AIdeology 28% of AED 378M = AED 105.8M/year (compounding to AED 1B+ cumulative by Year 5), or acquire the platform IP outright.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Scenario","Valuation","Rationale"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"Conservative",v:"AED 750M – 1B",r:"8–10x Year 3 EBITDA (AED 100M)"},
+            {s:"Base case",v:"AED 1.5B – 2B",r:"Platform can license to Saudi Telecom, Maroc Telecom, others"},
+            {s:"Optimistic",v:"AED 2.5B – 3B",r:"Regional monopoly on SMB AI orchestration platform"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===1?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,fontSize:12}}>{r.s}</td>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.red,fontSize:14}}>{r.v}</td>
+            <td style={{padding:"14px 18px",color:"#666",fontSize:12}}>{r.r}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
     <Card style={{padding:0,overflow:"hidden",marginTop:14}}>
       <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:10}}>
-        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}>$</span>
-        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Revenue snapshot — have these numbers ready</span>
+        <span style={{width:30,height:30,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:11,fontWeight:700}}><TrendUp/></span>
+        <span style={{fontSize:15,fontWeight:700,color:BRAND.black}}>Acquisition timeline</span>
       </div>
+      <div style={{padding:0}}>
+        {[
+          {m:"Month 6–12",d:"e& sees Customer Agent gain traction. Realises AIdeology product is defensible."},
+          {m:"Month 12–18",d:"e& AI team ramps. Internal discussion: build our own vs. buy AIdeology?"},
+          {m:"Month 18–24",d:"e& evaluates acquiring vs. continuing rev share. By M24, AED 53.9M paid that year alone."},
+          {m:"Month 24–30",d:"e& makes offer. AIdeology negotiates from position of strength (profitable, growing, multi-telco licensable)."},
+          {m:"Month 30+",d:"Deal closes. AIdeology founders/investors realise 10–30x return on seed investment."},
+        ].map((x,i)=><div key={i} style={{padding:"14px 24px",borderBottom:i<4?`1px solid ${BRAND.border}`:"none",display:"flex",gap:16,alignItems:"flex-start"}}>
+          <div style={{minWidth:90,flexShrink:0}}>
+            <div style={{fontSize:10,fontWeight:700,color:BRAND.white,background:i===4?"#004B2E":BRAND.red,padding:"4px 8px",textAlign:"center",letterSpacing:"0.04em"}}>{x.m}</div>
+          </div>
+          <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>{x.d}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    {/* WHAT e& PROVIDES */}
+    <SH>What e& needs to provide</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
         {[
-          {yr:"Year 1",cust:"24,000 SMBs",rev:"AED 36.5M",note:"First customers from Month 4. $3.44M fixed fee pays for itself."},
-          {yr:"Year 2",cust:"62,000 SMBs",rev:"AED 154M",note:"4.2x growth. Fixed fees done. Pure SaaS revenue."},
-          {yr:"Year 3",cust:"85,000 SMBs",rev:"AED 378M",note:"e& team owns 80% of development. Platform valuation AED 2-3B."},
-        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none",textAlign:"center"}}>
-          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x.yr}</div>
-          <div style={{fontSize:28,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,marginBottom:4}}>{x.rev}</div>
-          <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.cust}</div>
-          <div style={{fontSize:11.5,color:"#666",lineHeight:1.45}}>{x.note}</div>
+          {n:"1",title:"Cloud + GPU access",d:"Kubernetes namespace on e& sovereign infra. Container registry, base images, network access. e& data never leaves."},
+          {n:"2",title:"Technical specs + owners",d:"Named people for telephony, WhatsApp BSP, billing API, identity/SSO. Documentation and sandbox access, not meetings."},
+          {n:"3",title:"10–20 beta SMBs",d:"Account managers pick 10–20 real businesses by Week 5. They become reference customers for the GA launch."},
+        ].map((x,i)=><div key={i} style={{padding:22,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{width:28,height:28,background:BRAND.red,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,marginBottom:10}}>{x.n}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{x.title}</h5>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
         </div>)}
       </div>
-    </Card>
-
-    {/* TALK TRACK */}
-    <SH>Minute-by-minute talk track</SH>
-    <Card style={{padding:0,overflow:"hidden"}}>
-      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
-        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:4}}>30-minute conversation flow</h4>
-        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Not a script — a structure. Adapt to his energy. If he is engaged on a block, stay there. If he jumps, redirect and move to the next block.</p>
+      <div style={{padding:"14px 24px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:BRAND.red,fontWeight:700}}>Key line: "We don't need committees. We need specs, a sandbox, and a beta list. We handle everything else."</div>
       </div>
-      {talkTrack.map((s,i)=><div key={i} style={{padding:"16px 24px",borderBottom:i<talkTrack.length-1?`1px solid ${BRAND.border}`:"none",display:"flex",gap:18,alignItems:"flex-start"}}>
-        <div style={{minWidth:52,flexShrink:0}}>
-          <div style={{fontSize:10,fontWeight:700,color:BRAND.white,background:i===talkTrack.length-1?"#004B2E":BRAND.red,padding:"4px 8px",textAlign:"center",letterSpacing:"0.04em"}}>{s.min}</div>
-          <div style={{fontSize:9,color:BRAND.grey,textAlign:"center",marginTop:3}}>min</div>
-        </div>
+    </Card>
+  </>;
+}
+
+const HTM_TABS = ["Executive Summary","Financials","Deal Structure"];
+function HaithamMeetingSection() {
+  const [htmTab, setHtmTab] = useState(0);
+
+  return <div>
+    <div style={{padding:"44px 0 36px"}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
+        <div style={{width:44,height:44,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:18,fontWeight:700}}>H</div>
         <div>
-          <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:4}}>{s.title}</div>
-          <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>{s.talk}</div>
+          <div style={{fontSize:11,color:BRAND.red,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>Meeting prep · 30 minutes</div>
+          <h2 style={{fontSize:32,fontWeight:700,color:BRAND.black,margin:0,lineHeight:1.1}}>Haitham Meeting</h2>
         </div>
-      </div>)}
-    </Card>
-
-    {/* CLOSING CHECKLIST */}
-    <SH>Closing checklist</SH>
-    <Card style={{padding:22}}>
-      <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:14}}>Before you leave the room, confirm:</div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-        {[
-          "Does Haitham agree to start within 2 weeks?",
-          "Who is the named sponsor to unblock cloud access?",
-          "Does he accept milestone-based payment (no upfront lump sum)?",
-          "Is he comfortable with 65/35 revenue split?",
-          "Who assigns the technical owners for telephony, WhatsApp, billing?",
-          "Who picks the 10–20 beta SMBs?",
-          "Does he want to be in the first beta demo (Week 6)?",
-          "Next step: send term sheet or schedule contract review?",
-        ].map((q,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:10,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
-          <div style={{width:18,height:18,border:`2px solid ${BRAND.red}`,flexShrink:0,marginTop:1}}/>
-          <span style={{fontSize:12,color:"#333",lineHeight:1.45}}>{q}</span>
+      </div>
+      <p style={{fontSize:15,color:BRAND.grey,maxWidth:720,lineHeight:1.6,margin:"0 0 20px"}}>
+        Three sections: the opportunity and revenue, the financial model, and the deal terms.
+      </p>
+      <div style={{display:"flex",gap:16,flexWrap:"wrap",marginBottom:24}}>
+        {[{v:"30 min",l:"Meeting duration"},{v:"90 days",l:"First revenue"},{v:"AED 378M",l:"Year 3 revenue"}].map((s,i)=><div key={i} style={{minWidth:100}}>
+          <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+          <div style={{fontSize:11,color:BRAND.grey,fontWeight:600}}>{s.l}</div>
         </div>)}
       </div>
-    </Card>
+
+      {/* SUB-TABS */}
+      <div style={{display:"flex",gap:6}}>
+        {HTM_TABS.map((t,i)=>{const a=htmTab===i;return<button key={i} onClick={()=>setHtmTab(i)} style={{padding:"10px 18px",fontSize:12,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.15s"}}>{t}</button>})}
+      </div>
+    </div>
+
+    {htmTab===0 && <HaithamExecSummary/>}
+    {htmTab===1 && <HaithamFinancials/>}
+    {htmTab===2 && <HaithamDealStructure/>}
   </div>;
 }
 
@@ -3811,6 +4680,9 @@ export default function App() {
     >
       <SMBSegment />
       <EnterpriseSegment />
+      <Tier1Page />
+      <Tier2Page />
+      <Tier3Page />
       <GPUSegment />
       <EcosystemSection />
       <SummarySection />
