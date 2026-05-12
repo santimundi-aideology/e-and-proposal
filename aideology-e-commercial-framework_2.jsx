@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { PROPOSAL_CONTEXT } from "./src/proposalContext.js";
 
 const BRAND = {
@@ -396,7 +396,7 @@ function AgentRoadmapGrid() {
 /* ════════════════════════════════════════════════════════════ */
 /* SMB SEGMENT */
 /* ════════════════════════════════════════════════════════════ */
-function SMBSegment({onViewChange}) {
+function SMBSegment({onViewChange, upToSoftwareStack=false}) {
   const [showMarketBenchmarks, setShowMarketBenchmarks] = useState(false);
 
   const goToPlatformEvolutionMatrix = () => {
@@ -1199,6 +1199,7 @@ function SMBSegment({onViewChange}) {
     <Note label="AIdeology proprietary library">
       AIdeology will use a proprietary library of reusable SDD blueprints, tested prompt patterns, guardrail packs, and connector accelerators that will shorten build cycles, improve consistency, and reduce implementation risk across every e& AI Solution.
     </Note>
+    {!upToSoftwareStack && <>
     {/* ════════════════════════════════════════════════════════════ */}
     {/* COMMERCIAL MODEL */}
     {/* ════════════════════════════════════════════════════════════ */}
@@ -1248,11 +1249,42 @@ function SMBSegment({onViewChange}) {
           </tr>)}
         </tbody>
       </table>
+      <div style={{padding:"18px 26px 10px",borderTop:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 6px"}}>Platform use after handover — e& built, partner-built and derivative solutions</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>
+          AIdeology-created solutions follow the standard revenue share above. Genuinely new applications built by e& or third parties on top of the platform pay a platform royalty, with the rate declining as e& takes more operational ownership.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Period","e& / partner-built new agent","Third-party partner agent","AIdeology derivative / replicated solution","Buyout option"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {period:"Year 1–2",built:"7% platform royalty",partner:"7% platform royalty + certification / support fee",derivative:"35% solution share",buyout:"Not available except strategic acquisition"},
+            {period:"Year 3",built:"5% platform royalty",partner:"5% platform royalty + certification / support fee",derivative:"28% solution share",buyout:"Buyout discussion opens"},
+            {period:"Year 4+",built:"3% platform royalty",partner:"3% platform royalty + certification / support fee",derivative:"20% solution share",buyout:"Buyout / acquisition trigger"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent",verticalAlign:"top"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.period}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.built}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.partner}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111",lineHeight:1.45}}>{r.derivative}</td>
+            <td style={{padding:"12px 14px",color:"#777",lineHeight:1.45}}>{r.buyout}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
+          <strong style={{color:"#111"}}>Important distinction:</strong> e& and third-party partners may build genuinely new applications on the platform and pay only the platform royalty. Any application that reuses, adapts, replicates, or derives from AIdeology-created agents, workflows, prompts, blueprints, connectors, evaluation data, or orchestration logic is treated as an AIdeology solution and follows the standard solution revenue share.
+        </div>
+      </div>
       <div style={{padding:"16px 26px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
         <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
           {[
-            {label:"Year 5+ option",value:"e& acquires AIdeology IP outright — or AIdeology licenses to other telcos"},
-            {label:"Acquisition trigger",value:"By Year 3–4, paying 20–28% forever is more expensive than buying out the platform"},
+            {label:"Year 5+ option",value:"e& acquires AIdeology platform / solution IP outright — or continues paying platform and solution royalties"},
+            {label:"Acquisition trigger",value:"By Year 3–4, platform usage and solution reuse make a buyout more economical than long-term royalties"},
           ].map((n,i)=><div key={i} style={{flex:1,minWidth:280}}>
             <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{n.label}</div>
             <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>{n.value}</div>
@@ -1865,6 +1897,7 @@ function SMBSegment({onViewChange}) {
     <Note label="Agreement structure">
       4-year minimum partnership. Build-then-transfer model: AIdeology builds and trains, e& progressively takes ownership. Agent IP transfers to e& by end of Year 2. Platform IP remains AIdeology property (non-exclusive license to e&). 65/35 revenue share declining to 80/20 as e& team ramps. Years 1–3 L3 platform support is included in the fixed Wave 1–5 platform + agent pricing and commercially covered within the AIdeology revenue share, with no separate support invoice during the transition period. Year 3–4 acquisition trigger: by then e& owns agents, customers and infrastructure — paying 20% forever becomes more expensive than a one-time buyout. Platform valuation at acquisition: AED 1.5B–2.5B.
     </Note>
+    </>}
   </div>;
 }
 
@@ -2569,6 +2602,40 @@ function EnterpriseOverview({onTierSelect}) {
       {label:"Managed Service",value:"$5K–$25K",color:"#E00800",type:"Monthly per client",desc:"Ongoing support, monitoring & evolution. Shared at agreed ratio."},
       {label:"Success Fee",value:"10–15%",color:"#E00800",type:"KPI uplift",desc:"Optional bonus tied to measurable outcomes."},
     ]}/>
+
+    <SH>Platform economics & partner protection</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <div style={{padding:"20px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:16,fontWeight:700,color:"#111",marginBottom:8}}>AIdeology gets paid for the platform layer, not only for direct delivery</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.65,maxWidth:880,margin:0}}>
+          The handover model lets e& operate the platform and onboard other partners without creating operational dependency on AIdeology. The commercial protection is that any agentic application running on the AIdeology platform still carries a platform economic right, and any AIdeology-created solution or derivative still carries a solution royalty unless bought out.
+        </p>
+      </div>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              {["Scenario","AIdeology compensation","Commercial logic"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {s:"AIdeology builds the agent / platform",c:"Build fee + 20%–35% solution revenue share",l:"AIdeology is paid for delivery and keeps upside on the solution it created."},
+              {s:"e& resells an AIdeology-created agent",c:"Same economics: build / adaptation fee + 20%–35% solution revenue share",l:"If e& resells, reuses or adapts an AIdeology-created solution, it is treated commercially the same as an AIdeology solution deployment."},
+              {s:"e& builds a new agent using the platform",c:"3%–7% platform royalty",l:"e& is free to build independently, while AIdeology is compensated for the orchestration platform enabling the application."},
+              {s:"Third party builds a new agent using the platform",c:"3%–7% platform royalty + certification / support fee",l:"Partner ecosystem is allowed, but every certified application contributes to the platform economics."},
+              {s:"e& wants to remove royalties",c:"Buyout fee / acquisition trigger",l:"A clean path exists: acquire or buy out the relevant platform and solution rights instead of paying royalties forever."},
+              {s:"e& replicates an AIdeology solution",c:"Treated as derivative work; royalty still applies",l:"Anti-circumvention protection prevents recreating AIdeology blueprints, workflows, prompts, connectors or orchestration logic to avoid payment."},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===4?BRAND.lightGrey:"transparent",verticalAlign:"top"}}>
+              <td style={{padding:"14px 16px",fontWeight:700,color:"#111",width:"28%"}}>{r.s}</td>
+              <td style={{padding:"14px 16px",fontWeight:700,color:BRAND.red,width:"28%"}}>{r.c}</td>
+              <td style={{padding:"14px 16px",color:"#666",lineHeight:1.55}}>{r.l}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+    <Note label="Commercial principle">Operational handover does not mean economic handover. e& can operate the platform, build its own applications, and onboard third-party partners; AIdeology is still compensated when the platform is used, and AIdeology-created solutions keep the same commercial economics when they are resold, reused, replicated, or adapted.</Note>
 
     <SH>AIdeology commercials — 3-year view</SH>
     <CommercialBox title="AIdeology Revenue Breakdown" icon="A" iconBg="#F5F5F5" iconColor="#E00800" items={[
@@ -4583,6 +4650,714 @@ function HaithamDealStructure() {
   </>;
 }
 
+/* ════════════════════════════════════════════════════════════ */
+/* e& CFO FINANCIAL ANALYSIS — interactive model                */
+/* ════════════════════════════════════════════════════════════ */
+
+const FX = 3.67; // UAE peg AED/USD
+const fmtAED = (v) => {
+  const a = Math.abs(v);
+  const s = v < 0 ? "−" : "";
+  if (a >= 1e9) return `${s}AED ${(a/1e9).toFixed(2)}B`;
+  if (a >= 1e6) return `${s}AED ${(a/1e6).toFixed(1)}M`;
+  if (a >= 1e3) return `${s}AED ${(a/1e3).toFixed(0)}K`;
+  return `${s}AED ${a.toFixed(0)}`;
+};
+const fmtUSD = (aed) => {
+  const v = aed / FX;
+  const a = Math.abs(v);
+  const s = v < 0 ? "−" : "";
+  if (a >= 1e9) return `${s}$${(a/1e9).toFixed(2)}B`;
+  if (a >= 1e6) return `${s}$${(a/1e6).toFixed(1)}M`;
+  if (a >= 1e3) return `${s}$${(a/1e3).toFixed(0)}K`;
+  return `${s}$${a.toFixed(0)}`;
+};
+const fmtNum = (v) => Math.round(v).toLocaleString();
+const fmtPct = (v) => `${(v * 100).toFixed(1)}%`;
+
+function FinSlider({label, value, min, max, step, onChange, format, hint, accent}) {
+  const a = accent || BRAND.red;
+  return <div style={{marginBottom:14}}>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:5}}>
+      <span style={{fontSize:11.5,fontWeight:600,color:"#111"}}>{label}</span>
+      <span style={{fontSize:13,fontWeight:700,color:a,fontFamily:BRAND.font}}>{format(value)}</span>
+    </div>
+    <input type="range" min={min} max={max} step={step} value={value}
+      onChange={(e)=>onChange(Number(e.target.value))}
+      style={{width:"100%",accentColor:a,cursor:"pointer"}}
+    />
+    {hint && <div style={{fontSize:10,color:"#999",marginTop:2}}>{hint}</div>}
+  </div>;
+}
+
+function CashFlowChart({months, breakevenMonth}) {
+  const w = 760, h = 240, padL = 70, padR = 16, padT = 20, padB = 36;
+  const vals = months.map(m => m.cum);
+  const max = Math.max(...vals, 0);
+  const min = Math.min(...vals, 0);
+  const range = (max - min) || 1;
+  const xS = (i) => padL + (i / (months.length - 1)) * (w - padL - padR);
+  const yS = (v) => h - padB - ((v - min) / range) * (h - padT - padB);
+  const zeroY = yS(0);
+  const pts = months.map((m, i) => `${xS(i)},${yS(m.cum)}`).join(" ");
+  const lastX = xS(months.length - 1);
+  const firstX = xS(0);
+  const areaPath = `M ${firstX},${zeroY} L ${pts} L ${lastX},${zeroY} Z`;
+  const yTicks = [min, min + range * 0.25, min + range * 0.5, min + range * 0.75, max];
+  return <svg viewBox={`0 0 ${w} ${h}`} style={{width:"100%",height:"auto",display:"block",background:BRAND.white}}>
+    {yTicks.map((t, i) => <g key={i}>
+      <line x1={padL} y1={yS(t)} x2={w - padR} y2={yS(t)} stroke="#eee" strokeWidth="1" />
+      <text x={padL - 8} y={yS(t)} textAnchor="end" dy="3" fontSize="9.5" fill="#888">{fmtAED(t)}</text>
+    </g>)}
+    <line x1={padL} y1={zeroY} x2={w - padR} y2={zeroY} stroke="#444" strokeWidth="1" strokeDasharray="4,3" />
+    <path d={areaPath} fill={BRAND.red} fillOpacity="0.10" />
+    <polyline points={pts} fill="none" stroke={BRAND.red} strokeWidth="2.2" />
+    {[12, 24].map((m, i) => <g key={i}>
+      <line x1={xS(m-1)} y1={padT} x2={xS(m-1)} y2={h - padB} stroke="#ccc" strokeWidth="1" strokeDasharray="2,3" />
+      <text x={xS(m-1)} y={padT - 4} textAnchor="middle" fontSize="9.5" fill="#666">Y{i+1}/Y{i+2}</text>
+    </g>)}
+    {breakevenMonth && <g>
+      <line x1={xS(breakevenMonth - 1)} y1={padT} x2={xS(breakevenMonth - 1)} y2={h - padB} stroke="#004B2E" strokeWidth="1.6" strokeDasharray="3,3" />
+      <circle cx={xS(breakevenMonth - 1)} cy={zeroY} r="4" fill="#004B2E" />
+      <text x={xS(breakevenMonth - 1)} y={padT + 12} textAnchor="middle" fontSize="10.5" fontWeight="700" fill="#004B2E">Break-even · M{breakevenMonth}</text>
+    </g>}
+    {[1, 6, 12, 18, 24, 30, 36].map((m, i) => <text key={i} x={xS(m-1)} y={h - 12} textAnchor="middle" fontSize="9.5" fill="#888">M{m}</text>)}
+    <text x={padL} y={h - 2} fontSize="9" fill="#999">Months from contract sign-off</text>
+  </svg>;
+}
+
+function simulateCashflow(p) {
+  // Personnel: Y1 4.0M / Y2 7.2M / Y3 12.5M
+  // Infrastructure (GPU pod, DC, networking): Y1 3.5M / Y2 6.2M / Y3 9.8M
+  // Open Innovation orchestration license: Y1 0.55M / Y2 0.92M / Y3 1.45M
+  const FIXED_OPEX = {y1: 8050000, y2: 14320000, y3: 23750000};
+  const LAUNCH_DELAY = p.launchDelay || 2;
+  const months = [];
+  let cum = 0;
+  let breakevenMonth = null;
+  for (let m = 1; m <= 36; m++) {
+    const year = Math.ceil(m / 12);
+    const monthInYear = m - (year - 1) * 12;
+    let cust = 0;
+    if (year === 1) {
+      if (monthInYear > LAUNCH_DELAY) {
+        cust = p.y1Cust * (monthInYear - LAUNCH_DELAY) / (12 - LAUNCH_DELAY);
+      }
+    } else if (year === 2) {
+      cust = p.y1Cust + (p.y2Cust - p.y1Cust) * monthInYear / 12;
+    } else {
+      cust = p.y2Cust + (p.y3Cust - p.y2Cust) * monthInYear / 12;
+    }
+    const arpu = year === 1 ? p.y1ARPU : year === 2 ? p.y2ARPU : p.y3ARPU;
+    const aShare = (year === 3 ? p.aShareY3 : p.aShareY12) / 100;
+    const fixedOpexAnnual = (year === 1 ? FIXED_OPEX.y1 : year === 2 ? FIXED_OPEX.y2 : FIXED_OPEX.y3) * p.opexMult;
+    const gross = cust * arpu;
+    const aid = gross * aShare;
+    const eNet = gross - aid;
+    const conn = cust * p.connARPU;
+    const rev = eNet + conn;
+    const vCost = cust * p.cogsPerCust;
+    const fCost = fixedOpexAnnual / 12;
+    let bCost = 0;
+    if (year === 1) {
+      if (monthInYear === 3) bCost = 4210000;
+      else if (monthInYear === 6) bCost = 2110000;
+      else if (monthInYear === 9) bCost = 2110000;
+      else if (monthInYear === 12) bCost = 4210000;
+    }
+    const ebitda = rev - vCost - fCost - bCost;
+    cum += ebitda;
+    if (breakevenMonth === null && cum >= 0 && m >= 3) breakevenMonth = m;
+    months.push({m, year, cust, gross, aid, eNet, conn, rev, vCost, fCost, bCost, ebitda, cum});
+  }
+  const agg = (y) => {
+    const ms = months.filter(x => x.year === y);
+    const sum = (k) => ms.reduce((s, mm) => s + mm[k], 0);
+    return {
+      gross: sum("gross"), aid: sum("aid"), eNet: sum("eNet"), conn: sum("conn"),
+      rev: sum("rev"), vCost: sum("vCost"), fCost: sum("fCost"), bCost: sum("bCost"),
+      ebitda: sum("ebitda"), cum: ms[ms.length - 1].cum,
+      avgCust: sum("cust") / 12,
+      margin: sum("rev") > 0 ? sum("ebitda") / sum("rev") : 0,
+    };
+  };
+  return {months, breakevenMonth, y1: agg(1), y2: agg(2), y3: agg(3)};
+}
+
+function EandFinancialsSection() {
+  const BUILD_COST_AED = 12640000; // $3.44M × 3.67
+  // INPUT STATE
+  const [y1Cust, setY1Cust] = useState(24000);
+  const [y2Cust, setY2Cust] = useState(62000);
+  const [y3Cust, setY3Cust] = useState(85000);
+  const [y1ARPU, setY1ARPU] = useState(285);
+  const [y2ARPU, setY2ARPU] = useState(350);
+  const [y3ARPU, setY3ARPU] = useState(420);
+  const [aShareY12, setAShareY12] = useState(35);
+  const [aShareY3, setAShareY3] = useState(28);
+  const [cogsPerCust, setCogsPerCust] = useState(25);
+  const [connARPU, setConnARPU] = useState(20);
+  const [opexMult, setOpexMult] = useState(1.0);
+
+  const params = {y1Cust, y2Cust, y3Cust, y1ARPU, y2ARPU, y3ARPU, aShareY12, aShareY3, cogsPerCust, connARPU, opexMult};
+  const sim = simulateCashflow(params);
+  const bear = simulateCashflow({...params, y1Cust: y1Cust*0.5, y2Cust: y2Cust*0.5, y3Cust: y3Cust*0.5, y1ARPU: y1ARPU*0.85, y2ARPU: y2ARPU*0.85, y3ARPU: y3ARPU*0.85});
+  const bull = simulateCashflow({...params, y1Cust: y1Cust*1.3, y2Cust: y2Cust*1.3, y3Cust: y3Cust*1.3, y1ARPU: y1ARPU*1.15, y2ARPU: y2ARPU*1.15, y3ARPU: y3ARPU*1.15});
+
+  const ebitda3y = sim.y1.ebitda + sim.y2.ebitda + sim.y3.ebitda;
+  const rev3y = sim.y1.rev + sim.y2.rev + sim.y3.rev;
+  const margin3y = rev3y > 0 ? ebitda3y / rev3y : 0;
+  const beDisplay = sim.breakevenMonth ? `M${sim.breakevenMonth} · Y${Math.ceil(sim.breakevenMonth/12)}` : ">36 months";
+
+  const resetDefaults = () => {
+    setY1Cust(24000); setY2Cust(62000); setY3Cust(85000);
+    setY1ARPU(285); setY2ARPU(350); setY3ARPU(420);
+    setAShareY12(35); setAShareY3(28);
+    setCogsPerCust(25); setConnARPU(20); setOpexMult(1.0);
+  };
+
+  const cellNum = (v, bold=false, color=null) => <td style={{padding:"10px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:bold?700:500,color:color||(bold?BRAND.black:"#555")}}>{fmtAED(v)}</td>;
+  const cellLabel = (txt, bold=false, indent=0) => <td style={{padding:"10px 14px",paddingLeft:14+indent,fontWeight:bold?700:500,color:bold?BRAND.black:"#444"}}>{txt}</td>;
+
+  // Build cost breakdown
+  const waves = [
+    {w:"Wave 1", what:"Platform foundation + Customer Agent", fee:1147621, when:"Weeks 1–12"},
+    {w:"Wave 2", what:"Sales Agent + Comms Hub", fee:575000, when:"Weeks 13–18"},
+    {w:"Wave 3", what:"Finance Agent + Ops Agent", fee:575000, when:"Weeks 19–24"},
+    {w:"Wave 4", what:"People Agent + Platform hardening + L3 support Y1–3", fee:1146000, when:"Weeks 25–30"},
+  ];
+  const buildTotal = waves.reduce((s,w) => s + w.fee, 0);
+
+  // Operating cost line items (annual AED, baseline scenario)
+  const opexLines = [
+    {cat:"Variable (per-customer)", items:[
+      {n:"LLM API tokens (OpenAI / Anthropic / fallback)", per:8, y1:null, y2:null, y3:null, note:"~AED 8/cust/mo · falls with self-hosted Falcon/Llama from Y2"},
+      {n:"Arabic speech (TTS/ASR)", per:5, note:"Voice traffic via Customer Agent"},
+      {n:"WhatsApp BSP fees (Meta pass-through)", per:3, note:"Conversation-based, billed via e& BSP"},
+      {n:"SMS network cost", per:2, note:"e& direct carrier route"},
+      {n:"L1/L2 support cost per customer", per:5, note:"Scales with active base"},
+      {n:"Storage + per-customer infra", per:2, note:"Vector DB, transcripts, audit"},
+    ]},
+    {cat:"Fixed personnel & operations", items:[
+      {n:"e& AI engineering team (2 → 5 → 8 FTE)", y1:1500000, y2:2500000, y3:4000000, note:"Loaded cost ~AED 500K/FTE/yr"},
+      {n:"L1/L2 customer support team", y1:1200000, y2:2500000, y3:4500000, note:"Scales with customer count"},
+      {n:"Sales & marketing dedicated to AI line", y1:800000, y2:1500000, y3:3000000, note:"Account managers, performance marketing"},
+      {n:"Compliance, legal, audit", y1:500000, y2:700000, y3:1000000, note:"FTA, NESA, DHA, CBUAE alignment"},
+    ]},
+    {cat:"Infrastructure — GPU pod & data centre (CapEx amortised over 3 yrs + annual DC)", items:[
+      {n:"GPU servers — NVIDIA H100/H200 SXM certified OEM (Dell PowerEdge XE9680 / HPE ProLiant DL380 Gen11 / Supermicro AS-4125GS)", y1:1800000, y2:3100000, y3:4700000, note:"4-node SU Y1 → +12 nodes Y2 → 32 nodes (8-SU full pod) Y3 · CapEx amortised 3 yrs · $220–$350K/node; includes GPU-direct RDMA memory"},
+      {n:"InfiniBand networking fabric (NVIDIA Mellanox Quantum-2 QM9700 HDR200 switches + DAC/AOC cables)", y1:380000, y2:680000, y3:1050000, note:"Non-blocking IB for GPU-GPU RDMA; fat-tree or dragonfly topology · scales with node count · separate 400GbE uplinks to DC core"},
+      {n:"ToR Ethernet switching (Arista 7050CX3 / Cisco Nexus 93600CD 400GbE)", y1:140000, y2:240000, y3:380000, note:"Management, storage and out-of-band fabric; bonded 25/100GbE to servers"},
+      {n:"Rack, PDU, hot-aisle containment, structured cabling & UPS (Schneider / APC)", y1:200000, y2:350000, y3:550000, note:"2–3 × 42U racks per SU; dual-feed PDUs; Cat6A + OM4 multimode fibre; blanking panels + in-row cooling"},
+      {n:"Data centre colocation, power & cooling (UAE Tier-III / IV DC — e& or Core42)", y1:850000, y2:1500000, y3:2500000, note:"~30kW per 4-node SU at PUE 1.4 · 4 SU = 120kW / 8 SU = 240kW · metered at kWh; UAE DC colocation rate ~AED 1,200–1,800/rack/mo"},
+      {n:"Hardware support contracts (Dell ProSupport NBD / HPE Care Pack 4-hr on-site / NVIDIA GPU swap)", y1:270000, y2:570000, y3:1000000, note:"Next-business-day on-site HW replacement; 4-hr critical replacement unit (CRU) for GPU cards, NVLinks and HBM modules"},
+      {n:"Infrastructure commissioning, racking & NVAIE cluster validation", y1:430000, y2:550000, y3:350000, note:"Y1: full pod build + NVAIE DGX BasePOD validation + network acceptance testing · Y2: capacity expansion project · Y3: pod completion & DR validation"},
+    ]},
+    {cat:"Software licenses (fixed component)", items:[
+      {n:"Open Innovation orchestration platform license", y1:550000, y2:920000, y3:1450000, note:"Enterprise API & workflow orchestration middleware · acts as the integration fabric across agents, BSS/OSS, ERP and partner systems · tier-based licensing by tenant / API-call volume"},
+      {n:"NVIDIA AI Enterprise (NVAIE)", y1:180000, y2:370000, y3:550000, note:"~$4.5K/GPU/yr · includes Base Command Manager, NIM microservices, Triton Inference Server, Riva ASR/TTS · scales with pod"},
+      {n:"Observability (Datadog / Grafana Cloud)", y1:90000, y2:180000, y3:280000, note:"APM, log management, GPU metrics, alert routing"},
+      {n:"Vector DB + RAG infra (Qdrant / Pinecone / Weaviate enterprise)", y1:60000, y2:150000, y3:300000, note:"Per-tenant namespace isolation; scales with indexed document volume"},
+      {n:"Help AG sovereign security wrap (SIEM, SOC-as-a-service, pen-test)", y1:200000, y2:400000, y3:700000, note:"e& wholly-owned cyber arm; NESA + ISO 27001 alignment"},
+    ]},
+  ];
+
+  // Compute totals based on baseline avg customers
+  const avg = {y1: sim.y1.avgCust, y2: sim.y2.avgCust, y3: sim.y3.avgCust};
+
+  const scenarioRow = (label, s, tone) => <tr style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+    <td style={{padding:"12px 14px",fontWeight:700,color:tone||"#111"}}>{label}</td>
+    {cellNum(s.y1.rev)}{cellNum(s.y2.rev)}{cellNum(s.y3.rev)}
+    {cellNum(s.y1.ebitda, false, s.y1.ebitda < 0 ? "#A40000" : "#555")}
+    {cellNum(s.y2.ebitda)}{cellNum(s.y3.ebitda)}
+    <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:s.breakevenMonth?"#004B2E":"#A40000",fontFamily:BRAND.font}}>{s.breakevenMonth?`M${s.breakevenMonth}`:">36"}</td>
+  </tr>;
+
+  return <div>
+    {/* HERO */}
+    <div style={{padding:"44px 0 36px"}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+        <Badge v="violet">CFO analysis · e& view</Badge>
+        <span style={{fontSize:12,color:"#888"}}>Build · Operate · Adopt · Break-even</span>
+      </div>
+      <h2 style={{fontSize:34,fontWeight:700,color:"#111",lineHeight:1.08,marginBottom:14,fontFamily:BRAND.font}}>e& financial analysis</h2>
+      <p style={{fontSize:14.5,color:"#666",maxWidth:760,lineHeight:1.7,marginBottom:10}}>
+        Complete financial model for the e& side of the partnership: build cost paid to AIdeology, e& operating cost (hardware, licenses, people), revenue split, and a live calculator that recomputes EBITDA and break-even from adoption and ARPU inputs.
+      </p>
+      <p style={{fontSize:13,color:"#888",maxWidth:760,lineHeight:1.7,marginBottom:28}}>
+        All figures in AED with USD equivalents at the UAE peg of <strong style={{color:"#111"}}>AED {FX} / USD</strong>. The model runs a month-by-month simulation across 36 months. Move the sliders below to test any adoption / ARPU / cost scenario in real time.
+      </p>
+      <div style={{display:"flex",gap:28,flexWrap:"wrap"}}>
+        {[
+          {v: fmtAED(BUILD_COST_AED), l: "Build cost (one-off, paid to AIdeology)"},
+          {v: fmtAED(sim.y3.rev), l: "Year 3 e& revenue"},
+          {v: fmtAED(ebitda3y), l: "3-yr cumulative EBITDA"},
+          {v: fmtPct(margin3y), l: "3-yr blended EBITDA margin"},
+          {v: beDisplay, l: "Break-even (cumulative cash)"},
+        ].map((s,i)=><div key={i} style={{minWidth:108}}>
+          <div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+          <div style={{fontSize:10.5,color:"#999",marginTop:2}}>{s.l}</div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* ──────── BUILD COST ──────── */}
+    <SH>Cost to create the platform — what e& pays AIdeology</SH>
+    <Note label="Build cost summary">
+      One-time fixed fees of <strong style={{color:"#111"}}>$3.44M ≈ AED 12.64M</strong>, paid only on delivery across four waves and ten milestones, plus Wave 4 hardening that includes AIdeology L3 platform support for Years 1–3. If e& chooses to amortise straight-line over 3 years, build cost charged to P&L is <strong style={{color:"#111"}}>~AED 4.21M/year</strong>; if expensed in Year 1, it lands as a single AED 12.64M deduction. The calculator below uses the cash-basis view (expensed when paid by milestone), which is the most conservative view for the CFO.
+    </Note>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey}}>
+          {["Wave","Deliverable","Timing","Fee (USD)","Fee (AED)","Cumulative (AED)"].map((h,i)=><th key={i} style={{textAlign:i>2?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {waves.map((w,i)=>{
+            const cum = waves.slice(0,i+1).reduce((s,x)=>s+x.fee,0);
+            return <tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red}}>{w.w}</td>
+              <td style={{padding:"12px 14px",color:"#333"}}>{w.what}</td>
+              <td style={{padding:"12px 14px",color:"#777",fontFamily:"monospace",fontSize:11.5}}>{w.when}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#111"}}>${(w.fee).toLocaleString()}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#111"}}>{fmtAED(w.fee * FX)}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:BRAND.red,fontWeight:700}}>{fmtAED(cum * FX)}</td>
+            </tr>;
+          })}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>Total</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>6 AI agents + platform + 3-yr L3 support</td>
+            <td style={{padding:"12px 14px",color:"#111",fontFamily:"monospace",fontSize:11.5,fontWeight:700}}>30 weeks</td>
+            <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font}}>${buildTotal.toLocaleString()}</td>
+            <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{fmtAED(buildTotal * FX)}</td>
+            <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:14}}>{fmtAED(buildTotal * FX)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    {/* ──────── OPERATING COST ──────── */}
+    <SH>Cost to run the platform — annual operating cost</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:14}}>
+      e& operating cost is composed of four buckets: (1) <strong style={{color:"#111"}}>variable per-customer COGS</strong> (LLM tokens, speech, BSP, SMS, L1/L2 support, per-tenant storage); (2) <strong style={{color:"#111"}}>fixed personnel</strong> that scales with team headcount; (3) <strong style={{color:"#111"}}>GPU pod & data-centre infrastructure</strong> — GPU servers, InfiniBand networking, ToR Ethernet, rack/PDU/cooling, DC colocation, hardware support, and implementation costs, all of which are substantially larger than a simple "server allocation" line; and (4) <strong style={{color:"#111"}}>software licences</strong> — most importantly the <strong style={{color:"#111"}}>Open Innovation orchestration platform</strong> that acts as the integration fabric across agents, BSS/OSS, ERP and partner systems, plus NVAIE, observability, vector DB, and Help AG security. Infrastructure and licence costs ladder with pod size, not customer count.
+    </p>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey}}>
+          {["Cost item","Year 1","Year 2","Year 3","Notes"].map((h,i)=><th key={i} style={{textAlign:i>0&&i<4?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {opexLines.map((bucket, bi) => <Fragment key={bi}>
+            <tr style={{background:"#FAFAFA"}}>
+              <td colSpan={5} style={{padding:"10px 14px",fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase"}}>{bucket.cat}</td>
+            </tr>
+            {bucket.items.map((it, ii) => {
+              const y1v = it.per ? avg.y1 * it.per * 12 : it.y1;
+              const y2v = it.per ? avg.y2 * it.per * 12 : it.y2;
+              const y3v = it.per ? avg.y3 * it.per * 12 : it.y3;
+              return <tr key={ii} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+                <td style={{padding:"10px 14px",color:"#333"}}>{it.n}{it.per && <span style={{color:"#999",fontSize:11}}> · AED {it.per}/cust/mo</span>}</td>
+                {cellNum(y1v)}{cellNum(y2v)}{cellNum(y3v)}
+                <td style={{padding:"10px 14px",color:"#888",fontSize:11,lineHeight:1.45}}>{it.note}</td>
+              </tr>;
+            })}
+          </Fragment>)}
+          {/* Subtotals */}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>Total annual OpEx (baseline scenario)</td>
+            {cellNum(sim.y1.vCost + sim.y1.fCost, true, BRAND.red)}
+            {cellNum(sim.y2.vCost + sim.y2.fCost, true, BRAND.red)}
+            {cellNum(sim.y3.vCost + sim.y3.fCost, true, BRAND.red)}
+            <td style={{padding:"12px 14px",color:"#666",fontSize:11}}>Variable scales with avg customers; fixed scales with team & pod</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+    <Note label="Per-customer COGS benchmark">
+      Variable per-customer cost of AED 25/month (AED 300/year) is conservative vs. UAE SMB SaaS benchmarks (typically AED 20–35/cust/month for a multi-channel AI product). The model lets you adjust this with the COGS slider. Infrastructure and licence costs are fixed regardless of customer count — the GPU pod and Open Innovation orchestration license represent the largest single step-up vs. a basic SaaS deployment.
+    </Note>
+
+    {/* ──────── INTERACTIVE CALCULATOR ──────── */}
+    <SH>Interactive financial model — move the sliders</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:14}}>
+      Sliders below feed a month-by-month simulation across 36 months. The P&L, cash flow chart, and break-even indicator update instantly. Defaults match the proposal base case. Use the <strong style={{color:"#111"}}>Reset</strong> link to return to base case at any time.
+    </p>
+    <div style={{display:"grid",gridTemplateColumns:"360px 1fr",gap:16,marginBottom:14}}>
+      {/* LEFT — SLIDERS */}
+      <Card style={{padding:20}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+          <div style={{fontSize:13,fontWeight:700,color:"#111"}}>Adoption · ARPU · cost inputs</div>
+          <button onClick={resetDefaults} style={{fontSize:10.5,fontWeight:700,color:BRAND.red,background:"transparent",border:"none",cursor:"pointer",letterSpacing:"0.04em",textTransform:"uppercase",padding:0}}>Reset to base case</button>
+        </div>
+        <div style={{fontSize:10,fontWeight:700,color:"#999",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Customer adoption (EOY)</div>
+        <FinSlider label="Year 1 customers" value={y1Cust} min={5000} max={50000} step={1000} onChange={setY1Cust} format={fmtNum} hint="End-of-year paying SMB count"/>
+        <FinSlider label="Year 2 customers" value={y2Cust} min={20000} max={120000} step={2000} onChange={setY2Cust} format={fmtNum}/>
+        <FinSlider label="Year 3 customers" value={y3Cust} min={40000} max={200000} step={5000} onChange={setY3Cust} format={fmtNum}/>
+        <div style={{height:1,background:BRAND.border,margin:"14px 0"}}/>
+        <div style={{fontSize:10,fontWeight:700,color:"#999",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>ARPU (AED / month)</div>
+        <FinSlider label="Year 1 ARPU" value={y1ARPU} min={150} max={500} step={5} onChange={setY1ARPU} format={(v)=>`AED ${v}`} hint={`≈ $${(y1ARPU/FX).toFixed(0)} / customer / month`}/>
+        <FinSlider label="Year 2 ARPU" value={y2ARPU} min={200} max={600} step={5} onChange={setY2ARPU} format={(v)=>`AED ${v}`} hint={`≈ $${(y2ARPU/FX).toFixed(0)} / customer / month`}/>
+        <FinSlider label="Year 3 ARPU" value={y3ARPU} min={250} max={700} step={5} onChange={setY3ARPU} format={(v)=>`AED ${v}`} hint={`≈ $${(y3ARPU/FX).toFixed(0)} / customer / month`}/>
+        <div style={{height:1,background:BRAND.border,margin:"14px 0"}}/>
+        <div style={{fontSize:10,fontWeight:700,color:"#999",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Commercial & cost levers</div>
+        <FinSlider label="AIdeology rev-share · Y1–2" value={aShareY12} min={15} max={45} step={1} onChange={setAShareY12} format={(v)=>`${v}%`} hint="e& keeps the remainder"/>
+        <FinSlider label="AIdeology rev-share · Y3" value={aShareY3} min={10} max={40} step={1} onChange={setAShareY3} format={(v)=>`${v}%`} hint="Declines further to 20% in Y4+"/>
+        <FinSlider label="COGS per customer (AED/mo)" value={cogsPerCust} min={10} max={60} step={1} onChange={setCogsPerCust} format={(v)=>`AED ${v}`} hint="LLM + support + per-customer infra"/>
+        <FinSlider label="Connectivity ARPU (AED/mo)" value={connARPU} min={5} max={60} step={1} onChange={setConnARPU} format={(v)=>`AED ${v}`} hint="Telco upsell per customer"/>
+        <FinSlider label="Fixed OpEx multiplier" value={opexMult * 100} min={50} max={200} step={5} onChange={(v)=>setOpexMult(v/100)} format={(v)=>`${v}%`} hint="100% = baseline e& fixed OpEx"/>
+      </Card>
+
+      {/* RIGHT — P&L OUTPUT */}
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"16px 22px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap"}}>
+          <div style={{fontSize:14,fontWeight:700,color:"#111"}}>e& 3-year P&L — live</div>
+          <div style={{display:"flex",gap:18}}>
+            <div><div style={{fontSize:10.5,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase",fontWeight:700}}>Break-even</div><div style={{fontSize:14,fontWeight:700,color:sim.breakevenMonth?"#004B2E":"#A40000",fontFamily:BRAND.font}}>{beDisplay}</div></div>
+            <div><div style={{fontSize:10.5,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase",fontWeight:700}}>3-yr cum EBITDA</div><div style={{fontSize:14,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{fmtAED(ebitda3y)}</div></div>
+          </div>
+        </div>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+          <thead><tr style={{background:BRAND.lightGrey}}>
+            {["P&L line","Year 1","Year 2","Year 3"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"10px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            <tr><td colSpan={4} style={{padding:"8px 14px",background:"#FAFAFA",fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase"}}>Revenue</td></tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Avg paying customers")}<td colSpan={3} style={{padding:0}}><table style={{width:"100%",borderCollapse:"collapse"}}><tbody><tr>{[sim.y1.avgCust, sim.y2.avgCust, sim.y3.avgCust].map((v,i)=><td key={i} style={{padding:"10px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{fmtNum(v)}</td>)}</tr></tbody></table></td></tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Gross SaaS revenue")}{cellNum(sim.y1.gross)}{cellNum(sim.y2.gross)}{cellNum(sim.y3.gross)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`,background:"#FFFBFB"}}>{cellLabel("Less: AIdeology rev-share", false, 12)}{cellNum(-sim.y1.aid)}{cellNum(-sim.y2.aid)}{cellNum(-sim.y3.aid)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("e& net SaaS revenue", true)}{cellNum(sim.y1.eNet, true)}{cellNum(sim.y2.eNet, true)}{cellNum(sim.y3.eNet, true)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Connectivity & telco upsell")}{cellNum(sim.y1.conn)}{cellNum(sim.y2.conn)}{cellNum(sim.y3.conn)}</tr>
+            <tr style={{borderBottom:`2px solid ${BRAND.red}`,background:BRAND.lightGrey}}>{cellLabel("Total e& revenue", true)}{cellNum(sim.y1.rev, true, BRAND.red)}{cellNum(sim.y2.rev, true, BRAND.red)}{cellNum(sim.y3.rev, true, BRAND.red)}</tr>
+
+            <tr><td colSpan={4} style={{padding:"8px 14px",background:"#FAFAFA",fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase"}}>Operating cost</td></tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Variable cost (per-customer COGS)")}{cellNum(-sim.y1.vCost)}{cellNum(-sim.y2.vCost)}{cellNum(-sim.y3.vCost)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Fixed personnel & operations")}{cellNum(-sim.y1.fCost)}{cellNum(-sim.y2.fCost)}{cellNum(-sim.y3.fCost)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("Build cost (AIdeology fixed fees)")}{cellNum(-sim.y1.bCost)}{cellNum(-sim.y2.bCost)}{cellNum(-sim.y3.bCost)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>{cellLabel("Total cost", true)}{cellNum(-(sim.y1.vCost+sim.y1.fCost+sim.y1.bCost), true)}{cellNum(-(sim.y2.vCost+sim.y2.fCost+sim.y2.bCost), true)}{cellNum(-(sim.y3.vCost+sim.y3.fCost+sim.y3.bCost), true)}</tr>
+
+            <tr style={{borderTop:`2px solid ${BRAND.red}`,background:"#FFF3F3"}}>{cellLabel("e& EBITDA", true)}{cellNum(sim.y1.ebitda, true, sim.y1.ebitda < 0 ? "#A40000" : BRAND.red)}{cellNum(sim.y2.ebitda, true, BRAND.red)}{cellNum(sim.y3.ebitda, true, BRAND.red)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`}}>{cellLabel("EBITDA margin")}{[sim.y1.margin, sim.y2.margin, sim.y3.margin].map((v,i)=><td key={i} style={{padding:"10px 14px",textAlign:"right",fontFamily:BRAND.font,color:v<0?"#A40000":"#555",fontWeight:600}}>{fmtPct(v)}</td>)}</tr>
+            <tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>{cellLabel("Cumulative cash flow", true)}{cellNum(sim.y1.cum, true, sim.y1.cum < 0 ? "#A40000" : "#004B2E")}{cellNum(sim.y2.cum, true, sim.y2.cum < 0 ? "#A40000" : "#004B2E")}{cellNum(sim.y3.cum, true, "#004B2E")}</tr>
+          </tbody>
+        </table>
+      </Card>
+    </div>
+
+    {/* CASH FLOW CHART */}
+    <Card style={{padding:18,marginBottom:14}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",flexWrap:"wrap",gap:10,marginBottom:8}}>
+        <div style={{fontSize:14,fontWeight:700,color:"#111"}}>Cumulative cash flow — 36 months</div>
+        <div style={{fontSize:11.5,color:"#777"}}>Green dashed line = month cumulative cash flow crosses zero · red line = cumulative e& cash flow · dotted vertical = Y1/Y2 and Y2/Y3 boundaries</div>
+      </div>
+      <CashFlowChart months={sim.months} breakevenMonth={sim.breakevenMonth}/>
+    </Card>
+
+    {/* ──────── SENSITIVITY ──────── */}
+    <SH>Sensitivity analysis — three scenarios</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:14}}>
+      Three scenarios computed off the current slider settings. <strong style={{color:"#111"}}>Bear</strong> applies 50% adoption and 85% ARPU; <strong style={{color:"#111"}}>Base</strong> is the current settings; <strong style={{color:"#111"}}>Bull</strong> applies 130% adoption and 115% ARPU. Same cost structure across all scenarios — the model isolates demand sensitivity.
+    </p>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey}}>
+          {["Scenario","Y1 revenue","Y2 revenue","Y3 revenue","Y1 EBITDA","Y2 EBITDA","Y3 EBITDA","Break-even"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {scenarioRow("Bear · −50% adopt, −15% ARPU", bear, "#A40000")}
+          {scenarioRow("Base · current sliders", sim, BRAND.red)}
+          {scenarioRow("Bull · +30% adopt, +15% ARPU", bull, "#004B2E")}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* SENSITIVITY KPIs */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)",gap:12,marginBottom:14}}>
+      {[
+        {n:"Bear", s:bear, color:"#A40000", lead:"−50% adoption, −15% ARPU"},
+        {n:"Base", s:sim, color:BRAND.red, lead:"Current settings"},
+        {n:"Bull", s:bull, color:"#004B2E", lead:"+30% adoption, +15% ARPU"},
+      ].map((sc,i)=><Card key={i} style={{padding:18,borderTop:`3px solid ${sc.color}`}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}>
+          <div style={{fontSize:13,fontWeight:700,color:"#111"}}>{sc.n} case</div>
+          <div style={{fontSize:10.5,color:"#888"}}>{sc.lead}</div>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          <div><div style={{fontSize:10.5,fontWeight:700,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase"}}>3-yr revenue</div><div style={{fontSize:17,fontWeight:700,color:sc.color,fontFamily:BRAND.font}}>{fmtAED(sc.s.y1.rev + sc.s.y2.rev + sc.s.y3.rev)}</div></div>
+          <div><div style={{fontSize:10.5,fontWeight:700,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase"}}>3-yr EBITDA</div><div style={{fontSize:17,fontWeight:700,color:sc.color,fontFamily:BRAND.font}}>{fmtAED(sc.s.y1.ebitda + sc.s.y2.ebitda + sc.s.y3.ebitda)}</div></div>
+          <div><div style={{fontSize:10.5,fontWeight:700,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase"}}>Break-even</div><div style={{fontSize:14,fontWeight:700,color:sc.s.breakevenMonth?"#004B2E":"#A40000",fontFamily:BRAND.font}}>{sc.s.breakevenMonth?`M${sc.s.breakevenMonth}`:">36 months"}</div></div>
+          <div><div style={{fontSize:10.5,fontWeight:700,color:"#999",letterSpacing:"0.04em",textTransform:"uppercase"}}>Y3 margin</div><div style={{fontSize:14,fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{fmtPct(sc.s.y3.margin)}</div></div>
+        </div>
+      </Card>)}
+    </div>
+
+    {/* ──────── e& UAE SMB BASE PENETRATION ──────── */}
+    <SH>e& UAE SMB base — penetration check</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:880,marginBottom:14}}>
+      Reframes the adoption question using e&'s <strong style={{color:"#111"}}>own UAE SMB customer base</strong> as the denominator instead of the total UAE SMB universe (~280K digitally addressable). This is the most defensible CFO benchmark because every paying AI customer must, by definition, sit on an e& connectivity account. The table below shows how each scenario translates to % penetration of the e& SMB base, with comparable telco-distributed SaaS programmes for reference.
+    </p>
+    <Note label="Denominator assumption">
+      <strong style={{color:"#111"}}>e& UAE SMB base ≈ 250,000 accounts</strong> across e& Business mobile, fibre and fixed lines (e& Group Business segment disclosure; UAE Business serves ~60–65% of UAE SMB connectivity market). Adjusting this number ±20% changes the % penetration numbers below but not the customer counts or revenue (those are driven by the sliders).
+    </Note>
+    {(() => {
+      const SMB_BASE = 250000;
+      const pen = (n) => n / SMB_BASE;
+      const cases = [
+        {n:"Bear", color:"#A40000", lead:"−50% adoption, −15% ARPU", y1:y1Cust*0.5, y2:y2Cust*0.5, y3:y3Cust*0.5, bm:"Sage One via Vodacom (≈12% in 4 yrs)"},
+        {n:"Base — current sliders", color:BRAND.red, lead:"Current model assumptions", y1:y1Cust, y2:y2Cust, y3:y3Cust, bm:"Microsoft 365 via Vodafone Business UK (≈22% in 4 yrs)"},
+        {n:"Bull", color:"#004B2E", lead:"+30% adoption, +15% ARPU", y1:y1Cust*1.3, y2:y2Cust*1.3, y3:y3Cust*1.3, bm:"Above all paid telco-SaaS benchmarks · WhatsApp Business free-tier territory"},
+      ];
+      const refs = [
+        {n:"Sage One via Vodacom South Africa", years:"4 yrs", pct:"~12%", note:"Emerging-market telco-distributed paid SaaS"},
+        {n:"Microsoft 365 via Vodafone Business UK", years:"4 yrs", pct:"~22%", note:"Mature-market telco-distributed productivity SaaS"},
+        {n:"BT Cloud Voice + O365 (BT UK)", years:"5 yrs", pct:"~18%", note:"Bundled fixed + cloud SMB programme"},
+        {n:"Etisalat 'Business in a Box' (legacy SaaS bundle)", years:"5–7 yrs", pct:"~15–20%", note:"e& historical SMB SaaS programme — direct read-across"},
+        {n:"WhatsApp Business API via MTN / Vodacom (free)", years:"2 yrs", pct:"~30–40%", note:"Free-tier benchmark, not paid SaaS"},
+      ];
+      return <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+          <thead><tr style={{background:BRAND.lightGrey}}>
+            {["Scenario","Y1 EOY","Y1 %","Y2 EOY","Y2 %","Y3 EOY","Y3 %","Closest benchmark"].map((h,i)=><th key={i} style={{textAlign:i>0&&i<7?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {cases.map((c,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:c.color}}>{c.n}<div style={{fontSize:10.5,fontWeight:500,color:"#888",marginTop:2}}>{c.lead}</div></td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{fmtNum(c.y1)}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:c.color}}>{fmtPct(pen(c.y1))}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{fmtNum(c.y2)}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:c.color}}>{fmtPct(pen(c.y2))}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{fmtNum(c.y3)}</td>
+              <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:c.color,fontSize:14}}>{fmtPct(pen(c.y3))}</td>
+              <td style={{padding:"12px 14px",fontSize:11.5,color:"#666",lineHeight:1.45}}>{c.bm}</td>
+            </tr>)}
+            <tr><td colSpan={8} style={{padding:"10px 14px",background:"#FAFAFA",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>Telco-distributed SMB SaaS benchmark band</td></tr>
+            {refs.map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"10px 14px",fontWeight:600,color:"#333"}}>{r.n}<div style={{fontSize:10.5,fontWeight:500,color:"#888",marginTop:2}}>{r.note}</div></td>
+              <td colSpan={5} style={{padding:"10px 14px",textAlign:"right",color:"#888",fontSize:11.5}}>over {r.years}</td>
+              <td style={{padding:"10px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:"#111",fontSize:14}}>{r.pct}</td>
+              <td style={{padding:"10px 14px",fontSize:11.5,color:"#666",lineHeight:1.45}}>Cumulative penetration of operator SMB base</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </Card>;
+    })()}
+    <Note label="What this tells the CFO">
+      The proposal base case (Y3 EOY ≈ 34% of e& SMB base) sits <strong style={{color:"#111"}}>above the historical telco-SaaS band of 12–22%</strong> — achievable but only if e& commits to (1) bundle-by-default in new SMB acquisitions, (2) account-manager comp tied to agent attach, and (3) Arabic-voice differentiation genuinely landing. A central case of Y3 ≈ 28% (~70K paying) sits inside the upper end of the benchmark band and still produces AED 250M+ in 3-year cumulative EBITDA. The Bear case (~22%) tracks Microsoft 365 / BT Cloud penetration almost exactly and is therefore the defensible CFO floor.
+    </Note>
+
+    {/* ──────── INTERNATIONAL EXPANSION ──────── */}
+    <SH>e& international expansion — beyond UAE</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:880,marginBottom:14}}>
+      The figures in the calculator above are <strong style={{color:"#111"}}>UAE-only</strong>. e& Group operates across 38 countries through e& International (UAE), <strong style={{color:"#111"}}>Etisalat Misr</strong> (Egypt, 100%), <strong style={{color:"#111"}}>Maroc Telecom</strong> (53%, plus 10 African subsidiaries under Moov Africa), <strong style={{color:"#111"}}>PTCL / Ufone</strong> (Pakistan, 62%) and a <strong style={{color:"#111"}}>26% stake in Mobily</strong> (Saudi Arabia). The platform was designed multi-tenant, multi-currency and multi-language, and Arabic-first agentic AI is uniquely portable across MENA. The table below is a strategic projection of what international rollout adds <strong style={{color:"#111"}}>on top of</strong> the UAE base case — it is not part of the contracted commercial model.
+    </p>
+    {(() => {
+      const intl = [
+        {m:"UAE", b:"e&", stake:"100%", base:250000, launch:"Y1 · M1", active:36, pen:y3Cust/250000, arpu:y3ARPU, type:"live", note:"Home market · slider-driven · full bundle control"},
+        {m:"Egypt", b:"Etisalat Misr", stake:"100%", base:400000, launch:"Y2 · Q3", active:18, pen:0.08, arpu:130, type:"static", note:"Arabic-native fit · 2nd-largest mobile operator · ~28% market share"},
+        {m:"Saudi Arabia", b:"Mobily", stake:"26% (associate)", base:200000, launch:"Y2 · Q4", active:15, pen:0.05, arpu:290, type:"static", note:"Arabic-native · high ARPU · minority stake limits bundle leverage"},
+        {m:"Morocco", b:"Maroc Telecom", stake:"53%", base:110000, launch:"Y3 · Q1", active:9, pen:0.06, arpu:240, type:"static", note:"Market leader (~40% share) · Arabic + French · full commercial control"},
+        {m:"Pakistan", b:"PTCL / Ufone", stake:"62%", base:320000, launch:"Y3 · Q2", active:6, pen:0.03, arpu:95, type:"static", note:"Urdu adaptation required · price-sensitive market · large SMB base"},
+        {m:"Sub-Saharan Africa", b:"Moov Africa (via Maroc Telecom)", stake:"53% (consolidated)", base:180000, launch:"Y3 · Q3", active:3, pen:0.015, arpu:110, type:"static", note:"10 markets · French + local · earliest stage · long-term option"},
+      ];
+      const rows = intl.map(r => ({...r, paying: Math.round(r.base * r.pen), revRunRate: Math.round(r.base * r.pen * r.arpu * 12)}));
+      const totals = rows.reduce((a, r) => ({base: a.base + r.base, paying: a.paying + r.paying, revRunRate: a.revRunRate + r.revRunRate}), {base:0, paying:0, revRunRate:0});
+      const uaeOnly = rows[0];
+      const intlOnly = {paying: totals.paying - uaeOnly.paying, revRunRate: totals.revRunRate - uaeOnly.revRunRate};
+      return <>
+        <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+            <thead><tr style={{background:BRAND.lightGrey}}>
+              {["Market","e& brand · stake","SMB base (est.)","Launch","Y3 active mo.","Y3 penetration","Local ARPU (AED equiv.)","Y3 paying","Y3 revenue (run-rate)"].map((h,i)=><th key={i} style={{textAlign:i>1?"right":"left",padding:"12px 12px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            </tr></thead>
+            <tbody>
+              {rows.map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top",background:i===0?"#FFFBFB":"transparent"}}>
+                <td style={{padding:"12px 12px",fontWeight:700,color:"#111"}}>{r.m}{i===0 && <div style={{fontSize:10,color:BRAND.red,fontWeight:700,marginTop:2,letterSpacing:"0.04em",textTransform:"uppercase"}}>Live · slider-driven</div>}</td>
+                <td style={{padding:"12px 12px",color:"#333"}}>{r.b}<div style={{fontSize:10.5,color:"#888",marginTop:2}}>{r.stake}</div></td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{fmtNum(r.base)}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:"monospace",fontSize:11.5,color:"#777"}}>{r.launch}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>{r.active}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:BRAND.red}}>{fmtPct(r.pen)}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,color:"#555"}}>AED {Math.round(r.arpu)}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:"#111"}}>{fmtNum(r.paying)}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:BRAND.red}}>{fmtAED(r.revRunRate)}</td>
+              </tr>)}
+              <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+                <td style={{padding:"12px 12px",fontWeight:700,color:"#111"}}>e& Group total</td>
+                <td style={{padding:"12px 12px",color:"#111",fontWeight:600}}>6 markets across MENA / SSA / SAARC</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{fmtNum(totals.base)}</td>
+                <td style={{padding:"12px 12px"}}></td>
+                <td style={{padding:"12px 12px"}}></td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{fmtPct(totals.paying / totals.base)}</td>
+                <td style={{padding:"12px 12px"}}></td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font,fontSize:14}}>{fmtNum(totals.paying)}</td>
+                <td style={{padding:"12px 12px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:14}}>{fmtAED(totals.revRunRate)}</td>
+              </tr>
+              <tr>
+                <td colSpan={9} style={{padding:"10px 14px",background:"#FAFAFA",fontSize:11,color:"#888",lineHeight:1.55}}>Each market row uses country-specific assumptions: ARPU is purchasing-power adjusted (Egypt ~31% of UAE, Pakistan ~22%, Morocco ~57%), penetration is scaled down for shorter runway and (for KSA) minority-stake commercial leverage. Y3 revenue is end-of-Y3 run-rate (paying × ARPU × 12), not full-year revenue.</td>
+              </tr>
+            </tbody>
+          </table>
+        </Card>
+
+        {/* IMPACT KPIs */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)",gap:12,marginBottom:14}}>
+          <Card style={{padding:18,borderTop:`3px solid ${BRAND.red}`}}>
+            <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>UAE only · Y3 run-rate</div>
+            <div style={{fontSize:24,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{fmtNum(uaeOnly.paying)} <span style={{fontSize:11,color:"#888",fontWeight:500}}>paying</span></div>
+            <div style={{fontSize:14,fontWeight:700,color:"#111",fontFamily:BRAND.font,marginTop:4}}>{fmtAED(uaeOnly.revRunRate)}<span style={{fontSize:11,color:"#888",fontWeight:500}}> · annualised</span></div>
+            <div style={{fontSize:11,color:"#888",marginTop:8,lineHeight:1.55}}>The CFO base case if international rollout is deferred. Drives the build / opex case on this page.</div>
+          </Card>
+          <Card style={{padding:18,borderTop:`3px solid #004B2E`}}>
+            <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>+ International · Y3 run-rate</div>
+            <div style={{fontSize:24,fontWeight:700,color:"#004B2E",fontFamily:BRAND.font}}>{fmtNum(intlOnly.paying)} <span style={{fontSize:11,color:"#888",fontWeight:500}}>additional paying</span></div>
+            <div style={{fontSize:14,fontWeight:700,color:"#111",fontFamily:BRAND.font,marginTop:4}}>{fmtAED(intlOnly.revRunRate)}<span style={{fontSize:11,color:"#888",fontWeight:500}}> · annualised</span></div>
+            <div style={{fontSize:11,color:"#888",marginTop:8,lineHeight:1.55}}>Strategic upside layer. Build cost stays at AED 12.6M — platform is multi-tenant, so deployment cost is incremental hosting + localisation only.</div>
+          </Card>
+          <Card style={{padding:18,borderTop:`3px solid #111`}}>
+            <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>e& Group · Y3 run-rate</div>
+            <div style={{fontSize:24,fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{fmtNum(totals.paying)} <span style={{fontSize:11,color:"#888",fontWeight:500}}>paying</span></div>
+            <div style={{fontSize:14,fontWeight:700,color:"#111",fontFamily:BRAND.font,marginTop:4}}>{fmtAED(totals.revRunRate)}<span style={{fontSize:11,color:"#888",fontWeight:500}}> · annualised</span></div>
+            <div style={{fontSize:11,color:"#888",marginTop:8,lineHeight:1.55}}>≈ {(totals.paying / uaeOnly.paying).toFixed(1)}× UAE-only paying base · {(totals.revRunRate / uaeOnly.revRunRate).toFixed(1)}× revenue (mix-shifted by lower international ARPU).</div>
+          </Card>
+        </div>
+
+        {/* ROLLOUT RAMP TABLE */}
+        <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+          <div style={{padding:"14px 22px",borderBottom:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>Month-by-month customer rollout — UAE · Saudi · Morocco · Hungary</div>
+            <div style={{fontSize:11,color:"#888",marginTop:4}}>Cumulative paying SMB customers by market at end of each 6-month period · UAE figures driven by current slider settings</div>
+          </div>
+          <div style={{overflowX:"auto"}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5,minWidth:600}}>
+              <thead>
+                <tr style={{background:BRAND.lightGrey}}>
+                  {["Period","UAE","Saudi Arabia","Morocco","Hungary","Total customers"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 16px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,whiteSpace:"nowrap"}}>{h}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {period:"M1–6",  uae: Math.round(y1Cust*0.32), ksa:0,     mar:0,    hun:0,    note:"UAE soft launch only · Saudi pre-commercial"},
+                  {period:"M7–12", uae: Math.round(y1Cust*1.0),  ksa:5000,  mar:0,    hun:0,    note:"UAE EOY Y1 · Saudi commercial launch"},
+                  {period:"M13–18",uae: Math.round(y1Cust + (y2Cust-y1Cust)*0.5), ksa:12000, mar:3000, hun:0,    note:"UAE Y2 mid · Morocco pilot · Saudi scaling"},
+                  {period:"M19–24",uae: Math.round(y2Cust),      ksa:18000, mar:6000, hun:1500, note:"UAE EOY Y2 · Hungary soft launch"},
+                  {period:"M25–30",uae: Math.round(y2Cust + (y3Cust-y2Cust)*0.5), ksa:22000, mar:8000, hun:3000, note:"UAE Y3 mid · all markets scaling"},
+                  {period:"M31–36",uae: Math.round(y3Cust),      ksa:28000, mar:10000,hun:5000, note:"UAE EOY Y3 · full international footprint"},
+                ].map((r,i)=>{
+                  const total = r.uae + r.ksa + r.mar + r.hun;
+                  const isLast = i === 5;
+                  return <tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:isLast?BRAND.lightGrey:"transparent",verticalAlign:"top"}}>
+                    <td style={{padding:"13px 16px",fontWeight:700,color:isLast?BRAND.red:"#111",fontFamily:"monospace",fontSize:12}}>{r.period}</td>
+                    <td style={{padding:"13px 16px",textAlign:"right",fontFamily:BRAND.font,fontWeight:600,color:"#333"}}>{r.uae >= 1000 ? `${(r.uae/1000).toFixed(r.uae%1000===0?0:1)}k` : r.uae || "—"}</td>
+                    <td style={{padding:"13px 16px",textAlign:"right",fontFamily:BRAND.font,color:r.ksa?"#333":"#ccc"}}>{r.ksa ? `${(r.ksa/1000).toFixed(0)}k` : "—"}</td>
+                    <td style={{padding:"13px 16px",textAlign:"right",fontFamily:BRAND.font,color:r.mar?"#333":"#ccc"}}>{r.mar ? `${(r.mar/1000).toFixed(0)}k` : "—"}</td>
+                    <td style={{padding:"13px 16px",textAlign:"right",fontFamily:BRAND.font,color:r.hun?"#333":"#ccc"}}>{r.hun ? `${(r.hun/1000).toFixed(1)}k` : "—"}</td>
+                    <td style={{padding:"13px 16px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:isLast?BRAND.red:"#111",fontSize:isLast?14:12.5}}>{total >= 1000 ? `${(total/1000).toFixed(1)}k` : total}</td>
+                  </tr>;
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div style={{padding:"10px 16px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.6}}>
+            UAE figures are live-linked to the Year 1–3 customer sliders. Saudi Arabia = Mobily partnership (26% stake, conservative ramp). Morocco = Maroc Telecom (53%). Hungary = e& Europe entry point into EU SMB market; lower penetration, higher AED-equivalent ARPU (~AED 520/mo) due to purchasing power. All figures are cumulative paying customers at period end, not new additions.
+          </div>
+        </Card>
+
+        {/* Y5 HORIZON */}
+        <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
+          <div style={{padding:"14px 22px",borderBottom:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+            <div style={{fontSize:13,fontWeight:700,color:"#111"}}>5-year horizon · what international expansion looks like by Y5</div>
+            <div style={{fontSize:11,color:"#888",marginTop:4}}>Y5 assumes proven model from Y3, international markets ramp toward 60–70% of UAE penetration trajectory, UAE approaches saturation at ~50% of e& SMB base</div>
+          </div>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+            <thead><tr style={{background:BRAND.lightGrey}}>
+              {["Market","Y3 paying","Y5 paying","Y5 % e& SMB","Y5 revenue (run-rate)"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            </tr></thead>
+            <tbody>
+              {[
+                {m:"UAE", y3:Math.round(y3Cust), y5:120000, base:250000, arpu:550, note:"Approaching saturation"},
+                {m:"Egypt", y3:32000, y5:130000, base:400000, arpu:160, note:"33% penetration if proven"},
+                {m:"Saudi Arabia", y3:10000, y5:45000, base:200000, arpu:340, note:"22% penetration via Mobily partnership"},
+                {m:"Morocco", y3:6600, y5:25000, base:110000, arpu:280, note:"23% via Maroc Telecom direct bundle"},
+                {m:"Pakistan", y3:9600, y5:60000, base:320000, arpu:115, note:"19% — large base, slow ramp"},
+                {m:"Sub-Saharan Africa", y3:2700, y5:25000, base:180000, arpu:130, note:"14% across 10 Moov Africa markets"},
+              ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+                <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.m}<div style={{fontSize:10.5,color:"#888",marginTop:2,fontWeight:500}}>{r.note}</div></td>
+                <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,color:"#888"}}>{fmtNum(r.y3)}</td>
+                <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:"#111"}}>{fmtNum(r.y5)}</td>
+                <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:BRAND.red}}>{fmtPct(r.y5/r.base)}</td>
+                <td style={{padding:"12px 14px",textAlign:"right",fontFamily:BRAND.font,fontWeight:700,color:BRAND.red,fontSize:14}}>{fmtAED(r.y5 * r.arpu * 12)}</td>
+              </tr>)}
+              {(() => {
+                const y5Markets = [
+                  {y5:120000, arpu:550}, {y5:130000, arpu:160}, {y5:45000, arpu:340},
+                  {y5:25000, arpu:280}, {y5:60000, arpu:115}, {y5:25000, arpu:130},
+                ];
+                const tY5 = y5Markets.reduce((s,r)=>s+r.y5,0);
+                const tRev = y5Markets.reduce((s,r)=>s+r.y5*r.arpu*12,0);
+                return <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+                  <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>e& Group total · Year 5</td>
+                  <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#888",fontFamily:BRAND.font}}>—</td>
+                  <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font,fontSize:14}}>{fmtNum(tY5)}</td>
+                  <td style={{padding:"12px 14px"}}></td>
+                  <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:15}}>{fmtAED(tRev)}</td>
+                </tr>;
+              })()}
+            </tbody>
+          </table>
+        </Card>
+      </>;
+    })()}
+    <Note label="Methodology — international study">
+      <strong style={{color:"#111"}}>Penetration rates</strong> are scaled down from UAE by three factors: (a) shorter runway in Y3 (fewer active months), (b) commercial leverage of e&'s ownership (full bundle in 100%-owned markets, partnership in minority stakes like Mobily), and (c) language and regulatory adaptation cost. <strong style={{color:"#111"}}>ARPU</strong> is purchasing-power adjusted using OECD PPP indices: UAE 100% baseline, KSA 70%, Morocco 57%, Egypt 31%, Pakistan 22%. <strong style={{color:"#111"}}>Build cost</strong> stays at AED 12.6M — the platform is multi-tenant, so each new market adds only localisation (Arabic dialect packs, French, Urdu) and incremental hosting cost, both well under AED 1M per country. <strong style={{color:"#111"}}>Y5 horizon</strong> assumes the proof points from UAE Y3 unlock standardised rollout playbooks, putting international markets onto a faster ramp than Y1–Y3.
+    </Note>
+
+    {/* ──────── CFO ONE-PAGER ──────── */}
+    <SH>CFO one-page summary</SH>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14}}>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"16px 22px",borderBottom:`1px solid ${BRAND.border}`,background:"#004B2E"}}>
+          <div style={{fontSize:13,fontWeight:700,color:BRAND.white,letterSpacing:"0.04em",textTransform:"uppercase"}}>Why this works for e&</div>
+        </div>
+        <div style={{padding:20}}>
+          {[
+            "One-time cash outlay of AED 12.6M to AIdeology, paid on milestone delivery (no payment without working software).",
+            "Cumulative e& cash flow turns positive within Year 1 in the base case — break-even before the build fee is fully amortised.",
+            "e& retains 65% of gross SaaS revenue from Day 1, rising to 72% in Year 3 and 80% in Year 4+ as the team takes ownership.",
+            "Connectivity, hosting, BSP, SMS and Toll Free 800 revenue stays 100% on the e& bill — telco margin not shared.",
+            "Y4+ steady-state EBITDA margin > 80% with the platform run by an e& team of 8–10 FTE and AIdeology as platform licensor.",
+            "Acquisition trigger at Y3–Y4 converts ongoing royalties into a clean buyout, valued at AED 750M–3B depending on multi-OpCo scope.",
+          ].map((x,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:9,marginBottom:9}}>
+            <span style={{color:"#004B2E",flexShrink:0,marginTop:2}}><CheckIcon/></span>
+            <span style={{fontSize:12.5,color:"#444",lineHeight:1.55}}>{x}</span>
+          </div>)}
+        </div>
+      </Card>
+      <Card style={{padding:0,overflow:"hidden"}}>
+        <div style={{padding:"16px 22px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.red}}>
+          <div style={{fontSize:13,fontWeight:700,color:BRAND.white,letterSpacing:"0.04em",textTransform:"uppercase"}}>Key risks & mitigants</div>
+        </div>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+          <tbody>
+            {[
+              {r:"Customer adoption slower than 24K Y1",m:"Bear case still breaks even by ~M20; Wave-gated build means e& can pause spend after Wave 1 if traction misses"},
+              {r:"LLM API cost inflation",m:"Hybrid model: self-hosted Llama/Falcon takes >50% of token volume from Y2 — variable COGS slider lets you stress test"},
+              {r:"e& AI team ramp delays",m:"AIdeology contractually covers L3 platform support through Y3; fixed OpEx slider models the impact of slower ramp"},
+              {r:"AIdeology dependency post-handover",m:"Handover plan: agent IP transfers by EOY2; platform IP licensed at 20% Y4+; buyout option from Y3"},
+              {r:"Regulatory shift (CBUAE, DHA, NESA)",m:"Help AG sovereign security wrap and named compliance gates included from Day 1"},
+              {r:"Connectivity revenue cannibalisation",m:"Modelled separately; AI agents drive higher BSP / SMS / Toll Free 800 traffic, not less"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 14px",fontWeight:600,color:"#111",width:"38%"}}>{r.r}</td>
+              <td style={{padding:"12px 14px",color:"#666",lineHeight:1.5}}>{r.m}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </Card>
+    </div>
+
+    <Note label="Model integrity">
+      All numbers are computed live from the inputs above using a 36-month month-by-month simulation. The model assumes a launch delay of 2 months in Year 1 (revenue from Month 3), linear customer ramp between EOY counts, and ARPU constant within each year. AIdeology rev-share is applied to gross SaaS revenue only — connectivity, hosting, BSP, SMS and Toll Free 800 stay 100% with e&. Build cost is expensed as paid (Waves 1–4 at Months 3, 6, 9, 12) for the most conservative P&L view.
+    </Note>
+  </div>;
+}
+
 const HTM_TABS = ["Executive Summary","Financials","Deal Structure"];
 function HaithamMeetingSection() {
   const [htmTab, setHtmTab] = useState(0);
@@ -4619,6 +5394,505 @@ function HaithamMeetingSection() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* RAZZI MEETING — e& SMB AI lead · 3-page summary + PDF export */
+/* Unlisted page · access via ?meeting=razzi or #razzi-meeting   */
+/* ════════════════════════════════════════════════════════════ */
+
+const RAZZI_PRINT_CSS = `
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+  html, body { background: #ffffff !important; }
+  body.razzi-printing { visibility: hidden !important; }
+  body.razzi-printing .razzi-print-area,
+  body.razzi-printing .razzi-print-area * { visibility: visible !important; }
+  body.razzi-printing .razzi-print-area {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #111 !important;
+  }
+  body.razzi-printing .razzi-no-print { display: none !important; }
+  body.razzi-printing .razzi-print-only { display: block !important; }
+  .razzi-page { page-break-after: always; break-after: page; }
+  .razzi-page:last-child { page-break-after: auto; break-after: auto; }
+  .razzi-avoid-break { page-break-inside: avoid; break-inside: avoid; }
+  body.razzi-printing .razzi-print-area h2 { font-size: 22pt !important; }
+  body.razzi-printing .razzi-print-area h3 { font-size: 12pt !important; }
+  body.razzi-printing .razzi-print-area h4 { font-size: 12pt !important; }
+  body.razzi-printing .razzi-print-area h5 { font-size: 10pt !important; }
+}
+.razzi-print-only { display: none !important; }
+@media print {
+  body.razzi-printing .razzi-print-only { display: block !important; }
+  body.razzi-printing .razzi-print-only.razzi-print-flex { display: flex !important; justify-content: space-between !important; }
+}
+`;
+
+function RazziStat({v,l,accent}) {
+  return <div style={{flex:"1 1 140px",minWidth:130,padding:"14px 18px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+    <div style={{fontSize:24,fontWeight:700,color:accent||BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{v}</div>
+    <div style={{fontSize:10.5,color:BRAND.grey,fontWeight:600,marginTop:6,letterSpacing:"0.04em",textTransform:"uppercase"}}>{l}</div>
+  </div>;
+}
+
+function RazziPageHeader({n,total,title,kicker}) {
+  return <div className="razzi-avoid-break" style={{margin:"0 0 18px",borderTop:`3px solid ${BRAND.red}`,paddingTop:16}}>
+    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+      <span style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.1em",color:BRAND.red,textTransform:"uppercase"}}>Page {n} of {total}</span>
+      <span style={{flex:1,height:1,background:BRAND.border}}/>
+      <span style={{fontSize:10.5,color:BRAND.grey,letterSpacing:"0.04em",textTransform:"uppercase",fontWeight:600}}>{kicker}</span>
+    </div>
+    <h3 style={{fontSize:22,fontWeight:700,color:BRAND.black,margin:0,lineHeight:1.15,fontFamily:BRAND.font}}>{title}</h3>
+  </div>;
+}
+
+function RazziPage1() {
+  return <div className="razzi-page">
+    <RazziPageHeader n={1} total={3} kicker="The plan" title="An AI operating layer for 700K+ UAE SMBs" />
+
+    <Card className="razzi-avoid-break">
+      <p style={{fontSize:13,color:"#444",lineHeight:1.7,margin:0}}>
+        e& has the strongest telco brand and the largest SMB customer base in the Gulf — and nobody, not Microsoft, not G42, not Salesforce, has shipped an AI layer built into that infrastructure. The plan is not a catalog of small bots. It is one e&-branded AI operating layer that runs the entire SMB — Customer, Sales, Communications, Finance, Operations, People — built on e& sovereign infrastructure, in Arabic and English, and handed back to e& as the SMB team takes ownership.
+      </p>
+    </Card>
+
+    <SH>Why now</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))"}}>
+        {[
+          {n:"01",t:"700K+ SMBs in UAE",d:"The largest SMB base in the Gulf, plus an immediate Saudi + Morocco expansion path through e&'s OpCo footprint."},
+          {n:"02",t:"90-day window",d:"AI switching costs compound. Every month without an e& product is 2,000+ SMBs that pick up a competitor's tool — and stay."},
+          {n:"03",t:"Nobody is local",d:"Microsoft Copilot is global English. G42 sells compute, not solutions. Salesforce is CRM-first. None are telco-native, none are Arabic-first."},
+          {n:"04",t:"e&'s assets matter",d:"SIM identity, Toll Free 800, BSP/SMS, e& Pay, sovereign hosting. These aren't features — they're a moat no SaaS vendor can replicate."},
+        ].map((x,i)=><div key={i} style={{padding:20,borderRight:(i+1)%2===0?"none":`1px solid ${BRAND.border}`,borderBottom:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{fontSize:10,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:6}}>{x.n}</div>
+          <div style={{fontSize:13.5,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>What we plan to build</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Six agentic solutions on one platform — not six disconnected bots</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.55,margin:"6px 0 0",maxWidth:760}}>
+          Each solution owns an entire business function end-to-end. Shared identity, memory, billing, connectors and observability — so each new agent ships faster than the last and the same brain runs across voice, WhatsApp and web.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Agentic solution","What it does for the SMB","Replaces"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {n:"Customer Agent",w:"Flagship · Wave 1",d:"Answers every inbound — voice, WhatsApp, web — in Arabic and English. Books appointments, takes orders, escalates with full context.",r:"Front desk, call centre, after-hours WhatsApp number, web chat widget"},
+            {n:"Sales Agent",w:"Wave 2",d:"Native CRM with AI lead scoring, pipeline tracking, automated follow-ups and Arabic quote drafting. Syncs to Salesforce / HubSpot / Dynamics if the SMB has one.",r:"Excel sheets, missed follow-ups, the salesperson who forgets to call back"},
+            {n:"Comms Hub",w:"Wave 2",d:"One AI-powered dashboard for WhatsApp, SMS, email, voice and Instagram DM. The owner types a campaign in Arabic; the AI writes, targets, sends and reports.",r:"5 separate marketing tools that don't talk to each other"},
+            {n:"Finance Agent",w:"Wave 3",d:"FTA-compliant bilingual invoicing, e& Pay payment links over WhatsApp, automated VAT prep, escalating overdue chase sequences.",r:"Excel invoices, manual VAT, the accountant who only shows up quarterly"},
+            {n:"Ops Agent",w:"Wave 3",d:"Tasks, approvals, SOPs and service tickets — auto-created from real business events (a booking, a complaint, a meeting). Teams / Planner / Google Tasks sync.",r:"WhatsApp groups used as task management"},
+            {n:"People Agent",w:"Wave 4",d:"UAE-native HR: WPS SIF payroll, gratuity, attendance via e& SIM, leave on WhatsApp, visa expiry alerts at 90/60/30 days.",r:"The Excel sheet that tracks visa dates and the PRO who remembers them"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none",verticalAlign:"top"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,minWidth:130}}>
+              <div>{r.n}</div>
+              <div style={{fontSize:10,fontWeight:600,color:BRAND.red,marginTop:3,letterSpacing:"0.04em",textTransform:"uppercase"}}>{r.w}</div>
+            </td>
+            <td style={{padding:"12px 16px",color:"#444",lineHeight:1.55}}>{r.d}</td>
+            <td style={{padding:"12px 16px",color:"#888",fontSize:11.5,lineHeight:1.5,minWidth:170}}>{r.r}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>Reference architecture (technical view)</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Layer","Primary components","Engineering intent"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {l:"Experience layer",c:"Next.js tenant portal, onboarding, back-office UI, agent control center",e:"Single UX for all agents; role-scoped access for owner, manager, support, finance and HR personas."},
+            {l:"Channel layer",c:"CloudTalk/PBX voice, WhatsApp BSP, web chat widget, email/SMS adapters",e:"One conversation envelope across channels with idempotent message ingestion and deterministic routing."},
+            {l:"Agent runtime",c:"Forge orchestration, policy engine, tool router, prompt/version registry",e:"Per-tenant policy boundaries; reusable workflows so new agents ship by composition not re-implementation."},
+            {l:"Model + retrieval",c:"Portkey gateway, multi-model routing, vector store, cache, eval harness",e:"Cost/latency optimization with fallback; Arabic/English grounding from tenant knowledge base and CRM context."},
+            {l:"Data + integration",c:"Postgres, object storage, event bus, connector SDK (Salesforce, Dynamics, Shopify, MOHRE, GDRFA)",e:"Event-first architecture; every state change is auditable and replayable for support and compliance."},
+            {l:"Platform ops",c:"Kubernetes, CI/CD, observability stack, secrets manager, IAM/SSO",e:"Sovereign deployment with zero-trust defaults, controlled releases, and measurable SLO ownership."},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none",verticalAlign:"top"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,minWidth:140}}>{r.l}</td>
+            <td style={{padding:"12px 16px",color:"#444",lineHeight:1.55}}>{r.c}</td>
+            <td style={{padding:"12px 16px",color:"#666",lineHeight:1.55}}>{r.e}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>Request-to-resolution data flow</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {t:"1) Ingest + identity",d:"Inbound event (voice frame, WhatsApp message, web chat) enters gateway, tenant resolved, customer identity matched (SIM/phone/email), and trace ID assigned."},
+        {t:"2) Context assembly",d:"Agent loads customer timeline, open tasks, CRM state, KB chunks, and policy profile; all inputs are time-bound and source-tagged for auditability."},
+        {t:"3) Plan + execute",d:"Policy engine chooses tools (calendar, payment, CRM writeback, ticketing). LLM generates structured action plan, tool calls execute, retries are bounded."},
+        {t:"4) Response + memory",d:"User response returned on channel, structured outcome persisted, confidence + escalation signals computed, and human handoff packet prepared if needed."},
+      ].map((x,i)=><div key={i} style={{padding:16,background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+
+    <SH>Why platform-centric beats point bots</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {t:"One identity per SMB",d:"A customer who calls today and WhatsApps tomorrow is the same person — across every agent. The SMB never sees a stitched-together stack."},
+        {t:"Each new agent ships faster",d:"Wave 1 builds the platform foundation. Waves 2–4 ship two agents in parallel because the heavy work — identity, billing, connectors — is already done."},
+        {t:"e& assets become defaults",d:"SIM, BSP, Toll Free 800, e& Pay and sovereign hosting are wired in once at the platform layer. Every agent gets them for free."},
+        {t:"Marketplace, not project",d:"An SMB buys Customer Agent today and Finance Agent next quarter from the same e& marketplace. The upsell engine is built into the product."},
+      ].map((x,i)=><div key={i} style={{padding:16,background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+
+    <Note label="The single line for tomorrow" color={BRAND.red}>
+      "We are building the AI operating layer for 700K+ UAE SMBs on e& infrastructure — six agentic solutions, one platform, Arabic-native, with the first paying customers live in 90 days."
+    </Note>
+  </div>;
+}
+
+function RazziPage2() {
+  return <div className="razzi-page">
+    <RazziPageHeader n={2} total={3} kicker="How we ship it" title="Six agents in 36 weeks · first paying SMBs in 90 days" />
+
+    <SH>The 5-wave roadmap</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Wave","What ships","Timeline","Beta gate"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {w:"Wave 1",t:"Platform foundation + Customer Agent (voice, WhatsApp, web, memory, handoff)",d:"Weeks 1–12",b:"Closed beta from W7 · 10–20 SMBs"},
+            {w:"Wave 2",t:"Sales Agent + Comms Hub + P1 automation / compliance layer",d:"Weeks 13–18",b:"Beta runs through W17 · graduates at W18"},
+            {w:"Wave 3",t:"Finance Agent + Ops Agent (e& Pay, FTA VAT, Teams / Planner)",d:"Weeks 19–24",b:"Beta from W21 · live invoicing"},
+            {w:"Wave 4",t:"People Agent (WPS SIF, attendance via e& SIM, visa tracking)",d:"Weeks 25–30",b:"Real payroll runs · MOHRE sandbox"},
+            {w:"Wave 5",t:"Security audit, performance hardening, full handoff to e&",d:"Weeks 31–36",b:"Pen test + e& team training"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<4?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.red,fontSize:12}}>{r.w}</td>
+            <td style={{padding:"12px 16px",color:"#333",fontSize:12,lineHeight:1.5}}>{r.t}</td>
+            <td style={{padding:"12px 16px",color:"#666",fontSize:11.5,fontFamily:"monospace",whiteSpace:"nowrap"}}>{r.d}</td>
+            <td style={{padding:"12px 16px",color:"#666",fontSize:11.5}}>{r.b}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>90-day launch sequence</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {day:"Day 1–30",title:"Platform + first agent",color:BRAND.red,items:["AI platform stood up on e& sovereign infra","Identity, billing, observability wired","Customer Agent voice / WhatsApp / web functional","Arabic + English from Day 1, not retrofitted"]},
+          {day:"Day 30–60",title:"Real customers, real data",color:"#D14600",items:["10–20 beta SMBs onboarded with live traffic","Real CSAT, real call data, real escalation flows","e& sales force sees the product working","Fix, tune, iterate on real feedback"]},
+          {day:"Day 60–90",title:"GA + Wave 2 starts",color:"#004B2E",items:["Marketplace opens — any SMB can buy","Sales force fully enabled with Arabic collateral","First monthly SaaS revenue booked","Sales Agent + Comms Hub kick off in parallel"]},
+        ].map((col,i)=><div key={i} style={{padding:20,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{fontSize:10,fontWeight:700,letterSpacing:"0.08em",color:BRAND.white,background:col.color,padding:"4px 10px",display:"inline-block",marginBottom:10}}>{col.day}</div>
+          <h5 style={{fontSize:13.5,fontWeight:700,color:"#111",margin:"0 0 10px"}}>{col.title}</h5>
+          {col.items.map((it,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:7}}>
+            <span style={{width:5,height:5,background:col.color,flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:11.5,color:"#555",lineHeight:1.45}}>{it}</span>
+          </div>)}
+        </div>)}
+      </div>
+      <div style={{padding:"14px 22px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:"#333"}}><strong>Headline for tomorrow:</strong> <span style={{color:BRAND.red,fontWeight:700}}>"90 days from sign-off, e& has an AI product in market with paying SMBs. Nobody else in this market can promise that."</span></div>
+      </div>
+    </Card>
+
+    <SH>Engineering execution model (what your technical team will inspect)</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Stage","Cadence","Artifacts / gates"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"Solution Design Document (SDD)",c:"48 hours",a:"Domain model, connector contracts, failure modes, observability plan, acceptance criteria signed before build."},
+            {s:"Build sprint",c:"10–14 days",a:"Feature flags, schema migrations, backward-compatible APIs, integration stubs ready in staging."},
+            {s:"Hardening sprint",c:"5–7 days",a:"Load tests, adversarial prompt tests, role/permission regression suite, recovery drills and rollback plan."},
+            {s:"Beta gate",c:"1 week",a:"Real SMB traffic, measured latency/error rates, escalation quality review, bug burn-down to agreed threshold."},
+            {s:"GA release",c:"Controlled",a:"Progressive rollout by tenant cohort, SLO monitoring, on-call runbook activation and post-release review."},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<4?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black}}>{r.s}</td>
+            <td style={{padding:"12px 16px",color:"#666",fontFamily:"monospace"}}>{r.c}</td>
+            <td style={{padding:"12px 16px",color:"#555",lineHeight:1.55}}>{r.a}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>The quality bar</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {t:"Arabic + English native",d:"Not a translation layer. Native understanding in both, including Gulf dialect and Arabic / English code-switching in the same sentence."},
+        {t:"One brain across channels",d:"A customer who starts on WhatsApp and calls later doesn't repeat themselves. Voice / WhatsApp / web share the same memory."},
+        {t:"Sovereign by default",d:"Data, transcripts and recordings live on e& UAE-sovereign infrastructure. Help AG security wrap from Day 1."},
+        {t:"Build-then-transfer",d:"Every agent, all source code, prompts and customisations are e&'s by end of Year 2. No vendor lock-in."},
+      ].map((x,i)=><div key={i} style={{padding:16,background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+
+    <SH>Operational SLOs + security controls</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Control area","Target / control","How it is enforced"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {a:"Availability",t:"99.5% platform uptime (monthly)",e:"Health probes, autoscaling policies, failover runbooks, and release freeze during incidents."},
+            {a:"Latency",t:"P95 response < 2.5s for text channels",e:"Gateway caching, model routing by latency class, async tool execution with timeout budgets."},
+            {a:"Voice quality",t:"P95 turn latency < 1.2s",e:"Streaming ASR/TTS path and regional media termination close to e& voice infrastructure."},
+            {a:"Security posture",t:"Zero-trust service-to-service",e:"mTLS, short-lived credentials, RBAC, network policies, secrets rotation and immutable audit logs."},
+            {a:"Data residency",t:"UAE sovereign boundaries",e:"Tenant data, transcripts, recordings and backups remain on e&-approved infrastructure."},
+            {a:"Model safety",t:"Prompt/response policy guardrails",e:"PII redaction, abuse classifiers, tool allowlists, and confidence-threshold escalations to human agents."},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none",verticalAlign:"top"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black}}>{r.a}</td>
+            <td style={{padding:"12px 16px",color:"#444",lineHeight:1.5}}>{r.t}</td>
+            <td style={{padding:"12px 16px",color:"#666",lineHeight:1.55}}>{r.e}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>What we need from the SMB AI team</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)"}}>
+        {[
+          {n:"1",title:"10–20 beta SMBs by W5",d:"Real businesses across restaurants, clinics, real estate, retail and professional services. Your account managers pick them; they become the GA reference customers."},
+          {n:"2",title:"Named technical owners",d:"One person each for telephony / CloudTalk, WhatsApp BSP, billing API, identity / SSO. Documentation and sandbox access — not committees, not status calls."},
+          {n:"3",title:"Sovereign infra access",d:"Kubernetes namespace on e& sovereign cloud. Container registry, base images, network access. e& data never leaves e&; we don't need it to."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<2?`1px solid ${BRAND.border}`:"none"}}>
+          <div style={{width:26,height:26,background:BRAND.red,color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,marginBottom:10}}>{x.n}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{x.title}</h5>
+          <p style={{fontSize:11.5,color:"#666",lineHeight:1.55,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+      <div style={{padding:"12px 22px",background:BRAND.lightGrey,borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12,color:BRAND.red,fontWeight:700}}>"We don't need committees. We need specs, a sandbox, and a beta list — we handle everything else."</div>
+      </div>
+    </Card>
+  </div>;
+}
+
+function RazziPage3() {
+  return <div className="razzi-page">
+    <RazziPageHeader n={3} total={3} kicker="The outcome" title="What the SMB AI team owns at the end" />
+
+    <SH>Customer trajectory</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)"}}>
+        {[
+          {yr:"Year 1",rev:"24,000",sub:"paying SMBs",arpu:"AED 285/mo",note:"Customer + Sales + Comms live"},
+          {yr:"Year 2",rev:"62,000",sub:"paying SMBs",arpu:"AED 350/mo",note:"All 6 agents live · Saudi + Morocco open"},
+          {yr:"Year 3",rev:"85,000",sub:"paying SMBs",arpu:"AED 420/mo",note:"Multi-agent upsell · vertical depth"},
+          {yr:"Year 4+",rev:"100,000+",sub:"paying SMBs",arpu:"AED 450+/mo",note:"OpCo replication · enterprise upsell"},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:i<3?`1px solid ${BRAND.border}`:"none",textAlign:"center"}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>{x.yr}</div>
+          <div style={{fontSize:28,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,marginBottom:2,lineHeight:1}}>{x.rev}</div>
+          <div style={{fontSize:11,fontWeight:600,color:"#444",marginBottom:6}}>{x.sub}</div>
+          <div style={{fontSize:11,fontWeight:700,color:"#111",marginBottom:4}}>{x.arpu}</div>
+          <div style={{fontSize:10.5,color:"#888",lineHeight:1.45}}>{x.note}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>e& revenue from SMB subscriptions</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Metric","Year 1","Year 2","Year 3","Year 4+"].map((h,i)=><th key={i} style={{textAlign:i?"right":"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {s:"Gross SaaS revenue",y1:"AED 36.5M",y2:"AED 154M",y3:"AED 378M",y4:"AED 450M+",bold:false},
+            {s:"e& share of revenue",y1:"65%",y2:"65%",y3:"72%",y4:"80%",bold:false},
+            {s:"e& net SaaS revenue",y1:"AED 23.7M",y2:"AED 100.1M",y3:"AED 272.2M",y4:"AED 360M+",bold:true},
+            {s:"+ connectivity / BSP / SMS uplift",y1:"included",y2:"included",y3:"included",y4:"included",bold:false},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<3?`1px solid ${BRAND.border}`:"none",background:r.bold?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"11px 16px",fontWeight:r.bold?700:500,color:r.bold?BRAND.black:"#333"}}>{r.s}</td>
+            {[r.y1,r.y2,r.y3,r.y4].map((v,j)=><td key={j} style={{padding:"11px 16px",textAlign:"right",fontWeight:r.bold?700:500,color:r.bold?BRAND.red:BRAND.grey,fontFamily:BRAND.font}}>{v}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"12px 18px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.6}}>
+        Connectivity uplift (Toll Free 800, BSP messages, SMS, e& Pay transactions) stays 100% with e& — it is incremental to the SaaS line above and grows with the active customer base.
+      </div>
+    </Card>
+
+    <SH>Platform ownership package by Year 4 (technical handoff)</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Handoff domain","e& receives","Operational impact"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {d:"Source + CI/CD",r:"Repos, pipelines, environment manifests, release playbooks",o:"Independent release velocity with controlled change windows."},
+            {d:"Runtime operations",r:"K8s deployment topology, autoscaling rules, SRE runbooks, incident templates",o:"e& on-call can detect, mitigate and recover without vendor dependency."},
+            {d:"Data contracts",r:"Schema docs, event contracts, retention policies, migration history",o:"Safer integrations and lower risk when adding new vertical agents."},
+            {d:"Agent quality stack",r:"Prompt registry, eval datasets, regression harnesses, scoring dashboards",o:"Model/prompt upgrades become measurable and reversible engineering changes."},
+            {d:"Security + compliance",r:"Control matrix, audit evidence workflows, access models, key rotation SOPs",o:"Faster audits and repeatable compliance posture across OpCos."},
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<4?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black}}>{r.d}</td>
+            <td style={{padding:"12px 16px",color:"#444",lineHeight:1.55}}>{r.r}</td>
+            <td style={{padding:"12px 16px",color:"#666",lineHeight:1.55}}>{r.o}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <SH>What the SMB AI team owns by Year 4</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {n:"01",t:"All 6 agents · full source",d:"Code, prompts, customisations, all customer data. Agent IP transfers in stages from Year 2; complete by end of Year 4."},
+        {n:"02",t:"8–10 trained e& FTE",d:"By Y4 your team runs agent development end-to-end. Year 1: 2–3 FTE shadow; Year 2: 50/50; Year 3: e& leads; Year 4: e& owns it."},
+        {n:"03",t:"Self-service marketplace",d:"SMB onboarding flow, tenant back office, billing, observability and connector management — operated by e& with AIdeology as platform partner only."},
+        {n:"04",t:"Reusable AI factory",d:"The Forge platform under non-exclusive license. Add new agents internally without rebuilding identity, memory or connectors each time."},
+      ].map((x,i)=><div key={i} style={{padding:16,background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:6}}>{x.n}</div>
+        <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+
+    <SH>How AIdeology earns its place — the moves your team will see</SH>
+    <Card style={{padding:0,overflow:"hidden"}} className="razzi-avoid-break">
+      <div style={{padding:0}}>
+        {[
+          {l:"SDD methodology",d:"Every agent starts with a 48-hour Solution Design Document. No discovery phases that consume quarters. Build then starts in week 2."},
+          {l:"8 people who move like 40",d:"Senior engineers owning the full stack. No handoffs, no PMs, no scope creep. Direct working relationship with your SMB AI team — no account-management layer."},
+          {l:"Two parallel agents per wave",d:"Once the platform is live, each 6-week wave delivers two agents in parallel because the heavy plumbing is already done."},
+          {l:"Pay only on milestones",d:"Fixed-fee waves with named acceptance criteria. If a wave fails its tests, e& doesn't pay until it passes."},
+        ].map((x,i)=><div key={i} style={{padding:"12px 20px",borderBottom:i<3?`1px solid ${BRAND.border}`:"none",display:"flex",gap:16,alignItems:"flex-start"}}>
+          <div style={{minWidth:160,fontSize:12.5,fontWeight:700,color:"#111"}}>{x.l}</div>
+          <div style={{fontSize:11.5,color:"#666",lineHeight:1.55,flex:1}}>{x.d}</div>
+        </div>)}
+      </div>
+    </Card>
+
+    <SH>First 90 days after GA (technical operating rhythm)</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {t:"Week 1–2: Stability",d:"Daily incident review, latency/error burn-down, connector retry tuning, and top-10 failure-mode fixes."},
+        {t:"Week 3–6: Throughput",d:"Prompt/flow optimization, cache policy tuning, queue policy updates, and autoscaling right-sizing per tenant cohort."},
+        {t:"Week 7–10: Expansion",d:"Add next vertical templates, enable additional connectors, and harden enterprise controls introduced in P1 layer."},
+        {t:"Week 11–13: Transfer",d:"Shadow-to-own transition for e& engineering/on-call with cutover checklist and signed operational acceptance."},
+      ].map((x,i)=><div key={i} style={{padding:16,background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+
+    <SH>Three lines to walk out with tomorrow</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}} className="razzi-avoid-break">
+      {[
+        {n:"01",t:"First wave ships in 12 weeks",d:"Customer Agent live for paying SMBs by Week 13 — voice, WhatsApp and web, Arabic + English, on e& sovereign infra."},
+        {n:"02",t:"24K paying SMBs in Year 1",d:"Measured CAC, real CSAT, real ARPU — and the e& sales force closing AI deals in the same call as a connectivity renewal."},
+        {n:"03",t:"e& owns it by Year 4",d:"All 6 agents, 8–10 trained FTE, the marketplace, the customer data. 80%+ of an AED 450M+ revenue stream — without a vendor dependency."},
+      ].map((x,i)=><div key={i} style={{padding:18,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{fontSize:10,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",marginBottom:6}}>{x.n}</div>
+        <div style={{fontSize:13.5,fontWeight:700,color:"#111",marginBottom:6,lineHeight:1.3}}>{x.t}</div>
+        <div style={{fontSize:11.5,color:"#555",lineHeight:1.55}}>{x.d}</div>
+      </div>)}
+    </div>
+  </div>;
+}
+
+function RazziMeetingSection() {
+  const handleExport = () => {
+    document.body.classList.add("razzi-printing");
+    const cleanup = () => {
+      document.body.classList.remove("razzi-printing");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    setTimeout(() => {
+      try { window.print(); } catch (e) { cleanup(); }
+    }, 60);
+  };
+
+  return <div className="razzi-print-area">
+    <style>{RAZZI_PRINT_CSS}</style>
+
+    {/* SCREEN-ONLY HEADER (visible in app) */}
+    <div className="razzi-no-print" style={{padding:"44px 0 28px"}}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:20,flexWrap:"wrap",marginBottom:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <div style={{width:46,height:46,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:18,fontWeight:700}}>R</div>
+          <div>
+            <div style={{fontSize:11,color:BRAND.red,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>Internal · meeting prep · 30 minutes</div>
+            <h2 style={{fontSize:30,fontWeight:700,color:BRAND.black,margin:"4px 0 0",lineHeight:1.1,fontFamily:BRAND.font}}>Razzi · e& SMB AI lead</h2>
+            <div style={{fontSize:12,color:BRAND.grey,marginTop:4}}>Full SMB proposal content up to and including "Software stack & technology". Unlisted — not linked in the main deck.</div>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={handleExport}
+          style={{padding:"12px 20px",fontSize:12.5,fontWeight:700,color:BRAND.white,background:BRAND.red,border:"none",cursor:"pointer",letterSpacing:"0.04em",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:8}}
+          title="Open the print dialog to save a formatted PDF"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5V2h8v3"/><rect x="3" y="5" width="10" height="6"/><path d="M5 11v3h6v-3"/></svg>
+          Export to PDF
+        </button>
+      </div>
+      <div style={{display:"flex",gap:10,flexWrap:"wrap",marginTop:6}}>
+        <RazziStat v="SMB" l="section scope" />
+        <RazziStat v="Start → Software stack" l="content range" />
+        <RazziStat v="Included" l="software stack section" />
+        <RazziStat v="Excluded" l="commercial model onward" />
+      </div>
+    </div>
+
+    {/* PRINT-ONLY COVER */}
+    <div className="razzi-print-only razzi-avoid-break" style={{paddingTop:6,marginBottom:18}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+        <img src="/logo.png" alt="e&" style={{height:30,width:"auto"}}/>
+        <div style={{height:24,width:1,background:BRAND.border}}/>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color:BRAND.red,textTransform:"uppercase"}}>AIdeology x e& · SMB AI plan · Confidential</div>
+      </div>
+      <h2 style={{fontSize:24,fontWeight:700,color:BRAND.black,margin:"6px 0 4px",lineHeight:1.1}}>Razzi · e& SMB AI lead</h2>
+      <div style={{fontSize:12,color:BRAND.grey}}>SMB section excerpt · start to "Software stack & technology" (included) · {new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}</div>
+    </div>
+
+    <SMBSegment upToSoftwareStack />
+
+    {/* PRINT-ONLY FOOTER */}
+    <div className="razzi-print-only razzi-print-flex" style={{marginTop:18,paddingTop:10,borderTop:`1px solid ${BRAND.border}`,fontSize:10,color:BRAND.grey}}>
+      <span>AIdeology x e& · SMB AI plan · Confidential</span>
+      <span>Prepared for Razzi · e& SMB AI lead</span>
+    </div>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* MAIN APP */
 /* ════════════════════════════════════════════════════════════ */
 const TABS = ["Small & Medium Business","Enterprise & Government","GPUaaS & e& Platform"];
@@ -4630,7 +5904,9 @@ export default function App() {
   const eco = view==="eco";
   const sum = view==="sum";
   const hpc = view==="hpc";
+  const cfo = view==="cfo";
   const htm = view==="htm";
+  const rzm = view==="rzm";
 
   useEffect(() => {
     if (!fullProposalRef.current) return;
@@ -4639,7 +5915,24 @@ export default function App() {
     setProposalCorpus(normalized);
   }, []);
 
+  // Unlisted route for the Razzi (e& SMB AI lead) meeting page.
+  // Accessible only via ?meeting=razzi or #razzi-meeting — never linked from the tab bar.
+  useEffect(() => {
+    const isRazzi = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const hash = (window.location.hash || "").toLowerCase().replace(/^#\/?/, "");
+        return params.get("meeting") === "razzi" || hash === "razzi-meeting" || hash === "razzi";
+      } catch { return false; }
+    };
+    if (isRazzi()) setView("rzm");
+    const onHash = () => { if (isRazzi()) setView("rzm"); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   return <div style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font,textAlign:"left"}}>
+    {!rzm && <>
     <nav style={{position:"sticky",top:0,zIndex:50,background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:72}}>
         <div style={{display:"flex",alignItems:"center",gap:18}}>
@@ -4666,11 +5959,13 @@ export default function App() {
         <button onClick={()=>setView("eco")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:eco?BRAND.white:BRAND.black,background:eco?BRAND.red:BRAND.lightGrey,border:`1px solid ${eco?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Ecosystem</button>
         <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Summary</button>
         <button onClick={()=>setView("hpc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:hpc?BRAND.white:BRAND.black,background:hpc?BRAND.red:BRAND.lightGrey,border:`1px solid ${hpc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>HPC Reference Architectures</button>
+        <button onClick={()=>setView("cfo")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:cfo?BRAND.white:BRAND.black,background:cfo?BRAND.red:BRAND.lightGrey,border:`1px solid ${cfo?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>e& CFO Financials</button>
         <button onClick={()=>setView("htm")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:htm?BRAND.white:BRAND.black,background:htm?"#222":BRAND.lightGrey,border:`1px solid ${htm?"#222":BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Haitham Meeting</button>
       </div>
     </div>
+    </>}
     <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {htm?<HaithamMeetingSection/>:hpc?<HPCSection/>:sum?<SummarySection/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView}/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
+      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection/>:cfo?<EandFinancialsSection/>:hpc?<HPCSection/>:sum?<SummarySection/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView}/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
     </div>
     <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
@@ -4694,7 +5989,8 @@ export default function App() {
       <EcosystemSection />
       <SummarySection />
       <HPCSection />
+      <EandFinancialsSection />
     </div>
-    <AIChat proposalCorpus={proposalCorpus} />
+    {!rzm && <AIChat proposalCorpus={proposalCorpus} />}
   </div>;
 }
