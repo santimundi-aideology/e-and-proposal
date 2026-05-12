@@ -396,7 +396,7 @@ function AgentRoadmapGrid() {
 /* ════════════════════════════════════════════════════════════ */
 /* SMB SEGMENT */
 /* ════════════════════════════════════════════════════════════ */
-function SMBSegment({onViewChange, upToSoftwareStack=false}) {
+function SMBSegment({onViewChange, upToSoftwareStack=false, showPricing=true}) {
   const [showMarketBenchmarks, setShowMarketBenchmarks] = useState(false);
 
   const goToPlatformEvolutionMatrix = () => {
@@ -1204,6 +1204,7 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
     {/* COMMERCIAL MODEL */}
     {/* ════════════════════════════════════════════════════════════ */}
     <SH>Commercial model</SH>
+    {showPricing && <>
     <Note label="Consolidated SMB commercial package">
       This section now consolidates the full SMB economics: AIdeology build and support fees to e&, e& revenue share, SMB subscription pricing, market benchmarks, e& break-even, revenue forecasts, and AIdeology revenue. The handover and knowledge-transfer plan follows after the commercial terms.
     </Note>
@@ -1219,9 +1220,10 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
     <Note label="3-year support included in fixed pricing">
       The Wave 1–5 fixed pricing includes AIdeology L3 platform support through Years 1–3. This covers platform escalation, patches, connector compatibility, release support, runbook updates and knowledge transfer. e& owns L1 and L2 from Day 1. Commercially, Years 1–3 support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during the transition period.
     </Note>
+    </>}
 
     {/* --- Revenue share: declining model --- */}
-    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+    {showPricing && <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
         <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
         <div>
@@ -1291,7 +1293,7 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
           </div>)}
         </div>
       </div>
-    </Card>
+    </Card>}
 
     {/* ════════════════════════════════════════════════════════════ */}
     {/* SUPPORT, KNOWLEDGE TRANSFER & LONG-TERM PARTNERSHIP       */}
@@ -1754,6 +1756,7 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
     {/* ════════════════════════════════════════════════════════════ */}
     {/* e& BREAK-EVEN ANALYSIS                                     */}
     {/* ════════════════════════════════════════════════════════════ */}
+    {showPricing && <>
     <SH>e& break-even & scale economics</SH>
     <Note label="Scale advantage">
       With 24,000 customers by Year 1 and a 65/35 revenue split, e& retains the majority of SaaS revenue from day one. The declining rev-share means e& margins improve every year even before an acquisition.
@@ -1817,6 +1820,7 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
       totalRow={{y1:"AED 28.7M (~$7.8M)",y2:"AED 115.1M (~$31.4M)",y3:"AED 302.2M (~$82.5M)"}}
       assumptions={["24K subs Y1 → 62K Y2 → 85K Y3 → 100K+ Y4","ARPU AED 285 → 350 → 420 (agent & tier expansion)","Rev-share 65/35 (Y1–2) → 72/28 (Y3) → 80/20 (Y4+)","Connectivity bundle uptake grows with subscriber base"]}
     />
+    </>}
 
     {/* ════════════════════════════════════════════════════════════ */}
     {/* WHY e& IS UNIQUELY POSITIONED                              */}
@@ -1894,9 +1898,9 @@ function SMBSegment({onViewChange, upToSoftwareStack=false}) {
     {/* ════════════════════════════════════════════════════════════ */}
     {/* AGREEMENT STRUCTURE                                        */}
     {/* ════════════════════════════════════════════════════════════ */}
-    <Note label="Agreement structure">
+    {showPricing && <Note label="Agreement structure">
       4-year minimum partnership. Build-then-transfer model: AIdeology builds and trains, e& progressively takes ownership. Agent IP transfers to e& by end of Year 2. Platform IP remains AIdeology property (non-exclusive license to e&). 65/35 revenue share declining to 80/20 as e& team ramps. Years 1–3 L3 platform support is included in the fixed Wave 1–5 platform + agent pricing and commercially covered within the AIdeology revenue share, with no separate support invoice during the transition period. Year 3–4 acquisition trigger: by then e& owns agents, customers and infrastructure — paying 20% forever becomes more expensive than a one-time buyout. Platform valuation at acquisition: AED 1.5B–2.5B.
-    </Note>
+    </Note>}
     </>}
   </div>;
 }
@@ -1951,7 +1955,7 @@ function DeploymentOptions({tier}) {
 }
 
 /* ──────────── TIER 1 — ADAPTED SMB AGENTS ──────────── */
-function Tier1Page() {
+function Tier1Page({showPricing=true}) {
   const adapted = [
     {n:"Customer Agent",sm:"Voice + WhatsApp + web chat in Arabic/English",up:"Multi-branch routing, CRM/ERP customer 360, compliance-grade transcripts, fine-tuned on customer scripts and tone of voice.",icon:"🎯"},
     {n:"Sales Agent",sm:"Lead-to-close pipeline + AI follow-ups",up:"Native sync with Salesforce / Dynamics / Oracle Sales / SAP CX, deal-team RBAC, audit trail on every commercial output, fine-tuned for sector pricing logic.",icon:"📈"},
@@ -2086,12 +2090,14 @@ function Tier1Page() {
       </div>
     </Card>
 
+    {showPricing && <>
     <SH>Commercial model</SH>
     <CommercialBox title="Tier 1 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
       {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"e& fronts the customer, sells, and books the contract. AIdeology delivers and is the technical author of record."},
       {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the AI plane. e& contributes account management, hosting & connectivity. Reviewed annually."},
       {label:"Hosting & connectivity",value:"100% e&",type:"On top of project & managed",desc:"e& cloud, G42 colocation, SIM, SMS, Toll Free 800 — all carried on the e& bill, full margin to e&."},
     ]}/>
+    </>}
 
     <SH>Why Tier 1 wins</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
@@ -2109,7 +2115,7 @@ function Tier1Page() {
 }
 
 /* ──────────── TIER 2 — CUSTOM AI SOLUTIONS ──────────── */
-function Tier2Page() {
+function Tier2Page({showPricing=true}) {
   return <div>
     <TierHero
       eyebrow="Tier 2 · Custom AI · Multi-agent · e& / G42 cloud"
@@ -2229,12 +2235,14 @@ function Tier2Page() {
       </Card>)}
     </div>
 
+    {showPricing && <>
     <SH>Commercial model</SH>
     <CommercialBox title="Tier 2 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
       {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"Build fee invoiced by e&. AIdeology delivers as the technical sub-contractor of record."},
       {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the platform 24/7. Outcome-based pricing available on the AI Contact Centre."},
       {label:"Hosting & connectivity",value:"100% e&",type:"e& cloud or G42",desc:"Compute, storage, networking, e& BSP and Toll Free 800 all on the e& bill."},
     ]}/>
+    </>}
 
     <Note label="Custom bespoke — outside the catalog">
       For requirements that fall outside the five Tier 2 families — fully bespoke industrial AI, scientific copilots, or proprietary trading tools — AIdeology runs a custom bespoke engagement on a time-and-materials basis. Same delivery method, same commercial model, scoped per opportunity. Bespoke work that proves repeatable becomes a sixth Tier 2 family.
@@ -2243,7 +2251,7 @@ function Tier2Page() {
 }
 
 /* ──────────── TIER 3 — SOVEREIGN & ON-PREM ──────────── */
-function Tier3Page() {
+function Tier3Page({showPricing=true}) {
   return <div>
     <TierHero
       eyebrow="Tier 3 · Sovereign · Air-gap capable · Customer site"
@@ -2385,12 +2393,14 @@ function Tier3Page() {
     <SH>Deployment options</SH>
     <DeploymentOptions tier={3}/>
 
+    {showPricing && <>
     <SH>Commercial model</SH>
     <CommercialBox title="Tier 3 · revenue split" icon="$" iconBg="#F5F5F5" iconColor={BRAND.red} items={[
       {label:"Project fee split",value:"60 / 40",type:"AIdeology / e&",desc:"e& is the prime contractor and customer-of-record. AIdeology delivers as the technical author. Help AG line is e&-led."},
       {label:"Managed service split",value:"60 / 40",type:"AIdeology / e&",desc:"AIdeology operates the AI plane on customer site. e& covers integration, NOC, and Help AG security wrap."},
       {label:"Hardware",value:"100% e&",type:"OEM pass-through",desc:"NVIDIA-Certified BoM invoiced by e&, full margin on hardware and integration."},
     ]}/>
+    </>}
 
     <Note label="Why Tier 3 wins for sovereign customers">
       The customer keeps full sovereignty — data, keys, audit trail and physical perimeter all on their site. e& is the one paper, one SLA, one-throat-to-choke partner. AIdeology is the AI plane that no SI can match in Arabic depth and agent maturity. The HPC RA library means a binding BoM lands on the customer's desk on day one — not after six weeks of design.
@@ -2402,7 +2412,7 @@ function Tier3Page() {
 /* ENTERPRISE & GOV */
 /* ════════════════════════════════════════════════════════════ */
 const ENT_TABS = ["Overview","Tier 1 — Adapted Agents","Tier 2 — Custom AI","Tier 3 — Sovereign On-Prem"];
-function EnterpriseSegment() {
+function EnterpriseSegment({showPricing=true}) {
   const [entTab, setEntTab] = useState(0);
   return <div>
     {/* Sub-tab navigation */}
@@ -2410,14 +2420,14 @@ function EnterpriseSegment() {
       {ENT_TABS.map((t,i)=>{const a=entTab===i;return<button key={i} onClick={()=>{setEntTab(i);if(typeof window!=="undefined")window.scrollTo({top:0,behavior:"smooth"})}} style={{padding:"10px 18px",fontSize:12,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.15s"}}>{t}</button>})}
     </div>
 
-    {entTab===0 && <EnterpriseOverview onTierSelect={setEntTab}/>}
-    {entTab===1 && <Tier1Page/>}
-    {entTab===2 && <Tier2Page/>}
-    {entTab===3 && <Tier3Page/>}
+    {entTab===0 && <EnterpriseOverview onTierSelect={setEntTab} showPricing={showPricing}/>}
+    {entTab===1 && <Tier1Page showPricing={showPricing}/>}
+    {entTab===2 && <Tier2Page showPricing={showPricing}/>}
+    {entTab===3 && <Tier3Page showPricing={showPricing}/>}
   </div>;
 }
 
-function EnterpriseOverview({onTierSelect}) {
+function EnterpriseOverview({onTierSelect, showPricing=true}) {
   return <div>
     <div style={{padding:"44px 0 36px"}}>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}><Badge v="violet">Pillar 02</Badge><span style={{fontSize:12,color:"#888"}}>Co-sell · Deliver · Operate</span></div>
@@ -2596,6 +2606,7 @@ function EnterpriseOverview({onTierSelect}) {
     </div>
 
     {/* Commercials */}
+    {showPricing && <>
     <SH>Commercial model</SH>
     <CommercialBox title="Enterprise & Government Commercials" icon="$" iconBg="#F5F5F5" iconColor="#E00800" items={[
       {label:"Revenue Split",value:"60 / 40",color:"#E00800",type:"AIdeology / e&",desc:"e& sells, owns customer & hosting. AIdeology delivers. Joint GTM."},
@@ -2656,13 +2667,14 @@ function EnterpriseOverview({onTierSelect}) {
       assumptions={["3–8 deals Y1→8–15 Y2→15–25 Y3","Tier 2: $300K–$600K in e& / G42 cloud","Tier 3: $600K–$1M for customer sovereign/on-prem","40% e& project share","Hosting margins ~60–70%"]}
     />
     <Note label="Partnership model">Co-sell — e& is commercial front, AIdeology is delivery engine. e& retains customer relationship and hosting revenue. AIdeology earns implementation and managed service fees. Variable-revenue model with no large upfront commitment from e&. On-premise Track B builds e&'s own AI infra capability over time.</Note>
+    </>}
   </div>;
 }
 
 /* ════════════════════════════════════════════════════════════ */
 /* GPU & PLATFORM */
 /* ════════════════════════════════════════════════════════════ */
-function GPUSegment() {
+function GPUSegment({showPricing=true}) {
   return <div>
     <div style={{padding:"44px 0 36px"}}>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}><Badge v="rose">Pillar 03</Badge><span style={{fontSize:12,color:"#888"}}>Compute · Platform · SDD</span></div>
@@ -2859,6 +2871,7 @@ function GPUSegment() {
     </div>
 
     {/* Commercials */}
+    {showPricing && <>
     <SH>Commercial model</SH>
     <CommercialBox title="GPUaaS & Platform Commercials" icon="$" iconBg="#F5F5F5" iconColor="#E00800" items={[
       {label:"Architecture",value:"$30K–$50K",color:"#E00800",type:"Monthly advisory retainer",desc:"2–3 senior architects for architecture, technology selection, design reviews."},
@@ -2887,6 +2900,7 @@ function GPUSegment() {
       assumptions={["64 GPUs Y1→256 Y2→512+ Y3","Utilisation 40%→65%→80%","$2.50–$3.50/GPU-hr (H100)","Platform SaaS mid-Y2","5% mid-range royalty"]}
     />
     <Note label="Strategic value">Positions e& as a regional AI infrastructure provider. The GPUaaS and platform layer is the foundation everything else runs on. AIdeology brings AI/ML infrastructure expertise; e& brings data centre assets, customer base, and regional reach. The SDD-powered platform — where customers move from spec to deployable agent — is the highest-value, longest-term component.</Note>
+    </>}
   </div>;
 }
 
@@ -2904,7 +2918,7 @@ const MaturityWidget = ({level,compact=false}) => {
   </Tag>;
 };
 
-function SummarySection() {
+function SummarySection({showPricing=true}) {
   const thStyle = {textAlign:"left",padding:"10px 14px",fontSize:10,fontWeight:600,color:"#999",letterSpacing:"0.06em",textTransform:"uppercase"};
   const tdStyle = {padding:"12px 14px",fontSize:12,color:"#666",borderBottom:"1px solid #f0f0f0"};
   const matrixStickyTop = 128;
@@ -2923,8 +2937,10 @@ function SummarySection() {
             {d:"What we build",a:"AI platform + first Customer Agent, then 2-agent parallel waves",b:"Custom AI + adapted agents + on-prem infra",c:"GPU infra, middleware & SDD platform"},
             {d:"Core tech",a:"SDD specs and blueprints, multi-tenant platform",b:"Agent orchestration, ERP/CRM integration, sovereign",c:"K8s/Slurm, vLLM/TGI, SDD agent builder"},
             {d:"Timeline",a:"60–90 days",b:"8–20 weeks per project",c:"6 months full platform"},
-            {d:"Upfront fee",a:"$150K–$250K",b:"$300K–$600K cloud · $600K–$1M sovereign/on-prem",c:"$300K–$600K build"},
-            {d:"Recurring",a:"10–20% rev-share",b:"$5K–$25K/mo managed",c:"3–7% platform GMV"},
+            ...(showPricing ? [
+              {d:"Upfront fee",a:"$150K–$250K",b:"$300K–$600K cloud · $600K–$1M sovereign/on-prem",c:"$300K–$600K build"},
+              {d:"Recurring",a:"10–20% rev-share",b:"$5K–$25K/mo managed",c:"3–7% platform GMV"},
+            ] : []),
             {d:"e& role",a:"Sales, billing, support",b:"Commercial front, hosting, Help AG",c:"Infra owner, GTM"},
             {d:"AIdeology role",a:"Build, SDD specs, train, blueprint",b:"Delivery, PS, managed services",c:"Architecture, build, royalty"},
             {d:"IP",a:"e& owns SDD specs and blueprints",b:"Joint / client-owned",c:"e& owns platform"},
@@ -2933,6 +2949,7 @@ function SummarySection() {
       </table>
     </div>
 
+    {showPricing && <>
     <SH>AIdeology 3-year projection</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:14,marginBottom:16}}>
       {[
@@ -2977,6 +2994,7 @@ function SummarySection() {
       <div style={{fontSize:34,fontWeight:700,color:"#111",fontFamily:BRAND.font}}>$26.7M – $64.1M</div>
       <div style={{fontSize:12,color:"#888",marginTop:3}}>GPUaaS is the dominant driver from Year 2</div>
     </Card>
+    </>}
 
     <SH>Four principles applied to every agent</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(230px, 1fr))",gap:12,marginBottom:16}}>
@@ -4104,7 +4122,7 @@ ${retrievedContext ? `Retrieved proposal excerpts:\n${retrievedContext}` : ""}`;
 /* ════════════════════════════════════════════════════════════ */
 /* HAITHAM MEETING — 3-page layout */
 /* ════════════════════════════════════════════════════════════ */
-function HaithamExecSummary() {
+function HaithamExecSummary({showPricing=true}) {
   return <>
     {/* THE OPPORTUNITY */}
     <SH>The opportunity</SH>
@@ -4182,6 +4200,7 @@ function HaithamExecSummary() {
     </Card>
 
     {/* e& REVENUE PROJECTIONS */}
+    {showPricing && <>
     <SH>e& revenue projections</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
@@ -4227,6 +4246,7 @@ function HaithamExecSummary() {
     <Note label="3-Year e& Revenue" color={BRAND.red}>
       e& cumulative net revenue over 3 years: AED 396M+ (~$108M). By Year 4, e& retains 80% of a growing AED 450M+ revenue stream while owning the entire agent development operation.
     </Note>
+    </>}
 
     {/* CUSTOMER GROWTH */}
     <SH>Customer growth trajectory</SH>
@@ -4784,7 +4804,12 @@ function simulateCashflow(p) {
   return {months, breakevenMonth, y1: agg(1), y2: agg(2), y3: agg(3)};
 }
 
-function EandFinancialsSection() {
+function EandFinancialsSection({showPricing=true}) {
+  if (!showPricing) return <div style={{padding:"80px 0",textAlign:"center"}}>
+    <div style={{fontSize:48,marginBottom:16,opacity:0.15}}>$</div>
+    <h2 style={{fontSize:22,fontWeight:700,color:"#111",marginBottom:8}}>Financial analysis hidden</h2>
+    <p style={{fontSize:14,color:"#888",maxWidth:420,margin:"0 auto",lineHeight:1.6}}>Toggle "Pricing visible" in the top navigation bar to view the full e& CFO financial model, break-even analysis, and revenue projections.</p>
+  </div>;
   const BUILD_COST_AED = 12640000; // $3.44M × 3.67
   // INPUT STATE
   const [y1Cust, setY1Cust] = useState(24000);
@@ -5359,7 +5384,7 @@ function EandFinancialsSection() {
 }
 
 const HTM_TABS = ["Executive Summary","Financials","Deal Structure"];
-function HaithamMeetingSection() {
+function HaithamMeetingSection({showPricing=true}) {
   const [htmTab, setHtmTab] = useState(0);
 
   return <div>
@@ -5387,9 +5412,17 @@ function HaithamMeetingSection() {
       </div>
     </div>
 
-    {htmTab===0 && <HaithamExecSummary/>}
-    {htmTab===1 && <HaithamFinancials/>}
-    {htmTab===2 && <HaithamDealStructure/>}
+    {htmTab===0 && <HaithamExecSummary showPricing={showPricing}/>}
+    {htmTab===1 && (showPricing ? <HaithamFinancials/> : <div style={{padding:"80px 0",textAlign:"center"}}>
+      <div style={{fontSize:48,marginBottom:16,opacity:0.15}}>$</div>
+      <h2 style={{fontSize:22,fontWeight:700,color:"#111",marginBottom:8}}>Financial details hidden</h2>
+      <p style={{fontSize:14,color:"#888",maxWidth:420,margin:"0 auto",lineHeight:1.6}}>Toggle "Pricing visible" in the top navigation bar to view the financial model.</p>
+    </div>)}
+    {htmTab===2 && (showPricing ? <HaithamDealStructure/> : <div style={{padding:"80px 0",textAlign:"center"}}>
+      <div style={{fontSize:48,marginBottom:16,opacity:0.15}}>$</div>
+      <h2 style={{fontSize:22,fontWeight:700,color:"#111",marginBottom:8}}>Deal structure hidden</h2>
+      <p style={{fontSize:14,color:"#888",maxWidth:420,margin:"0 auto",lineHeight:1.6}}>Toggle "Pricing visible" in the top navigation bar to view revenue share and deal structure details.</p>
+    </div>)}
   </div>;
 }
 
@@ -5899,6 +5932,7 @@ const TABS = ["Small & Medium Business","Enterprise & Government","GPUaaS & e& P
 export default function App() {
   const [tab,setTab] = useState(0);
   const [view,setView] = useState("tab");
+  const [showPricing,setShowPricing] = useState(true);
   const [proposalCorpus, setProposalCorpus] = useState("");
   const fullProposalRef = useRef(null);
   const eco = view==="eco";
@@ -5942,7 +5976,18 @@ export default function App() {
             <div style={{fontSize:11,color:BRAND.grey,marginTop:2}}>Commercial framework</div>
           </div>
         </div>
-        <div style={{fontSize:11,color:BRAND.grey,fontWeight:500}}>Confidential</div>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <button
+            onClick={()=>setShowPricing(p=>!p)}
+            style={{display:"flex",alignItems:"center",gap:7,padding:"7px 14px",fontSize:11,fontWeight:700,color:showPricing?BRAND.white:"#555",background:showPricing?BRAND.red:BRAND.lightGrey,border:`1px solid ${showPricing?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",transition:"all 0.2s",whiteSpace:"nowrap"}}
+          >
+            <span style={{display:"inline-block",width:14,height:14,borderRadius:0,border:`1.5px solid ${showPricing?"rgba(255,255,255,0.6)":"#bbb"}`,background:showPricing?"rgba(255,255,255,0.2)":"transparent",position:"relative"}}>
+              {showPricing && <span style={{position:"absolute",top:1,left:2,fontSize:10,lineHeight:1,color:BRAND.white}}>✓</span>}
+            </span>
+            {showPricing?"Pricing visible":"Pricing hidden"}
+          </button>
+          <div style={{fontSize:11,color:BRAND.grey,fontWeight:500}}>Confidential</div>
+        </div>
       </div>
     </nav>
     <div style={{background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -5965,7 +6010,7 @@ export default function App() {
     </div>
     </>}
     <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection/>:cfo?<EandFinancialsSection/>:hpc?<HPCSection/>:sum?<SummarySection/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView}/>:tab===1?<EnterpriseSegment/>:<GPUSegment/>}
+      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection showPricing={showPricing}/>:cfo?<EandFinancialsSection showPricing={showPricing}/>:hpc?<HPCSection/>:sum?<SummarySection showPricing={showPricing}/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView} showPricing={showPricing}/>:tab===1?<EnterpriseSegment showPricing={showPricing}/>:<GPUSegment showPricing={showPricing}/>}
     </div>
     <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
