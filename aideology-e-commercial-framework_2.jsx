@@ -3291,7 +3291,6 @@ function ForgeLayerCard({L}) {
           <h3 style={{fontSize:24,fontWeight:700,color:BRAND.white,margin:"0 0 8px",lineHeight:1.15}}>{L.name}</h3>
           <p style={{fontSize:13,color:"rgba(255,255,255,0.78)",lineHeight:1.55,margin:0,maxWidth:680}}>{L.summary}</p>
         </div>
-        <Badge v="rose">★ Core IP</Badge>
       </div>
     </div>
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,borderBottom:`1px solid ${BRAND.border}`}}>
