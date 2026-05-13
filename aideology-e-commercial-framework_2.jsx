@@ -3143,6 +3143,836 @@ function SummarySection({showPricing=true}) {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* FULL STACK — THE e& AI STACK                                 */
+/* ════════════════════════════════════════════════════════════ */
+const STACK_LAYERS = [
+  {
+    n:"6",
+    name:"Customers & Distribution",
+    tag:"Where AI meets revenue",
+    color:"#E00800",
+    summary:"The marketplace, sales force, partner channel, and e& invoice that put AI solutions into reach across e&'s 240M+ direct billing relationships globally — including 320K+ SMBs, enterprises and government clients in core markets.",
+    owner:"e& (100%)",
+    components:["SMB marketplace","e& sales force","e& invoice integration","Enterprise direct","Government tenders","Partner channel","Multi-OpCo expansion"],
+    why:"e&'s unfair advantage: 240M+ direct billing relationships globally, telco trust and brand reach, plus tens of thousands of physical antenna sites and radio infrastructure assets across its markets; in core markets, 320K+ SMBs on monthly billing and zero-CAC add-ons to the existing e& invoice.",
+  },
+  {
+    n:"5",
+    name:"Agentic Applications",
+    tag:"What customers actually buy",
+    color:"#A8201A",
+    summary:"End-to-end AI agents that own a business function — Customer, Sales, Comms, Finance, Ops, People — plus enterprise solutions and sovereign deployments.",
+    owner:"e& — agent IP under progressive build-then-transfer",
+    components:["6 SMB agents","Tier 1 Adapted Agents","Tier 2 Custom AI","Tier 3 Sovereign / On-Prem","Contact Centre AI","Document Intelligence","Approval Orchestration","Partner agents (future)"],
+    why:"Agents are the product. Everything below this layer is the platform that makes them possible.",
+  },
+  {
+    n:"4",
+    name:"Forge — AI Control Plane + Development",
+    tag:"The durable platform IP",
+    color:"#004B2E",
+    isForge:true,
+    summary:"The unified software layer that runs the AI business (control plane) and builds new AI fast (SDD). Forge connects compute, models, agents, customers, and billing into one operating system.",
+    owner:"AIdeology IP · licensed to e&",
+    pillars:[
+      {
+        title:"Operations · Control Plane",
+        sub:"How Forge runs the AI business",
+        color:"#004B2E",
+        icon:"A",
+        desc:"Every AI workload deployed, governed, observed and billed through one platform.",
+        items:[
+          {t:"Agent orchestration",d:"Multi-agent workflows, shared context, failover, human-in-loop gates"},
+          {t:"LLM gateway & model router",d:"One API across Claude, GPT, Llama, sovereign models; cost / latency / compliance routing"},
+          {t:"GPU & compute orchestration",d:"Sits above Open Innovation; tenant quotas, cost allocation, sovereign placement"},
+          {t:"Billing & monetization",d:"Subscriptions, usage metering, marketplace invoicing, revenue share reporting"},
+          {t:"Multi-tenancy",d:"Tenant isolation, onboarding, back office, provisioning at scale"},
+          {t:"Connector management",d:"CRM, ERP, HR, finance, comms, payment, government systems"},
+          {t:"Data & memory",d:"Vector DB, RAG, conversation memory, knowledge bases, data residency"},
+          {t:"Governance & compliance",d:"RBAC, audit, PII masking, trust tiers SMB → Government, NESA / ISO / HSM"},
+          {t:"Observability",d:"Traces, cost-per-agent, SLA dashboards, token usage, anomaly alerts"},
+          {t:"Marketplace & template instancer",d:"Signed templates, blue/green upgrades, third-party publishing"},
+          {t:"Idle & runtime strategy",d:"Shared pools, scale-to-zero, hibernation — compute only when working"},
+          {t:"Edge & device orchestration",d:"Future: workload placement across cloud, edge nodes, e& devices, IoT"},
+        ],
+      },
+      {
+        title:"Development · Spec-Driven Build",
+        sub:"How Forge builds new AI fast",
+        color:"#E00800",
+        icon:"B",
+        desc:"Every new agent ships from a signed spec, reusing tested patterns and a proprietary library.",
+        items:[
+          {t:"SDD methodology",d:"Spec-first process: business outcome → signed implementation spec before code"},
+          {t:"Solution blueprints",d:"Reusable templates for each agent type — Customer, Sales, Finance, etc."},
+          {t:"Prompt libraries",d:"Tested, versioned prompt patterns for common business tasks"},
+          {t:"Guardrail packs",d:"Pre-built safety, compliance and quality controls per use case"},
+          {t:"Connector accelerators",d:"Pre-tested integrations for Salesforce, SAP, MOHRE, e& billing, etc."},
+          {t:"Evaluation sets",d:"Test datasets and acceptance criteria for Arabic NLP, domain accuracy, compliance"},
+          {t:"Agent builder studio",d:"Visual + code interface; exposed as self-service for enterprise teams (Phase 2)"},
+          {t:"Acceptance test framework",d:"Every spec ships with named tests; no agent goes live without passing them"},
+        ],
+      },
+    ],
+  },
+  {
+    n:"3",
+    name:"Model Layer",
+    tag:"The AI intelligence",
+    color:"#7A52F4",
+    summary:"The models themselves — commercial APIs, open-source, and sovereign Arabic-tuned models — served on high-throughput inference and fine-tuning infrastructure.",
+    owner:"Mixed: third-party APIs + e&-hosted sovereign models",
+    components:["GPT-4o (Azure OpenAI)","Claude (Anthropic)","Llama · Falcon · Mistral","Sovereign Arabic-tuned models","vLLM · TGI · NVIDIA Triton","DeepSpeed · FSDP · LoRA · QLoRA","Model registry & versioning","STT / TTS voice pipelines"],
+    why:"Models change every six months. The model layer must be swappable. Forge routes between providers without touching agent code.",
+  },
+  {
+    n:"2",
+    name:"Open Innovation — GPU Orchestration",
+    tag:"Compute on demand",
+    color:"#185FA5",
+    summary:"e&'s GPU orchestrator. Schedules, isolates, and serves GPU workloads — inference, training, fine-tuning — across e&'s sovereign compute estate.",
+    owner:"e&",
+    components:["Kubernetes / Slurm job scheduling","Multi-tenant GPU isolation","Inference · training · fine-tuning","Auto-scaling & load balancing","Hardware abstraction (DGX, Dell, HPE, Supermicro)","Capacity management & tenant quotas"],
+    why:"Open Innovation turns GPU hardware into a consumable, schedulable, billable service. Forge consumes capacity from it and maps every job back to a customer, agent and invoice line.",
+  },
+  {
+    n:"1",
+    name:"Infrastructure",
+    tag:"The physical foundation",
+    color:"#111111",
+    summary:"The hardware, data centres, network, and devices that everything runs on — including e&'s edge and physical device footprint.",
+    owner:"e& (100%)",
+    components:["e& Data Centres · UAE × 3, Morocco, Hungary, PPF","NVIDIA DGX · Dell · HPE · Supermicro · H100 / B200","G42 / Core42 · Azure · AWS · OCI","VAST Data · DDN · Pure FlashBlade storage","100GbE / InfiniBand networking","Qualcomm edge AI devices · 5G gateways · AI PCs","e& network: SIM, Toll Free 800, WhatsApp BSP, SMS","Physical e& devices: routers · IoT · cameras · kiosks (future)"],
+    why:"e&'s deepest moat. No AI competitor has sovereign UAE data centres, a telco network, SIM identity, and a physical device footprint. Everything above is software. This layer is physical.",
+  },
+];
+
+function StackLayerCard({L}) {
+  return <div style={{display:"grid",gridTemplateColumns:"82px 1fr",border:`1px solid ${BRAND.border}`,background:BRAND.white,overflow:"hidden"}}>
+    <div style={{background:L.color,color:BRAND.white,padding:"22px 14px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
+      <div style={{fontSize:9.5,fontWeight:700,letterSpacing:"0.12em",opacity:0.8,textTransform:"uppercase"}}>Layer</div>
+      <div style={{fontSize:32,fontWeight:700,fontFamily:BRAND.font,lineHeight:1,marginTop:2}}>{L.n}</div>
+    </div>
+    <div style={{padding:"18px 22px",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:18,alignItems:"start"}}>
+      <div>
+        <div style={{fontSize:10.5,fontWeight:700,color:L.color,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{L.tag}</div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",margin:"0 0 8px",lineHeight:1.25}}>{L.name}</h4>
+        <p style={{fontSize:12.5,color:"#666",lineHeight:1.6,margin:"0 0 10px"}}>{L.summary}</p>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginTop:10}}>Owner</div>
+        <div style={{fontSize:11.5,color:"#111",fontWeight:600,marginTop:3}}>{L.owner}</div>
+      </div>
+      <div>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>Key components</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(140px, 1fr))",gap:"5px 14px",marginBottom:12}}>
+          {L.components.map((c,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:7}}>
+            <span style={{width:4,height:4,background:L.color,flexShrink:0,marginTop:6}}/>
+            <span style={{fontSize:11.5,color:"#555",lineHeight:1.5}}>{c}</span>
+          </div>)}
+        </div>
+        <div style={{paddingTop:10,borderTop:`1px solid ${BRAND.border}`,fontSize:11.5,color:"#555",lineHeight:1.55}}>
+          <strong style={{color:"#111"}}>Why it matters: </strong>{L.why}
+        </div>
+      </div>
+    </div>
+  </div>;
+}
+
+function ForgeLayerCard({L}) {
+  return <div style={{border:`2px solid ${BRAND.red}`,background:BRAND.white,overflow:"hidden",boxShadow:"0 12px 28px -18px rgba(224,8,0,0.45)"}}>
+    <div style={{background:"linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #2a0808 100%)",color:BRAND.white,padding:"22px 26px",position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:BRAND.continuum}}/>
+      <div style={{display:"grid",gridTemplateColumns:"100px 1fr auto",gap:24,alignItems:"center"}}>
+        <div style={{textAlign:"center"}}>
+          <div style={{fontSize:9.5,fontWeight:700,letterSpacing:"0.14em",opacity:0.65,textTransform:"uppercase"}}>Layer</div>
+          <div style={{fontSize:48,fontWeight:700,fontFamily:BRAND.font,lineHeight:1,color:BRAND.white}}>{L.n}</div>
+        </div>
+        <div>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>{L.tag}</div>
+          <h3 style={{fontSize:24,fontWeight:700,color:BRAND.white,margin:"0 0 8px",lineHeight:1.15}}>{L.name}</h3>
+          <p style={{fontSize:13,color:"rgba(255,255,255,0.78)",lineHeight:1.55,margin:0,maxWidth:680}}>{L.summary}</p>
+        </div>
+        <Badge v="rose">★ Core IP</Badge>
+      </div>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,borderBottom:`1px solid ${BRAND.border}`}}>
+      {L.pillars.map((P,i)=><div key={i} style={{padding:"20px 22px",borderRight:i===0?`1px solid ${BRAND.border}`:"none",background:i===0?"#FAFAFA":BRAND.white}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+          <span style={{width:32,height:32,background:P.color,color:BRAND.white,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:700,fontFamily:BRAND.font,flexShrink:0}}>{P.icon}</span>
+          <div>
+            <div style={{fontSize:9.5,fontWeight:700,color:P.color,letterSpacing:"0.08em",textTransform:"uppercase"}}>{P.sub}</div>
+            <div style={{fontSize:15,fontWeight:700,color:"#111",lineHeight:1.2}}>{P.title}</div>
+          </div>
+        </div>
+        <p style={{fontSize:12,color:"#666",lineHeight:1.6,margin:"0 0 12px"}}>{P.desc}</p>
+        <div>
+          {P.items.map((it,j)=><div key={j} style={{padding:"7px 0",borderTop:j===0?`1px solid ${BRAND.border}`:"none",borderBottom:j<P.items.length-1?`1px solid ${BRAND.border}`:"none"}}>
+            <div style={{display:"grid",gridTemplateColumns:"150px 1fr",gap:10,alignItems:"start"}}>
+              <span style={{fontSize:11.5,fontWeight:700,color:"#111",lineHeight:1.35}}>{it.t}</span>
+              <span style={{fontSize:11,color:"#777",lineHeight:1.5}}>{it.d}</span>
+            </div>
+          </div>)}
+        </div>
+      </div>)}
+    </div>
+    <div style={{padding:"14px 24px",background:BRAND.lightGrey}}>
+      <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>Owner</div>
+      <div style={{fontSize:12,color:"#111",fontWeight:600}}>{L.owner}</div>
+    </div>
+  </div>;
+}
+
+function ForgeTwoPillarsCard() {
+  const pillars = [
+    {
+      title:"Operations · Control Plane",
+      sub:"Run the AI business",
+      color:"#004B2E",
+      bg:"#F0FDF4",
+      question:"What is the control plane?",
+      answer:"The operational brain. It decides which model handles each request, on which GPU, for which customer, with what guardrails, billed at what rate. It runs 24/7 in production once an agent is live.",
+      list:[
+        "Routes every model call across providers and regions",
+        "Provisions agents per tenant in hours, not weeks",
+        "Meters usage and turns it into invoices",
+        "Tracks every interaction with traces, costs, SLAs",
+        "Enforces compliance from logical multi-tenancy to NESA P4",
+        "Coordinates multi-agent workflows with human-in-loop gates",
+      ],
+    },
+    {
+      title:"Development · Spec-Driven Build (SDD)",
+      sub:"Build new AI fast",
+      color:BRAND.red,
+      bg:"#FFF5F5",
+      question:"What is SDD inside Forge?",
+      answer:"The build toolkit embedded in Forge. Every new agent starts from a structured spec — inputs, outputs, guardrails, tests — and reuses blueprints, prompt patterns, connector accelerators and evaluation sets that are already in the Forge library.",
+      list:[
+        "Signed specs before code — no ambiguity, no rework",
+        "Reusable blueprints for each agent type",
+        "Versioned prompt libraries and guardrail packs",
+        "Pre-tested connector accelerators (Salesforce, SAP, e& billing, MOHRE…)",
+        "Evaluation sets with Arabic NLP and domain benchmarks",
+        "Self-service agent builder for e& and enterprise teams (Phase 2)",
+      ],
+    },
+  ];
+  return <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(360px, 1fr))",gap:14,marginBottom:18}}>
+    {pillars.map((P,i)=><div key={i} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${P.color}`,overflow:"hidden"}}>
+      <div style={{padding:"20px 22px",background:P.bg,borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:P.color,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:5}}>{P.sub}</div>
+        <h4 style={{fontSize:17,fontWeight:700,color:"#111",margin:0,lineHeight:1.25}}>{P.title}</h4>
+      </div>
+      <div style={{padding:"16px 22px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{P.question}</div>
+        <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,margin:0}}>{P.answer}</p>
+      </div>
+      <div style={{padding:"14px 22px 18px"}}>
+        {P.list.map((it,j)=><div key={j} style={{display:"flex",gap:9,alignItems:"flex-start",padding:"7px 0",borderBottom:j<P.list.length-1?`1px solid ${BRAND.border}`:"none"}}>
+          <span style={{width:18,height:18,background:P.color,color:BRAND.white,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,flexShrink:0,marginTop:1}}>{j+1}</span>
+          <span style={{fontSize:12,color:"#444",lineHeight:1.55}}>{it}</span>
+        </div>)}
+      </div>
+    </div>)}
+  </div>;
+}
+
+function StackExampleFlow() {
+  const STEPS = [
+    {l:"6",where:"Customers & Distribution",who:"SMB owner subscribes",what:"Selects a Customer Agent on the e& marketplace at AED 285 / month. One-click checkout on the e& account."},
+    {l:"5",where:"Agentic Applications",who:"Customer Agent goes live",what:"Starts answering WhatsApp messages and phone calls in Arabic and English, books appointments, escalates to humans."},
+    {l:"4B",where:"Forge · Development",who:"SDD blueprint reused",what:"Agent was instantiated from a tested Customer Agent blueprint — prompts, guardrails, connectors and evaluation tests already proven on hundreds of SMBs."},
+    {l:"4A",where:"Forge · Operations",who:"Control plane orchestrates",what:"Provisions the tenant, wires WhatsApp BSP + e& telephony connectors, applies T1 compliance, starts metering token + GPU usage."},
+    {l:"3",where:"Model Layer",who:"LLM router picks the model",what:"For each message, Forge picks the best model — Claude for reasoning, GPT for speed, Llama on Open Innovation for sovereign data."},
+    {l:"2",where:"Open Innovation",who:"GPU orchestrator schedules",what:"Submits the inference job on an available H100 GPU with the right tenant quota and priority."},
+    {l:"1",where:"Infrastructure",who:"e& Data Centre runs the workload",what:"GPU runs in UAE sovereign DC. Network delivers the response in 1.2 seconds. Data never leaves UAE."},
+    {l:"6",where:"Customers & Distribution",who:"e& invoice bills usage",what:"AED 285 added to the SMB's monthly e& bill. Revenue share computed automatically. Customer sees one invoice for telco + AI."},
+  ];
+  return <Card style={{padding:0,overflow:"hidden"}}>
+    <div style={{padding:"18px 22px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+      <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"0 0 4px"}}>Live example: an SMB subscribes to a Customer Agent</h4>
+      <p style={{fontSize:12,color:"#777",lineHeight:1.55,margin:0}}>A single customer interaction traverses every layer of the stack — invisible to the customer, orchestrated by Forge.</p>
+    </div>
+    <div>
+      {STEPS.map((s,i)=><div key={i} style={{display:"grid",gridTemplateColumns:"68px 210px 1fr",borderBottom:i<STEPS.length-1?`1px solid ${BRAND.border}`:"none",alignItems:"stretch"}}>
+        <div style={{background:s.l.startsWith("4")?BRAND.red:"#111",color:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",padding:"14px 0"}}>
+          <div style={{textAlign:"center"}}>
+            <div style={{fontSize:8,fontWeight:700,letterSpacing:"0.1em",opacity:0.7,textTransform:"uppercase"}}>L</div>
+            <div style={{fontSize:s.l.length>1?15:18,fontWeight:700,fontFamily:BRAND.font,lineHeight:1}}>{s.l}</div>
+          </div>
+        </div>
+        <div style={{padding:"14px 16px",borderRight:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:3}}>{s.where}</div>
+          <div style={{fontSize:12.5,fontWeight:700,color:"#111",lineHeight:1.3}}>{s.who}</div>
+        </div>
+        <div style={{padding:"14px 18px",fontSize:12,color:"#555",lineHeight:1.55,display:"flex",alignItems:"center"}}>
+          {s.what}
+        </div>
+      </div>)}
+    </div>
+  </Card>;
+}
+
+function StackOwnershipTable() {
+  const ROWS = [
+    {l:"6",n:"Customers & Distribution",own:"e& (100%)",note:"Customer relationship, brand, billing, support"},
+    {l:"5",n:"Agentic Applications",own:"e&",note:"Delivered agent IP transfers to e& under the build-then-transfer terms"},
+    {l:"4",n:"Forge — Control Plane + SDD",own:"AIdeology IP · licensed to e&",note:"Platform IP retained under partnership agreement"},
+    {l:"3",n:"Model Layer",own:"Mixed (API + self-hosted)",note:"Provider-agnostic by design; swappable"},
+    {l:"2",n:"Open Innovation — GPU Orch.",own:"e&",note:"e&'s GPU orchestrator; Forge consumes capacity from it"},
+    {l:"1",n:"Infrastructure",own:"e& (100%)",note:"Data centres, GPUs, network, edge, devices"},
+  ];
+  return <Card style={{padding:0,overflow:"hidden"}}>
+    <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+      <thead>
+        <tr style={{background:BRAND.lightGrey}}>
+          {["Layer","Name","Ownership","Notes"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {ROWS.map((r,i)=><tr key={i} style={{borderBottom:i<ROWS.length-1?`1px solid ${BRAND.border}`:"none",background:r.l==="4"?"#FFF5F5":"transparent"}}>
+          <td style={{padding:"14px 16px",fontWeight:700,color:r.l==="4"?BRAND.red:"#111",fontFamily:BRAND.font,fontSize:14,width:60}}>L{r.l}</td>
+          <td style={{padding:"14px 16px",fontWeight:700,color:"#111"}}>{r.n}</td>
+          <td style={{padding:"14px 16px",color:"#555",fontWeight:600}}>{r.own}</td>
+          <td style={{padding:"14px 16px",color:"#777",lineHeight:1.5}}>{r.note}</td>
+        </tr>)}
+      </tbody>
+    </table>
+  </Card>;
+}
+
+function FullStackSection() {
+  return <div style={{padding:"44px 0 0"}}>
+    {/* ── COVER / PREAMBLE ─────────────────────────────────────── */}
+    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+      <Badge v="rose">Commercial Framework Agreement</Badge>
+      <span style={{fontSize:12,color:"#888"}}>e& AI Networks & Solutions × AIdeology · v0.1 · Confidential</span>
+    </div>
+    <h2 style={{fontSize:38,fontWeight:700,color:"#111",lineHeight:1.05,margin:"0 0 14px",maxWidth:820}}>Commercial Framework Agreement</h2>
+    <p style={{fontSize:15,color:"#555",lineHeight:1.65,maxWidth:860,marginBottom:14}}>
+      This document sets out the proposed commercial framework governing the partnership between <strong style={{color:"#111"}}>e& AI Networks & Solutions</strong> ("<strong style={{color:"#111"}}>e&</strong>") and <strong style={{color:"#111"}}>AIdeology</strong> ("<strong style={{color:"#111"}}>AIdeology</strong>"). The purpose of the partnership is to build, transfer and commercialise a sovereign AI operating layer across e&'s global markets — delivered across three pillars: (i) an AI platform and agentic solutions for e&'s SMB customer base, (ii) custom enterprise and government AI deployments, and (iii) sovereign GPU infrastructure.
+    </p>
+    <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:18}}>
+      AIdeology will design, build and knowledge-transfer all platform components to e& over a defined engagement, following a build-then-transfer model under which e& progressively takes ownership of agents, platform operations and customer relationships. e& retains all commercial contracts with end customers and full control of the market relationship. The platform is built on e&-sovereign infrastructure, is Arabic- and English-native by design, and is intended to extend across e&'s operating companies without structural dependency on AIdeology beyond the transition period.
+    </p>
+    <div style={{height:4,width:200,background:BRAND.continuum,marginBottom:24}}/>
+
+    <div style={{display:"flex",gap:32,flexWrap:"wrap",marginBottom:32}}>
+      {[
+        {v:"3 pillars",l:"Scope of engagement"},
+        {v:"36 weeks",l:"Programme delivery"},
+        {v:"$3.44M",l:"Pillar 01 fixed-fee envelope"},
+        {v:"4 years",l:"Minimum partnership term"},
+      ].map((s,i)=><div key={i}>
+        <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:11,color:"#999",marginTop:2,letterSpacing:"0.06em",textTransform:"uppercase",fontWeight:700}}>{s.l}</div>
+      </div>)}
+    </div>
+
+    {/* ── ARTICLE 1 · DEFINITIONS ──────────────────────────────── */}
+    <SH>Article 1 · Definitions</SH>
+    <Card>
+      <div style={{display:"grid",gridTemplateColumns:"180px 1fr",gap:"12px 18px",fontSize:12.5,color:"#444",lineHeight:1.65}}>
+        {[
+          ["Agreement","This Commercial Framework Agreement, including any annexes, schedules and statements of work executed under it."],
+          ["AIdeology","The platform builder and delivery counterparty under this Agreement."],
+          ["e&","e& AI Networks & Solutions, the contracting entity within the e& Group."],
+          ["Forge","AIdeology's proprietary agentic intelligence platform — the AI control plane and developer plane described in Article 4."],
+          ["SDD","Solution Design Document — the structured specification produced before every agent build."],
+          ["Agent IP","Source code, prompts, workflows, fine-tunes, evaluation sets and tenant configurations of a deployed agentic solution. Transfers to e& under Article 10."],
+          ["Platform IP","Forge orchestration, governance, multi-cloud / multi-LLM gateway and supporting libraries. Remains AIdeology property; e& licensed under Article 10."],
+          ["Pillar 01","The SMB AI marketplace programme defined in Article 5."],
+          ["Pillar 02","Enterprise & Government tiered solutions defined in Article 6."],
+          ["Pillar 03","Sovereign GPU infrastructure scope referenced in Article 7."],
+          ["Wave","A delivery increment in the Pillar 01 schedule, each with named acceptance criteria."],
+          ["OpCo","An e& operating company outside the UAE entity (e.g. Saudi, Morocco, Egypt, Kuwait)."],
+        ].map(([k,v],i)=><Fragment key={i}>
+          <div style={{fontWeight:700,color:"#111"}}>{k}</div>
+          <div>{v}</div>
+        </Fragment>)}
+      </div>
+    </Card>
+
+    {/* ── ARTICLE 2 · SCOPE — THREE PROPOSITIONS ──────────────── */}
+    <SH>Article 2 · Scope of engagement — three propositions</SH>
+    <Note label="Three propositions, one engagement">
+      AIdeology delivers three concurrent propositions under this Agreement: (A) the build and launch of agentic solutions across Pillars 01 and 02; (B) an Agentic Centre of Excellence inside e&; and (C) a licence to operate the Forge platform across the e& footprint.
+    </Note>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:18}}>
+      {[
+        {k:"A",t:"Build & Launch",d:"Six agentic solutions launched in 90-day waves, expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint.",role:"Design and build the first waves; transition lead delivery to e& Squads from Wave 3 onwards."},
+        {k:"B",t:"Centre of Excellence",d:"AIdeology stands up e&'s Agentic Centre of Excellence — Squads trained on the full design and build lifecycle, with end-to-end IP transfer.",o:"e& owns the design, build and evolution of its own SDD architecture — no permanent dependency on AIdeology engineering.",own:"Squad capability, SDD playbooks, design authority and operational control of the agentic stack.",role:"Embed senior architects in the CoE; coach Squads through real builds, then step back to advisory."},
+        {k:"C",t:"Forge Platform Licence",d:"A licence to Forge — AIdeology's agentic intelligence platform — giving e& the orchestration, governance and multi-cloud / multi-LLM layer that powers every agent.",o:"e& is never locked into a single cloud, model or vendor; new clouds, models and connectors plug into the same governed layer.",own:"Perpetual licence to operate Forge across the e& footprint; buyout option from Year 3 to convert to full ownership.",role:"Maintain and evolve Forge; e& Squads consume the platform via versioned releases under a joint roadmap."},
+      ].map((p,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{padding:"18px 22px",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+            <span style={{width:30,height:30,background:BRAND.red,color:BRAND.white,fontWeight:700,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center"}}>{p.k}</span>
+            <span style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase"}}>Proposition {p.k}</span>
+          </div>
+          <h4 style={{fontSize:17,fontWeight:700,color:"#111",margin:0}}>{p.t}</h4>
+        </div>
+        <div style={{padding:"16px 22px"}}>
+          <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,marginBottom:0}}>{p.d}</p>
+          {[["Outcome for e&",p.o],["What e& owns",p.own],["AIdeology role over time",p.role]].map(([l,v],j)=><div key={j} style={{paddingTop:10,marginTop:10,borderTop:`1px solid ${BRAND.border}`}}>
+            <div style={{fontSize:10,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:5}}>{l}</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.55}}>{v}</div>
+          </div>)}
+        </div>
+      </Card>)}
+    </div>
+
+    {/* ── ARTICLE 3 · WHAT WILL BE BUILT ──────────────────────── */}
+    <SH>Article 3 · What will be built</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:18}}>
+      {[
+        {t:"An e& AI operating layer — not point tools",d:"Customers will not be buying disconnected point tools. They will subscribe to an e& AI operating layer where each agentic solution owns a business function end-to-end. For SMB: Customer, Sales, Communications, Finance, Operations and People."},
+        {t:"A reusable platform funded by the first solution",d:"The platform will include onboarding, tenant back office, identity, billing, analytics, connector management, observability and reusable SDD blueprints. The first solution funds and validates the base platform; later solutions reuse the same infrastructure."},
+        {t:"P1 enterprise capability layer in Wave 2",d:"The SMB build also introduces the platform's P1 capability layer: enterprise-grade automation, compliance controls, audit trails, RBAC, guardrails and operational workflows. Deployed as part of Wave 2 so the platform is not only an SMB marketplace, but the foundation for future enterprise and regulated-market expansion."},
+        {t:"Two solutions in parallel per wave after Wave 1",d:"The first Customer Agent launches with the platform foundation. After that, AIdeology builds two larger agentic solutions in parallel per wave because the heavy platform work is already in place."},
+      ].map((x,i)=><Card key={i} style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 8px"}}>{x.t}</h4>
+        <p style={{fontSize:12.5,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
+      </Card>)}
+    </div>
+
+    {/* ── ARTICLE 4 · THE e& AI STACK (INFOGRAPHICS PRESERVED) ── */}
+    <SH>Article 4 · The e& AI stack — technical scope of the delivery</SH>
+    <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:18}}>
+      The deliverables under this Agreement implement a single AI stack across six layers. <strong style={{color:"#111"}}>Forge</strong> sits in the middle as the AI control plane that operates the platform and the development layer that builds new AI fast. Below Forge: Open Innovation, the GPU orchestrator, sitting on top of e&'s sovereign infrastructure. Above Forge: the agents that customers actually buy, distributed through e&'s marketplace and invoice. This Article describes the <em>technical scope</em> of what AIdeology will deliver to e&; commercial terms appear from Article 5 onward.
+    </p>
+
+    <div style={{display:"flex",gap:32,flexWrap:"wrap",marginBottom:32}}>
+      {[
+        {v:"6 layers",l:"From silicon to customer"},
+        {v:"1 platform",l:"Forge unifies the stack"},
+        {v:"4 of 6 layers",l:"Owned by e&"},
+        {v:"Cloud → Edge",l:"Future device orchestration"},
+      ].map((s,i)=><div key={i}>
+        <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:11,color:"#999",marginTop:2,letterSpacing:"0.06em",textTransform:"uppercase",fontWeight:700}}>{s.l}</div>
+      </div>)}
+    </div>
+
+    <SH>4.1 · Layer by layer — top to bottom</SH>
+    <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:18}}>
+      {STACK_LAYERS.map(L => L.isForge ? <ForgeLayerCard key={L.n} L={L}/> : <StackLayerCard key={L.n} L={L}/>)}
+    </div>
+
+    <SH>4.2 · Inside Forge — operations and development as one platform</SH>
+    <Note label="Two halves, one platform">
+      Forge is not just an operations platform and it is not just a development toolkit. It is both — unified. The control plane runs the AI business day to day; the SDD blueprints, prompts, guardrails and evaluation sets make every new agent ship in weeks instead of months. They share the same data model, the same governance layer, and the same multi-tenant fabric.
+    </Note>
+    <ForgeTwoPillarsCard/>
+
+    <SH>4.3 · End-to-end — one customer interaction across all six layers</SH>
+    <StackExampleFlow/>
+
+    <SH>4.4 · Layer ownership</SH>
+    <StackOwnershipTable/>
+    <Note label="Strategic message">
+      e& owns Layers 1, 2, 5 and 6 outright — infrastructure, GPU orchestration, the agents themselves, and the entire customer relationship. Forge is the durable platform IP that AIdeology builds and licenses to e&. The stack is designed so every layer compounds: every new agent reuses the platform, every customer reuses the infrastructure, every workload reuses the compute orchestrator.
+    </Note>
+
+    {/* ── ARTICLE 5 · PILLAR 01 — SMB PROGRAMME ──────────────── */}
+    <SH>Article 5 · Pillar 01 — SMB AI programme</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      Pillar 01 covers six SMB agents delivered in five waves over 30 weeks, plus Wave-5 platform hardening, security audit, formal handoff and three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 8, 9 and 10.
+    </p>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:760}}>
+          <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+            {["Agent","What it does","Subscription (AED / mo)","GTM build cost","Wave"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {n:"Customer",d:"Voice + WhatsApp + web in Arabic & English. Books, answers, escalates 24/7 on Toll Free 800 + e& BSP.",p:"199 / 349 / 999",c:"$1,250,000*",w:"Wave 1"},
+              {n:"Sales",d:"Native CRM + lead scoring + AI follow-ups + proposal drafting. Syncs to Dynamics, Salesforce, HubSpot, Zoho.",p:"149 / 349 / 699",c:"$350,000",w:"Wave 2"},
+              {n:"Comms",d:"Unified inbox + AI campaign builder across WhatsApp, SMS, email, Teams. e& Smart Messaging + BSP carrier-grade.",p:"99 / 299 / 649",c:"$350,000",w:"Wave 2"},
+              {n:"Finance",d:"Invoices, e& Pay links, FTA VAT, AI reminders, cash-flow forecast. Syncs to QuickBooks, Xero, Business Central.",p:"199 / 449 / 849",c:"$300,000",w:"Wave 3"},
+              {n:"Ops",d:"Tasks, approvals, SOP knowledge base, daily WhatsApp summaries. Syncs to Teams, SharePoint, Google Workspace.",p:"149 / 299 / 599",c:"$300,000",w:"Wave 3"},
+              {n:"People",d:"WPS payroll, attendance via e& SIM, leave, onboarding, visa-expiry alerts, AI CV screening. Connects MOHRE / GDRFA.",p:"199 / 449 / 849",c:"$275,000",w:"Wave 4"},
+              {n:"Platform hardening & 3-year L3 support",d:"Wave-1 platform foundation + Wave-5 security audit, pen test, runbooks, documentation, formal handoff and 3-year L3 platform support.",p:"—",c:"$618,621",w:"Wave 1 + 5"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+              <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{r.n}</td>
+              <td style={{padding:"12px 16px",color:"#555",lineHeight:1.55}}>{r.d}</td>
+              <td style={{padding:"12px 16px",color:"#444",whiteSpace:"nowrap"}}>{r.p}</td>
+              <td style={{padding:"12px 16px",color:BRAND.red,fontWeight:700,whiteSpace:"nowrap"}}>{r.c}</td>
+              <td style={{padding:"12px 16px",color:"#666",whiteSpace:"nowrap"}}>{r.w}</td>
+            </tr>)}
+            <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+              <td style={{padding:"14px 16px",fontWeight:700,color:"#111"}}>Total — all 6 agents + platform + 3-year support</td>
+              <td style={{padding:"14px 16px",color:"#555",lineHeight:1.55}}>Full SMB programme delivered in 30 weeks; all six agents in production; platform handed over to e&.</td>
+              <td style={{padding:"14px 16px"}}>—</td>
+              <td style={{padding:"14px 16px",color:BRAND.red,fontWeight:700,fontSize:13.5,whiteSpace:"nowrap"}}>$3,443,621</td>
+              <td style={{padding:"14px 16px",color:"#666",whiteSpace:"nowrap"}}>All waves</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.55}}>
+        * The Customer Agent is bundled inside Wave 1 with the orchestration platform foundation — the first agent absorbs the platform investment every later agent reuses. Wave-5 hardening and 3-year L3 platform support are included in the totals.
+      </div>
+    </Card>
+
+    {/* ── ARTICLE 6 · PILLAR 02 — ENTERPRISE TIERS ───────────── */}
+    <SH>Article 6 · Pillar 02 — Enterprise & Government tiers</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      Pillar 02 is sold per customer through e&'s enterprise account teams. Three tiers escalate from adapted SMB agents to fully sovereign on-prem multi-agent deployments. Hosting, connectivity and Tier-3 hardware are 100% e&; build and managed-service fees follow the revenue split at Article 8.
+    </p>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:820}}>
+          <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+            {["Tier","What e& sells","GTM cost per customer","GTM build cost","Managed service"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {[
+              {t:"T1 — Adapted Agents",d:"The six SMB agents, enterprise-hardened for one customer: multi-branch routing, deep ERP / CRM / HIS connectors, RBAC, audit, domain fine-tuning. First agent live in 60 days.",c:"Agent #1: $60–80K · #2: $36–48K (−40%) · #3+: $30–40K (−50%)",b:"$0",m:"$5–15K / month"},
+              {t:"T2 — Custom AI (e& cloud)",d:"Multi-agent solutions built from spec. Headline: AI Contact Centre. Catalogue: Document Intelligence, Approval Orchestration, Predictive Maintenance, Security & Compliance.",c:"$600K–$1,200K per use case (AI Contact Centre $1,100–1,360K)",b:"$0",m:"$12–45K / month"},
+              {t:"T3 — Sovereign On-Prem",d:"Tier 2 deployed on the customer's site — air-gap capable, e& Reference Architecture Certified hardware, customer-owned keys.",c:"AIdeology build $1,200K–$2M · Hardware at cost (HPC RA library)",b:"$0",m:"$25–60K / month"},
+            ].map((r,i)=><tr key={i} style={{borderBottom:i<2?`1px solid ${BRAND.border}`:"none",verticalAlign:"top"}}>
+              <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{r.t}</td>
+              <td style={{padding:"12px 16px",color:"#555",lineHeight:1.55}}>{r.d}</td>
+              <td style={{padding:"12px 16px",color:"#444",lineHeight:1.55}}>{r.c}</td>
+              <td style={{padding:"12px 16px",color:BRAND.red,fontWeight:700,whiteSpace:"nowrap"}}>{r.b}</td>
+              <td style={{padding:"12px 16px",color:"#444",whiteSpace:"nowrap"}}>{r.m}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.55}}>
+        Hosting, connectivity and Tier-3 hardware are 100% e& — full margin retained by e& on top of the build and managed-service fees.
+      </div>
+    </Card>
+
+    {/* ── ARTICLE 7 · PILLAR 03 — GPUaaS REFERENCE ──────────── */}
+    <SH>Article 7 · Pillar 03 — Sovereign GPU infrastructure</SH>
+    <Note label="Pillar 03 — referenced scope">
+      Sovereign GPU infrastructure (the GPUaaS pillar) is governed by a separate Statement of Work executed under this Agreement, aligned with NVIDIA Enterprise Reference Architectures and the HPC reference library. BoM, financing model and managed-service terms for Pillar 03 are documented in the GPUaaS section of the proposal and incorporated by reference.
+    </Note>
+
+    {/* ── ARTICLE 8 · COMMERCIAL HEADLINES ──────────────────── */}
+    <SH>Article 8 · Commercial headlines</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+            {["Topic","Headline"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ["SMB revenue share","65 / 35 in Years 1–2 → 72 / 28 in Year 3 → 80 / 20 in Year 4+ (e& majority from Day 1; AIdeology share declines as the e& team ramps)."],
+            ["Enterprise revenue split","60 / 40 AIdeology / e& on build and managed service. Hosting, connectivity and hardware 100% e&."],
+            ["IP ownership","Agent IP transfers to e& after deployment plus knowledge transfer to evolve the agent. Platform IP (Forge) stays with AIdeology under a perpetual non-exclusive licence to e&; buyout option from Year 3."],
+            ["Support tiers","L1 + L2 owned by e& from Day 1. L3 + L4 (platform engineering) owned by AIdeology — included in the fixed fee for Years 1–3."],
+            ["Build-then-transfer","AIdeology builds and trains; e& progressively takes ownership. 2–3 e& engineers embedded in Year 1, 6–8 by Year 3, full ownership by Year 4."],
+            ["OpCo expansion","After UAE proof, e& OpCo teams localise and deploy themselves — no second build fee per country. Saudi → Morocco → Egypt / Kuwait → rest."],
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"14px 18px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap",verticalAlign:"top",minWidth:200}}>{r[0]}</td>
+            <td style={{padding:"14px 18px",color:"#555",lineHeight:1.6}}>{r[1]}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* --- 8.1 · Revenue share: declining model (mirrored from SMB page) --- */}
+    <SH>8.1 · Revenue share — declining model</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
+        <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
+        <div>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Revenue share — 65/35 declining model</h4>
+          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>e& keeps majority from Day 1. AIdeology share declines as e& team takes ownership.</p>
+        </div>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Period","e& share","AIdeology share","AIdeology responsibility","e& readiness"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {period:"Year 1–2",eShare:"65%",aShare:"35%",aResp:"Platform engineering, agent development, training & consulting",eReady:"2–3 FTE embedded, learning"},
+            {period:"Year 3",eShare:"72%",aShare:"28%",aResp:"Platform maintenance, new integrations, knowledge transfer",eReady:"6–8 FTE, owns 80% of agent dev"},
+            {period:"Year 4+",eShare:"80%",aShare:"20%",aResp:"Platform updates, security patches, new connectors (licensing model)",eReady:"8–10 FTE, owns entire operation"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.period}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,fontSize:16}}>{r.eShare}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111",fontFamily:BRAND.font,fontSize:16}}>{r.aShare}</td>
+            <td style={{padding:"12px 14px",color:"#555",lineHeight:1.45}}>{r.aResp}</td>
+            <td style={{padding:"12px 14px",color:"#777",lineHeight:1.45}}>{r.eReady}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"18px 26px 10px",borderTop:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 6px"}}>Platform use after handover — e& built, partner-built and derivative solutions</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>
+          AIdeology-created solutions follow the standard revenue share above. Genuinely new applications built by e& or third parties on top of the platform pay a platform royalty, with the rate declining as e& takes more operational ownership.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Period","e& / partner-built new agent","Third-party partner agent","AIdeology derivative / replicated solution","Buyout option"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {period:"Year 1–2",built:"7% platform royalty",partner:"7% platform royalty + certification / support fee",derivative:"35% solution share",buyout:"Not available except strategic acquisition"},
+            {period:"Year 3",built:"5% platform royalty",partner:"5% platform royalty + certification / support fee",derivative:"28% solution share",buyout:"Buyout discussion opens"},
+            {period:"Year 4+",built:"3% platform royalty",partner:"3% platform royalty + certification / support fee",derivative:"20% solution share",buyout:"Buyout / acquisition trigger"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent",verticalAlign:"top"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.period}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.built}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.partner}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111",lineHeight:1.45}}>{r.derivative}</td>
+            <td style={{padding:"12px 14px",color:"#777",lineHeight:1.45}}>{r.buyout}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
+          <strong style={{color:"#111"}}>Important distinction:</strong> e& and third-party partners may build genuinely new applications on the platform and pay only the platform royalty. Any application that reuses, adapts, replicates, or derives from AIdeology-created agents, workflows, prompts, blueprints, connectors, evaluation data, or orchestration logic is treated as an AIdeology solution and follows the standard solution revenue share.
+        </div>
+      </div>
+      <div style={{padding:"16px 26px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
+          {[
+            {label:"Year 5+ option",value:"e& acquires AIdeology platform / solution IP outright — or continues paying platform and solution royalties"},
+            {label:"Acquisition trigger",value:"By Year 3–4, platform usage and solution reuse make a buyout more economical than long-term royalties"},
+          ].map((n,i)=><div key={i} style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{n.label}</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>{n.value}</div>
+          </div>)}
+        </div>
+      </div>
+    </Card>
+
+    {/* --- 8.2 · Build · Transfer · Partner philosophy --- */}
+    <SH>8.2 · Build · Transfer · Partner</SH>
+    <Note label="Build · Transfer · Partner">
+      AIdeology will not be a permanent vendor. The engagement is designed as a three-phase transition: full-service build, progressive knowledge transfer, and a long-term platform partnership where e& owns day-to-day operations and AIdeology remains the innovation layer. Commercial support pricing is included in the AIdeology fees section above.
+    </Note>
+
+    {/* --- 8.3 · Platform support model --- */}
+    <SH>8.3 · Platform support model</SH>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">4 tiers</Badge><span style={{fontSize:11.5,color:"#888"}}>L1 & L2 → e& · L3 & L4 → AIdeology</span></div>
+        <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Platform support model</h4>
+        <p style={{fontSize:12.5,color:"#777",lineHeight:1.6,maxWidth:860}}>
+          AIdeology does not provide L1 or L2 support. e& owns the customer relationship at every touchpoint from Day 1. AIdeology provides the platform knowledge base, escalation decision trees, and troubleshooting guides so e& support teams can resolve issues independently. AIdeology focuses exclusively on L3 platform engineering and L4 innovation.
+        </p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Tier","Owner","Scope","Examples","SLA"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {tier:"L1",owner:"e& (100%)",scope:"Customer-facing triage",examples:"Login, billing, onboarding, UI navigation, 'is the service down?', FAQ-level agent questions",sla:"Per e& customer care SLA",color:"#185FA5"},
+            {tier:"L2",owner:"e& (100%)",scope:"Technical support",examples:"Agent configuration, prompt tuning, connector failures, tenant debugging, integration errors, performance complaints, dashboard bugs",sla:"Per e& technical support SLA",color:"#185FA5"},
+            {tier:"L3",owner:"AIdeology",scope:"Platform engineering",examples:"Orchestration engine bugs, memory layer issues, guardrail failures, Kubernetes/DB incidents, security patches, connector library bugs, platform releases",sla:"P1: 1h response / 4h fix · P2: 4h / 24h · P3: 1 day / next release",color:BRAND.red},
+            {tier:"L4",owner:"AIdeology",scope:"Innovation & architecture",examples:"New agent development, platform architecture changes, market localisation, major feature design, model evaluation, complex integration architecture",sla:"Scoped per project",color:BRAND.red},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i<2?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"12px 14px"}}><span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:28,height:28,background:r.color,color:BRAND.white,fontSize:10,fontWeight:700}}>{r.tier}</span></td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:i<2?"#185FA5":BRAND.red}}>{r.owner}</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.scope}</td>
+            <td style={{padding:"12px 14px",color:"#666",fontSize:11.5,lineHeight:1.45}}>{r.examples}</td>
+            <td style={{padding:"12px 14px",color:"#555",fontSize:11.5,lineHeight:1.45,whiteSpace:"pre-line"}}>{r.sla}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"16px 26px",background:"#FAFAFA",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
+          <div style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>Escalation flow</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>SMB customer → e& L1 (triage) → e& L2 (technical) → AIdeology L3 (platform) → AIdeology L4 (architecture)</div>
+          </div>
+          <div style={{flex:1,minWidth:280}}>
+            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>AIdeology provides to e&</div>
+            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>Knowledge base, troubleshooting decision trees, escalation criteria, runbooks, and video library — so L1 and L2 never need AIdeology involvement.</div>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    {/* ── ARTICLE 9 · PAYMENT SCHEDULE & MILESTONES ─────────── */}
+    <SH>Article 9 · Payment schedule & milestones</SH>
+    <Note label="Fixed-fee, milestone-based">
+      Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
+    </Note>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Milestone","Wave","Trigger event","Amount (USD)"].map((h,i)=><th key={i} style={{textAlign:i===3?"right":"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            ["M1","Wave 1","SDD signed off + platform foundation kick-off (Week 4)","$250,000"],
+            ["M2","Wave 1","Customer Agent in closed beta with 10+ SMBs (Week 10)","$500,000"],
+            ["M3","Wave 1","Customer Agent GA on e& sovereign infrastructure (Week 12)","$500,000"],
+            ["M4","Wave 2","Sales Agent + Comms Hub + P1 layer live (Week 18)","$700,000"],
+            ["M5","Wave 3","Finance Agent + Ops Agent live (Week 24)","$600,000"],
+            ["M6","Wave 4","People Agent live (Week 30)","$275,000"],
+            ["M7","Wave 5","Security audit complete, runbooks delivered, formal handoff (Week 36)","$618,621"],
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<6?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{r[0]}</td>
+            <td style={{padding:"12px 18px",color:"#444"}}>{r[1]}</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>{r[2]}</td>
+            <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r[3]}</td>
+          </tr>)}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td colSpan={3} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Pillar 01 — total fixed-fee envelope (all waves + 3-year L3 support)</td>
+            <td style={{padding:"14px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontSize:14,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$3,443,621</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+    <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
+      Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. Invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
+    </p>
+
+    {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
+    <SH>Article 10 · IP ownership & transfer</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:14}}>
+      <Card style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
+        <Badge v="rose">e& owns — Agent IP</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 8px"}}>Transfers wave-by-wave; complete by end of Year 2</h4>
+        <ul style={{margin:0,paddingLeft:18,fontSize:12.5,color:"#555",lineHeight:1.65}}>
+          <li>Source code, prompts and workflows of each deployed agent</li>
+          <li>Tenant data, fine-tunes and evaluation sets</li>
+          <li>Customer-specific connectors and configurations</li>
+          <li>Runbooks, on-call materials and incident playbooks</li>
+        </ul>
+      </Card>
+      <Card style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
+        <Badge v="rose">AIdeology owns — Platform IP (Forge)</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 8px"}}>Perpetual non-exclusive licence to e& · buyout from Year 3</h4>
+        <ul style={{margin:0,paddingLeft:18,fontSize:12.5,color:"#555",lineHeight:1.65}}>
+          <li>Forge orchestration engine, governance and policy layer</li>
+          <li>Multi-cloud / multi-LLM gateway and routing fabric</li>
+          <li>SDD methodology, blueprint library and accelerator packs</li>
+          <li>Connector framework and observability stack</li>
+        </ul>
+      </Card>
+    </div>
+
+    {/* ── ARTICLE 11 · SUPPORT MODEL ─────────────────────────── */}
+    <SH>Article 11 · Support model — L1 to L4</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Tier","Scope","Owner","Commercial"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            ["L1","Customer-facing support, account issues, basic agent operations","e&","Included in e&'s customer subscription / managed-service fees"],
+            ["L2","Operational support, tenant configuration, connector troubleshooting","e&","Included in e&'s customer subscription / managed-service fees"],
+            ["L3","Platform engineering, release support, runbook updates, connector compatibility","AIdeology","Bundled in Wave 1–5 fees for Years 1–3 · then covered by AIdeology revenue share"],
+            ["L4","Architecture changes, security patches, model upgrades, framework evolution","AIdeology","Bundled in Wave 1–5 fees for Years 1–3 · then covered by AIdeology revenue share"],
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<3?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 18px",fontWeight:700,color:BRAND.red,whiteSpace:"nowrap"}}>{r[0]}</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>{r[1]}</td>
+            <td style={{padding:"12px 18px",color:"#111",fontWeight:600,whiteSpace:"nowrap"}}>{r[2]}</td>
+            <td style={{padding:"12px 18px",color:"#666",lineHeight:1.55}}>{r[3]}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* ── ARTICLE 12 · BUILD-THEN-TRANSFER & OPCO ───────────── */}
+    <SH>Article 12 · Build-then-transfer & OpCo expansion</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {y:"Year 1",t:"Full service",d:"AIdeology is the primary development team. 2–3 e& engineers embedded for hands-on learning. Weekly knowledge-transfer sessions; joint code reviews and architecture decision records."},
+        {y:"Year 2",t:"Transition",d:"e& team takes over 40–50% of development. AIdeology focuses on platform architecture, complex features and new agents. Agent IP transfer completed by end of Year 2."},
+        {y:"Year 3",t:"Partnership",d:"e& owns the agents and day-to-day development. AIdeology becomes platform maintainer plus innovation partner. Forge buyout option opens to e&."},
+        {y:"Year 4+",t:"e& ownership",d:"Full ownership by e&. 8–10 trained e& FTE running the platform. AIdeology engagement is licensing plus new features by mutual agreement under the joint roadmap."},
+      ].map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <Badge v="rose">{p.y}</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 6px"}}>{p.t}</h4>
+        <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,margin:0}}>{p.d}</p>
+      </Card>)}
+    </div>
+    <Note label="OpCo expansion model">
+      After UAE proof, e& OpCo teams (Saudi → Morocco → Egypt / Kuwait → rest) localise and deploy independently using the transferred localisation playbook and fine-tuning methodology. No second build fee per country. AIdeology supports as platform partner via Forge releases, not as paid implementation vendor.
+    </Note>
+
+    {/* ── ARTICLE 13 · TERM, TERMINATION & GENERAL ──────────── */}
+    <SH>Article 13 · Term, termination & general clauses</SH>
+    <Card>
+      <div style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:"12px 18px",fontSize:12.5,color:"#444",lineHeight:1.65}}>
+        {[
+          ["Term","Four (4) year minimum partnership term commencing on the Effective Date. Auto-renews annually after Year 4 unless either party gives one hundred and eighty (180) days' written notice of non-renewal."],
+          ["Termination for cause","Either party may terminate for material breach uncured for thirty (30) days after written notice. Agent IP delivered up to that point remains with e&; the Forge licence continues unless terminated for AIdeology's uncured material breach."],
+          ["Termination for convenience","e& may terminate any wave that has not commenced on thirty (30) days' written notice; AIdeology is paid for work delivered and milestones earned. Fees for future, uncommenced waves are not payable."],
+          ["Confidentiality","Each party will protect the other's confidential information with the same care it uses for its own, and at minimum with reasonable care. Obligation survives termination by five (5) years."],
+          ["Data residency","All e& customer data is hosted on e&-sovereign infrastructure in the UAE during the term. Cross-border processing only where explicitly authorised by e& and the end customer."],
+          ["Warranties","AIdeology warrants that deliverables will materially conform to the SDD acceptance criteria for ninety (90) days post-wave. Remedy is re-performance."],
+          ["Liability cap","Each party's aggregate liability is capped at fees paid and payable in the twelve (12) months preceding the claim, except for IP indemnity, confidentiality breach, gross negligence and wilful misconduct."],
+          ["IP indemnity","AIdeology indemnifies e& against third-party claims that the Platform IP or Agent IP infringes third-party rights, subject to standard exclusions (modifications by e&, combination with third-party software, etc.)."],
+          ["Subcontracting","AIdeology may subcontract delivery work subject to e&'s prior written approval of the subcontractor. AIdeology remains liable for the acts and omissions of its subcontractors."],
+          ["Assignment","Neither party may assign this Agreement without the other's written consent, save to an Affiliate undergoing reorganisation."],
+          ["Governing law","[UAE federal law / DIFC / ADGM — to be confirmed by e& Legal]."],
+          ["Dispute resolution","Good-faith negotiation between authorised representatives → executive escalation → arbitration under [DIAC / ICC] rules seated in [Dubai / Abu Dhabi]."],
+        ].map(([k,v],i)=><Fragment key={i}>
+          <div style={{fontWeight:700,color:"#111"}}>{k}</div>
+          <div>{v}</div>
+        </Fragment>)}
+      </div>
+    </Card>
+    <Note label="Draft clauses — for legal review">
+      Article 13 clauses are drafted from the commercial terms stated elsewhere in this proposal. Final clauses (including governing law, forum and any AED/USD currency mechanics) are subject to review and amendment by e& Legal and AIdeology Legal prior to signature.
+    </Note>
+
+    {/* ── ARTICLE 14 · NEXT STEPS ────────────────────────────── */}
+    <SH>Article 14 · Next steps to signature</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["#","Action","Owner","Timeline"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            ["1","Endorsement of the two-pillar engagement by e& Management — formal sponsorship of SMB + Enterprise programmes.","e& EXCO sponsor","Within 2 weeks"],
+            ["2","Working session on Wave 1 SDD, infrastructure (G42 / Azure) and the embedded e& engineering team.","AIdeology + e& AI / Engineering","Within 4 weeks"],
+            ["3","Identification of the first three enterprise / government anchor accounts for Tier 1 / Tier 2 / Tier 3 deployments.","e& Enterprise account team","Within 4 weeks"],
+            ["4","Final review and signature of this Commercial Framework Agreement.","e& Legal + AIdeology Legal","Within 6 weeks"],
+            ["5","Mobilisation of the Wave 1 team within fourteen (14) days of signature; platform MVP and Customer Agent in production within twelve (12) weeks.","AIdeology delivery","On signature"],
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<4?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{r[0]}</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>{r[1]}</td>
+            <td style={{padding:"12px 18px",color:"#111",fontWeight:600}}>{r[2]}</td>
+            <td style={{padding:"12px 18px",color:"#666",whiteSpace:"nowrap"}}>{r[3]}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    {/* ── SIGNATURES ────────────────────────────────────────── */}
+    <SH>Signatures</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:24,marginBottom:24}}>
+      {[
+        {p:"For and on behalf of e& AI Networks & Solutions"},
+        {p:"For and on behalf of AIdeology"},
+      ].map((s,i)=><Card key={i} style={{padding:24,marginBottom:0}}>
+        <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:14}}>{s.p}</div>
+        {["Name","Title","Date","Signature"].map((l,j)=><div key={j} style={{borderBottom:`1px solid ${BRAND.border}`,padding:"22px 0 8px",fontSize:11,color:"#888",letterSpacing:"0.04em",textTransform:"uppercase",fontWeight:600}}>{l}</div>)}
+      </Card>)}
+    </div>
+
+    <Note label="Confidentiality">
+      This Commercial Framework Agreement and its annexes are commercially confidential between e& AI Networks & Solutions and AIdeology and are exchanged for the sole purpose of evaluating and executing the engagement described above.
+    </Note>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* ECOSYSTEM */
 /* ════════════════════════════════════════════════════════════ */
 const ECOSYSTEM_LAYERS = [
@@ -5926,6 +6756,115 @@ function RazziMeetingSection() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* CONTRACT PAGE — standalone, unlisted, print-ready          */
+/* Access via ?view=contract or #contract — never linked      */
+/* ════════════════════════════════════════════════════════════ */
+const CONTRACT_PRINT_CSS = `
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body.contract-printing { background: #fff !important; }
+  body.contract-printing .contract-no-print { display: none !important; }
+  body.contract-printing .contract-print-only { display: block !important; }
+  .contract-page { page-break-after: always; break-after: page; }
+  .contract-page:last-child { page-break-after: auto; break-after: auto; }
+  .contract-avoid-break { page-break-inside: avoid; break-inside: avoid; }
+  body.contract-printing .contract-print-area h2 { font-size: 20pt !important; }
+  body.contract-printing .contract-print-area h3 { font-size: 11pt !important; }
+  body.contract-printing .contract-print-area h4 { font-size: 11pt !important; }
+  body.contract-printing .contract-print-area p,
+  body.contract-printing .contract-print-area td,
+  body.contract-printing .contract-print-area li { font-size: 9pt !important; }
+}
+.contract-print-only { display: none !important; }
+@media print {
+  body.contract-printing .contract-print-only { display: block !important; }
+  body.contract-printing .contract-print-only.contract-print-flex { display: flex !important; justify-content: space-between !important; }
+}
+`;
+
+function ContractPage() {
+  const handleExport = () => {
+    document.body.classList.add("contract-printing");
+    const cleanup = () => {
+      document.body.classList.remove("contract-printing");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    setTimeout(() => {
+      try { window.print(); } catch (e) { cleanup(); }
+    }, 60);
+  };
+
+  return <div className="contract-print-area" style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font}}>
+    <style>{CONTRACT_PRINT_CSS}</style>
+
+    {/* ── SCREEN-ONLY HEADER ────────────────────────────────── */}
+    <div className="contract-no-print" style={{background:BRAND.white,borderBottom:`3px solid ${BRAND.red}`,padding:"32px 28px 24px",maxWidth:1120,margin:"0 auto"}}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:20,flexWrap:"wrap",marginBottom:20}}>
+        <div style={{display:"flex",alignItems:"center",gap:16}}>
+          <img src="/logo.png" alt="e&" style={{height:36,width:"auto"}}/>
+          <div style={{height:32,width:1,background:BRAND.border}}/>
+          <div>
+            <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.1em",color:BRAND.red,textTransform:"uppercase",marginBottom:4}}>Confidential · for legal review and signature only</div>
+            <div style={{fontSize:22,fontWeight:700,color:BRAND.black,lineHeight:1.1}}>Commercial Framework Agreement</div>
+            <div style={{fontSize:12,color:BRAND.grey,marginTop:4}}>e& AI Networks & Solutions × AIdeology · v0.1 · May 2026 · Unlisted document</div>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:10,alignItems:"center",flexWrap:"wrap"}}>
+          <div style={{fontSize:11,color:"#888",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,padding:"6px 12px",fontWeight:600}}>
+            This page is not linked from the main proposal. Share this URL directly with counterparties.
+          </div>
+          <button
+            type="button"
+            onClick={handleExport}
+            style={{padding:"12px 20px",fontSize:12.5,fontWeight:700,color:BRAND.white,background:BRAND.red,border:"none",cursor:"pointer",letterSpacing:"0.04em",whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:8}}
+            title="Open the print dialog to save a formatted PDF"
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5V2h8v3"/><rect x="3" y="5" width="10" height="6"/><path d="M5 11v3h6v-3"/></svg>
+            Export to PDF
+          </button>
+        </div>
+      </div>
+      <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+        {[
+          {v:"14 articles",l:"Agreement structure"},
+          {v:"$3,443,621",l:"Pillar 01 envelope"},
+          {v:"4 years",l:"Minimum term"},
+          {v:"v0.1 — draft",l:"Subject to legal review"},
+        ].map((s,i)=><div key={i} style={{flex:"1 1 130px",minWidth:120,padding:"12px 16px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+          <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{s.v}</div>
+          <div style={{fontSize:10,color:BRAND.grey,fontWeight:600,marginTop:5,letterSpacing:"0.04em",textTransform:"uppercase"}}>{s.l}</div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* ── PRINT-ONLY COVER ──────────────────────────────────── */}
+    <div className="contract-print-only contract-avoid-break" style={{paddingTop:8,marginBottom:20,maxWidth:1120,margin:"0 auto"}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
+        <img src="/logo.png" alt="e&" style={{height:32,width:"auto"}}/>
+        <div style={{height:24,width:1,background:BRAND.border}}/>
+        <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color:BRAND.red,textTransform:"uppercase"}}>e& AI Networks & Solutions × AIdeology · Commercial Framework Agreement · Confidential</div>
+      </div>
+      <h2 style={{fontSize:26,fontWeight:700,color:BRAND.black,margin:"8px 0 4px",lineHeight:1.1}}>Commercial Framework Agreement</h2>
+      <div style={{fontSize:12,color:BRAND.grey}}>
+        v0.1 · Draft for legal review and signature · {new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}
+      </div>
+    </div>
+
+    {/* ── CONTRACT BODY ─────────────────────────────────────── */}
+    <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
+      <FullStackSection/>
+    </div>
+
+    {/* ── PRINT-ONLY FOOTER ─────────────────────────────────── */}
+    <div className="contract-print-only contract-print-flex" style={{maxWidth:1120,margin:"0 auto",padding:"0 28px",marginTop:24,paddingTop:10,borderTop:`1px solid ${BRAND.border}`,fontSize:10,color:BRAND.grey}}>
+      <span>e& AI Networks & Solutions × AIdeology · Commercial Framework Agreement · Confidential</span>
+      <span>v0.1 · {new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}</span>
+    </div>
+  </div>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* MAIN APP */
 /* ════════════════════════════════════════════════════════════ */
 const TABS = ["Small & Medium Business","Enterprise & Government","GPUaaS & e& Platform"];
@@ -5941,6 +6880,8 @@ export default function App() {
   const cfo = view==="cfo";
   const htm = view==="htm";
   const rzm = view==="rzm";
+  const stk = view==="stk";
+  const ctr = view==="ctr";
 
   useEffect(() => {
     if (!fullProposalRef.current) return;
@@ -5965,8 +6906,25 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  // Unlisted route for the standalone Commercial Framework contract.
+  // Accessible only via ?view=contract or #contract — never linked from the nav bar.
+  useEffect(() => {
+    const isContract = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const hash = (window.location.hash || "").toLowerCase().replace(/^#\/?/, "");
+        return params.get("view") === "contract" || hash === "contract";
+      } catch { return false; }
+    };
+    if (isContract()) setView("ctr");
+    const onHash = () => { if (isContract()) setView("ctr"); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   return <div style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font,textAlign:"left"}}>
-    {!rzm && <>
+    {ctr && <ContractPage/>}
+    {!rzm && !ctr && <>
     <nav style={{position:"sticky",top:0,zIndex:50,background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:72}}>
         <div style={{display:"flex",alignItems:"center",gap:18}}>
@@ -6001,7 +6959,8 @@ export default function App() {
     <div style={{background:BRAND.white,borderBottom:`1px solid ${BRAND.border}`,position:"sticky",top:72,zIndex:40}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"14px 28px",display:"flex",gap:8,overflowX:"auto"}}>
         {TABS.map((t,i)=>{const a=tab===i&&view==="tab";return<button key={i} onClick={()=>{setTab(i);setView("tab")}} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:a?BRAND.white:BRAND.black,background:a?BRAND.red:BRAND.lightGrey,border:`1px solid ${a?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.2s"}}>{t}</button>})}
-        <button onClick={()=>setView("eco")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:eco?BRAND.white:BRAND.black,background:eco?BRAND.red:BRAND.lightGrey,border:`1px solid ${eco?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap",marginLeft:"auto"}}>Ecosystem</button>
+        <div style={{marginLeft:"auto"}} />
+        <button onClick={()=>setView("eco")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:eco?BRAND.white:BRAND.black,background:eco?BRAND.red:BRAND.lightGrey,border:`1px solid ${eco?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Ecosystem</button>
         <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Summary</button>
         <button onClick={()=>setView("hpc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:hpc?BRAND.white:BRAND.black,background:hpc?BRAND.red:BRAND.lightGrey,border:`1px solid ${hpc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>HPC Reference Architectures</button>
         <button onClick={()=>setView("cfo")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:cfo?BRAND.white:BRAND.black,background:cfo?BRAND.red:BRAND.lightGrey,border:`1px solid ${cfo?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>e& CFO Financials</button>
@@ -6009,17 +6968,17 @@ export default function App() {
       </div>
     </div>
     </>}
-    <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection showPricing={showPricing}/>:cfo?<EandFinancialsSection showPricing={showPricing}/>:hpc?<HPCSection/>:sum?<SummarySection showPricing={showPricing}/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView} showPricing={showPricing}/>:tab===1?<EnterpriseSegment showPricing={showPricing}/>:<GPUSegment showPricing={showPricing}/>}
-    </div>
-    <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+    {!ctr && <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
+      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection showPricing={showPricing}/>:cfo?<EandFinancialsSection showPricing={showPricing}/>:hpc?<HPCSection/>:stk?<FullStackSection/>:sum?<SummarySection showPricing={showPricing}/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView} showPricing={showPricing}/>:tab===1?<EnterpriseSegment showPricing={showPricing}/>:<GPUSegment showPricing={showPricing}/>}
+    </div>}
+    {!ctr && <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
         <div style={{fontSize:11,color:BRAND.grey}}>AIdeology x e& · Commercial framework · May 2026 · Confidential</div>
         <div style={{display:"flex",gap:14}}>
           {[["SMB Demo","https://etisalat-smb-marketplace.vercel.app"],["Enterprise Demo","https://etisalat-smb-marketplace.vercel.app/enterprise"],["AIdeology","https://www.aideology.ai"]].map(([l,u],i)=><a key={i} href={u} target="_blank" rel="noreferrer" style={{fontSize:11,color:BRAND.red,textDecoration:"none",fontWeight:700}}>{l} →</a>)}
         </div>
       </div>
-    </div>
+    </div>}
     <div
       ref={fullProposalRef}
       aria-hidden="true"
@@ -6031,11 +6990,12 @@ export default function App() {
       <Tier2Page />
       <Tier3Page />
       <GPUSegment />
+      <FullStackSection />
       <EcosystemSection />
       <SummarySection />
       <HPCSection />
       <EandFinancialsSection />
     </div>
-    {!rzm && <AIChat proposalCorpus={proposalCorpus} />}
+    {!rzm && !ctr && <AIChat proposalCorpus={proposalCorpus} />}
   </div>;
 }
