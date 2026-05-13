@@ -3448,10 +3448,19 @@ function FullStackSection({showPricing=true}) {
     </div>
     <h2 style={{fontSize:38,fontWeight:700,color:"#111",lineHeight:1.05,margin:"0 0 14px",maxWidth:820}}>Commercial Framework Agreement</h2>
     <p style={{fontSize:15,color:"#555",lineHeight:1.65,maxWidth:860,marginBottom:14}}>
-      This document sets out the proposed commercial framework governing the partnership between <strong style={{color:"#111"}}>e& AI Networks & Solutions</strong> ("<strong style={{color:"#111"}}>e&</strong>") and <strong style={{color:"#111"}}>AIdeology</strong> ("<strong style={{color:"#111"}}>AIdeology</strong>"). The purpose of the partnership is to build, transfer and commercialise a sovereign AI operating layer across e&'s global markets — delivered across three pillars: (i) an AI platform and agentic solutions for e&'s SMB customer base, (ii) custom enterprise and government AI deployments, and (iii) sovereign GPU infrastructure.
+      <strong style={{color:"#111"}}>AIdeology</strong> will partner with <strong style={{color:"#111"}}>e&</strong>'s designated teams across four phases: (1) Design, (2) Build, (3) Launch commercially, and (4) Support and evolve — completing all deliverables within the agreed timeline and consulting engagement period.
+    </p>
+    <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:14}}>
+      AIdeology will support e&'s technical teams to build the platform and AGENTIC Solutions while systematically transferring knowledge and building internal capability for independent operation. This ensures e& independently manages agents and platform operations while maintaining all customer relationships and commercial contracts from inception. Through structured handoffs and progressively reduced dependency, e& achieves full autonomous operation and ownership of all proprietary IP by the end of the transition period.
+    </p>
+    <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:14}}>
+      AIdeology will develop a fit-for-purpose <strong style={{color:"#111"}}>AI Control Plane and Development platform</strong> — a unified software layer that operates as the central nervous system for e&'s AI business. This integrated platform connects compute infrastructure, AI models, agentic agents, customer interfaces, and billing systems into a single operating ecosystem. Underpinning this platform, AIdeology will define and deliver a <strong style={{color:"#111"}}>Spec-first Solution delivery process</strong> that prioritizes business outcomes and reusable agent architectures before any code is written. This approach ensures each solution is validated against e&'s strategic objectives and operationally optimized from inception.
+    </p>
+    <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:14}}>
+      e& controls the full customer relationship, retains all end-customer contracts, and leverages existing and future partner relationships to scale value — rather than pursuing low-margin third-party reselling.
     </p>
     <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:18}}>
-      AIdeology will design, build and knowledge-transfer all platform components to e& over a defined engagement, following a build-then-transfer model under which e& progressively takes ownership of agents, platform operations and customer relationships. e& retains all commercial contracts with end customers and full control of the market relationship. The platform is built on e&-sovereign infrastructure, is Arabic- and English-native by design, and is intended to extend across e&'s operating companies without structural dependency on AIdeology beyond the transition period.
+      All solutions and the platform operate on e&-sovereign infrastructure where required, with comprehensive local language support (Arabic, English, and region-specific languages) built in from inception. The system is architected to comply with all applicable local regulations, data residency requirements, and local authority rulings across each market. The entire ecosystem extends across e&'s operating companies with no structural dependency on AIdeology beyond the transition period.
     </p>
     <div style={{height:4,width:200,background:BRAND.continuum,marginBottom:24}}/>
 
@@ -3493,14 +3502,14 @@ function FullStackSection({showPricing=true}) {
 
     {/* ── ARTICLE 2 · SCOPE — THREE PROPOSITIONS ──────────────── */}
     <SH>Article 2 · Scope of engagement — three propositions</SH>
-    <Note label="Three propositions, one engagement">
-      AIdeology delivers three concurrent propositions under this Agreement: (A) the build and launch of agentic solutions across Pillars 01 and 02; (B) an Agentic Centre of Excellence inside e&; and (C) a licence to operate the Forge platform across the e& footprint.
+    <Note label="Three propositions, four phases">
+      The engagement is structured as three concurrent propositions — each progressing through four shared phases: Design, Build, Launch commercially, and Support &amp; evolve. Proposition A delivers the agentic solutions across Pillars 01 and 02; Proposition B builds e&'s internal Agentic Centre of Excellence; Proposition C delivers the AI Control Plane and Development platform that underpins the entire stack.
     </Note>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:18}}>
       {[
-        {k:"A",t:"Build & Launch",d:"Six agentic solutions launched in 90-day waves, expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint.",role:"Design and build the first waves; transition lead delivery to e& Squads from Wave 3 onwards."},
-        {k:"B",t:"Centre of Excellence",d:"AIdeology stands up e&'s Agentic Centre of Excellence — Squads trained on the full design and build lifecycle, with end-to-end IP transfer.",o:"e& owns the design, build and evolution of its own SDD architecture — no permanent dependency on AIdeology engineering.",own:"Squad capability, SDD playbooks, design authority and operational control of the agentic stack.",role:"Embed senior architects in the CoE; coach Squads through real builds, then step back to advisory."},
-        {k:"C",t:"Forge Platform Licence",d:"A licence to Forge — AIdeology's agentic intelligence platform — giving e& the orchestration, governance and multi-cloud / multi-LLM layer that powers every agent.",o:"e& is never locked into a single cloud, model or vendor; new clouds, models and connectors plug into the same governed layer.",own:"Perpetual licence to operate Forge across the e& footprint.",role:"Maintain and evolve Forge; e& Squads consume the platform via versioned releases under a joint roadmap."},
+        {k:"A",t:"Build & Launch",d:"Six agentic solutions across Pillars 01 and 02, delivered in 90-day waves through the four phases — Design, Build, Launch commercially, and Support & evolve — expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint. e& retains all end-customer contracts and commercial relationships from inception.",role:"Support e&'s technical teams through each build wave; progressively reduce dependency as e& Squads take lead delivery from Wave 3 onwards."},
+        {k:"B",t:"Centre of Excellence",d:"AIdeology embeds within e&'s teams to stand up the Agentic Centre of Excellence — systematically transferring knowledge and building internal capability so e& independently manages agents and platform operations without structural dependency on AIdeology.",o:"e& owns the design, build and evolution of its own SDD architecture — full autonomous operation and independent delivery capability by the end of the transition period.",own:"Squad capability, SDD playbooks, design authority and full operational control of the agentic stack.",role:"Embed senior architects in the CoE; coach Squads through real builds across all four phases, then step back to advisory as capability matures."},
+        {k:"C",t:"AI Control Plane & Platform",d:"AIdeology builds and delivers the AI Control Plane and Development platform — a unified software layer connecting compute infrastructure, AI models, agentic agents, customer interfaces, and billing into a single operating ecosystem. e& takes full ownership of all proprietary IP by the end of the transition period.",o:"e& operates a sovereign, fully-owned AI platform with no structural dependency on AIdeology beyond the transition. The platform is never locked into a single cloud, model, or vendor.",own:"Full ownership of all proprietary platform IP at transition; perpetual right to operate and evolve the platform across the e& footprint and all OpCos.",role:"Build and deliver the platform through the Design and Build phases; support e& teams through Launch and Support & evolve until full handover is complete."},
       ].map((p,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
         <div style={{padding:"18px 22px",borderBottom:`1px solid ${BRAND.border}`}}>
           <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
@@ -3574,7 +3583,7 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 5 · PILLAR 01 — SMB PROGRAMME ──────────────── */}
     {showPricing && <SH>Article 5 · Pillar 01 — SMB AI programme</SH>}
     {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Pillar 01 covers six SMB agents delivered in five waves over 30 weeks, plus Wave-5 platform hardening, security audit, formal handoff and three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 8, 9 and 10.
+      Pillar 01 covers six SMB agents delivered in five waves over 36 weeks — six agents in production by week 30, with Wave 5 running platform hardening, security audit and formal handoff through week 36 — plus three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 8, 9 and 10.
     </p>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
@@ -3600,7 +3609,7 @@ function FullStackSection({showPricing=true}) {
             </tr>)}
             <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
               <td style={{padding:"14px 16px",fontWeight:700,color:"#111"}}>Total — all 6 agents + platform + 3-year support</td>
-              <td style={{padding:"14px 16px",color:"#555",lineHeight:1.55}}>Full SMB programme delivered in 30 weeks; all six agents in production; platform handed over to e&.</td>
+              <td style={{padding:"14px 16px",color:"#555",lineHeight:1.55}}>Full SMB programme delivered in 36 weeks (six agents live by week 30; Wave 5 hardening and handoff through week 36); platform handed over to e&.</td>
               <td style={{padding:"14px 16px"}}>—</td>
               <td style={{padding:"14px 16px",color:BRAND.red,fontWeight:700,fontSize:13.5,whiteSpace:"nowrap"}}>$3,443,621</td>
               <td style={{padding:"14px 16px",color:"#666",whiteSpace:"nowrap"}}>All waves</td>
@@ -4073,7 +4082,7 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 9 · PAYMENT SCHEDULE & MILESTONES ─────────── */}
     {showPricing && <SH>Article 9 · Payment schedule & milestones</SH>}
     {showPricing && <Note label="Fixed-fee, milestone-based">
-      Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
+      Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. A 10% mobilisation advance is due on contract execution and is credited against the final milestone. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
     </Note>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
@@ -4081,6 +4090,12 @@ function FullStackSection({showPricing=true}) {
           {["Milestone","Wave","Trigger event","Amount (USD)"].map((h,i)=><th key={i} style={{textAlign:i===3?"right":"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
         </tr></thead>
         <tbody>
+          <tr style={{background:"#FFF8F8",borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>M0</td>
+            <td style={{padding:"12px 18px",color:"#444",fontWeight:600}}>Mobilisation advance</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>Contract execution — 10% advance on signature, credited against final milestone</td>
+            <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$344,362</td>
+          </tr>
           {[
             ["M1","Wave 1","SDD signed off + platform foundation kick-off (Week 4)","$250,000"],
             ["M2","Wave 1","Customer Agent in closed beta with 10+ SMBs (Week 10)","$500,000"],
@@ -4088,7 +4103,7 @@ function FullStackSection({showPricing=true}) {
             ["M4","Wave 2","Sales Agent + Comms Hub + P1 layer live (Week 18)","$700,000"],
             ["M5","Wave 3","Finance Agent + Ops Agent live (Week 24)","$600,000"],
             ["M6","Wave 4","People Agent live (Week 30)","$275,000"],
-            ["M7","Wave 5","Security audit complete, runbooks delivered, formal handoff (Week 36)","$618,621"],
+            ["M7","Wave 5","Security audit complete, runbooks delivered, formal handoff (Week 36) — net of M0 advance","$274,259"],
           ].map((r,i)=><tr key={i} style={{borderBottom:i<6?`1px solid ${BRAND.border}`:"none"}}>
             <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{r[0]}</td>
             <td style={{padding:"12px 18px",color:"#444"}}>{r[1]}</td>
@@ -4103,8 +4118,42 @@ function FullStackSection({showPricing=true}) {
       </table>
     </Card>}
     {showPricing && <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
-      Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. Invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
+      The M0 mobilisation advance (10%) is invoiced on contract execution and credited in full against M7. Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. All invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
     </p>}
+
+    {/* ── ARTICLE 9B · PILLAR 03 PAYMENT SCHEDULE ───────────── */}
+    {showPricing && <SH style={{margin:"32px 0 14px"}}>Article 9 (cont.) · Pillar 03 — Infrastructure consulting fees</SH>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <Badge v="rose">Infrastructure consulting — Pillar 03</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>Reference Architecture design & 100 MW DC fulfilment advisory</h4>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Vendor-agnostic consulting across NVIDIA, AMD, Cerebras, Intel Gaudi, Groq, SambaNova and OEM integrators. Fees are governed by a separate Pillar 03 Statement of Work executed under this Agreement.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Service","Model","Fee range (USD)"].map((h,i)=><th key={i} style={{textAlign:i===2?"right":"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {s:"RA design — department pilot (32 GPUs)",m:"Fixed per POD",f:"$25,000 – $40,000"},
+            {s:"RA design — half pod (128 GPUs)",m:"Fixed per POD",f:"$50,000 – $75,000"},
+            {s:"RA design — standard pod (256 GPUs)",m:"Fixed per POD",f:"$75,000 – $120,000"},
+            {s:"RA design — multi-pod / campus (1,024+ GPUs)",m:"Fixed per POD",f:"$150,000 – $250,000"},
+            {s:"Monthly advisory retainer (2–3 senior architects)",m:"Monthly",f:"$40,000 – $60,000 / mo"},
+            {s:"100 MW DC fulfilment programme (6–12 months)",m:"Fixed programme fee",f:"$350,000 – $600,000"},
+            {s:"Procurement advisory uplift",m:"% of hardware BoM",f:"0.5% – 1.5%"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"10px 16px",color:"#111"}}>{r.s}</td>
+            <td style={{padding:"10px 16px",color:"#666"}}>{r.m}</td>
+            <td style={{padding:"10px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r.f}</td>
+          </tr>)}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td colSpan={2} style={{padding:"12px 16px",fontWeight:700,color:"#111"}}>Estimated Year 1 total (infra consulting)</td>
+            <td style={{padding:"12px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontSize:13,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$750,000 – $1,500,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>}
 
     {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
     <SH>Article 10 · IP ownership & transfer</SH>
@@ -4172,35 +4221,8 @@ function FullStackSection({showPricing=true}) {
       After UAE proof, e& OpCo teams (Saudi → Morocco → Egypt / Kuwait → rest) localise and deploy independently using the transferred localisation playbook and fine-tuning methodology. No second build fee per country. AIdeology supports as platform partner via Forge releases, not as paid implementation vendor.
     </Note>
 
-    {/* ── ARTICLE 13 · TERM, TERMINATION & GENERAL ──────────── */}
-    <SH>Article 13 · Term, termination & general clauses</SH>
-    <Card>
-      <div style={{display:"grid",gridTemplateColumns:"200px 1fr",gap:"12px 18px",fontSize:12.5,color:"#444",lineHeight:1.65}}>
-        {[
-          ["Term","Four (4) year minimum partnership term commencing on the Effective Date. Auto-renews annually after Year 4 unless either party gives one hundred and eighty (180) days' written notice of non-renewal."],
-          ["Termination for cause","Either party may terminate for material breach uncured for thirty (30) days after written notice. Agent IP delivered up to that point remains with e&; the Forge licence continues unless terminated for AIdeology's uncured material breach."],
-          ["Termination for convenience","e& may terminate any wave that has not commenced on thirty (30) days' written notice; AIdeology is paid for work delivered and milestones earned. Fees for future, uncommenced waves are not payable."],
-          ["Confidentiality","Each party will protect the other's confidential information with the same care it uses for its own, and at minimum with reasonable care. Obligation survives termination by five (5) years."],
-          ["Data residency","All e& customer data is hosted on e&-sovereign infrastructure in the UAE during the term. Cross-border processing only where explicitly authorised by e& and the end customer."],
-          ["Warranties","AIdeology warrants that deliverables will materially conform to the SDD acceptance criteria for ninety (90) days post-wave. Remedy is re-performance."],
-          ["Liability cap","Each party's aggregate liability is capped at fees paid and payable in the twelve (12) months preceding the claim, except for IP indemnity, confidentiality breach, gross negligence and wilful misconduct."],
-          ["IP indemnity","AIdeology indemnifies e& against third-party claims that the Platform IP or Agent IP infringes third-party rights, subject to standard exclusions (modifications by e&, combination with third-party software, etc.)."],
-          ["Subcontracting","AIdeology may subcontract delivery work subject to e&'s prior written approval of the subcontractor. AIdeology remains liable for the acts and omissions of its subcontractors."],
-          ["Assignment","Neither party may assign this Agreement without the other's written consent, save to an Affiliate undergoing reorganisation."],
-          ["Governing law","[UAE federal law / DIFC / ADGM — to be confirmed by e& Legal]."],
-          ["Dispute resolution","Good-faith negotiation between authorised representatives → executive escalation → arbitration under [DIAC / ICC] rules seated in [Dubai / Abu Dhabi]."],
-        ].map(([k,v],i)=><Fragment key={i}>
-          <div style={{fontWeight:700,color:"#111"}}>{k}</div>
-          <div>{v}</div>
-        </Fragment>)}
-      </div>
-    </Card>
-    <Note label="Draft clauses — for legal review">
-      Article 13 clauses are drafted from the commercial terms stated elsewhere in this proposal. Final clauses (including governing law, forum and any AED/USD currency mechanics) are subject to review and amendment by e& Legal and AIdeology Legal prior to signature.
-    </Note>
-
-    {/* ── ARTICLE 14 · NEXT STEPS ────────────────────────────── */}
-    <SH>Article 14 · Next steps to signature</SH>
+    {/* ── ARTICLE 13 · NEXT STEPS ────────────────────────────── */}
+    <SH>Article 13 · Next steps to signature</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -4208,7 +4230,7 @@ function FullStackSection({showPricing=true}) {
         </tr></thead>
         <tbody>
           {[
-            ["1","Endorsement of the two-pillar engagement by e& Management — formal sponsorship of SMB + Enterprise programmes.","e& EXCO sponsor","Within 2 weeks"],
+            ["1","Endorsement of the three-pillar engagement by e& Management — formal sponsorship of Pillar 01 (SMB), Pillar 02 (Enterprise) and Pillar 03 (Sovereign GPU infrastructure consulting).","e& EXCO sponsor","Within 2 weeks"],
             ["2","Working session on Wave 1 SDD, infrastructure (G42 / Azure) and the embedded e& engineering team.","AIdeology + e& AI / Engineering","Within 4 weeks"],
             ["3","Identification of the first three enterprise / government anchor accounts for Tier 1 / Tier 2 / Tier 3 deployments.","e& Enterprise account team","Within 4 weeks"],
             ["4","Final review and signature of this Commercial Framework Agreement.","e& Legal + AIdeology Legal","Within 6 weeks"],
@@ -7311,11 +7333,9 @@ function ContractPage() {
       </div>
       <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
         {[
-          {v:"14 articles",l:"Agreement structure",pricing:false},
-          {v:"$3,443,621",l:"Pillar 01 envelope",pricing:true},
-          {v:"4 years",l:"Minimum term",pricing:false},
-          {v:"v0.1 — draft",l:"Subject to legal review",pricing:false},
-        ].filter(s=>!s.pricing||showPricing).map((s,i)=><div key={i} style={{flex:"1 1 130px",minWidth:120,padding:"12px 16px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+          {v:"14 articles",l:"Agreement structure"},
+          {v:"v0.1 — draft",l:"Subject to legal review"},
+        ].map((s,i)=><div key={i} style={{flex:"1 1 130px",minWidth:120,padding:"12px 16px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
           <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{s.v}</div>
           <div style={{fontSize:10,color:BRAND.grey,fontWeight:600,marginTop:5,letterSpacing:"0.04em",textTransform:"uppercase"}}>{s.l}</div>
         </div>)}
