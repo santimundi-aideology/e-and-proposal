@@ -3381,7 +3381,7 @@ function StackExampleFlow() {
     {l:"5",where:"Agentic Applications",who:"Customer Agent goes live",what:"Starts answering WhatsApp messages and phone calls in Arabic and English, books appointments, escalates to humans."},
     {l:"4B",where:"Forge · Development",who:"SDD blueprint reused",what:"Agent was instantiated from a tested Customer Agent blueprint — prompts, guardrails, connectors and evaluation tests already proven on hundreds of SMBs."},
     {l:"4A",where:"Forge · Operations",who:"Control plane orchestrates",what:"Provisions the tenant, wires WhatsApp BSP + e& telephony connectors, applies T1 compliance, starts metering token + GPU usage."},
-    {l:"3",where:"Model Layer",who:"LLM router picks the model",what:"For each message, Forge picks the best model — Claude for reasoning, GPT for speed, Llama on Open Innovation for sovereign data."},
+    {l:"3",where:"Model Layer",who:"Predefined LLM per workload",what:"The LLM is selected and locked at application build time based on the workload — not dynamically brokered per message. Claude, GPT, Llama or a sovereign model is configured into the agent during design, not at runtime."},
     {l:"2",where:"Open Innovation",who:"GPU orchestrator schedules",what:"Submits the inference job on an available H100 GPU with the right tenant quota and priority."},
     {l:"1",where:"Infrastructure",who:"e& Data Centre runs the workload",what:"GPU runs in UAE sovereign DC. Network delivers the response in 1.2 seconds. Data never leaves UAE."},
     {l:"6",where:"Customers & Distribution",who:"e& invoice bills usage",what:"AED 285 added to the SMB's monthly e& bill. Revenue share computed automatically. Customer sees one invoice for telco + AI."},
