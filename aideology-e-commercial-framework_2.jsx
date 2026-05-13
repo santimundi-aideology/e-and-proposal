@@ -3161,10 +3161,10 @@ const STACK_LAYERS = [
     name:"Agentic Applications",
     tag:"What customers actually buy",
     color:"#A8201A",
-    summary:"End-to-end AI agents that own a business function — Customer, Sales, Comms, Finance, Ops, People — plus enterprise solutions and sovereign deployments.",
+    summary:"End-to-end AI agents that own a business function — Customer, Sales, Comms, Finance, Ops, People — plus enterprise solutions and sovereign deployments. Future roadmap extends to physical-world edge connectivity: humanoid robots, autonomous drones, connected vehicles, IoT devices and smart infrastructure.",
     owner:"e& — agent IP under progressive build-then-transfer",
-    components:["6 SMB agents","Tier 1 Adapted Agents","Tier 2 Custom AI","Tier 3 Sovereign / On-Prem","Contact Centre AI","Document Intelligence","Approval Orchestration","Partner agents (future)"],
-    why:"Agents are the product. Everything below this layer is the platform that makes them possible.",
+    components:["6 SMB agents","Tier 1 Adapted Agents","Tier 2 Custom AI","Tier 3 Sovereign / On-Prem","Contact Centre AI","Document Intelligence","Approval Orchestration","Partner agents (future)","Edge: humanoid robots · drones · vehicles (future)"],
+    why:"Agents are the product. Everything below this layer is the platform that makes them possible. As e&'s physical network expands, the same agentic layer will extend into robots, drones, and connected devices.",
   },
   {
     n:"4",
