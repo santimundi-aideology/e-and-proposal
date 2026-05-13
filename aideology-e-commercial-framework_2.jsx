@@ -4223,6 +4223,127 @@ function FullStackSection({showPricing=true}) {
       </table>
     </Card>
 
+    {/* ── COMMERCIAL SUMMARY ────────────────────────────────── */}
+    {showPricing && <>
+    <SH>Commercial summary</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      The table below consolidates every commercial term across all three pillars and the infrastructure consulting engagement into a single reference page. All figures are subject to legal review and final negotiation.
+    </p>
+
+    {/* Fixed fees */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <Badge v="rose">Fixed fees — payable on delivery</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>Pillar 01 · SMB AI programme</h4>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Fixed-fee, milestone-based. e& pays only when each wave passes its named acceptance criteria.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Wave","Deliverable","Trigger","Amount (USD)"].map((h,i)=><th key={i} style={{textAlign:i===3?"right":"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            ["Wave 1","Platform foundation + Customer Agent","SDD sign-off + platform kick-off · closed beta · GA","$1,250,000"],
+            ["Wave 2","Sales Agent + Comms Hub + P1 layer","Both agents GA + P1 enterprise layer live","$700,000"],
+            ["Wave 3","Finance Agent + Ops Agent","Both agents GA","$600,000"],
+            ["Wave 4","People Agent","Agent GA · all 6 live","$275,000"],
+            ["Wave 5","Security audit + full handoff","Audit signed off · runbooks delivered · ownership transferred","$618,621"],
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"10px 16px",fontWeight:700,color:BRAND.red,whiteSpace:"nowrap"}}>{r[0]}</td>
+            <td style={{padding:"10px 16px",fontWeight:600,color:"#111"}}>{r[1]}</td>
+            <td style={{padding:"10px 16px",color:"#555",lineHeight:1.4}}>{r[2]}</td>
+            <td style={{padding:"10px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r[3]}</td>
+          </tr>)}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td colSpan={3} style={{padding:"12px 16px",fontWeight:700,color:"#111"}}>Total — Pillar 01 fixed-fee envelope</td>
+            <td style={{padding:"12px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontSize:14,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$3,443,621</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    {/* Revenue share */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <Badge v="rose">Revenue share — ongoing</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>Pillar 01 · Agentic AI platform — declining model</h4>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Applied to SMB agentic AI subscriptions and managed-service revenue. e& retains the majority from Day 1.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Period","e& share","AIdeology share","AIdeology role"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {p:"Year 1–2",e:"65%",a:"35%",r:"Platform engineering, agent dev, training & consulting"},
+            {p:"Year 3",e:"72%",a:"28%",r:"Platform maintenance + innovation partner"},
+            {p:"Year 4+",e:"80%",a:"20%",r:"Platform licensing + roadmap partnership"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"10px 16px",fontWeight:700,color:"#111"}}>{r.p}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:BRAND.red}}>{r.e}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:"#555"}}>{r.a}</td>
+            <td style={{padding:"10px 16px",color:"#666",lineHeight:1.4}}>{r.r}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{fontSize:11.5,color:"#555",lineHeight:1.6}}><strong style={{color:"#111"}}>Pillar 02 (Enterprise):</strong> 60 / 40 AIdeology / e& on build and managed-service fees. Hosting, connectivity and hardware 100% e& — full margin retained. · <strong style={{color:"#111"}}>Pillar 03 (GPU platform royalty):</strong> 3–7% of compute platform GMV (declining).</div>
+      </div>
+    </Card>
+
+    {/* Infrastructure consulting */}
+    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <Badge v="rose">Infrastructure consulting — Pillar 03</Badge>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>Reference Architecture design & 100 MW DC fulfilment advisory</h4>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Vendor-agnostic consulting across NVIDIA, AMD, Cerebras, Intel Gaudi, Groq, SambaNova and OEM integrators.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Service","Model","Fee range (USD)"].map((h,i)=><th key={i} style={{textAlign:i===2?"right":"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {s:"RA design — department pilot (32 GPUs)",m:"Fixed per POD",f:"$25,000 – $40,000"},
+            {s:"RA design — half pod (128 GPUs)",m:"Fixed per POD",f:"$50,000 – $75,000"},
+            {s:"RA design — standard pod (256 GPUs)",m:"Fixed per POD",f:"$75,000 – $120,000"},
+            {s:"RA design — multi-pod / campus (1,024+ GPUs)",m:"Fixed per POD",f:"$150,000 – $250,000"},
+            {s:"Monthly advisory retainer (2–3 senior architects)",m:"Monthly",f:"$40,000 – $60,000 / mo"},
+            {s:"100 MW DC fulfilment programme (6–12 months)",m:"Fixed programme fee",f:"$350,000 – $600,000"},
+            {s:"Procurement advisory uplift",m:"% of hardware BoM",f:"0.5% – 1.5%"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"10px 16px",color:"#111"}}>{r.s}</td>
+            <td style={{padding:"10px 16px",color:"#666"}}>{r.m}</td>
+            <td style={{padding:"10px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r.f}</td>
+          </tr>)}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td colSpan={2} style={{padding:"12px 16px",fontWeight:700,color:"#111"}}>Estimated Year 1 total (infra consulting)</td>
+            <td style={{padding:"12px 16px",textAlign:"right",fontWeight:700,color:BRAND.red,fontSize:13,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$750,000 – $1,500,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>
+
+    {/* Key commercial principles */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"IP ownership",d:"Agent IP transfers to e& wave-by-wave, complete by end of Year 2. Forge platform IP stays with AIdeology under a perpetual non-exclusive licence to e&."},
+        {t:"Support model",d:"L1 + L2 owned by e& from Day 1. L3 + L4 owned by AIdeology — included in fixed fees for Years 1–3, then commercially covered by the AIdeology revenue share."},
+        {t:"Build-then-transfer",d:"AIdeology builds and trains; e& progressively takes ownership. 2–3 e& engineers embedded in Year 1, 6–8 by Year 3, full ownership by Year 4."},
+        {t:"Payment terms",d:"Fixed-fee, milestone-based. Invoices payable net 30 days from trigger event being met and certified by e&. No speculative payments."},
+        {t:"Minimum term",d:"4 years from the Effective Date. 12-month notice period after Year 4. Revenue share and platform royalty continue for the duration of the partnership."},
+        {t:"OpCo expansion",d:"After UAE proof, e& OpCo teams localise and deploy themselves — no second build fee per country. Saudi → Morocco → Egypt / Kuwait → rest."},
+      ].map((p,i)=><Card key={i} style={{padding:16,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
+        <h4 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{p.t}</h4>
+        <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{p.d}</p>
+      </Card>)}
+    </div>
+
+    <Note label="All figures subject to legal review">
+      This commercial summary is a reference consolidation of the terms set out in Articles 5–9 above. Final figures, rate cards, milestone triggers and payment mechanics are subject to negotiation and amendment by e& Legal and AIdeology Legal prior to signature.
+    </Note>
+    </>}
+
     {/* ── SIGNATURES ────────────────────────────────────────── */}
     <SH>Signatures</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:24,marginBottom:24}}>
