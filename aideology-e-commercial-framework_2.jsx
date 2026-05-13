@@ -3457,11 +3457,11 @@ function FullStackSection({showPricing=true}) {
 
     <div style={{display:"flex",gap:32,flexWrap:"wrap",marginBottom:32}}>
       {[
-        {v:"3 pillars",l:"Scope of engagement"},
-        {v:"36 weeks",l:"Programme delivery"},
-        {v:"$3.44M",l:"Pillar 01 fixed-fee envelope"},
-        {v:"4 years",l:"Minimum partnership term"},
-      ].map((s,i)=><div key={i}>
+        {v:"3 pillars",l:"Scope of engagement",pricing:false},
+        {v:"36 weeks",l:"Programme delivery",pricing:false},
+        {v:"$3.44M",l:"Pillar 01 fixed-fee envelope",pricing:true},
+        {v:"4 years",l:"Minimum partnership term",pricing:false},
+      ].filter(s=>!s.pricing||showPricing).map((s,i)=><div key={i}>
         <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
         <div style={{fontSize:11,color:"#999",marginTop:2,letterSpacing:"0.06em",textTransform:"uppercase",fontWeight:700}}>{s.l}</div>
       </div>)}
@@ -7141,11 +7141,11 @@ function ContractPage() {
       </div>
       <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
         {[
-          {v:"14 articles",l:"Agreement structure"},
-          {v:"$3,443,621",l:"Pillar 01 envelope"},
-          {v:"4 years",l:"Minimum term"},
-          {v:"v0.1 — draft",l:"Subject to legal review"},
-        ].map((s,i)=><div key={i} style={{flex:"1 1 130px",minWidth:120,padding:"12px 16px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
+          {v:"14 articles",l:"Agreement structure",pricing:false},
+          {v:"$3,443,621",l:"Pillar 01 envelope",pricing:true},
+          {v:"4 years",l:"Minimum term",pricing:false},
+          {v:"v0.1 — draft",l:"Subject to legal review",pricing:false},
+        ].filter(s=>!s.pricing||showPricing).map((s,i)=><div key={i} style={{flex:"1 1 130px",minWidth:120,padding:"12px 16px",border:`1px solid ${BRAND.border}`,background:BRAND.white}}>
           <div style={{fontSize:20,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{s.v}</div>
           <div style={{fontSize:10,color:BRAND.grey,fontWeight:600,marginTop:5,letterSpacing:"0.04em",textTransform:"uppercase"}}>{s.l}</div>
         </div>)}
