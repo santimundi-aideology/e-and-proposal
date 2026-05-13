@@ -3647,20 +3647,20 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 7 · PILLAR 03 — GPUaaS REFERENCE ──────────── */}
     <SH>Article 7 · Pillar 03 — Sovereign GPU infrastructure</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Pillar 03 covers AIdeology's infrastructure consulting services for e&'s sovereign GPU programme. This includes designing NVIDIA Enterprise Reference Architectures for on-premises AI PODs and advising on GPU fulfilment across e&'s planned 100 MW+ data centre portfolio. The GPUaaS commercial model (compute billing, orchestration, multi-tenancy) is governed by a separate Statement of Work executed under this Agreement.
+      Pillar 03 covers AIdeology's infrastructure consulting services for e&'s sovereign AI compute programme. This includes designing Reference Architectures for on-premises AI PODs — spanning NVIDIA, AMD, Cerebras, and other accelerator vendors — and advising on GPU and accelerator fulfilment across e&'s planned 100 MW+ data centre portfolio. AIdeology's guidance is hardware-vendor agnostic: the right silicon is selected per workload, budget, and supply-chain availability. The GPUaaS commercial model (compute billing, orchestration, multi-tenancy) is governed by a separate Statement of Work executed under this Agreement.
     </p>
 
     {/* --- 7.1 · Reference Architecture Design --- */}
     <SH>7.1 · Reference Architecture design — POD consulting</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      AIdeology will design NVIDIA Enterprise Reference Architectures for on-premises AI PODs tailored to e&'s sovereign infrastructure requirements. Each engagement produces a validated, deployment-ready architecture covering cluster topology selection, SU sizing, network fabric design, storage tier selection, OEM vendor evaluation, thermal and power modelling, and a full Bill of Materials submitted to NVIDIA's Design Review Board.
+      AIdeology will design Reference Architectures for on-premises AI PODs tailored to e&'s sovereign infrastructure requirements. Designs span the full accelerator landscape — NVIDIA (HGX, NVL72, RTX PRO), AMD (Instinct MI300X / MI325X), Cerebras (CS-3 wafer-scale), and emerging alternatives — selected on the basis of workload fit, price-performance, and e&'s procurement position. Each engagement produces a validated, deployment-ready architecture covering accelerator selection, cluster topology, network fabric design, storage tier selection, OEM evaluation, thermal and power modelling, and a full Bill of Materials.
     </p>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
       {[
-        {t:"Cluster topology",d:"Selection of the optimal NVIDIA pattern — RTX PRO, HGX, or NVL72 — based on workload mix, budget, and site constraints."},
-        {t:"SU sizing & fabric design",d:"Scalable Unit count, multi-rail spine-leaf or fat-tree fabric, InfiniBand / Spectrum-X selection, and cabling plan."},
-        {t:"OEM vendor evaluation",d:"Comparative assessment across Dell, Cisco, HPE, Lenovo, and Supermicro against e&'s procurement and support requirements."},
-        {t:"Full BoM & DRB submission",d:"Binding Bill of Materials covering GPU servers, networking, storage, rack/PDU, optics — submitted to NVIDIA Design Review Board for validation."},
+        {t:"Accelerator selection",d:"Vendor-agnostic evaluation across NVIDIA (HGX H200/B200, NVL72, RTX PRO), AMD (Instinct MI300X / MI325X), Cerebras (CS-3), and others — matched to workload type, power envelope, and TCO."},
+        {t:"Cluster topology & fabric design",d:"Multi-rail spine-leaf or fat-tree fabric design; InfiniBand, Spectrum-X, or RoCE selection based on chosen silicon and scale target."},
+        {t:"OEM vendor evaluation",d:"Comparative assessment across Dell, Cisco, HPE, Lenovo, and Supermicro for NVIDIA-based systems; direct vendor engagement for AMD and Cerebras deployments."},
+        {t:"Full BoM & certification",d:"Binding Bill of Materials covering accelerator servers, networking, storage, rack/PDU, optics — validated against the chosen vendor's reference design or certification programme."},
         {t:"Thermal & power modelling",d:"Per-rack power draw, cooling requirements at target PUE, and facility-level capacity planning per data centre site."},
         {t:"Deployment runbook",d:"Step-by-step commissioning playbook: rack-and-stack, burn-in, fabric bringup, orchestrator install, acceptance tests."},
       ].map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
@@ -3673,7 +3673,7 @@ function FullStackSection({showPricing=true}) {
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
         <Badge v="rose">Tiered pricing</Badge>
         <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 6px"}}>Reference Architecture design fee — per POD</h4>
-        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Fee scales with POD complexity: fabric tiers, storage islands, and NVIDIA DRB review depth increase non-linearly with GPU count.</p>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Fee scales with POD complexity: fabric tiers, storage islands, and certification review depth increase non-linearly with accelerator count. Applies to NVIDIA, AMD, Cerebras, and other vendor architectures.</p>
       </div>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
         <thead>
@@ -3706,7 +3706,7 @@ function FullStackSection({showPricing=true}) {
       {[
         {t:"Multi-site capacity planning",d:"Map GPU demand forecasts against e&'s DC footprint — UAE × 3, Morocco, Hungary, PPF — and allocate compute tiers to each facility based on sovereignty, latency, and customer requirements."},
         {t:"Phased procurement roadmap",d:"Stage-gated GPU procurement plan aligned with DC build timelines. Phase 1 land (pilot pod), Phase 2 expand (standard pods), Phase 3 fill (multi-pod campus). Avoids over-commitment ahead of demand."},
-        {t:"Multi-vendor strategy",d:"Comparative evaluation of NVIDIA DGX, Dell PowerEdge, HPE Cray, Cisco UCS, Lenovo ThinkSystem, and Supermicro. Diversified sourcing to mitigate supply-chain risk and optimise commercial terms."},
+        {t:"Multi-vendor strategy",d:"Comparative evaluation spanning NVIDIA DGX, AMD Instinct, Cerebras CS-3, Dell PowerEdge, HPE Cray, Cisco UCS, Lenovo ThinkSystem, and Supermicro. Diversified sourcing across GPU and accelerator vendors to mitigate supply-chain risk and optimise commercial terms."},
         {t:"Power & cooling modelling",d:"Per-facility thermal envelope analysis at target PUE. Rack density planning, liquid cooling assessment for high-density nodes (NVL72), and utility contract alignment."},
         {t:"Vendor negotiation support",d:"Technical advisory during OEM procurement: SKU selection, volume discount structuring, support SLA negotiation, warranty terms, and delivery scheduling."},
         {t:"Deployment coordination",d:"Phased commissioning across multiple sites: rack-and-stack sequencing, fabric bringup, orchestrator integration, burn-in testing, and handoff to e& operations."},
@@ -3749,9 +3749,27 @@ function FullStackSection({showPricing=true}) {
     </Card>}
 
     {/* --- 7.3 · Partner-endorsed designs by vendor --- */}
-    <SH>7.3 · Partner-endorsed designs by vendor</SH>
+    <SH>7.3 · Reference designs by accelerator vendor</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Each design in the table below has been vetted by NVIDIA's Design Review Board: NVIDIA-Certified nodes, a network topology aligned to the Reference Architecture, and a max-scale BoM signed off. These are the OEM options AIdeology will evaluate and recommend from as part of the POD consulting engagement under Article 7.1.
+      The table below lists the validated NVIDIA OEM reference designs (vetted by NVIDIA's Design Review Board) that form the baseline for Pillar 03 POD consulting. In addition, AIdeology's advisory scope covers AMD Instinct MI300X / MI325X cluster designs, Cerebras CS-3 wafer-scale deployments, and other accelerator form factors as the market evolves. The right vendor is selected per workload — inference, training, or fine-tuning — and per e&'s procurement position and sovereign requirements.
+    </p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {v:"NVIDIA",chips:"H100 · H200 · B200 · RTX PRO",forms:"HGX · NVL72 · DGX SuperPOD",fit:"General-purpose inference, training, fine-tuning. Broadest ecosystem and partner support.",col:"#76b900"},
+        {v:"AMD",chips:"Instinct MI300X · MI325X",forms:"OAM-based server (Dell, HPE, Supermicro)",fit:"High-memory workloads (large LLMs), competitive TCO at scale. ROCm software stack.",col:"#ED1C24"},
+        {v:"Cerebras",chips:"CS-3 wafer-scale engine",forms:"MemoryX + SwarmX fabric",fit:"Ultra-fast LLM training and fine-tuning. Eliminates inter-GPU communication bottleneck at the expense of portability.",col:"#00AEEF"},
+        {v:"Intel Gaudi",chips:"Gaudi 3",forms:"OAM-based server (Supermicro, others)",fit:"Cost-competitive inference and fine-tuning. Open-source software stack. Strong for regulated-sector deployments.",col:"#0071C5"},
+        {v:"Groq",chips:"LPU inference chip",forms:"GroqRack",fit:"Extreme low-latency inference (deterministic execution). Best for real-time agent response use cases.",col:"#6200EA"},
+        {v:"SambaNova",chips:"SN40L RDU",forms:"DataScale SN40L",fit:"Operator-grade inference with on-chip memory. Strong for regulated enterprise and government workloads.",col:"#FF6B00"},
+      ].map((p,i)=><Card key={i} style={{padding:16,marginBottom:0,borderTop:`3px solid ${p.col}`}}>
+        <h4 style={{fontSize:13,fontWeight:700,color:"#111",margin:"0 0 4px"}}>{p.v}</h4>
+        <div style={{fontSize:11,color:BRAND.grey,marginBottom:8}}>{p.chips}</div>
+        <div style={{fontSize:11,fontWeight:600,color:"#555",marginBottom:6}}>{p.forms}</div>
+        <p style={{fontSize:11.5,color:"#666",lineHeight:1.5,margin:0}}>{p.fit}</p>
+      </Card>)}
+    </div>
+    <p style={{fontSize:12,color:"#888",marginBottom:14,lineHeight:1.6}}>
+      <strong style={{color:"#111"}}>NVIDIA OEM-endorsed reference designs (NVIDIA DRB validated):</strong>
     </p>
     <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
@@ -3774,7 +3792,7 @@ function FullStackSection({showPricing=true}) {
       </div>
       <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
         <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
-          Source: NVIDIA Enterprise Reference Architectures — <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a>. SU = 4 nodes (NVIDIA definition). Exact per-deployment BoMs (switch SKUs, optics, storage NICs, OOB management) live in each OEM datasheet linked above.
+          NVIDIA OEM designs sourced from: <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a>. SU = 4 nodes (NVIDIA definition). AMD, Cerebras, Intel Gaudi, Groq, and SambaNova BoMs are developed per-engagement based on current vendor specifications. Exact BoMs (switch SKUs, optics, storage NICs, OOB management) are finalised during the POD consulting engagement.
         </div>
       </div>
     </Card>
