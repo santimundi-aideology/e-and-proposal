@@ -7053,6 +7053,39 @@ const CONTRACT_PRINT_CSS = `
 
 function ContractPage() {
   const [showPricing, setShowPricing] = useState(true);
+  const [unlocked, setUnlocked] = useState(false);
+  const [pwd, setPwd] = useState("");
+  const [error, setError] = useState(false);
+
+  if (!unlocked) return (
+    <div style={{minHeight:"100vh",background:BRAND.white,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:BRAND.font}}>
+      <div style={{width:"100%",maxWidth:380,padding:"0 24px"}}>
+        <div style={{borderTop:`4px solid ${BRAND.red}`,padding:"40px 36px",background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+          <img src="/logo.png" alt="AIdeology" style={{height:32,marginBottom:28}}/>
+          <h2 style={{fontSize:20,fontWeight:700,color:"#111",margin:"0 0 6px"}}>Commercial Framework</h2>
+          <p style={{fontSize:12.5,color:"#888",margin:"0 0 28px",lineHeight:1.5}}>This document is confidential. Enter the access password to continue.</p>
+          <label style={{fontSize:11,fontWeight:700,color:"#555",letterSpacing:"0.06em",textTransform:"uppercase",display:"block",marginBottom:8}}>Password</label>
+          <input
+            type="password"
+            value={pwd}
+            onChange={e=>{setPwd(e.target.value);setError(false);}}
+            onKeyDown={e=>{if(e.key==="Enter"){if(pwd==="AIdeology1998"){setUnlocked(true);}else{setError(true);setPwd("");}}} }
+            placeholder="Enter password"
+            autoFocus
+            style={{width:"100%",padding:"12px 14px",fontSize:13.5,border:`1.5px solid ${error?BRAND.red:BRAND.border}`,outline:"none",fontFamily:BRAND.font,boxSizing:"border-box",marginBottom:error?8:16,color:"#111",background:"#FAFAFA"}}
+          />
+          {error && <p style={{fontSize:11.5,color:BRAND.red,margin:"0 0 16px",fontWeight:600}}>Incorrect password. Please try again.</p>}
+          <button
+            type="button"
+            onClick={()=>{if(pwd==="AIdeology1998"){setUnlocked(true);}else{setError(true);setPwd("");}}}
+            style={{width:"100%",padding:"13px",fontSize:13,fontWeight:700,color:BRAND.white,background:BRAND.red,border:"none",cursor:"pointer",letterSpacing:"0.04em"}}
+          >
+            Access document →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   const handleExport = () => {
     document.body.classList.add("contract-printing");
