@@ -3748,6 +3748,37 @@ function FullStackSection({showPricing=true}) {
       </div>
     </Card>}
 
+    {/* --- 7.3 · Partner-endorsed designs by vendor --- */}
+    <SH>7.3 · Partner-endorsed designs by vendor</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      Each design in the table below has been vetted by NVIDIA's Design Review Board: NVIDIA-Certified nodes, a network topology aligned to the Reference Architecture, and a max-scale BoM signed off. These are the OEM options AIdeology will evaluate and recommend from as part of the POD consulting engagement under Article 7.1.
+    </p>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:920}}>
+          <thead><tr style={{borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+            {["Vendor","Solution","Server","GPU","Pattern","Min – Max nodes","Endorsements"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",whiteSpace:"nowrap"}}>{h}</th>)}
+          </tr></thead>
+          <tbody>
+            {HPC_OEM.map((o,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+              <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{o.vendor}</td>
+              <td style={{padding:"12px 14px"}}><a href={o.url} target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:600,textDecoration:"none"}}>{o.solution} →</a></td>
+              <td style={{padding:"12px 14px",color:BRAND.black}}>{o.server}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey}}>{o.gpu}</td>
+              <td style={{padding:"12px 14px",color:BRAND.red,fontFamily:BRAND.font,fontWeight:700,whiteSpace:"nowrap"}}>{o.pattern}</td>
+              <td style={{padding:"12px 14px",color:BRAND.grey,whiteSpace:"nowrap"}}>{o.size}</td>
+              <td style={{padding:"12px 14px"}}><div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{o.endorsements.map((e,j)=><span key={j} style={{fontSize:10,fontWeight:700,letterSpacing:"0.04em",padding:"3px 8px",background:BRAND.red,color:BRAND.white,textTransform:"uppercase"}}>{e}</span>)}</div></td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
+          Source: NVIDIA Enterprise Reference Architectures — <a href="https://docs.nvidia.com/enterprise-reference-architectures/index.html" target="_blank" rel="noreferrer" style={{color:BRAND.red,fontWeight:700,textDecoration:"none"}}>docs.nvidia.com/enterprise-reference-architectures</a>. SU = 4 nodes (NVIDIA definition). Exact per-deployment BoMs (switch SKUs, optics, storage NICs, OOB management) live in each OEM datasheet linked above.
+        </div>
+      </div>
+    </Card>
+
     <Note label="GPUaaS commercial model">
       GPU compute billing, orchestration platform, multi-tenancy, and metering are governed by a separate Statement of Work executed under this Agreement, aligned with NVIDIA Enterprise Reference Architectures and the HPC reference library. BoM, financing model and managed-service terms are documented in the GPUaaS section of the proposal and incorporated by reference.
     </Note>
