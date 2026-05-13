@@ -3227,13 +3227,13 @@ const STACK_LAYERS = [
   },
   {
     n:"2",
-    name:"Open Innovation — GPU Orchestration",
+    name:"GPU Orchestration",
     tag:"Compute on demand",
     color:"#185FA5",
-    summary:"e&'s GPU orchestrator. Schedules, isolates, and serves GPU workloads — inference, training, fine-tuning — across e&'s sovereign compute estate.",
+    summary:"e&'s GPU orchestrator. Schedules, isolates, and serves GPU workloads — inference, training, fine-tuning — across e&'s sovereign compute estate. Orchestration partner TBD (shortlist includes run.ai, Open Innovation, SambaNova, Fluidstack, Vultr, and CoreWeave).",
     owner:"e&",
     components:["Kubernetes / Slurm job scheduling","Multi-tenant GPU isolation","Inference · training · fine-tuning","Auto-scaling & load balancing","Hardware abstraction (DGX, Dell, HPE, Supermicro)","Capacity management & tenant quotas"],
-    why:"Open Innovation turns GPU hardware into a consumable, schedulable, billable service. Forge consumes capacity from it and maps every job back to a customer, agent and invoice line.",
+    why:"The GPU orchestrator turns raw hardware into a consumable, schedulable, billable service. Forge consumes capacity from it and maps every job back to a customer, agent and invoice line. Orchestration partner award is pending.",
   },
   {
     n:"1",
