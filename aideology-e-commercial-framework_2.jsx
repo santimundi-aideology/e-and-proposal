@@ -1227,8 +1227,8 @@ function SMBSegment({onViewChange, upToSoftwareStack=false, showPricing=true}) {
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
         <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
         <div>
-          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Revenue share — 65/35 declining model</h4>
-          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>e& keeps majority from Day 1. AIdeology share declines as e& team takes ownership.</p>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Pillar 01 · Agentic AI platform — 65/35 declining revenue share</h4>
+          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>Applies to SMB agentic AI subscriptions and managed-service revenue under Pillar 01. e& keeps the majority from Day 1; AIdeology's share declines as the e& team takes full ownership of the platform.</p>
         </div>
       </div>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
@@ -3682,8 +3682,8 @@ function FullStackSection() {
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
         <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
         <div>
-          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Revenue share — 65/35 declining model</h4>
-          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>e& keeps majority from Day 1. AIdeology share declines as e& team takes ownership.</p>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:0}}>Pillar 01 · Agentic AI platform — 65/35 declining revenue share</h4>
+          <p style={{fontSize:12,color:"#777",margin:"4px 0 0"}}>Applies to SMB agentic AI subscriptions and managed-service revenue under Pillar 01. e& keeps the majority from Day 1; AIdeology's share declines as the e& team takes full ownership of the platform.</p>
         </div>
       </div>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
