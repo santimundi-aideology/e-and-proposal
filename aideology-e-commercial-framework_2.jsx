@@ -3501,7 +3501,7 @@ function FullStackSection({showPricing=true}) {
       {[
         {k:"A",t:"Build & Launch",d:"Six agentic solutions launched in 90-day waves, expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint.",role:"Design and build the first waves; transition lead delivery to e& Squads from Wave 3 onwards."},
         {k:"B",t:"Centre of Excellence",d:"AIdeology stands up e&'s Agentic Centre of Excellence — Squads trained on the full design and build lifecycle, with end-to-end IP transfer.",o:"e& owns the design, build and evolution of its own SDD architecture — no permanent dependency on AIdeology engineering.",own:"Squad capability, SDD playbooks, design authority and operational control of the agentic stack.",role:"Embed senior architects in the CoE; coach Squads through real builds, then step back to advisory."},
-        {k:"C",t:"Forge Platform Licence",d:"A licence to Forge — AIdeology's agentic intelligence platform — giving e& the orchestration, governance and multi-cloud / multi-LLM layer that powers every agent.",o:"e& is never locked into a single cloud, model or vendor; new clouds, models and connectors plug into the same governed layer.",own:"Perpetual licence to operate Forge across the e& footprint; buyout option from Year 3 to convert to full ownership.",role:"Maintain and evolve Forge; e& Squads consume the platform via versioned releases under a joint roadmap."},
+        {k:"C",t:"Forge Platform Licence",d:"A licence to Forge — AIdeology's agentic intelligence platform — giving e& the orchestration, governance and multi-cloud / multi-LLM layer that powers every agent.",o:"e& is never locked into a single cloud, model or vendor; new clouds, models and connectors plug into the same governed layer.",own:"Perpetual licence to operate Forge across the e& footprint.",role:"Maintain and evolve Forge; e& Squads consume the platform via versioned releases under a joint roadmap."},
       ].map((p,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
         <div style={{padding:"18px 22px",borderBottom:`1px solid ${BRAND.border}`}}>
           <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
@@ -3664,7 +3664,7 @@ function FullStackSection({showPricing=true}) {
           {[
             ["SMB revenue share","65 / 35 in Years 1–2 → 72 / 28 in Year 3 → 80 / 20 in Year 4+ (e& majority from Day 1; AIdeology share declines as the e& team ramps)."],
             ["Enterprise revenue split","60 / 40 AIdeology / e& on build and managed service. Hosting, connectivity and hardware 100% e&."],
-            ["IP ownership","Agent IP transfers to e& after deployment plus knowledge transfer to evolve the agent. Platform IP (Forge) stays with AIdeology under a perpetual non-exclusive licence to e&; buyout option from Year 3."],
+            ["IP ownership","Agent IP transfers to e& after deployment plus knowledge transfer to evolve the agent. Platform IP (Forge) stays with AIdeology under a perpetual non-exclusive licence to e&."],
             ["Support tiers","L1 + L2 owned by e& from Day 1. L3 + L4 (platform engineering) owned by AIdeology — included in the fixed fee for Years 1–3."],
             ["Build-then-transfer","AIdeology builds and trains; e& progressively takes ownership. 2–3 e& engineers embedded in Year 1, 6–8 by Year 3, full ownership by Year 4."],
             ["OpCo expansion","After UAE proof, e& OpCo teams localise and deploy themselves — no second build fee per country. Saudi → Morocco → Egypt / Kuwait → rest."],
@@ -3715,37 +3715,25 @@ function FullStackSection({showPricing=true}) {
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
         <thead>
           <tr style={{background:BRAND.lightGrey}}>
-            {["Period","e& / partner-built new agent","Third-party partner agent","AIdeology derivative / replicated solution","Buyout option"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+            {["Period","e& / partner-built new agent","Third-party partner agent","AIdeology derivative / replicated solution"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
           </tr>
         </thead>
         <tbody>
           {[
-            {period:"Year 1–2",built:"7% platform royalty",partner:"7% platform royalty + certification / support fee",derivative:"35% solution share",buyout:"Not available except strategic acquisition"},
-            {period:"Year 3",built:"5% platform royalty",partner:"5% platform royalty + certification / support fee",derivative:"28% solution share",buyout:"Buyout discussion opens"},
-            {period:"Year 4+",built:"3% platform royalty",partner:"3% platform royalty + certification / support fee",derivative:"20% solution share",buyout:"Buyout / acquisition trigger"},
+            {period:"Year 1–2",built:"7% platform royalty",partner:"7% platform royalty + certification / support fee",derivative:"35% solution share"},
+            {period:"Year 3",built:"5% platform royalty",partner:"5% platform royalty + certification / support fee",derivative:"28% solution share"},
+            {period:"Year 4+",built:"3% platform royalty",partner:"3% platform royalty + certification / support fee",derivative:"20% solution share"},
           ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent",verticalAlign:"top"}}>
             <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.period}</td>
             <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.built}</td>
             <td style={{padding:"12px 14px",fontWeight:700,color:BRAND.red,lineHeight:1.45}}>{r.partner}</td>
             <td style={{padding:"12px 14px",fontWeight:700,color:"#111",lineHeight:1.45}}>{r.derivative}</td>
-            <td style={{padding:"12px 14px",color:"#777",lineHeight:1.45}}>{r.buyout}</td>
           </tr>)}
         </tbody>
       </table>
       <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
         <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
           <strong style={{color:"#111"}}>Important distinction:</strong> e& and third-party partners may build genuinely new applications on the platform and pay only the platform royalty. Any application that reuses, adapts, replicates, or derives from AIdeology-created agents, workflows, prompts, blueprints, connectors, evaluation data, or orchestration logic is treated as an AIdeology solution and follows the standard solution revenue share.
-        </div>
-      </div>
-      <div style={{padding:"16px 26px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
-        <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
-          {[
-            {label:"Year 5+ option",value:"e& acquires AIdeology platform / solution IP outright — or continues paying platform and solution royalties"},
-            {label:"Acquisition trigger",value:"By Year 3–4, platform usage and solution reuse make a buyout more economical than long-term royalties"},
-          ].map((n,i)=><div key={i} style={{flex:1,minWidth:280}}>
-            <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4}}>{n.label}</div>
-            <div style={{fontSize:12,color:"#555",lineHeight:1.5}}>{n.value}</div>
-          </div>)}
         </div>
       </div>
     </Card>}
@@ -3852,7 +3840,7 @@ function FullStackSection({showPricing=true}) {
       </Card>
       <Card style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
         <Badge v="rose">AIdeology owns — Platform IP (Forge)</Badge>
-        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 8px"}}>Perpetual non-exclusive licence to e& · buyout from Year 3</h4>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 8px"}}>Perpetual non-exclusive licence to e&</h4>
         <ul style={{margin:0,paddingLeft:18,fontSize:12.5,color:"#555",lineHeight:1.65}}>
           <li>Forge orchestration engine, governance and policy layer</li>
           <li>Multi-cloud / multi-LLM gateway and routing fabric</li>
@@ -3891,7 +3879,7 @@ function FullStackSection({showPricing=true}) {
       {[
         {y:"Year 1",t:"Full service",d:"AIdeology is the primary development team. 2–3 e& engineers embedded for hands-on learning. Weekly knowledge-transfer sessions; joint code reviews and architecture decision records."},
         {y:"Year 2",t:"Transition",d:"e& team takes over 40–50% of development. AIdeology focuses on platform architecture, complex features and new agents. Agent IP transfer completed by end of Year 2."},
-        {y:"Year 3",t:"Partnership",d:"e& owns the agents and day-to-day development. AIdeology becomes platform maintainer plus innovation partner. Forge buyout option opens to e&."},
+        {y:"Year 3",t:"Partnership",d:"e& owns the agents and day-to-day development. AIdeology becomes platform maintainer plus innovation partner."},
         {y:"Year 4+",t:"e& ownership",d:"Full ownership by e&. 8–10 trained e& FTE running the platform. AIdeology engagement is licensing plus new features by mutual agreement under the joint roadmap."},
       ].map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
         <Badge v="rose">{p.y}</Badge>
