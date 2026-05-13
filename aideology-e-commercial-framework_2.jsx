@@ -4266,8 +4266,13 @@ function FullStackSection({showPricing=true}) {
     <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
         <Badge v="rose">Revenue share — ongoing</Badge>
-        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>Pillar 01 · Agentic AI platform — declining model</h4>
-        <p style={{fontSize:12,color:"#777",margin:0}}>Applied to SMB agentic AI subscriptions and managed-service revenue. e& retains the majority from Day 1.</p>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>All revenue streams — consolidated view</h4>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Three distinct revenue-share mechanisms apply across the three pillars. All rates are inclusive of platform support during Years 1–3.</p>
+      </div>
+
+      {/* Pillar 01 — SMB declining share */}
+      <div style={{padding:"14px 16px",borderBottom:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>Pillar 01 · Agentic AI platform — SMB subscriptions & managed-service revenue</div>
       </div>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
         <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -4286,8 +4291,52 @@ function FullStackSection({showPricing=true}) {
           </tr>)}
         </tbody>
       </table>
+
+      {/* Pillar 02 — Enterprise */}
+      <div style={{padding:"14px 16px",borderTop:`2px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>Pillar 02 · Enterprise & Government — build & managed-service fees</div>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Revenue type","AIdeology share","e& share","Notes"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {t:"Build fees (per enterprise engagement)",a:"60%",e:"40%",n:"Applied to AIdeology-delivered build fees per Tier 1 / 2 / 3 engagement"},
+            {t:"Managed-service fees",a:"60%",e:"40%",n:"Monthly managed-service revenue on active enterprise deployments"},
+            {t:"Hosting, connectivity & hardware",a:"0%",e:"100%",n:"Full margin retained by e& — no AIdeology share on infrastructure"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"10px 16px",color:"#111"}}>{r.t}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:"#555"}}>{r.a}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:BRAND.red}}>{r.e}</td>
+            <td style={{padding:"10px 16px",color:"#666",lineHeight:1.4}}>{r.n}</td>
+          </tr>)}
+        </tbody>
+      </table>
+
+      {/* Forge platform royalty */}
+      <div style={{padding:"14px 16px",borderTop:`2px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>Forge platform licence royalty — e& built, partner-built & derivative solutions</div>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Period","e& / partner-built new agent","Third-party partner agent","AIdeology derivative / replicated solution"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"10px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {p:"Year 1–2",b:"7% platform royalty",pt:"7% royalty + certification fee",d:"35% solution share"},
+            {p:"Year 3",b:"5% platform royalty",pt:"5% royalty + certification fee",d:"28% solution share"},
+            {p:"Year 4+",b:"3% platform royalty",pt:"3% royalty + certification fee",d:"20% solution share"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:i===0?BRAND.lightGrey:"transparent"}}>
+            <td style={{padding:"10px 16px",fontWeight:700,color:"#111"}}>{r.p}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:BRAND.red}}>{r.b}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:BRAND.red}}>{r.pt}</td>
+            <td style={{padding:"10px 16px",fontWeight:700,color:"#111"}}>{r.d}</td>
+          </tr>)}
+        </tbody>
+      </table>
       <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,background:"#FAFAFA"}}>
-        <div style={{fontSize:11.5,color:"#555",lineHeight:1.6}}><strong style={{color:"#111"}}>Pillar 02 (Enterprise):</strong> 60 / 40 AIdeology / e& on build and managed-service fees. Hosting, connectivity and hardware 100% e& — full margin retained. · <strong style={{color:"#111"}}>Pillar 03 (GPU platform royalty):</strong> 3–7% of compute platform GMV (declining).</div>
+        <div style={{fontSize:11.5,color:"#555",lineHeight:1.6}}><strong style={{color:"#111"}}>Important:</strong> e& and third-party partners building genuinely new applications on Forge pay only the platform royalty. Any solution that reuses, adapts, or derives from AIdeology-created agents, workflows, prompts, or blueprints follows the derivative solution share rate above.</div>
       </div>
     </Card>
 
