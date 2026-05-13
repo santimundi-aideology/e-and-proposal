@@ -3184,7 +3184,7 @@ const STACK_LAYERS = [
         items:[
           {t:"Agent orchestration",d:"Multi-agent workflows, shared context, failover, human-in-loop gates"},
           {t:"LLM gateway & model router",d:"One API across Claude, GPT, Llama, sovereign models; cost / latency / compliance routing"},
-          {t:"GPU & compute orchestration",d:"Sits above Open Innovation; tenant quotas, cost allocation, sovereign placement"},
+          {t:"GPU & compute orchestration",d:"Sits above the GPU orchestrator; tenant quotas, cost allocation, sovereign placement"},
           {t:"Billing & monetization",d:"Subscriptions, usage metering, marketplace invoicing, revenue share reporting"},
           {t:"Multi-tenancy",d:"Tenant isolation, onboarding, back office, provisioning at scale"},
           {t:"Connector management",d:"CRM, ERP, HR, finance, comms, payment, government systems"},
@@ -3417,7 +3417,7 @@ function StackOwnershipTable() {
     {l:"5",n:"Agentic Applications",own:"e&",note:"Delivered agent IP transfers to e& under the build-then-transfer terms"},
     {l:"4",n:"Forge — Control Plane + SDD",own:"AIdeology · licensed to e&",note:"Platform retained under partnership agreement"},
     {l:"3",n:"Model Layer",own:"Mixed (API + self-hosted)",note:"Provider-agnostic by design; swappable"},
-    {l:"2",n:"Open Innovation — GPU Orch.",own:"e&",note:"e&'s GPU orchestrator; Forge consumes capacity from it"},
+    {l:"2",n:"GPU Orchestration",own:"e&",note:"e&'s GPU orchestrator; Forge consumes capacity from it"},
     {l:"1",n:"Infrastructure",own:"e& (100%)",note:"Data centres, GPUs, network, edge, devices"},
   ];
   return <Card style={{padding:0,overflow:"hidden"}}>
@@ -3536,7 +3536,7 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 4 · THE e& AI STACK (INFOGRAPHICS PRESERVED) ── */}
     <SH>Article 4 · The e& AI stack — technical scope of the delivery</SH>
     <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:18}}>
-      The deliverables under this Agreement implement a single AI stack across six layers. <strong style={{color:"#111"}}>Forge</strong> sits in the middle as the AI control plane that operates the platform and the development layer that builds new AI fast. Below Forge: Open Innovation, the GPU orchestrator, sitting on top of e&'s sovereign infrastructure. Above Forge: the agents that customers actually buy, distributed through e&'s marketplace and invoice. This Article describes the <em>technical scope</em> of what AIdeology will deliver to e&; commercial terms appear from Article 5 onward.
+      The deliverables under this Agreement implement a single AI stack across six layers. <strong style={{color:"#111"}}>Forge</strong> sits in the middle as the AI control plane that operates the platform and the development layer that builds new AI fast. Below Forge: the GPU orchestrator, sitting on top of e&'s sovereign infrastructure. Above Forge: the agents that customers actually buy, distributed through e&'s marketplace and invoice. This Article describes the <em>technical scope</em> of what AIdeology will deliver to e&; commercial terms appear from Article 5 onward.
     </p>
 
     <div style={{display:"flex",gap:32,flexWrap:"wrap",marginBottom:32}}>
