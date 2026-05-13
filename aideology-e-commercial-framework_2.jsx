@@ -3173,7 +3173,7 @@ const STACK_LAYERS = [
     color:"#004B2E",
     isForge:true,
     summary:"The unified software layer that runs the AI business (control plane) and builds new AI fast (SDD). Forge connects compute, models, agents, customers, and billing into one operating system.",
-    owner:"AIdeology IP · licensed to e&",
+    owner:"AIdeology · licensed to e&",
     pillars:[
       {
         title:"Operations · Control Plane",
@@ -3415,7 +3415,7 @@ function StackOwnershipTable() {
   const ROWS = [
     {l:"6",n:"Customers & Distribution",own:"e& (100%)",note:"Customer relationship, brand, billing, support"},
     {l:"5",n:"Agentic Applications",own:"e&",note:"Delivered agent IP transfers to e& under the build-then-transfer terms"},
-    {l:"4",n:"Forge — Control Plane + SDD",own:"AIdeology IP · licensed to e&",note:"Platform IP retained under partnership agreement"},
+    {l:"4",n:"Forge — Control Plane + SDD",own:"AIdeology · licensed to e&",note:"Platform retained under partnership agreement"},
     {l:"3",n:"Model Layer",own:"Mixed (API + self-hosted)",note:"Provider-agnostic by design; swappable"},
     {l:"2",n:"Open Innovation — GPU Orch.",own:"e&",note:"e&'s GPU orchestrator; Forge consumes capacity from it"},
     {l:"1",n:"Infrastructure",own:"e& (100%)",note:"Data centres, GPUs, network, edge, devices"},
