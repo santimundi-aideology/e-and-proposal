@@ -3468,8 +3468,6 @@ function FullStackSection({showPricing=true}) {
       {[
         {v:"3 pillars",l:"Scope of engagement",pricing:false},
         {v:"36 weeks",l:"Programme delivery",pricing:false},
-        {v:"$3.44M",l:"Pillar 01 fixed-fee envelope",pricing:true},
-        {v:"4 years",l:"Minimum partnership term",pricing:false},
       ].filter(s=>!s.pricing||showPricing).map((s,i)=><div key={i}>
         <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
         <div style={{fontSize:11,color:"#999",marginTop:2,letterSpacing:"0.06em",textTransform:"uppercase",fontWeight:700}}>{s.l}</div>
@@ -4082,7 +4080,7 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 9 · PAYMENT SCHEDULE & MILESTONES ─────────── */}
     {showPricing && <SH>Article 9 · Payment schedule & milestones</SH>}
     {showPricing && <Note label="Fixed-fee, milestone-based">
-      Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. A 10% mobilisation advance is due on contract execution and is credited against the final milestone. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
+      Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. A 15% mobilisation advance is due on contract execution and is credited against the final milestone. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
     </Note>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
@@ -4093,8 +4091,8 @@ function FullStackSection({showPricing=true}) {
           <tr style={{background:"#FFF8F8",borderBottom:`1px solid ${BRAND.border}`}}>
             <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>M0</td>
             <td style={{padding:"12px 18px",color:"#444",fontWeight:600}}>Mobilisation advance</td>
-            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>Contract execution — 10% advance on signature, credited against final milestone</td>
-            <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$344,362</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>Contract execution — 15% advance on signature, credited against final milestone</td>
+            <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$516,543</td>
           </tr>
           {[
             ["M1","Wave 1","SDD signed off + platform foundation kick-off (Week 4)","$250,000"],
@@ -4103,7 +4101,7 @@ function FullStackSection({showPricing=true}) {
             ["M4","Wave 2","Sales Agent + Comms Hub + P1 layer live (Week 18)","$700,000"],
             ["M5","Wave 3","Finance Agent + Ops Agent live (Week 24)","$600,000"],
             ["M6","Wave 4","People Agent live (Week 30)","$275,000"],
-            ["M7","Wave 5","Security audit complete, runbooks delivered, formal handoff (Week 36) — net of M0 advance","$274,259"],
+            ["M7","Wave 5","Security audit complete, runbooks delivered, formal handoff (Week 36) — net of M0 advance","$102,078"],
           ].map((r,i)=><tr key={i} style={{borderBottom:i<6?`1px solid ${BRAND.border}`:"none"}}>
             <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{r[0]}</td>
             <td style={{padding:"12px 18px",color:"#444"}}>{r[1]}</td>
@@ -4118,11 +4116,14 @@ function FullStackSection({showPricing=true}) {
       </table>
     </Card>}
     {showPricing && <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
-      The M0 mobilisation advance (10%) is invoiced on contract execution and credited in full against M7. Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. All invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
+      The M0 mobilisation advance (15%) is invoiced on contract execution and credited in full against M7. Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. All invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
     </p>}
 
     {/* ── ARTICLE 9B · PILLAR 03 PAYMENT SCHEDULE ───────────── */}
     {showPricing && <SH style={{margin:"32px 0 14px"}}>Article 9 (cont.) · Pillar 03 — Infrastructure consulting fees</SH>}
+    {showPricing && <Note label="Fixed-fee, milestone-based">
+      Pillar 03 fees are structured on a milestone basis tied to defined deliverables. A 20% advance is invoiced on Statement of Work execution to mobilise the architecture and procurement team. All subsequent milestones are payable net thirty (30) days from the trigger event being certified by e&. The advance is credited in full against the final milestone.
+    </Note>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
         <Badge v="rose">Infrastructure consulting — Pillar 03</Badge>
@@ -4154,6 +4155,43 @@ function FullStackSection({showPricing=true}) {
         </tbody>
       </table>
     </Card>}
+    {showPricing && <div style={{height:18}}/>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"14px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <span style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase"}}>Pillar 03 · Milestone payment schedule — 100 MW DC fulfilment programme</span>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Milestone","Trigger event","% of programme fee"].map((h,i)=><th key={i} style={{textAlign:i===2?"right":"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          <tr style={{background:"#FFF8F8",borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>P0</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>Advance — Statement of Work execution. Mobilises architecture team and initiates site assessment.</td>
+            <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>20%</td>
+          </tr>
+          {[
+            ["P1","Infrastructure assessment & site readiness report delivered and approved by e& (Month 1)","15%"],
+            ["P2","Reference architecture blueprint and full BoM approved by e& (Month 2)","20%"],
+            ["P3","Vendor shortlist and procurement recommendation report delivered (Month 3)","15%"],
+            ["P4","Procurement advisory support complete — first hardware tranche confirmed (Month 5)","15%"],
+            ["P5","DC commissioning advisory complete — racks live and acceptance-tested (Month 7–10)","15%"],
+            ["P6","Final handoff — runbooks, operational guides, and transition complete. Net of P0 advance.","0% (credited)"],
+          ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none"}}>
+            <td style={{padding:"12px 18px",fontFamily:"monospace",color:BRAND.red,fontWeight:700}}>{r[0]}</td>
+            <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>{r[1]}</td>
+            <td style={{padding:"12px 18px",textAlign:"right",fontWeight:700,color:i===5?"#888":BRAND.red,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r[2]}</td>
+          </tr>)}
+          <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
+            <td colSpan={2} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Total programme fee (100 MW DC fulfilment)</td>
+            <td style={{padding:"14px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontSize:13,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$350,000 – $600,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </Card>}
+    {showPricing && <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
+      RA design engagements (single-pod or multi-pod) follow a simplified two-milestone structure: 30% advance on SoW execution; 70% on blueprint delivery and e& sign-off. Monthly advisory retainers are invoiced in advance at the start of each calendar month. Procurement advisory uplift is invoiced on hardware BoM confirmation and payable net thirty (30) days.
+    </p>}
 
     {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
     <SH>Article 10 · IP ownership & transfer</SH>
