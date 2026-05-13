@@ -3613,6 +3613,137 @@ function FullStackSection({showPricing=true}) {
       </div>
     </Card>}
 
+    {/* ── ARTICLE 5 · SMB LAUNCH PLAN ────────────────────────── */}
+    <SH>5.1 · SMB launch plan · parallel tracks</SH>
+    <CollapsibleTimeline
+      badge="Wave 1"
+      span="W1–W13 · 13 weeks"
+      title="Base platform first, then two solutions in parallel"
+      desc="Five workstreams will still run in parallel, but the first delivery will focus on one agentic solution because it also creates the base platform: identity, memory, connectors, e& network assets, billing, observability, and onboarding. Once that foundation exists, the next waves can deliver two larger agentic solutions in parallel."
+      footer="Launch readiness gate at end of W12: base platform stability green, Customer Agent passing acceptance tests, beta customers in production, support and billing flows live. GA opens with one flagship solution; the Sales Agent and Comms Hub enter the next parallel build wave."
+    >
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead>
+            <tr style={{background:BRAND.lightGrey}}>
+              <th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>
+              {["W1-2","W3-4","W5-6","W7-8","W9-10","W11-12","W13"].map((w,i)=>(
+                <th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              {n:"A · Platform build",c:BRAND.red,bars:[{span:2,t:"Infra · K8s · DBs · observability"},{span:2,t:"Frontend · onboarding · SSO"},{span:2,t:"Agent + Model plane"},{span:2,t:"Billing · analytics · hardening"},{span:0},{span:0},{span:0}]},
+              {n:"B · Solution build",c:"#E00800",bars:[{span:2,t:"SDD · Customer Agent + base platform"},{span:3,t:"Build: voice · WhatsApp · web · memory"},{span:0},{span:0},{span:2,t:"Start next pair: Sales + Comms"},{span:0},{span:0}]},
+              {n:"C · Internal QA",c:"#222",bars:[{span:0},{span:0},{span:2,t:"Alpha · AIdeology + e& team"},{span:0},{span:2,t:"Security · telephony · load tests"},{span:1,t:"Bug bash"},{span:0}]},
+              {n:"D · Beta customers",c:"#0099A8",bars:[{span:0},{span:0},{span:1,t:"Recruit 10–20 SMBs"},{span:0},{span:2,t:"Closed beta · feedback loops"},{span:1,t:"Iterate · graduate beta"},{span:0}]},
+              {n:"E · Commercial launch",c:"#7A52F4",bars:[{span:0},{span:0},{span:0},{span:1,t:"Pricing · sales enablement"},{span:1,t:"Marketing assets · launch site"},{span:1,t:"GTM rehearsal · readiness gate"},{span:1,t:"GA launch · marketplace open"}]},
+            ].map((row,ri)=>{
+              const cells=[];let i=0;
+              for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}
+              while(i<7){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}
+              return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:"18px 22px",borderTop:`1px solid ${BRAND.border}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Milestones</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:10}}>
+          {[
+            {m:"M1",t:"Platform foundations",w:"End of W2",d:"Cluster, databases, identity, CI/CD, observability and Forge stood up. Base images and tenant model approved."},
+            {m:"M2",t:"Customer Agent + alpha",w:"End of W6",d:"Voice, WhatsApp, web chat, memory and handoff working end-to-end. AIdeology + e& staff using the agent daily."},
+            {m:"M3",t:"Closed beta live",w:"End of W9",d:"10–20 paying or pre-committed SMBs onboarded with real call/chat traffic, real CSAT and CAC data, and real escalation flows."},
+            {m:"M4",t:"GA launch + wave 2 start",w:"W13",d:"Customer Agent passes security, performance and Arabic/English tests. Marketplace opens. Sales Agent and Comms Hub start as the next parallel build."},
+          ].map((x,i)=><div key={i} style={{padding:14,background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}><div style={{fontSize:10,fontWeight:700,color:BRAND.red,fontFamily:"monospace"}}>{x.m}</div><div style={{fontSize:9.5,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"2px 7px",letterSpacing:"0.04em"}}>{x.w}</div></div>
+            <h5 style={{fontSize:12.5,fontWeight:700,color:"#111",marginBottom:4,margin:0}}>{x.t}</h5>
+            <p style={{fontSize:11,color:"#666",lineHeight:1.5,margin:"4px 0 0"}}>{x.d}</p>
+          </div>)}
+        </div>
+      </div>
+    </CollapsibleTimeline>
+
+    <CollapsibleTimeline badge="Wave 2" span="W13–W18 · 6 weeks" title="Sales Agent + Comms Hub + P1 platform layer" desc="Platform is live. Wave 2 ships the next two agentic solutions and deploys the P1 enterprise-readiness layer: automation workflows, compliance controls, audit trails, RBAC and operational guardrails." footer="Both solutions share the platform connectors built in Wave 1. In parallel, the P1 layer upgrades the platform with enterprise-grade automation and compliance capabilities that future waves and enterprise deployments can reuse.">
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead><tr style={{background:BRAND.lightGrey}}><th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>{["W13","W14","W15","W16","W17","W18"].map((w,i)=><th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>)}</tr></thead>
+          <tbody>{[{n:"A · Sales Agent",c:BRAND.red,bars:[{span:2,t:"SDD · CRM architecture"},{span:2,t:"Build: lead scoring · pipeline"},{span:1,t:"QA + Arabic"},{span:1,t:"GA release"}]},{n:"B · Comms Hub",c:"#E00800",bars:[{span:2,t:"SDD · channel architecture"},{span:2,t:"Build: inbox · campaigns · broadcast"},{span:1,t:"QA + Arabic"},{span:1,t:"GA release"}]},{n:"C · P1 automation & compliance",c:"#7A52F4",bars:[{span:1,t:"Design"},{span:2,t:"Audit trail · RBAC · guardrails"},{span:2,t:"Workflow deployment"},{span:1,t:"P1 readiness gate"}]},{n:"D · Integration & QA",c:"#222",bars:[{span:0},{span:1,t:"Connector tests"},{span:2,t:"E2E · security · load tests"},{span:1,t:"Bug fix"},{span:0}]},{n:"E · Commercial launch",c:"#185FA5",bars:[{span:0},{span:0},{span:1,t:"Sales enablement"},{span:1,t:"Marketing"},{span:1,t:"GTM prep"},{span:1,t:"Marketplace live"}]}].map((row,ri)=>{const cells=[];let i=0;for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;})}</tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <CollapsibleTimeline badge="Wave 3" span="W19–W24 · 6 weeks" title="Finance Agent + Ops Agent — parallel build" desc="Builds on the same platform and reuses connectors from Waves 1–2. Finance Agent connects e& Pay and FTA compliance. Ops Agent wires into Teams, SharePoint, and e& SIM location data." footer="Finance Agent integrates e& Pay, e& Money, and FTA-compliant VAT flows. Ops Agent reuses Teams and calendar connectors from earlier waves and adds task-engine logic.">
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead><tr style={{background:BRAND.lightGrey}}><th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>{["W19","W20","W21","W22","W23","W24"].map((w,i)=><th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>)}</tr></thead>
+          <tbody>{[{n:"A · Finance Agent",c:BRAND.red,bars:[{span:2,t:"SDD · invoicing architecture"},{span:2,t:"Build: VAT · payments · cash flow"},{span:1,t:"QA + Arabic"},{span:1,t:"GA release"}]},{n:"B · Ops Agent",c:"#E00800",bars:[{span:2,t:"SDD · task engine architecture"},{span:2,t:"Build: approvals · SOP · service desk"},{span:1,t:"QA + Arabic"},{span:1,t:"GA release"}]},{n:"C · Integration & QA",c:"#222",bars:[{span:0},{span:1,t:"Connector tests"},{span:2,t:"E2E · e& Pay · security tests"},{span:1,t:"Bug fix"},{span:0}]},{n:"D · Commercial launch",c:"#7A52F4",bars:[{span:0},{span:0},{span:1,t:"Sales enablement"},{span:1,t:"Marketing"},{span:1,t:"GTM prep"},{span:1,t:"Marketplace update"}]}].map((row,ri)=>{const cells=[];let i=0;for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;})}</tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <CollapsibleTimeline badge="Wave 4" span="W25–W30 · 6 weeks" title="People Agent" desc="Wave 4 delivers the People Agent — WPS payroll, attendance via e& SIM, leave management, visa tracking and digital onboarding. Once live, all 6 agentic solutions are in production." footer="People Agent goes live with WPS SIF payroll, WhatsApp-native attendance, leave management and visa expiry tracking. Wave 5 then runs a dedicated hardening and handoff programme across the full platform.">
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead><tr style={{background:BRAND.lightGrey}}><th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>{["W25","W26","W27","W28","W29","W30"].map((w,i)=><th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>)}</tr></thead>
+          <tbody>{[{n:"A · People Agent",c:BRAND.red,bars:[{span:2,t:"SDD · payroll + HR architecture"},{span:2,t:"Build: WPS · attendance · onboarding"},{span:1,t:"QA + Arabic"},{span:1,t:"GA release"}]},{n:"B · Integration & QA",c:"#222",bars:[{span:0},{span:1,t:"Connector tests · MOHRE / GDRFA"},{span:2,t:"E2E regression · People Agent"},{span:1,t:"Final bug fix"},{span:0}]},{n:"C · Beta customers",c:"#0099A8",bars:[{span:0},{span:0},{span:1,t:"Onboard beta SMBs"},{span:2,t:"Real payroll runs · feedback"},{span:1,t:"Graduate beta"}]}].map((row,ri)=>{const cells=[];let i=0;for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;})}</tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <CollapsibleTimeline badge="Wave 5" span="W31–W36 · 6 weeks" title="Platform hardening & full e& handoff" desc="With all 6 agents live, Wave 5 runs a full security audit and performance hardening across the complete platform — then delivers a clean, documented ownership transfer to e&." footer="Wave 5 closes the programme. The security audit and pen test run after all agents are live — the entire platform tested as a whole. The handoff is a dedicated 6-week programme: documentation, e& team training, runbooks, SLA definitions, on-call rotation, and final ownership transfer.">
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:760}}>
+          <thead><tr style={{background:BRAND.lightGrey}}><th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:170}}>Workstream</th>{["W31","W32","W33","W34","W35","W36"].map((w,i)=><th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>)}</tr></thead>
+          <tbody>{[{n:"A · Security audit & pen test",c:"#993C1D",bars:[{span:1,t:"Scope + kick-off"},{span:2,t:"Security audit + penetration test"},{span:1,t:"Findings + remediation"},{span:1,t:"Re-test + sign-off"},{span:0}]},{n:"B · Performance hardening",c:"#E00800",bars:[{span:1,t:"Baseline all 6 agents"},{span:2,t:"Optimisation + scale tests"},{span:1,t:"Load test + fix"},{span:0},{span:0}]},{n:"C · Documentation & runbooks",c:"#222",bars:[{span:2,t:"Architecture docs + runbooks"},{span:2,t:"SLA definitions + on-call rotation"},{span:1,t:"Final review"},{span:0}]},{n:"D · e& team training",c:"#185FA5",bars:[{span:0},{span:2,t:"Platform deep-dives + workshops"},{span:2,t:"Ops training + incident drills"},{span:1,t:"Sign-off"}]},{n:"E · Ownership transfer",c:"#7A52F4",bars:[{span:0},{span:0},{span:0},{span:1,t:"Staged handoff begins"},{span:1,t:"Keys + access transfer"},{span:1,t:"Full ownership · programme close"}]}].map((row,ri)=>{const cells=[];let i=0;for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;})}</tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <CollapsibleTimeline badge="Full programme" span="36 weeks · 9 months" title="All waves — end-to-end delivery timeline" desc="Wave 1 builds the platform and the first flagship agent. Waves 2–4 each deliver agents on repeatable 6-week cadences. Wave 5 is a dedicated hardening and handoff programme after all 6 agents are live." footer="Total programme: 36 weeks from kick-off to full ownership transfer. e& starts earning SaaS revenue from Week 13 and compounds it with each new agent release." defaultOpen>
+      <div style={{padding:"0",overflowX:"auto"}}>
+        <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:900}}>
+          <thead><tr style={{background:BRAND.lightGrey}}><th style={{textAlign:"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,minWidth:200}}>Wave</th>{["W1–6","W7–12","W13–18","W19–24","W25–30","W31–36"].map((w,i)=><th key={i} style={{textAlign:"left",padding:"12px 10px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`,borderLeft:`1px solid ${BRAND.border}`}}>{w}</th>)}</tr></thead>
+          <tbody>{[{n:"Wave 1 · Platform + Customer Agent",c:BRAND.red,bars:[{span:1,t:"Platform build + SDD"},{span:1,t:"Customer Agent + beta + GA"},{span:0},{span:0},{span:0},{span:0}]},{n:"Wave 2 · Sales + Comms + P1 Layer",c:"#D14600",bars:[{span:0},{span:0},{span:1,t:"Parallel build + P1 deployment → GA"},{span:0},{span:0},{span:0}]},{n:"Wave 3 · Finance + Ops Agents",c:"#0099A8",bars:[{span:0},{span:0},{span:0},{span:1,t:"Parallel build → GA"},{span:0},{span:0}]},{n:"Wave 4 · People Agent",c:"#7A52F4",bars:[{span:0},{span:0},{span:0},{span:0},{span:1,t:"Build · QA · GA"},{span:0}]},{n:"Wave 5 · Hardening & Handoff",c:"#993C1D",bars:[{span:0},{span:0},{span:0},{span:0},{span:0},{span:1,t:"Security audit · training · ownership transfer"}]},{n:"Cumulative agents live",c:"#222",bars:[{span:0},{span:1,t:"1 agent"},{span:1,t:"3 agents"},{span:1,t:"5 agents"},{span:1,t:"6 agents live"},{span:1,t:"Full handoff complete"}]},{n:"e& SaaS revenue",c:"#004B2E",bars:[{span:0},{span:0},{span:1,t:"First subscriptions"},{span:1,t:"Scaling"},{span:1,t:"Full marketplace"},{span:1,t:"Growing · handoff running"}]}].map((row,ri)=>{const cells=[];let i=0;for(const b of row.bars){if(!b.span){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;continue;}cells.push(<td key={cells.length} colSpan={b.span} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}><div style={{background:row.c,color:BRAND.white,padding:"6px 10px",fontSize:10.5,fontWeight:600,lineHeight:1.3,borderRadius:2}}>{b.t}</div></td>);i+=b.span;}while(i<6){cells.push(<td key={cells.length} style={{padding:6,borderLeft:`1px solid ${BRAND.border}`,borderBottom:`1px solid ${BRAND.border}`}}/>);i++;}return <tr key={ri}><td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:"#111",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.white}}>{row.n}</td>{cells}</tr>;})}</tbody>
+        </table>
+      </div>
+    </CollapsibleTimeline>
+
+    <Note label="Assumption · access to e& technical specs">
+      The plan above assumes e& will grant timely access to the technical foundations, sandbox environments, cloud/GPU resources, security approvals, and integration owners required to build the platform and the first e& AI Solutions in parallel. Without these inputs, the timeline will slip workstream by workstream because engineering cannot validate deployment, data flows, identity, billing, voice, WhatsApp, observability, and beta operations in isolation.
+    </Note>
+    <Card style={{padding:0,overflow:"hidden",marginBottom:18}}>
+      <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <h4 style={{fontSize:15,fontWeight:700,color:"#111",marginBottom:6}}>Required technical specifications from e&</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0,maxWidth:860}}>
+          To run the build, internal testing and beta in parallel, AIdeology will need documentation, sandbox credentials, and named technical owners for the items below. Each item maps directly to a workstream above.
+        </p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))"}}>
+        {[
+          {t:"e& cloud / GPU environment",d:"Access to the target e& or G42 cloud landing zone, GPU or inference capacity, Kubernetes namespace or cluster access, container registry, approved base images, quota limits, and environment sizing assumptions for dev, staging, beta and production."},
+          {t:"Runtime & deployment access",d:"CI/CD permissions, GitHub or GitLab integration, Helm chart approval path, secrets management, service accounts, network policies, rollback process, and change windows for deploying platform services."},
+          {t:"Model gateway & inference",d:"Approved LLM providers, gateway credentials, routing policies, rate limits, data residency rules, model fallback policy, logging redaction requirements, and cost/budget guardrails per tenant and solution."},
+          {t:"Telephony & voice",d:"SIP trunk / e& UCaaS specs, DID provisioning process, voice codec support, recording and consent handling, fallback IVR."},
+          {t:"WhatsApp Business",d:"BSP path (e& or partner), template approval flow, sender numbers, opt-in / opt-out, message rate limits and pricing tiers."},
+          {t:"Billing & subscriptions",d:"e& billing API contract (auth, products, charges, refunds), tax rules, invoice formats, dunning policy, partner revenue-share reporting."},
+          {t:"Identity & SSO",d:"Federation with e& IAM (OIDC/SAML), tenant model, role mapping, SMB customer auth, admin and support user directories."},
+          {t:"Networking & DNS",d:"VPC/VNet design, private subnets, ingress controller rules, firewall allowlists, subdomain delegation, TLS certificate issuance, CDN, NAT/egress policy, VPN or private link access to e& systems."},
+          {t:"Data residency & compliance",d:"Approved hosting region, NESA / TDRA / ADDA controls, data classification policy, logging retention, audit access."},
+          {t:"Security & observability",d:"SIEM/Loki integration, Prometheus/Grafana access, trace store approval, secret management, vulnerability scanning, penetration-test path, incident response contacts, change management process."},
+          {t:"Channels & connectors",d:"Sandbox credentials for e& telephony, WhatsApp Business, calendar, CRM, payment, and web channels needed for Wave 1, then reusable connector credentials for subsequent waves."},
+          {t:"Data & knowledge sources",d:"Approved sample FAQs, call scripts, product data, branch/service information, escalation rules, Arabic/English terminology, anonymised beta transcripts, and data-sharing boundaries for retrieval and testing."},
+          {t:"Tenant and support operations",d:"SMB tenant provisioning rules, support roles, escalation queues, human handoff policy, admin console access, customer onboarding checklist, and operational SLAs for beta and launch."},
+          {t:"Beta access",d:"Named e& account managers, list of 10–20 SMB beta candidates by vertical, NDA template, feedback channel and SLA expectations."},
+        ].map((x,i)=><div key={i} style={{padding:18,borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:`1px solid ${BRAND.border}`}}>
+          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>0{i+1}</div>
+          <h5 style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:6}}>{x.t}</h5>
+          <p style={{fontSize:11.8,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
+        </div>)}
+      </div>
+    </Card>
+
     {/* ── ARTICLE 6 · PILLAR 02 — ENTERPRISE TIERS ───────────── */}
     {showPricing && <SH>Article 6 · Pillar 02 — Enterprise & Government tiers</SH>}
     {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
