@@ -3440,7 +3440,7 @@ function StackOwnershipTable() {
   </Card>;
 }
 
-function FullStackSection() {
+function FullStackSection({showPricing=true}) {
   return <div style={{padding:"44px 0 0"}}>
     {/* ── COVER / PREAMBLE ─────────────────────────────────────── */}
     <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
@@ -3573,11 +3573,11 @@ function FullStackSection() {
     </Note>
 
     {/* ── ARTICLE 5 · PILLAR 01 — SMB PROGRAMME ──────────────── */}
-    <SH>Article 5 · Pillar 01 — SMB AI programme</SH>
-    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+    {showPricing && <SH>Article 5 · Pillar 01 — SMB AI programme</SH>}
+    {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       Pillar 01 covers six SMB agents delivered in five waves over 30 weeks, plus Wave-5 platform hardening, security audit, formal handoff and three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 8, 9 and 10.
-    </p>
-    <Card style={{padding:0,overflow:"hidden"}}>
+    </p>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
         <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:760}}>
           <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -3612,14 +3612,14 @@ function FullStackSection() {
       <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.55}}>
         * The Customer Agent is bundled inside Wave 1 with the orchestration platform foundation — the first agent absorbs the platform investment every later agent reuses. Wave-5 hardening and 3-year L3 platform support are included in the totals.
       </div>
-    </Card>
+    </Card>}
 
     {/* ── ARTICLE 6 · PILLAR 02 — ENTERPRISE TIERS ───────────── */}
-    <SH>Article 6 · Pillar 02 — Enterprise & Government tiers</SH>
-    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+    {showPricing && <SH>Article 6 · Pillar 02 — Enterprise & Government tiers</SH>}
+    {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       Pillar 02 is sold per customer through e&'s enterprise account teams. Three tiers escalate from adapted SMB agents to fully sovereign on-prem multi-agent deployments. Hosting, connectivity and Tier-3 hardware are 100% e&; build and managed-service fees follow the revenue split at Article 8.
-    </p>
-    <Card style={{padding:0,overflow:"hidden"}}>
+    </p>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
         <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:820}}>
           <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -3643,7 +3643,7 @@ function FullStackSection() {
       <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.55}}>
         Hosting, connectivity and Tier-3 hardware are 100% e& — full margin retained by e& on top of the build and managed-service fees.
       </div>
-    </Card>
+    </Card>}
 
     {/* ── ARTICLE 7 · PILLAR 03 — GPUaaS REFERENCE ──────────── */}
     <SH>Article 7 · Pillar 03 — Sovereign GPU infrastructure</SH>
@@ -3652,8 +3652,8 @@ function FullStackSection() {
     </Note>
 
     {/* ── ARTICLE 8 · COMMERCIAL HEADLINES ──────────────────── */}
-    <SH>Article 8 · Commercial headlines</SH>
-    <Card style={{padding:0,overflow:"hidden"}}>
+    {showPricing && <SH>Article 8 · Commercial headlines</SH>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead>
           <tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -3674,11 +3674,11 @@ function FullStackSection() {
           </tr>)}
         </tbody>
       </table>
-    </Card>
+    </Card>}
 
     {/* --- 8.1 · Revenue share: declining model (mirrored from SMB page) --- */}
-    <SH>8.1 · Revenue share — declining model</SH>
-    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+    {showPricing && <SH>8.1 · Revenue share — declining model</SH>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
         <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
         <div>
@@ -3748,17 +3748,17 @@ function FullStackSection() {
           </div>)}
         </div>
       </div>
-    </Card>
+    </Card>}
 
     {/* --- 8.2 · Build · Transfer · Partner philosophy --- */}
-    <SH>8.2 · Build · Transfer · Partner</SH>
-    <Note label="Build · Transfer · Partner">
+    {showPricing && <SH>8.2 · Build · Transfer · Partner</SH>}
+    {showPricing && <Note label="Build · Transfer · Partner">
       AIdeology will not be a permanent vendor. The engagement is designed as a three-phase transition: full-service build, progressive knowledge transfer, and a long-term platform partnership where e& owns day-to-day operations and AIdeology remains the innovation layer. Commercial support pricing is included in the AIdeology fees section above.
-    </Note>
+    </Note>}
 
     {/* --- 8.3 · Platform support model --- */}
-    <SH>8.3 · Platform support model</SH>
-    <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+    {showPricing && <SH>8.3 · Platform support model</SH>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">4 tiers</Badge><span style={{fontSize:11.5,color:"#888"}}>L1 & L2 → e& · L3 & L4 → AIdeology</span></div>
         <h4 style={{fontSize:18,fontWeight:700,color:"#111",marginBottom:8}}>Platform support model</h4>
@@ -3799,14 +3799,14 @@ function FullStackSection() {
           </div>
         </div>
       </div>
-    </Card>
+    </Card>}
 
     {/* ── ARTICLE 9 · PAYMENT SCHEDULE & MILESTONES ─────────── */}
-    <SH>Article 9 · Payment schedule & milestones</SH>
-    <Note label="Fixed-fee, milestone-based">
+    {showPricing && <SH>Article 9 · Payment schedule & milestones</SH>}
+    {showPricing && <Note label="Fixed-fee, milestone-based">
       Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
-    </Note>
-    <Card style={{padding:0,overflow:"hidden"}}>
+    </Note>}
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
           {["Milestone","Wave","Trigger event","Amount (USD)"].map((h,i)=><th key={i} style={{textAlign:i===3?"right":"left",padding:"12px 18px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
@@ -3832,10 +3832,10 @@ function FullStackSection() {
           </tr>
         </tbody>
       </table>
-    </Card>
-    <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
+    </Card>}
+    {showPricing && <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
       Pillar 02 fees are invoiced per enterprise opportunity under the Pillar 02 Statement of Work. Pillar 03 fees are governed by the separate GPUaaS Statement of Work. Invoices are payable net thirty (30) days from the trigger event being met and certified by e&.
-    </p>
+    </p>}
 
     {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
     <SH>Article 10 · IP ownership & transfer</SH>
@@ -6783,6 +6783,8 @@ const CONTRACT_PRINT_CSS = `
 `;
 
 function ContractPage() {
+  const [showPricing, setShowPricing] = useState(true);
+
   const handleExport = () => {
     document.body.classList.add("contract-printing");
     const cleanup = () => {
@@ -6814,6 +6816,16 @@ function ContractPage() {
           <div style={{fontSize:11,color:"#888",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,padding:"6px 12px",fontWeight:600}}>
             This page is not linked from the main proposal. Share this URL directly with counterparties.
           </div>
+          <button
+            type="button"
+            onClick={()=>setShowPricing(p=>!p)}
+            style={{display:"flex",alignItems:"center",gap:7,padding:"12px 18px",fontSize:12,fontWeight:700,color:showPricing?BRAND.white:"#555",background:showPricing?BRAND.red:BRAND.lightGrey,border:`1px solid ${showPricing?BRAND.red:BRAND.border}`,cursor:"pointer",transition:"all 0.2s",whiteSpace:"nowrap"}}
+          >
+            <span style={{display:"inline-block",width:14,height:14,border:`1.5px solid ${showPricing?"rgba(255,255,255,0.6)":"#bbb"}`,background:showPricing?"rgba(255,255,255,0.2)":"transparent",position:"relative"}}>
+              {showPricing && <span style={{position:"absolute",top:1,left:2,fontSize:10,lineHeight:1,color:BRAND.white}}>✓</span>}
+            </span>
+            {showPricing ? "Pricing visible" : "Pricing hidden"}
+          </button>
           <button
             type="button"
             onClick={handleExport}
@@ -6853,7 +6865,7 @@ function ContractPage() {
 
     {/* ── CONTRACT BODY ─────────────────────────────────────── */}
     <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      <FullStackSection/>
+      <FullStackSection showPricing={showPricing}/>
     </div>
 
     {/* ── PRINT-ONLY FOOTER ─────────────────────────────────── */}
