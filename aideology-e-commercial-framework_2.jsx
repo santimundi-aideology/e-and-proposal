@@ -3646,8 +3646,110 @@ function FullStackSection({showPricing=true}) {
 
     {/* ── ARTICLE 7 · PILLAR 03 — GPUaaS REFERENCE ──────────── */}
     <SH>Article 7 · Pillar 03 — Sovereign GPU infrastructure</SH>
-    <Note label="Pillar 03 — referenced scope">
-      Sovereign GPU infrastructure (the GPUaaS pillar) is governed by a separate Statement of Work executed under this Agreement, aligned with NVIDIA Enterprise Reference Architectures and the HPC reference library. BoM, financing model and managed-service terms for Pillar 03 are documented in the GPUaaS section of the proposal and incorporated by reference.
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      Pillar 03 covers AIdeology's infrastructure consulting services for e&'s sovereign GPU programme. This includes designing NVIDIA Enterprise Reference Architectures for on-premises AI PODs and advising on GPU fulfilment across e&'s planned 100 MW+ data centre portfolio. The GPUaaS commercial model (compute billing, orchestration, multi-tenancy) is governed by a separate Statement of Work executed under this Agreement.
+    </p>
+
+    {/* --- 7.1 · Reference Architecture Design --- */}
+    <SH>7.1 · Reference Architecture design — POD consulting</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      AIdeology will design NVIDIA Enterprise Reference Architectures for on-premises AI PODs tailored to e&'s sovereign infrastructure requirements. Each engagement produces a validated, deployment-ready architecture covering cluster topology selection, SU sizing, network fabric design, storage tier selection, OEM vendor evaluation, thermal and power modelling, and a full Bill of Materials submitted to NVIDIA's Design Review Board.
+    </p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"Cluster topology",d:"Selection of the optimal NVIDIA pattern — RTX PRO, HGX, or NVL72 — based on workload mix, budget, and site constraints."},
+        {t:"SU sizing & fabric design",d:"Scalable Unit count, multi-rail spine-leaf or fat-tree fabric, InfiniBand / Spectrum-X selection, and cabling plan."},
+        {t:"OEM vendor evaluation",d:"Comparative assessment across Dell, Cisco, HPE, Lenovo, and Supermicro against e&'s procurement and support requirements."},
+        {t:"Full BoM & DRB submission",d:"Binding Bill of Materials covering GPU servers, networking, storage, rack/PDU, optics — submitted to NVIDIA Design Review Board for validation."},
+        {t:"Thermal & power modelling",d:"Per-rack power draw, cooling requirements at target PUE, and facility-level capacity planning per data centre site."},
+        {t:"Deployment runbook",d:"Step-by-step commissioning playbook: rack-and-stack, burn-in, fabric bringup, orchestrator install, acceptance tests."},
+      ].map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{p.t}</h4>
+        <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{p.d}</p>
+      </Card>)}
+    </div>
+
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <Badge v="rose">Tiered pricing</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 6px"}}>Reference Architecture design fee — per POD</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Fee scales with POD complexity: fabric tiers, storage islands, and NVIDIA DRB review depth increase non-linearly with GPU count.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["POD size","Nodes / GPUs","Typical use case","RA design fee (USD)"].map((h,i)=><th key={i} style={{textAlign:i===3?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {size:"Department pilot",nodes:"4 nodes / 32 GPUs",use:"Single enterprise workload, bank AI contact centre",fee:"$25,000 – $40,000"},
+            {size:"Half pod",nodes:"16 nodes / 128 GPUs",use:"Enterprise training + multi-tenant inference",fee:"$50,000 – $75,000"},
+            {size:"Standard pod",nodes:"32 nodes / 256 GPUs",use:"GPUaaS, sovereign AI factory, government",fee:"$75,000 – $120,000"},
+            {size:"Multi-pod / campus",nodes:"128+ nodes / 1,024+ GPUs",use:"100 MW DC fill, frontier training, multi-country",fee:"$150,000 – $250,000"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.size}</td>
+            <td style={{padding:"12px 14px",color:"#444",whiteSpace:"nowrap"}}>{r.nodes}</td>
+            <td style={{padding:"12px 14px",color:"#555",lineHeight:1.45}}>{r.use}</td>
+            <td style={{padding:"12px 14px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r.fee}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>}
+
+    {/* --- 7.2 · Data Centre GPU Fulfilment Advisory --- */}
+    <SH>7.2 · Data centre GPU fulfilment advisory — 100 MW programme</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
+      AIdeology will provide strategic consulting to assist e& in planning and populating its planned 100 MW+ data centre portfolio with GPU infrastructure. The engagement covers multi-site capacity planning, phased GPU procurement strategy, vendor negotiation support, power and cooling envelope modelling, and staged deployment coordination across e&'s entire DC footprint.
+    </p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:14}}>
+      {[
+        {t:"Multi-site capacity planning",d:"Map GPU demand forecasts against e&'s DC footprint — UAE × 3, Morocco, Hungary, PPF — and allocate compute tiers to each facility based on sovereignty, latency, and customer requirements."},
+        {t:"Phased procurement roadmap",d:"Stage-gated GPU procurement plan aligned with DC build timelines. Phase 1 land (pilot pod), Phase 2 expand (standard pods), Phase 3 fill (multi-pod campus). Avoids over-commitment ahead of demand."},
+        {t:"Multi-vendor strategy",d:"Comparative evaluation of NVIDIA DGX, Dell PowerEdge, HPE Cray, Cisco UCS, Lenovo ThinkSystem, and Supermicro. Diversified sourcing to mitigate supply-chain risk and optimise commercial terms."},
+        {t:"Power & cooling modelling",d:"Per-facility thermal envelope analysis at target PUE. Rack density planning, liquid cooling assessment for high-density nodes (NVL72), and utility contract alignment."},
+        {t:"Vendor negotiation support",d:"Technical advisory during OEM procurement: SKU selection, volume discount structuring, support SLA negotiation, warranty terms, and delivery scheduling."},
+        {t:"Deployment coordination",d:"Phased commissioning across multiple sites: rack-and-stack sequencing, fabric bringup, orchestrator integration, burn-in testing, and handoff to e& operations."},
+      ].map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 6px"}}>{p.t}</h4>
+        <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{p.d}</p>
+      </Card>)}
+    </div>
+
+    {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
+      <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
+        <Badge v="rose">Programme fee</Badge>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"10px 0 6px"}}>100 MW GPU fulfilment advisory</h4>
+        <p style={{fontSize:12,color:"#777",lineHeight:1.6,margin:0}}>Strategic engagement covering multi-site GPU fulfilment roadmap, procurement advisory, vendor negotiation support, and phased deployment planning across 5+ data centres.</p>
+      </div>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead>
+          <tr style={{background:BRAND.lightGrey}}>
+            {["Component","Model","Fee range (USD)","Notes"].map((h,i)=><th key={i} style={{textAlign:i===2?"right":"left",padding:"12px 14px",fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",borderBottom:`1px solid ${BRAND.border}`}}>{h}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            {comp:"Monthly advisory retainer",model:"2–3 senior architects",fee:"$40,000 – $60,000 / mo",note:"Ongoing architecture, design reviews, capacity planning, vendor coordination"},
+            {comp:"DC fulfilment programme",model:"Fixed programme fee (6–12 months)",fee:"$350,000 – $600,000",note:"Multi-site GPU roadmap, procurement strategy, deployment coordination"},
+            {comp:"Procurement advisory uplift",model:"% of hardware BoM",fee:"0.5% – 1.5%",note:"Success-based fee aligned to fulfilment milestones; subject to cap agreed per engagement"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.comp}</td>
+            <td style={{padding:"12px 14px",color:"#444"}}>{r.model}</td>
+            <td style={{padding:"12px 14px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r.fee}</td>
+            <td style={{padding:"12px 14px",color:"#555",lineHeight:1.45}}>{r.note}</td>
+          </tr>)}
+        </tbody>
+      </table>
+      <div style={{padding:"14px 26px",borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+        <div style={{fontSize:12,color:"#555",lineHeight:1.6}}>
+          <strong style={{color:"#111"}}>Year 1 estimate:</strong> $750K – $1.5M depending on POD count and programme depth. Individual POD RA fees (7.1) are additional to the programme fee and retainer above.
+        </div>
+      </div>
+    </Card>}
+
+    <Note label="GPUaaS commercial model">
+      GPU compute billing, orchestration platform, multi-tenancy, and metering are governed by a separate Statement of Work executed under this Agreement, aligned with NVIDIA Enterprise Reference Architectures and the HPC reference library. BoM, financing model and managed-service terms are documented in the GPUaaS section of the proposal and incorporated by reference.
     </Note>
 
     {/* ── ARTICLE 8 · COMMERCIAL HEADLINES ──────────────────── */}
