@@ -3,6 +3,9 @@ dist/
 .DS_Store
 .vercel/
 .env.local
+__pycache__/
+*.pyc
+~$*
 
 # Local source/reference assets not needed for deployment
 Etisalat/

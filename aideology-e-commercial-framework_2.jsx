@@ -145,7 +145,7 @@ function ForecastTable({color,bgLight,rows,totalRow,assumptions}) {
 /* ════════════════════════════════════════════════════════════ */
 const AGENT_DETAILS = [
   {
-    phase:"Phase 1",name:"Customer Agent",badge:"Launch first",icon:"🎯",color:"#0F6E56",
+    phase:"Phase 1",name:"Customer Agentic Solution",badge:"Launch first",icon:"🎯",color:"#0F6E56",
     mission:"Every inbound interaction handled — voice, WhatsApp, and web — in one AI trained on the business.",
     overview:"The Customer Agent is the flagship solution and the reason the platform exists. It replaces the front desk, the call centre, the WhatsApp number that nobody answers after 6pm, and the website chat widget that says 'we will get back to you'. Every inbound customer interaction — voice call, WhatsApp message, or web chat — is handled by a single AI agent that knows the business, speaks Arabic and English, remembers prior conversations, and can book appointments, answer FAQs, take orders, escalate to a human, and follow up automatically. It runs 24/7, handles Ramadan hours automatically, greets customers by name if they have called before, and hands off to a human with full context so the customer never repeats themselves.",
     native:[
@@ -171,7 +171,7 @@ const AGENT_DETAILS = [
     kpis:["First response time","Resolution rate (no human needed)","Customer satisfaction (CSAT)","Missed call recovery rate","Appointment no-show reduction","Average handling time"],
   },
   {
-    phase:"Wave 2A",name:"Sales Agent",badge:"Parallel build",icon:"📈",color:"#534AB7",
+    phase:"Wave 2A",name:"Sales Agentic Solution",badge:"Parallel build",icon:"📈",color:"#534AB7",
     mission:"Lead to close — native AIdeology CRM with connectors to whatever the SMB already uses.",
     overview:"The Sales Agent is the revenue engine. It takes every lead that the Customer Agent captures — from a WhatsApp enquiry, a missed call, a web chat — and moves it through a structured sales pipeline. It scores leads by intent, tracks deals through stages, writes follow-up messages automatically, forecasts revenue, and generates proposals in Arabic or English. SMBs that already use Salesforce, HubSpot, or Dynamics 365 keep using them — the Sales Agent syncs there. SMBs with no CRM get a native AIdeology CRM that is simpler and built for the Gulf market. The agent does the selling discipline; the human does the relationship.",
     native:[
@@ -194,7 +194,7 @@ const AGENT_DETAILS = [
     kpis:["Lead-to-deal conversion rate","Average deal cycle time","Pipeline value and velocity","Follow-up compliance rate","Forecast accuracy","Revenue per salesperson"],
   },
   {
-    phase:"Wave 2B",name:"Comms Hub",badge:"Parallel build",icon:"📡",color:"#185FA5",
+    phase:"Wave 2B",name:"Comms Agentic Solution",badge:"Parallel build",icon:"📡",color:"#185FA5",
     mission:"All outbound and inbound communications from one AI-powered dashboard — the telco moat made useful.",
     overview:"The Comms Hub turns e&'s network assets into a business advantage. Every SMB communication channel — WhatsApp, SMS, email, voice, Instagram DM, Teams — is unified into one dashboard with one AI managing all of it. The SMB owner describes a campaign in Arabic ('send a Ramadan offer to customers who ordered last month'), and the AI writes the message, selects the audience from Customer Agent data, schedules the send across all channels, and reports on delivery, opens, and responses. It is the tool that makes e& Smart Messaging, Toll Free 800, and WhatsApp BSP useful to businesses that do not have a marketing team.",
     native:[
@@ -218,7 +218,7 @@ const AGENT_DETAILS = [
     kpis:["Message delivery rate","Campaign response rate","Channel preference per customer","Average response time","Sentiment score trend","Broadcast ROI"],
   },
   {
-    phase:"Wave 3A",name:"Finance Agent",badge:"Parallel build",icon:"💰",color:"#3B6D11",
+    phase:"Wave 3A",name:"Finance Agentic Solution",badge:"Parallel build",icon:"💰",color:"#3B6D11",
     mission:"Invoices, payments, VAT, cash flow — UAE-native, FTA-certified, connected to what the SMB already uses.",
     overview:"The Finance Agent automates the financial operations that consume 8–12 hours per week for a typical SMB owner: creating invoices, chasing payments, preparing VAT returns, tracking expenses, and understanding cash flow. It auto-generates invoices from Sales Agent deal closures, sends payment links via WhatsApp, prepares FTA-format VAT returns from transaction data, escalates overdue invoices through WhatsApp → SMS → call sequences, and delivers monthly P&L summaries to the owner on WhatsApp. It connects to e& Pay for payment collection and to QuickBooks, Xero, or Business Central if the SMB already uses one. For the 70%+ of UAE SMBs that use Excel or nothing, it becomes their first real financial system.",
     native:[
@@ -242,7 +242,7 @@ const AGENT_DETAILS = [
     kpis:["Days sales outstanding (DSO)","Invoice-to-payment cycle time","VAT compliance rate","Cash flow forecast accuracy","Payment collection rate","Expense categorisation accuracy"],
   },
   {
-    phase:"Wave 3B",name:"Ops Agent",badge:"Parallel build",icon:"⚙️",color:"#854F0B",
+    phase:"Wave 3B",name:"Ops Agentic Solution",badge:"Parallel build",icon:"⚙️",color:"#854F0B",
     mission:"Internal operations automated — triggered by customer interactions, not by human admin.",
     overview:"The Ops Agent eliminates the manual back-office work that happens after every customer interaction. When the Customer Agent books an appointment, the Ops Agent creates a task for the service team. When a complaint is logged, it creates a service ticket with priority and SLA. When a meeting ends, it extracts action items and assigns them. It manages approval flows, daily operational checklists, SOP documentation, and business reporting — all triggered automatically from real business events, not manual admin. For SMBs on Microsoft Teams, tasks sync to Planner. For Google Workspace users, to Google Tasks. For SMBs using nothing, the native AIdeology task board provides the structure they have never had.",
     native:[
@@ -265,7 +265,7 @@ const AGENT_DETAILS = [
     kpis:["Task completion rate","Average time to resolve tickets","SLA compliance percentage","Checklist completion rate","Action item follow-through","Operational cost per customer interaction"],
   },
   {
-    phase:"Wave 4",name:"People Agent",badge:"Scale wave",icon:"👥",color:"#993C1D",
+    phase:"Wave 4",name:"People Agentic Solution",badge:"Scale wave",icon:"👥",color:"#993C1D",
     mission:"WPS payroll, attendance, leave, onboarding — UAE labour law as default, not a setting.",
     overview:"The People Agent is the HR department that most SMBs cannot afford. It handles payroll calculation under UAE Labour Law (including overtime, gratuity, and end-of-service), generates WPS SIF files for Ministry of Labour submission, tracks attendance via WhatsApp geofenced check-in linked to e& SIM, manages leave requests and balances via WhatsApp conversation, runs digital onboarding checklists for new hires (Emirates ID collection, visa status tracking, bank account setup), and alerts HR 90/60/30 days before any visa or permit expiry. For SMBs with 5–50 employees, this replaces the Excel spreadsheet, the manual WPS file, and the PRO who tracks visa expiry dates in their head. It is UAE-native by design — labour law compliance is not a setting, it is the default.",
     native:[
@@ -337,7 +337,7 @@ function AgentRoadmapGrid() {
 
         {/* Overview */}
         <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
-          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:10}}>What this agent does</div>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:10}}>What this agentic solution does</div>
           <p style={{fontSize:13,color:"#444",lineHeight:1.7,margin:0}}>{selectedAgent.overview}</p>
         </div>
 
@@ -365,7 +365,7 @@ function AgentRoadmapGrid() {
 
         {/* Partner connectors */}
         <div style={{padding:"24px 32px",borderBottom:`1px solid ${BRAND.border}`}}>
-          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Partner connectors — the agent syncs to these</div>
+          <div style={{fontSize:10.5,fontWeight:700,letterSpacing:"0.06em",color:BRAND.grey,textTransform:"uppercase",marginBottom:12}}>Partner connectors — this agentic solution syncs to these</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
             {selectedAgent.connectors.map((c,i)=><span key={i} style={{fontSize:11,padding:"4px 10px",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,fontWeight:600,color:"#555"}}>{c}</span>)}
           </div>
@@ -3227,13 +3227,13 @@ const STACK_LAYERS = [
   },
   {
     n:"2",
-    name:"GPU Orchestration",
+    name:"GPU Orchestration — Open Innovation",
     tag:"Compute on demand",
     color:"#185FA5",
-    summary:"e&'s GPU orchestrator. Schedules, isolates, and serves GPU workloads — inference, training, fine-tuning — across e&'s sovereign compute estate. Orchestration partner TBD (shortlist includes run.ai, Open Innovation, SambaNova, Fluidstack, Vultr, and CoreWeave).",
+    summary:"e&'s GPU orchestrator. Schedules, isolates, and serves GPU workloads — inference, training, fine-tuning — across e&'s sovereign compute estate. Orchestration partner: Open Innovation.",
     owner:"e&",
     components:["Kubernetes / Slurm job scheduling","Multi-tenant GPU isolation","Inference · training · fine-tuning","Auto-scaling & load balancing","Hardware abstraction (DGX, Dell, HPE, Supermicro)","Capacity management & tenant quotas"],
-    why:"The GPU orchestrator turns raw hardware into a consumable, schedulable, billable service. Forge consumes capacity from it and maps every job back to a customer, agent and invoice line. Orchestration partner award is pending.",
+    why:"The GPU orchestrator turns raw hardware into a consumable, schedulable, billable service. Forge consumes capacity from it and maps every job back to a customer, agent and invoice line. Orchestration partner: Open Innovation.",
   },
   {
     n:"1",
@@ -3501,7 +3501,7 @@ function FullStackSection({showPricing=true}) {
     {/* ── ARTICLE 2 · SCOPE — THREE PROPOSITIONS ──────────────── */}
     <SH>Article 2 · Scope of engagement — three propositions</SH>
     <Note label="Three propositions, four phases">
-      The engagement is structured as three concurrent propositions — each progressing through four shared phases: Design, Build, Launch commercially, and Support &amp; evolve. Proposition A delivers the agentic solutions across Pillars 01 and 02; Proposition B builds e&'s internal Agentic Centre of Excellence; Proposition C delivers the AI Control Plane and Development platform that underpins the entire stack.
+      This engagement runs as three concurrent propositions, each advancing through four shared phases: Design, Build, Launch commercially, and Support &amp; evolve. Proposition A builds and launches six agentic solutions across Pillars 01 and 02. Proposition B stands up e&'s Agentic Centre of Excellence — transferring capability so e& owns and operates its AI stack independently. Proposition C delivers the AI Control Plane and Development platform that connects compute, models, agents, and billing into a single sovereign operating layer.
     </Note>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:18}}>
       {[
@@ -3870,7 +3870,6 @@ function FullStackSection({showPricing=true}) {
           {[
             {comp:"Monthly advisory retainer",model:"2–3 senior architects",fee:"$40,000 – $60,000 / mo",note:"Ongoing architecture, design reviews, capacity planning, vendor coordination"},
             {comp:"DC fulfilment programme",model:"Fixed programme fee (6–12 months)",fee:"$350,000 – $600,000",note:"Multi-site GPU roadmap, procurement strategy, deployment coordination"},
-            {comp:"Procurement advisory uplift",model:"% of hardware BoM",fee:"0.5% – 1.5%",note:"Success-based fee aligned to fulfilment milestones; subject to cap agreed per engagement"},
           ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
             <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>{r.comp}</td>
             <td style={{padding:"12px 14px",color:"#444"}}>{r.model}</td>
@@ -4142,7 +4141,6 @@ function FullStackSection({showPricing=true}) {
             {s:"RA design — multi-pod / campus (1,024+ GPUs)",m:"Fixed per POD",f:"$150,000 – $250,000"},
             {s:"Monthly advisory retainer (2–3 senior architects)",m:"Monthly",f:"$40,000 – $60,000 / mo"},
             {s:"100 MW DC fulfilment programme (6–12 months)",m:"Fixed programme fee",f:"$350,000 – $600,000"},
-            {s:"Procurement advisory uplift",m:"% of hardware BoM",f:"0.5% – 1.5%"},
           ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
             <td style={{padding:"10px 16px",color:"#111"}}>{r.s}</td>
             <td style={{padding:"10px 16px",color:"#666"}}>{r.m}</td>
@@ -4190,8 +4188,7 @@ function FullStackSection({showPricing=true}) {
       </table>
     </Card>}
     {showPricing && <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginTop:8,marginBottom:18}}>
-      RA design engagements (single-pod or multi-pod) follow a simplified two-milestone structure: 30% advance on SoW execution; 70% on blueprint delivery and e& sign-off. Monthly advisory retainers are invoiced in advance at the start of each calendar month. Procurement advisory uplift is invoiced on hardware BoM confirmation and payable net thirty (30) days.
-    </p>}
+      RA design engagements (single-pod or multi-pod) follow a simplified two-milestone structure: 30% advance on SoW execution; 70% on blueprint delivery and e& sign-off. Monthly advisory retainers are invoiced in advance at the start of each calendar month.    </p>}
 
     {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
     <SH>Article 10 · IP ownership & transfer</SH>
@@ -4419,7 +4416,6 @@ function FullStackSection({showPricing=true}) {
             {s:"RA design — multi-pod / campus (1,024+ GPUs)",m:"Fixed per POD",f:"$150,000 – $250,000"},
             {s:"Monthly advisory retainer (2–3 senior architects)",m:"Monthly",f:"$40,000 – $60,000 / mo"},
             {s:"100 MW DC fulfilment programme (6–12 months)",m:"Fixed programme fee",f:"$350,000 – $600,000"},
-            {s:"Procurement advisory uplift",m:"% of hardware BoM",f:"0.5% – 1.5%"},
           ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
             <td style={{padding:"10px 16px",color:"#111"}}>{r.s}</td>
             <td style={{padding:"10px 16px",color:"#666"}}>{r.m}</td>
@@ -4838,6 +4834,520 @@ function ArchitectureCard({a, open, onToggle}) {
       <a href={a.docUrl} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:12,fontWeight:700,color:BRAND.white,background:BRAND.red,padding:"10px 16px",textDecoration:"none"}}>Open NVIDIA reference doc →</a>
     </div>}
   </Card>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/* AIDEOLOGY SERVICES CATALOGUE                               */
+/* ════════════════════════════════════════════════════════════ */
+
+// Build-up "cake" — from physical foundation (bottom) to agentic outcome (top).
+// Mirrors AIdeology's end-to-end delivery stack as advertised on aideology.ai.
+// Each layer is expandable to reveal full project information.
+const BUILD_CAKE = [
+  {
+    n:"08", t:"Customer Outcome", color:"#E00800",
+    who:"e&'s customer",
+    services:[
+      {t:"AIdeation", d:"Identify daily business challenges; propose Gen-AI solutions."},
+      {t:"AI Opportunity Assessment", d:"Prioritised backlog of high-ROI use cases with business case."},
+      {t:"AI Readiness Audit", d:"Data, systems, compliance and team-capability gap analysis."},
+      {t:"Agentic Architecture Blueprint", d:"Target operating model, agent taxonomy, trust tiers, governance."},
+      {t:"Proof of Concept (PoC) Lab", d:"Working demo on real or synthetic data in 2–3 weeks."},
+      {t:"GTM & Sales Enablement", d:"Pricing, playbook, demo env, sales training, battle cards."},
+      {t:"Managed AI Operations", d:"24/7 L3/L4 support, incidents, monitoring, drift, optimisation."},
+      {t:"Centre of Excellence (CoE) Build", d:"Squad structure, SDD playbooks, internal design authority."},
+      {t:"Knowledge Transfer & Training", d:"Architecture deep-dives, SDD certification, shadowed delivery."},
+      {t:"Continuous Agent Evolution", d:"A/B tests, model upgrades, new channels, market expansion."},
+    ],
+    summary:"Live agentic solution embedded in the customer's workflow — billed on the e& invoice, measured against business KPIs. This layer spans strategy and discovery before the build, and operations and evolution after launch.",
+    timing:"Week 0–2 (strategy) · Week 24+ (live & evolve)",
+    deliverables:[
+      "Prioritised use-case backlog with business case per use case (AIdeation)",
+      "AI Readiness Audit — gap analysis and 90-day action plan",
+      "Agentic Architecture Blueprint — target operating model and agent taxonomy",
+      "Working Proof of Concept on real or synthetic data (2–3 weeks)",
+      "Production agentic solution in active use across customer base",
+      "Customer success playbook & SLA",
+      "GTM playbook, pricing strategy, sales enablement, competitive battle cards",
+      "Centre of Excellence operating model — squad structure, SDD playbooks, design authority",
+      "Knowledge transfer programme — architecture deep-dives, agent builder workshops, SDD certification",
+      "Continuous evolution backlog — A/B tests, model upgrades, new feature sprints, channel & market expansion",
+    ],
+    technologies:["e& billing integration","PoC sandbox environments","Demo agents & evaluation frameworks","Customer support tooling","Usage analytics","Business KPI dashboards"],
+    partners:["AIdeology AI Strategy Consultancy team","e& sales & marketing","e& customer success","e& Centre of Excellence (post-handover)","Enterprise & government end-customers"],
+    outcomes:["Validated business case before production commitment","Recurring revenue on the e& invoice","Measured productivity uplift against KPIs","Internal e& capability for autonomous operation","Customer NPS / retention metrics","Cross-sell opportunity into adjacent agents"],
+  },
+  {
+    n:"07", t:"Agentic Applications & Robotics", color:"#A8201A",
+    who:"e& (owned) · AIdeology (build)",
+    services:[
+      {t:"SDD — Spec-Driven Design", d:"Signed implementation spec with named acceptance tests before code."},
+      {t:"Custom Agent Development", d:"Multi-agent solutions for complex enterprise workflows."},
+      {t:"Adapted Agent Uplift", d:"Hardened SMB agents: multi-branch, ERP/CRM, compliance logging."},
+      {t:"Arabic & Multilingual NLP", d:"Dialectal Arabic models, bilingual flows, domain benchmarks."},
+      {t:"Voice Agent Engineering", d:"Telephony, STT/TTS, sentiment, real-time handoff to humans."},
+      {t:"Humanoid Robotics Deployment", d:"Floor feasibility, robot selection, integration, field rollout."},
+      {t:"Digital Twin Design (Omniverse)", d:"Industrial & operational twins on NVIDIA Omniverse."},
+      {t:"Robot Policy Training (Isaac Sim)", d:"Synthetic data, RL policy training, sim-to-real transfer."},
+      {t:"Robotics Fleet Management", d:"Telemetry, OTA updates, mission orchestration, remote ops."},
+      {t:"Edge AI & On-Device Models", d:"Compressed models for AI PCs, 5G gateways, drones, IoT."},
+    ],
+    summary:"Customer, Sales, Finance, Ops, Comms, People agents. Vertical solutions for contact centre, document intelligence, approval orchestration. Plus humanoid robotics, digital twins, and edge AI for e&'s physical-world footprint.",
+    timing:"Week 16–28",
+    deliverables:[
+      "Spec-Driven Design (SDD) document with named acceptance tests — signed before code begins",
+      "Production multi-agent solution per use case (Customer, Sales, Finance, Ops, Comms, People)",
+      "Vertical solutions — contact centre, document intelligence, approval orchestration",
+      "Adapted SMB agents hardened for enterprise (multi-branch, deeper ERP/CRM)",
+      "Arabic & multilingual NLP fine-tunes (dialectal adaptation, bilingual flows)",
+      "End-to-end voice pipeline (STT/TTS, telephony, sentiment, human handoff)",
+      "Prompt libraries, guardrail packs, evaluation sets",
+      "Connector accelerators (CRM, ERP, HR, finance, government APIs, payment systems)",
+      "Industrial / operational digital twins built in NVIDIA Omniverse",
+      "Robot policy training & sim-to-real transfer via NVIDIA Isaac Sim",
+      "Humanoid robot fleet onboarding, telemetry, OTA updates, mission orchestration",
+      "On-device AI models for Qualcomm AI PCs, 5G gateways, IoT, drones",
+    ],
+    technologies:["LangChain · CrewAI · custom orchestration","Claude · GPT · Llama · sovereign Arabic models","WhatsApp BSP · telephony · email connectors","Salesforce · SAP · Oracle Fusion · Microsoft Dynamics · Epic · Temenos","MOHRE · DLD · FTA · government APIs","NVIDIA Omniverse · Isaac Sim · Modulus","ROS2 · MoveIt · robot SDKs","Qualcomm AI PCs · edge gateways · 5G nodes"],
+    partners:["AIdeology Agentic AI Delivery team","NVIDIA Robotics & Omniverse teams","Humanoid robot OEMs (Figure, 1X, Agility, etc.)","e& product & domain experts","Customer SMEs for vertical agents"],
+    outcomes:["Agent passes acceptance tests on real data","Human-in-the-loop gates operational","RBAC, audit trail, compliance logging live","Robotics fleet operating autonomously with remote intervention","Agent IP transfers to e& under build-then-transfer"],
+  },
+  {
+    n:"06", t:"AI Control Plane — Forge", color:"#7A2BA1",
+    who:"AIdeology · licensed to e&",
+    services:[
+      {t:"Forge Platform Deployment", d:"Control plane on sovereign or cloud infra — agent orchestration core."},
+      {t:"LLM Gateway & Model Router", d:"One API across providers; cost/latency/compliance routing & failover."},
+      {t:"Multi-Tenant Marketplace Build", d:"White-label storefront, tenant onboarding, e&-branded back-office."},
+      {t:"Trust Tier Implementation", d:"Graduated controls T1 SMB → T4 Government, NESA P1–P4, ISO 42001."},
+      {t:"AI Governance Framework", d:"Bias testing, explainability, jailbreak detection, evidence packs."},
+      {t:"Security Architecture Review", d:"Zero-trust network, SSO/AD, DLP, SIEM, Help AG managed wrap."},
+      {t:"API & Connector Accelerators", d:"Pre-tested integrations — CRM, ERP, HR, finance, gov, payment."},
+    ],
+    summary:"The platform that runs the AI business — agent orchestration, LLM routing, billing, governance, observability, and security. Forge is the durable platform IP, licensed perpetually to e&.",
+    timing:"Week 12–24",
+    deliverables:[
+      "Forge control plane deployed on sovereign or cloud infrastructure",
+      "LLM gateway with multi-provider routing, semantic caching, automatic failover",
+      "Multi-tenant onboarding, tenant back-office, RBAC, SSO/AD integration",
+      "Billing & metering integrated with e& invoicing",
+      "Trust-tier governance (T1 SMB → T4 Government) with NESA P1–P4 / ISO 42001 controls",
+      "AI Governance policy framework — bias testing, explainability, jailbreak detection, evidence packs",
+      "Zero-trust network policy for all AI traffic; DLP & SIEM integration",
+      "Pre-built API & connector accelerators (CRM, ERP, HR, finance, government, payment)",
+      "Marketplace storefront & template instancer with signed OCI templates",
+    ],
+    technologies:["Forge orchestration engine","Claude · GPT · Llama · sovereign model routing","Virtual API keys · semantic cache · automatic fallbacks","NESA P1–P4 · ISO 42001 · NIST AI RMF","Presidio PII redaction · HSM-backed key management","Langfuse · OpenSearch · Prometheus observability"],
+    partners:["AIdeology platform team","Help AG (e&'s wholly-owned cyber arm — managed security wrap)","e& billing & identity integration"],
+    outcomes:["Single API across all model providers","Tenant isolation enforced at platform level","Cost-per-agent and SLA dashboards live","Regulator-ready audit & evidence packs","Perpetual non-exclusive licence to e&"],
+  },
+  {
+    n:"05", t:"MLOps & Model Layer", color:"#7A52F4",
+    who:"AIdeology",
+    services:[
+      {t:"MLOps Infrastructure Design", d:"Container orchestration & AI-optimised CI/CD pipelines as code."},
+      {t:"Model Development Environment", d:"JupyterHub, experiment tracking, versioning, resource scheduling."},
+      {t:"NVIDIA AI Enterprise & Fleet Command", d:"Enterprise AI stack with secure distributed deployment & ops."},
+      {t:"Model Deployment Automation", d:"Multi-env deploys, A/B tests, canary releases, edge deployment."},
+      {t:"Model Monitoring & Drift Detection", d:"Real-time perf, data & model drift, automated rollback."},
+      {t:"Fine-Tuning Pipelines", d:"DeepSpeed / FSDP / LoRA / QLoRA training & evaluation."},
+    ],
+    summary:"NVIDIA AI Enterprise, model serving (vLLM, TGI, Triton), CI/CD pipelines, drift detection, fine-tuning (DeepSpeed, LoRA, QLoRA). The lifecycle plane between data and agents.",
+    timing:"Week 12–22",
+    deliverables:[
+      "MLOps platform with AI-optimised CI/CD pipelines",
+      "Infrastructure-as-Code implementation across environments",
+      "JupyterHub / notebook environments for data-science teams with resource scheduling",
+      "Model registry, versioning, experiment tracking",
+      "Multi-environment deployment (dev / staging / prod) with A/B and canary releases",
+      "Edge deployment automation via NVIDIA Fleet Command",
+      "Real-time model performance monitoring, drift detection, automated rollback",
+      "Fine-tuning pipelines with DeepSpeed, FSDP, LoRA, QLoRA for parameter-efficient adaptation",
+      "Arabic-domain evaluation benchmarks and acceptance test framework",
+    ],
+    technologies:["NVIDIA AI Enterprise","NVIDIA Fleet Command","vLLM · TGI · NVIDIA Triton (inference)","DeepSpeed · FSDP · LoRA · QLoRA (training)","MLflow · DVC · Weights & Biases","JupyterHub · containerised notebooks"],
+    partners:["NVIDIA (Elite Solution Provider tier)","Hugging Face for open-source models","Anthropic / OpenAI / Google for commercial APIs"],
+    outcomes:["Time-to-production for new models drops from months to days","Model drift caught within hours, not weeks","Auditable model lineage for regulators","Resource utilisation optimised across the GPU fleet","Comprehensive audit trails for compliance"],
+  },
+  {
+    n:"04", t:"Data Platform", color:"#185FA5",
+    who:"AIdeology",
+    services:[
+      {t:"High-Performance Data Storage", d:"Parallel filesystems (Lustre / GPFS / BeeGFS) + all-flash NVMe."},
+      {t:"NVIDIA GPUDirect Storage", d:"Direct GPU-to-storage path; eliminates CPU bottlenecks."},
+      {t:"NVIDIA Magnum IO", d:"High-bandwidth, low-latency I/O fabric across the data path."},
+      {t:"Accelerated Data Processing", d:"GPU-accelerated ETL with RAPIDS, Spark, Dask."},
+      {t:"Data Management & Governance", d:"Metadata, lineage (DVC, MLflow), versioning, audit trails."},
+      {t:"Compliance Framework", d:"HIPAA / GDPR / NESA controls, classification-aware redaction."},
+    ],
+    summary:"Parallel filesystems (Lustre, GPFS, BeeGFS), all-flash NVMe, NVIDIA Magnum IO, RAPIDS pipelines, metadata, lineage & governance.",
+    timing:"Week 10–20",
+    deliverables:[
+      "High-performance parallel filesystem deployed and tuned",
+      "Scalable object storage (Ceph, S3-compatible) for archival and data lake",
+      "All-flash NVMe storage with NVIDIA GPUDirect Storage integration",
+      "Tiered storage strategy for cost optimisation",
+      "GPU-accelerated ETL & feature engineering pipelines (RAPIDS, Spark, Dask)",
+      "Real-time stream processing for live agent inputs",
+      "Data lake / data warehouse with AI-optimised schemas",
+      "Data catalog with metadata, lineage tracking (DVC, MLflow), version control",
+      "Compliance framework (HIPAA / GDPR / NESA) and immutable audit trails",
+      "Optimised data loaders (NVIDIA DALI) with caching and prefetching",
+    ],
+    technologies:["Lustre · GPFS · BeeGFS parallel filesystems","Ceph · S3-compatible object storage","All-flash NVMe arrays","NVIDIA GPUDirect Storage & Magnum IO","NVIDIA RAPIDS · Apache Spark · Dask","NVIDIA DALI optimised data loaders","HIPAA · GDPR · NESA compliance frameworks"],
+    partners:["DDN A³I / EXA","VAST Data Universal Storage","NetApp AIPod","Pure Storage FlashBlade"],
+    outcomes:["GPUs never starved for data — utilisation above 80%","Data prep time reduced from weeks to hours","Auditable data lineage end-to-end","Compliance with sovereign data residency requirements"],
+  },
+  {
+    n:"03", t:"Compute Orchestration & Model Serving", color:"#0F6B49",
+    who:"AIdeology · Open Innovation",
+    services:[
+      {t:"GPUaaS Architecture", d:"Cluster topology, orchestration, quotas, billing meters."},
+      {t:"Kubernetes / Slurm Orchestration", d:"K8s with NVIDIA GPU Operator; Slurm for batch HPC jobs."},
+      {t:"Model Serving Infrastructure", d:"vLLM, TGI, NVIDIA Triton with quantisation & batching."},
+      {t:"GPU Virtualization (MIG / vGPU)", d:"Slice GPUs across tenants without performance interference."},
+      {t:"Multi-Tenant Isolation", d:"Namespace-per-tenant, RBAC, predictable performance."},
+      {t:"GPU Fleet Management", d:"Monitoring, capacity, utilisation, proactive health checks."},
+      {t:"Edge & Device Orchestration", d:"Workload placement across cloud, edge nodes, AI PCs, 5G."},
+    ],
+    summary:"The compute layer between hardware and models — Kubernetes (NVIDIA AI Enterprise), Slurm, Red Hat OpenShift, multi-tenant GPU isolation, model serving, scheduling, billing meters.",
+    timing:"Week 8–18",
+    deliverables:[
+      "Kubernetes cluster with NVIDIA GPU Operator deployed",
+      "Slurm workload manager for batch HPC jobs",
+      "Multi-tenant namespace isolation with RBAC",
+      "GPU virtualization (MIG, vGPU partitioning) for utilisation maximisation",
+      "Auto-scaling, load balancing, and tenant quota enforcement",
+      "GPUaaS billing meters and tenant chargeback system",
+      "Model serving stack (vLLM, TGI, NVIDIA Triton) with quantisation & batching optimisation",
+      "Fine-tuning orchestration with auto-scaling",
+      "Edge orchestration extending workloads to Qualcomm AI PCs, 5G gateways, IoT",
+      "Inference API gateway with rate limiting and usage metering",
+    ],
+    technologies:["Kubernetes · NVIDIA AI Enterprise","Slurm · LSF workload managers","Red Hat OpenShift AI","NVIDIA Multi-Instance GPU (MIG) · vGPU","Docker · Singularity · containerd","vLLM · TGI · NVIDIA Triton","Prometheus · Grafana observability"],
+    partners:["Open Innovation (orchestration partner)","Red Hat","NVIDIA","Qualcomm (edge devices)"],
+    outcomes:["Multiple tenants share GPU estate without interference","Cost allocation per team / project / tenant","Predictable performance under multi-tenant load","Workload migration across nodes without downtime","Edge inference live across e& physical footprint"],
+  },
+  {
+    n:"02", t:"GPU Hardware & Fabric", color:"#0A3B66",
+    who:"AIdeology · OEM partners",
+    services:[
+      {t:"GPU Infrastructure Assessment", d:"Workload analysis, capacity roadmap, growth trajectory."},
+      {t:"Reference Architecture Design", d:"NVIDIA-Certified RA — RTX PRO, HGX, NVL72 (32 → 1,024+ GPU)."},
+      {t:"Vendor Evaluation & Selection", d:"NVIDIA, AMD, Cerebras, Intel, Groq, SambaNova, OEMs."},
+      {t:"BoM Optimisation & Procurement Advisory", d:"BoM design, pricing negotiation, lead-time management."},
+      {t:"Networking & Fabric Advisory", d:"InfiniBand / Spectrum-X / RoCE topology & multi-rail design."},
+      {t:"100 MW DC Fulfilment Programme", d:"End-to-end advisory: site, procure, commission, handover."},
+      {t:"Performance Benchmarking", d:"MLPerf-aligned tests, latency profiling, cost-per-token."},
+    ],
+    summary:"The metal. NVIDIA DGX SuperPOD · HGX · RTX PRO · Dell · HPE · Lenovo · Supermicro. InfiniBand / Spectrum-X / RoCE fabric. DDN, VAST, NetApp storage.",
+    timing:"Week 4–16",
+    deliverables:[
+      "GPU Infrastructure Assessment — workload analysis, capacity roadmap, growth trajectory",
+      "NVIDIA-Certified Reference Architecture selected (RTX PRO · HGX · NVL72)",
+      "Vendor-agnostic evaluation across NVIDIA, AMD, Cerebras, Intel Gaudi, Groq, SambaNova",
+      "Full Bill of Materials with vendor recommendations and pricing negotiation",
+      "Hardware procured, delivered, racked, cabled",
+      "Network fabric (InfiniBand / Spectrum-X / RoCE) deployed and tested",
+      "Storage tier provisioned and benchmarked",
+      "OS / CUDA / driver installation and validation",
+      "Acceptance testing against performance targets (MLPerf-aligned)",
+      "Performance benchmarking — inference latency profiling, throughput optimisation, cost-per-token analysis",
+      "100 MW DC fulfilment programme (multi-site, multi-vendor coordination)",
+    ],
+    technologies:["NVIDIA DGX SuperPOD · HGX H100/H200/B200 · RTX PRO 6000 · GB300 NVL72","Mellanox Quantum InfiniBand · Spectrum-X Ethernet","100GbE / 400GbE / 800GbE fabrics","NVIDIA-Certified server BoMs","MLPerf benchmarking framework"],
+    partners:["Dell PowerEdge AI / Dell AI Factory","HPE Cray / HPE PCAI","Lenovo ThinkSystem AI","Supermicro GPU Systems","DDN · VAST Data · NetApp · Pure Storage","Cisco UCS · Mellanox networking"],
+    outcomes:["NVIDIA Design Review Board sign-off","Cluster passes acceptance benchmarks","Fully NVIDIA-Certified BoM","Vendor warranties and support contracts in place","500+ NVIDIA servers track record · 5,000+ petaflops delivered to date","Multi-site programme orchestrated end-to-end"],
+  },
+  {
+    n:"01", t:"Site & Facility Foundation", color:"#111111",
+    who:"e& · facility partners",
+    services:[
+      {t:"Site Readiness Assessment", d:"Power, cooling, network, physical security — gap analysis."},
+      {t:"Deployment & Integration Services", d:"Hardware racking, cabling, OS/CUDA install, acceptance tests."},
+      {t:"Multi-Cloud & Hybrid Strategy", d:"Workload placement across e& DC, G42, Azure, AWS, OCI."},
+      {t:"Sovereign Deployment", d:"On-prem, air-gap capable, customer-owned encryption keys, HSM."},
+      {t:"Physical Security Architecture", d:"Perimeter, access control, ISO 27001 / NESA / federal grade."},
+      {t:"Sovereign Managed Service", d:"On-site / remote 24/7 ops with SLA, monitoring, incident response."},
+    ],
+    summary:"Sovereign data centre, power, cooling, structured cabling, physical security perimeter, racks, OOB management. Also covers multi-cloud / hybrid placement strategy and on-site sovereign deployments (air-gap capable).",
+    timing:"Week 1–12",
+    deliverables:[
+      "Site readiness report (power, cooling, network, physical security)",
+      "Data centre rack design and floor plan",
+      "Power distribution (PDU, UPS, generator capacity)",
+      "Cooling design (CRAC, in-row, liquid cooling for high-density GPU)",
+      "Structured cabling (copper + fibre, OOB management)",
+      "Physical security perimeter and access controls",
+      "Multi-cloud / hybrid strategy with workload placement policies and cost modelling",
+      "Sovereign / on-premise deployment design with air-gap capability where required",
+      "Customer-owned encryption keys / HSM integration",
+      "Sovereign data-residency compliance evidence (NESA, ADDA, federal)",
+      "On-site sovereign managed service with SLA-backed availability, security monitoring, incident response",
+    ],
+    technologies:["Tier III / Tier IV data centre design","Liquid cooling (rear-door heat exchanger, direct-to-chip)","Hot-aisle / cold-aisle containment","ISO 27001 · NESA · sovereign-grade physical security","Out-of-band management networks","HSM (Hardware Security Module) key management","Air-gap capable architecture"],
+    partners:["e& Data Centres (UAE × 3, Morocco, Hungary, PPF)","Customer-owned facilities (on-prem)","G42 / Core42 sovereign cloud (alternative)","Help AG (managed physical & cyber security)","Microsoft Azure UAE · AWS UAE · OCI (multi-cloud)"],
+    outcomes:["Facility certified ready for AI-grade hardware","Power & cooling head-room for 10–100 MW deployments","Sovereign data residency guaranteed","Air-gap option available for classified workloads","No environmental constraints on GPU density","Sovereign managed service operational with 24/7 SLA"],
+  },
+];
+
+// Reusable cake-layer renderer with expandable (desplegar) content.
+function CakeLayer({L, idx, total, isOpen, onToggle}) {
+  const isLast = idx === total - 1;
+  return <div style={{
+    background: BRAND.white,
+    border: `1px solid ${BRAND.border}`,
+    borderLeft: `6px solid ${L.color}`,
+    borderBottom: isLast ? `1px solid ${BRAND.border}` : "none",
+    overflow: "hidden",
+    position: "relative",
+  }}>
+    {/* Collapsed header bar — clickable */}
+    <button
+      onClick={onToggle}
+      style={{
+        width:"100%",
+        display:"grid",
+        gridTemplateColumns:"82px 1fr auto",
+        alignItems:"stretch",
+        background:"transparent",
+        border:"none",
+        padding:0,
+        cursor:"pointer",
+        textAlign:"left",
+        fontFamily:"inherit",
+      }}
+    >
+      <div style={{background:L.color,color:BRAND.white,padding:"16px 8px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+        <div style={{fontSize:8.5,fontWeight:700,letterSpacing:"0.14em",opacity:0.75,textTransform:"uppercase"}}>Layer</div>
+        <div style={{fontSize:28,fontWeight:700,fontFamily:BRAND.font,lineHeight:1,marginTop:2}}>{L.n}</div>
+      </div>
+      <div style={{padding:"16px 22px",display:"grid",gridTemplateColumns:"1.4fr 1fr",gap:18,alignItems:"center"}}>
+        <div>
+          <h4 style={{fontSize:16,fontWeight:700,color:"#111",margin:"0 0 4px",lineHeight:1.25}}>{L.t}</h4>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.55,margin:0}}>{L.summary}</p>
+        </div>
+        <div>
+          <div style={{fontSize:9.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:3}}>Owner</div>
+          <div style={{fontSize:11.5,color:"#111",fontWeight:600,marginBottom:8}}>{L.who}</div>
+          <div style={{fontSize:9.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:3}}>Typical timing</div>
+          <div style={{fontSize:11,color:"#444"}}>{L.timing}</div>
+        </div>
+      </div>
+      <div style={{padding:"16px 18px",display:"flex",alignItems:"center",justifyContent:"center",borderLeft:`1px solid ${BRAND.border}`,minWidth:64}}>
+        <span style={{
+          display:"inline-flex",
+          alignItems:"center",
+          justifyContent:"center",
+          width:30,
+          height:30,
+          background:isOpen?L.color:BRAND.lightGrey,
+          color:isOpen?BRAND.white:"#555",
+          fontSize:16,
+          fontWeight:700,
+          transition:"all 0.2s",
+        }}>{isOpen?"−":"+"}</span>
+      </div>
+    </button>
+
+    {/* Expanded detail panel */}
+    {isOpen && <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
+      <div style={{padding:"22px 26px"}}>
+        {/* SERVICES — full-width schematic strip */}
+        <div style={{marginBottom:22}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+            <span style={{width:22,height:22,background:L.color,color:BRAND.white,fontSize:10,fontWeight:700,display:"inline-flex",alignItems:"center",justifyContent:"center",fontFamily:BRAND.font}}>A</span>
+            <div style={{fontSize:11,fontWeight:700,color:L.color,letterSpacing:"0.1em",textTransform:"uppercase"}}>AIdeology services in this layer</div>
+            <span style={{marginLeft:"auto",fontSize:10,fontWeight:700,color:BRAND.grey,padding:"3px 8px",background:BRAND.white,border:`1px solid ${BRAND.border}`,letterSpacing:"0.06em"}}>{L.services.length} services</span>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(280px, 1fr))",gap:8}}>
+            {L.services.map((s,j)=><div key={j} style={{display:"grid",gridTemplateColumns:"42px 1fr",background:BRAND.white,border:`1px solid ${BRAND.border}`,borderLeft:`3px solid ${L.color}`,overflow:"hidden",alignItems:"stretch"}}>
+              <div style={{background:`${L.color}10`,color:L.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,fontFamily:BRAND.font,letterSpacing:"0.04em",borderRight:`1px solid ${L.color}25`}}>
+                {String(j+1).padStart(2,"0")}
+              </div>
+              <div style={{padding:"9px 12px"}}>
+                <div style={{fontSize:11.5,fontWeight:700,color:"#111",lineHeight:1.3,marginBottom:2}}>{s.t}</div>
+                <div style={{fontSize:10.5,color:"#666",lineHeight:1.45}}>{s.d}</div>
+              </div>
+            </div>)}
+          </div>
+        </div>
+
+        {/* DELIVERABLES + TECHNOLOGIES — two-column */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:20,marginBottom:18,paddingTop:18,borderTop:`1px solid ${BRAND.border}`}}>
+          <div>
+            <div style={{fontSize:10,fontWeight:700,color:L.color,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Deliverables</div>
+            <ul style={{margin:0,paddingLeft:0,listStyle:"none"}}>
+              {L.deliverables.map((it,j)=><li key={j} style={{display:"flex",alignItems:"flex-start",gap:7,fontSize:11.5,color:"#444",lineHeight:1.5,marginBottom:4}}>
+                <span style={{color:L.color,flexShrink:0,marginTop:1}}><CheckIcon/></span>{it}
+              </li>)}
+            </ul>
+          </div>
+          <div>
+            <div style={{fontSize:10,fontWeight:700,color:L.color,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Technologies</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+              {L.technologies.map((tech,j)=><span key={j} style={{fontSize:10.5,padding:"4px 9px",background:BRAND.white,border:`1px solid ${L.color}40`,color:"#333",fontWeight:600,letterSpacing:"0.02em"}}>{tech}</span>)}
+            </div>
+          </div>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,paddingTop:18,borderTop:`1px solid ${BRAND.border}`}}>
+          <div>
+            <div style={{fontSize:10,fontWeight:700,color:L.color,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Partners involved</div>
+            <ul style={{margin:0,paddingLeft:0,listStyle:"none"}}>
+              {L.partners.map((p,j)=><li key={j} style={{fontSize:11.5,color:"#444",lineHeight:1.5,marginBottom:3,paddingLeft:12,position:"relative"}}>
+                <span style={{position:"absolute",left:0,top:8,width:4,height:4,background:L.color}}/>{p}
+              </li>)}
+            </ul>
+          </div>
+          <div>
+            <div style={{fontSize:10,fontWeight:700,color:L.color,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:8}}>Outcomes & exit criteria</div>
+            <ul style={{margin:0,paddingLeft:0,listStyle:"none"}}>
+              {L.outcomes.map((o,j)=><li key={j} style={{display:"flex",alignItems:"flex-start",gap:7,fontSize:11.5,color:"#444",lineHeight:1.5,marginBottom:4}}>
+                <span style={{color:L.color,flexShrink:0,marginTop:1,fontWeight:700}}>→</span>{o}
+              </li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>}
+  </div>;
+}
+
+// Partner / capability stack — proof points from AIdeology track record.
+const PARTNER_STACK = [
+  {tier:"NVIDIA Elite Solution Provider",badge:"Tier 1",items:["DGX Platform · SuperPOD","HGX / RTX PRO / NVL72 RA designs","NVIDIA AI Enterprise · Fleet Command","Omniverse · Isaac Sim · Modulus"]},
+  {tier:"Server OEMs",badge:"Certified",items:["Dell PowerEdge AI / Dell AI Factory","HPE Cray / HPE PCAI","Lenovo ThinkSystem AI","Supermicro GPU Systems"]},
+  {tier:"Storage & Networking",badge:"Reference partners",items:["DDN A³I / EXA","VAST Data Universal Storage","NetApp AIPod","Mellanox InfiniBand & Spectrum-X"]},
+  {tier:"Software Ecosystem",badge:"Platform stack",items:["Red Hat OpenShift AI","Kubernetes · Slurm","Lustre · GPFS · BeeGFS parallel FS","NVIDIA RAPIDS · Magnum IO"]},
+];
+
+function AIdeologyServicesSection() {
+  const [openLayer, setOpenLayer] = useState(null);
+  return <div style={{padding:"44px 0 0"}}>
+    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+      <Badge v="rose">AIdeology Service Catalogue</Badge>
+      <span style={{fontSize:12,color:"#888"}}>Enterprise & Government · HPC & Agentic AI</span>
+    </div>
+    <h2 style={{fontSize:34,fontWeight:700,color:"#111",lineHeight:1.08,marginBottom:14,fontFamily:BRAND.font,maxWidth:780}}>AIdeology services for e&</h2>
+    <p style={{fontSize:14.5,color:"#666",maxWidth:780,lineHeight:1.7,marginBottom:10}}>
+      The complete catalogue of services AIdeology can deliver through e& for enterprise and government customers — spanning agentic AI solutions, platform engineering, sovereign infrastructure, and HPC consulting.
+    </p>
+    <p style={{fontSize:13,color:"#888",maxWidth:780,lineHeight:1.7,marginBottom:28}}>
+      Each service can be engaged independently or combined into a programme. All services are delivered under the e& commercial relationship — AIdeology is the delivery engine, e& owns the customer.
+    </p>
+    <div style={{display:"flex",gap:28,flexWrap:"wrap",marginBottom:32}}>
+      {[{v:"500+",l:"NVIDIA servers deployed"},{v:"50+",l:"AI projects delivered"},{v:"5,000+",l:"Petaflops (FP16)"},{v:"Elite",l:"NVIDIA Solution Provider"},{v:"End-to-end",l:"Hardware to agent"}].map((s,i)=><div key={i} style={{minWidth:85}}>
+        <div style={{fontSize:22,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>{s.v}</div>
+        <div style={{fontSize:10.5,color:"#999",marginTop:2,letterSpacing:"0.06em",textTransform:"uppercase",fontWeight:700}}>{s.l}</div>
+      </div>)}
+    </div>
+    <div style={{height:4,width:200,background:BRAND.continuum,marginBottom:32}}/>
+
+    {/* ── THE BUILD CAKE · EXPANDABLE LAYERS ──────────────────── */}
+    <SH>The full build stack — from silicon to agentic solution</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:820,marginBottom:10}}>
+      Eight layers, one delivery. AIdeology assembles every layer — from the physical data centre at the foundation, through GPU hardware, compute orchestration, data, MLOps, and the Forge AI control plane, up to the live agentic solution the customer subscribes to.
+    </p>
+    <p style={{fontSize:12,color:"#888",lineHeight:1.65,maxWidth:820,marginBottom:18,fontStyle:"italic"}}>
+      Click any layer to expand it and see the full scope: services delivered, deliverables, technologies, partners involved, and exit criteria for that step.
+    </p>
+    <div style={{marginBottom:20}}>
+      {BUILD_CAKE.map((L,i)=><CakeLayer
+        key={L.n}
+        L={L}
+        idx={i}
+        total={BUILD_CAKE.length}
+        isOpen={openLayer==="ALL" || openLayer===L.n}
+        onToggle={()=>setOpenLayer(openLayer===L.n?null:L.n)}
+      />)}
+    </div>
+    <div style={{display:"flex",gap:10,marginBottom:24,flexWrap:"wrap"}}>
+      <button
+        onClick={()=>setOpenLayer("ALL")}
+        style={{padding:"8px 16px",fontSize:11,fontWeight:700,color:BRAND.white,background:BRAND.red,border:"none",cursor:"pointer",letterSpacing:"0.04em",textTransform:"uppercase"}}
+      >Expand all</button>
+      <button
+        onClick={()=>setOpenLayer(null)}
+        style={{padding:"8px 16px",fontSize:11,fontWeight:700,color:"#444",background:BRAND.lightGrey,border:`1px solid ${BRAND.border}`,cursor:"pointer",letterSpacing:"0.04em",textTransform:"uppercase"}}
+      >Collapse all</button>
+    </div>
+    <Note label="How to read this cake">
+      Layer 01 (Site & Facility) is the physical foundation; Layer 08 (Customer Outcome) is the live agentic solution running on the e& invoice. AIdeology delivers every layer from 01 to 07; e& owns the customer relationship at Layer 08 from day one. Each layer is a separate deliverable that can be engaged independently or as part of a full programme.
+    </Note>
+
+    {/* ── TRACK RECORD / PARTNER STACK ─────────────────────────── */}
+    <SH>The partner stack behind every delivery</SH>
+    <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:820,marginBottom:18}}>
+      AIdeology is an NVIDIA Elite Solution Provider with contractual partnerships across the major server, storage, networking and software vendors. Every reference architecture is built from vetted, NVIDIA-Certified components and a proven software stack.
+    </p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))",gap:10,marginBottom:24}}>
+      {PARTNER_STACK.map((p,i)=><Card key={i} style={{padding:18,marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,flexWrap:"wrap"}}>
+          <Badge v="rose">{p.badge}</Badge>
+        </div>
+        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 10px",lineHeight:1.25}}>{p.tier}</h4>
+        {p.items.map((it,j)=><div key={j} style={{display:"flex",alignItems:"flex-start",gap:7,fontSize:11.5,color:"#555",lineHeight:1.5,marginBottom:5}}>
+          <span style={{color:BRAND.red,flexShrink:0,marginTop:1}}><CheckIcon/></span>{it}
+        </div>)}
+      </Card>)}
+    </div>
+
+    {/* ── HOW TO ENGAGE ──────────────────────────────────────── */}
+    <SH>How to engage</SH>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:24}}>
+      {[
+        {step:"01",t:"Discovery & scoping",d:"Identify the use case or infrastructure need. AIdeology runs a 1–2 week assessment to define scope, success metrics, and delivery approach.",time:"1–2 weeks"},
+        {step:"02",t:"Proposal & SoW",d:"Structured Statement of Work with deliverables, milestones, timeline, and commercial terms. Fixed-fee or retainer depending on engagement type.",time:"1 week"},
+        {step:"03",t:"Deliver & iterate",d:"SDD-driven delivery with named acceptance criteria at each milestone. Regular checkpoints and go/no-go gates before e& commits to the next phase.",time:"Per scope"},
+        {step:"04",t:"Operate & evolve",d:"Post-launch managed service, continuous optimisation, knowledge transfer, and progressive handover to e&'s internal teams.",time:"Ongoing"},
+      ].map((s,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{padding:"18px 22px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+            <span style={{width:30,height:30,background:BRAND.red,color:BRAND.white,fontWeight:700,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center"}}>{s.step}</span>
+            <Badge v="rose">{s.time}</Badge>
+          </div>
+          <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"0 0 8px"}}>{s.t}</h4>
+          <p style={{fontSize:12,color:"#666",lineHeight:1.6,margin:0}}>{s.d}</p>
+        </div>
+      </Card>)}
+    </div>
+
+    {/* ── COMBINED SERVICE MATRIX ────────────────────────────── */}
+    <SH>Service matrix — by engagement type</SH>
+    <Card style={{padding:0,overflow:"hidden"}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["Service domain","Enterprise","Government","HPC / Infra","Engagement model"].map((h,i)=><th key={i} style={{textAlign:"left",padding:"12px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {[
+            {d:"AI Strategy & Discovery (AIdeation)",ent:"✓",gov:"✓",hpc:"—",m:"Fixed fee · 1–2 weeks"},
+            {d:"Agent Design & Build (SDD)",ent:"✓",gov:"✓",hpc:"—",m:"Fixed fee · per agent"},
+            {d:"Platform & Integration (Forge)",ent:"✓",gov:"✓",hpc:"—",m:"Fixed fee · milestone-based"},
+            {d:"Compliance & Sovereignty",ent:"✓",gov:"✓",hpc:"✓",m:"Fixed fee + advisory"},
+            {d:"Launch, Operate & Evolve",ent:"✓",gov:"✓",hpc:"—",m:"Retainer · monthly"},
+            {d:"Robotics, Simulation & 3D AI",ent:"✓",gov:"✓",hpc:"—",m:"Fixed fee · per programme"},
+            {d:"Infrastructure Strategy & Design",ent:"—",gov:"✓",hpc:"✓",m:"Fixed fee · per POD"},
+            {d:"GPU Orchestration & Platform",ent:"—",gov:"✓",hpc:"✓",m:"Fixed + retainer"},
+            {d:"Procurement & Fulfilment",ent:"—",gov:"✓",hpc:"✓",m:"Programme fee + BoM %"},
+            {d:"AI Data Platforms",ent:"✓",gov:"✓",hpc:"✓",m:"Fixed + advisory"},
+            {d:"MLOps & Lifecycle Automation",ent:"✓",gov:"✓",hpc:"✓",m:"Fixed + retainer"},
+            {d:"HPC Operations & Managed Services",ent:"—",gov:"✓",hpc:"✓",m:"Retainer · SLA-backed"},
+          ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`}}>
+            <td style={{padding:"12px 16px",fontWeight:700,color:"#111"}}>{r.d}</td>
+            <td style={{padding:"12px 16px",color:r.ent==="✓"?BRAND.red:"#ccc",fontWeight:700,fontSize:14}}>{r.ent}</td>
+            <td style={{padding:"12px 16px",color:r.gov==="✓"?BRAND.red:"#ccc",fontWeight:700,fontSize:14}}>{r.gov}</td>
+            <td style={{padding:"12px 16px",color:r.hpc==="✓"?BRAND.red:"#ccc",fontWeight:700,fontSize:14}}>{r.hpc}</td>
+            <td style={{padding:"12px 16px",color:"#666"}}>{r.m}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </Card>
+
+    <Note label="Engagement principle">
+      Every service follows AIdeology's spec-first approach: scope is defined, acceptance criteria are named, and e& approves each milestone before the next phase begins. No open-ended engagements, no ambiguity. e& owns the customer relationship from day one; AIdeology is the delivery engine behind it.
+    </Note>
+  </div>;
 }
 
 function HPCSection() {
@@ -7424,6 +7934,7 @@ export default function App() {
   const rzm = view==="rzm";
   const stk = view==="stk";
   const ctr = view==="ctr";
+  const svc = view==="svc";
 
   useEffect(() => {
     if (!fullProposalRef.current) return;
@@ -7505,13 +8016,14 @@ export default function App() {
         <button onClick={()=>setView("eco")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:eco?BRAND.white:BRAND.black,background:eco?BRAND.red:BRAND.lightGrey,border:`1px solid ${eco?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Ecosystem</button>
         <button onClick={()=>setView("sum")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:sum?BRAND.white:BRAND.black,background:sum?BRAND.red:BRAND.lightGrey,border:`1px solid ${sum?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Summary</button>
         <button onClick={()=>setView("hpc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:hpc?BRAND.white:BRAND.black,background:hpc?BRAND.red:BRAND.lightGrey,border:`1px solid ${hpc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>HPC Reference Architectures</button>
+        <button onClick={()=>setView("svc")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:svc?BRAND.white:BRAND.black,background:svc?BRAND.red:BRAND.lightGrey,border:`1px solid ${svc?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>AIdeology Services</button>
         <button onClick={()=>setView("cfo")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:cfo?BRAND.white:BRAND.black,background:cfo?BRAND.red:BRAND.lightGrey,border:`1px solid ${cfo?BRAND.red:BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>e& CFO Financials</button>
         <button onClick={()=>setView("htm")} style={{padding:"12px 18px",fontSize:12.5,fontWeight:700,color:htm?BRAND.white:BRAND.black,background:htm?"#222":BRAND.lightGrey,border:`1px solid ${htm?"#222":BRAND.border}`,borderRadius:0,cursor:"pointer",whiteSpace:"nowrap"}}>Haitham Meeting</button>
       </div>
     </div>
     </>}
     {!ctr && <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection showPricing={showPricing}/>:cfo?<EandFinancialsSection showPricing={showPricing}/>:hpc?<HPCSection/>:stk?<FullStackSection/>:sum?<SummarySection showPricing={showPricing}/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView} showPricing={showPricing}/>:tab===1?<EnterpriseSegment showPricing={showPricing}/>:<GPUSegment showPricing={showPricing}/>}
+      {rzm?<RazziMeetingSection/>:htm?<HaithamMeetingSection showPricing={showPricing}/>:cfo?<EandFinancialsSection showPricing={showPricing}/>:hpc?<HPCSection/>:svc?<AIdeologyServicesSection/>:stk?<FullStackSection/>:sum?<SummarySection showPricing={showPricing}/>:eco?<EcosystemSection/>:tab===0?<SMBSegment onViewChange={setView} showPricing={showPricing}/>:tab===1?<EnterpriseSegment showPricing={showPricing}/>:<GPUSegment showPricing={showPricing}/>}
     </div>}
     {!ctr && <div style={{borderTop:`1px solid ${BRAND.border}`,background:BRAND.white}}>
       <div style={{maxWidth:1120,margin:"0 auto",padding:"28px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:14}}>
@@ -7536,6 +8048,7 @@ export default function App() {
       <EcosystemSection />
       <SummarySection />
       <HPCSection />
+      <AIdeologyServicesSection />
       <EandFinancialsSection />
     </div>
     {!rzm && !ctr && <AIChat proposalCorpus={proposalCorpus} />}
