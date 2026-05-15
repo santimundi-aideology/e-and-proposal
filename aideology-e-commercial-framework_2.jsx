@@ -51,6 +51,320 @@ function CollapsibleTimeline({badge,span:spanText,title,desc,footer,defaultOpen=
   </Card>;
 }
 
+function Disclosure({title,sub,defaultOpen=false,level=2,children}) {
+  const [open,setOpen] = useState(defaultOpen);
+  const isLevel1 = level===1;
+  return <div style={{background:isLevel1?BRAND.white:"#FAFAFA",border:`1px solid ${BRAND.border}`,marginBottom:8}}>
+    <button type="button" onClick={()=>setOpen(!open)} style={{width:"100%",padding:isLevel1?"14px 18px":"11px 16px",background:"transparent",border:"none",cursor:"pointer",textAlign:"left",display:"flex",alignItems:"center",justifyContent:"space-between",fontFamily:BRAND.font}}>
+      <span style={{display:"flex",flexDirection:"column",gap:2,alignItems:"flex-start"}}>
+        <span style={{fontSize:isLevel1?14:12.5,fontWeight:700,color:"#111"}}>{title}</span>
+        {sub && <span style={{fontSize:11,color:"#888",fontWeight:400}}>{sub}</span>}
+      </span>
+      <span style={{fontSize:12,color:BRAND.grey,transition:"transform 0.2s",transform:open?"rotate(180deg)":"rotate(0deg)",display:"inline-block"}}>&#9662;</span>
+    </button>
+    {open && <div style={{padding:isLevel1?"4px 18px 18px":"4px 16px 16px",borderTop:`1px solid ${BRAND.border}`}}>{children}</div>}
+  </div>;
+}
+
+function SpecTable({head,rows}) {
+  return <div style={{overflowX:"auto",marginBottom:14}}>
+    <table style={{width:"100%",borderCollapse:"collapse",fontSize:11.5,minWidth:480}}>
+      <thead><tr>
+        {head.map((h,i)=><th key={i} style={{padding:"8px 10px",textAlign:"left",borderBottom:`1px solid ${BRAND.border}`,fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",background:"#F5F5F5"}}>{h}</th>)}
+      </tr></thead>
+      <tbody>
+        {rows.map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
+          {r.map((c,j)=><td key={j} style={{padding:"8px 10px",color:"#555",lineHeight:1.5}}>{c}</td>)}
+        </tr>)}
+      </tbody>
+    </table>
+  </div>;
+}
+
+const TechSubH = ({children}) => <h5 style={{fontSize:11,fontWeight:700,color:"#111",margin:"14px 0 8px",letterSpacing:"0.06em",textTransform:"uppercase"}}>{children}</h5>;
+const TechPara = ({children}) => <p style={{fontSize:12,color:"#555",lineHeight:1.6,margin:"0 0 10px"}}>{children}</p>;
+
+function TechMinEstimations() {
+  const [open,setOpen] = useState(false);
+  if (!open) return <Card style={{padding:0,overflow:"hidden",borderLeft:`3px solid ${BRAND.red}`}}>
+    <div style={{padding:"18px 22px"}}>
+      <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>Tech minimum estimations</div>
+      <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"0 0 6px"}}>Sizing detail — Layers 1-3 + inference resources</h4>
+      <p style={{fontSize:12,color:"#666",lineHeight:1.6,margin:"0 0 14px",maxWidth:720}}>Detail of physical resources (CPU, GPU, storage, topology) for Layers 1-3 (Forge + operational + model + infra) across P0/P1/P2, and inference resources (e&amp; DGX H100 and G42 H200) by demand scenario.</p>
+      <button type="button" onClick={()=>setOpen(true)} style={{padding:"10px 16px",background:BRAND.red,color:BRAND.white,border:"none",fontWeight:700,fontSize:12,cursor:"pointer",letterSpacing:"0.04em"}}>See full sizing estimations &rarr;</button>
+    </div>
+  </Card>;
+
+  return <Card style={{padding:0,overflow:"hidden",borderLeft:`3px solid ${BRAND.red}`}}>
+    <div style={{padding:"16px 22px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+      <div>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>Tech minimum estimations</div>
+        <div style={{fontSize:13,fontWeight:700,color:"#111"}}>Sizing detail — Layers 1-3 + inference resources</div>
+      </div>
+      <button type="button" onClick={()=>setOpen(false)} style={{padding:"8px 14px",background:"transparent",color:BRAND.red,border:`1px solid ${BRAND.red}`,fontWeight:700,fontSize:11,cursor:"pointer",letterSpacing:"0.04em"}}>Hide &#9652;</button>
+    </div>
+    <div style={{padding:"18px 22px",background:"#FBFBFB"}}>
+
+      <Disclosure level={1} title="Software resources" sub="Layers 1-3 sizing across P0 → P1 → P2">
+        {/* P0 */}
+        <Disclosure level={2} title="P0 · Day 30 — managed, lean, minimum HA">
+          <TechSubH>Estimated scenario</TechSubH>
+          <SpecTable head={["Parameter","Value"]} rows={[
+            ["SMB tenants", <span><strong>15</strong> (beta · Wave 1 · Customer Agent pilot)</span>],
+            ["Cluster ceiling without rescaling", <strong>~30 tenants</strong>],
+            ["Runtime model", "Shared runtime pool · T1 logical isolation"],
+            ["Daily interactions per SMB", "~50 (voice · WhatsApp · web chat)"],
+            ["Average utilization per SMB", "~10% of the day (≈2.5h active)"],
+            ["Estimated peak concurrency", "~5 active SMBs · ~10 simultaneous conversations"],
+            ["Workload nature", "I/O-bound: the pod waits for the external LLM ~80% of the time"],
+          ]}/>
+          <TechSubH>Physical resources</TechSubH>
+          <SpecTable head={["Item","Spec","Quantity"]} rows={[
+            [<strong>Worker nodes</strong>, "4 vCPU · 16 GiB RAM · 100 GB local NVMe · 10 GbE NIC", <strong>3</strong>],
+            [<strong>Block storage</strong>, "Premium SSD · 3-AZ replicated", <span><strong>400 GB</strong> (Postgres + observability)</span>],
+            [<strong>Object storage</strong>, "S3-compatible · UAE region · versioned", <span><strong>500 GB</strong> (audio, transcripts, backups)</span>],
+            [<strong>GPUs</strong>, "—", <strong>0</strong>],
+            [<strong>K8s control plane</strong>, "Managed (AKS / EKS / GKE / OpenInnovation K8s)", "Included"],
+          ]}/>
+          <TechPara><strong>Cluster totals:</strong> 12 vCPU · 48 GiB RAM · 300 GB local NVMe · 400 GB block · 500 GB object · 0 GPU.</TechPara>
+          <TechSubH>Why these numbers</TechSubH>
+          <TechPara><strong>Why 3 nodes (not 2).</strong> Two nodes can carry the workload, but rolling updates concentrate all load on 1 node during the maintenance window — unacceptable fragility even in beta. Three nodes allow draining any single node and applying updates with active redundancy. Minimum standard for real HA in Kubernetes.</TechPara>
+          <TechPara><strong>Why 4 vCPU / 16 GiB per node.</strong> The platform baseline (Postgres + replica, basic HA Keycloak, Traefik, Provisioning, LLM gateway, MCP tool servers, agent runtime, observability) sums to ~8 vCPU / 16 GiB in requests. Three nodes of this size provide 12/48 — enough headroom for HPA of the agent runtime at peak and to absorb the loss of one node without losing the critical plane.</TechPara>
+          <TechPara><strong>Why this storage.</strong> Persistent DBs (Postgres + pgvector with catalog, audit and RAG vectors, plus Prometheus and Loki with short retention) fit in ~400 GB. Object storage absorbs call audio, transcripts, and backups — an initial 500 GB covers the first months with 15 SMBs; it grows elastically.</TechPara>
+          <TechPara><strong>Natural ceiling of this setup.</strong> With the same cluster size you can sustain up to ~30 tenants. Beyond that, DBs and observability tighten before the agent runtime — time to scale nodes up to 8 vCPU / 32 GiB or move to P1 with dedicated runtime per tenant.</TechPara>
+        </Disclosure>
+
+        {/* P1 */}
+        <Disclosure level={2} title="P1 · Day 120 — enterprise-ready, idle-optimised, multi-cloud-portable">
+          <TechSubH>What changes vs P0</TechSubH>
+          <TechPara>P1 is the same architecture brought to the <strong>enterprise tier</strong> and prepared to scale from dozens to thousands of tenants without exploding idle cost.</TechPara>
+          <SpecTable head={["Dimension","P0 → P1 leap"]} rows={[
+            [<strong>Compliance tiers served</strong>, <span>T1 → <strong>T1 + T2</strong> · enterprise compliance selectable per tenant</span>],
+            [<strong>Runtime isolation</strong>, <span>Shared runtime pool (logical T1) → <strong>Dedicated pod per tenant</strong> + <strong>scale-to-zero</strong> + <strong>hibernation snapshots</strong></span>],
+            [<strong>LLM gateway</strong>, <span>Multi-provider routing · virtual keys · basic budgets → + <strong>prompt versioning</strong> · <strong>semantic cache</strong> · A/B testing (cache absorbs 30-50% of calls)</span>],
+            [<strong>Provisioning</strong>, <span>Worker pool · idempotency · rollback (FastAPI + queue) → <strong>K8s Operator</strong> · <strong>GitOps</strong> · <strong>Temporal workflows</strong></span>],
+            [<strong>Audit trail &amp; guardrails</strong>, <span>Append-only audit log · PII redaction → <strong>Immutable event stream</strong> · jailbreak detection · policy versions</span>],
+            [<strong>Observability</strong>, <span>Langfuse + Prometheus/Grafana · basic alerts → <strong>Distributed tracing</strong> · formal SLOs · <strong>tenant cost dashboards</strong></span>],
+            [<strong>Secrets &amp; identity</strong>, <span>Managed KMS + basic HA Keycloak → <strong>Vault HA</strong> · automatic rotation · short-lived tokens</span>],
+            [<strong>Topology</strong>, <span>1 managed cluster (AKS/EKS/GKE/OpenInnovation) → <strong>same managed cluster</strong> with <strong>multi-cloud manifests</strong> and <strong>regional failover</strong> ready</span>],
+            [<strong>Node pools</strong>, <span>Single pool → <strong>two separate pools</strong> (runtime + platform) to isolate agent runtime volatility from stateful services</span>],
+            [<strong>Storage</strong>, <span>Local block · 1 object backend → <strong>Premium block with automated snapshots</strong> + object with versioning + <strong>dedicated disk for hibernation snapshots</strong></span>],
+          ]}/>
+          <Note label="Operational key">
+            The key operational change is <strong>hibernation</strong>: without it, dedicated pod × 5,000 tenants would generate ~1,250 vCPU / 2.5 TiB of permanent idle (≈40 nodes just to "do nothing"). With hibernation, inactive tenants consume 0 vCPU / 0 RAM and only ~200 MB of snapshot on disk — infra drops to 9 nodes.
+          </Note>
+          <TechSubH>Estimated scenario</TechSubH>
+          <SpecTable head={["Parameter","Value"]} rows={[
+            ["SMB tenants", <strong>5,000</strong>],
+            ["Runtime model", <strong>Dedicated pod per tenant · scale-to-zero · hibernation snapshots</strong>],
+            ["Daily interactions per SMB", "~50 (same profile as P0)"],
+            ["Average utilization per SMB", "~10% of the day"],
+            ["Average concurrency", "~500 active tenants"],
+            ["Peak concurrency (3×)", <span>~<strong>1,500</strong> active tenants</span>],
+            ["Warm pool (just ended, hot for resume)", "~500 tenants"],
+            ["Hibernated (snapshot on disk)", "~3,000 tenants"],
+            ["Resume from hibernate", "<1s (WhatsApp/web OK; voice absorbed by warm pool)"],
+          ]}/>
+          <TechSubH>Physical resources</TechSubH>
+          <SpecTable head={["Pool","Per-node spec","Quantity","Total"]} rows={[
+            [<span><strong>Runtime pool</strong> (agent pods, memory density)</span>, "32 vCPU · 256 GiB RAM · 500 GB NVMe · 25 GbE", <strong>6 nodes</strong>, "192 vCPU · 1.5 TiB RAM"],
+            [<span><strong>Platform pool</strong> (DBs, gateway, identity, observability)</span>, "16 vCPU · 64 GiB RAM · 400 GB NVMe · 25 GbE", <strong>3 nodes</strong>, "48 vCPU · 192 GiB RAM"],
+            [<strong>Cluster total</strong>, "", <strong>9 nodes</strong>, <strong>240 vCPU · ~1.7 TiB RAM</strong>],
+          ]}/>
+          <TechPara><strong>Shared storage:</strong> <strong>Premium SSD block 6 TB</strong> (Postgres cluster + replicas, long-term Prometheus, Loki, hibernation snapshots ~1 TB) · <strong>Object storage 10 TB</strong> (audio, transcripts, backups, log archive) · <strong>GPUs: 0</strong>.</TechPara>
+          <TechSubH>Why these numbers</TechSubH>
+          <TechPara><strong>The trick is hibernation.</strong> Without it, 5,000 dedicated pods × 0.25 vCPU / 512 MiB idle = <strong>1,250 vCPU / 2.5 TiB RAM permanently</strong>, even if 90% of tenants aren't talking — ~40 nodes just in idle. With hibernation, ~3,000 inactive tenants consume 0 vCPU / 0 RAM, only ~600 GB on disk. Infra drops to 9 nodes (78% less). This is what makes SMB economics viable at this scale.</TechPara>
+          <TechPara><strong>Why two pools.</strong> The runtime pool hosts 1,500-2,000 tenant pods simultaneously — high memory density, CPU oversubscribed (~1.6×, valid because pods are I/O-bound waiting on the LLM). The platform pool hosts stateful and critical services (Postgres cluster, Redis cluster, Keycloak HA, gateway, observability) that need predictability and isolation from runtime noise.</TechPara>
+          <TechPara><strong>Why 6 runtime nodes at 32/256.</strong> At peak there are ~1,500 active + 500 warm = 2,000 pods. Spread across 6 nodes: ~330 pods/node (within the expanded kubelet limit), ~80 GiB RAM per node, ~50 vCPU requests over 32 physical vCPU. Loss of 1 node → 5 remain, redistribute load, cluster stays within limits.</TechPara>
+          <TechPara><strong>Why 3 platform nodes at 16/64.</strong> Postgres cluster (primary + 2 replicas), Redis cluster, Keycloak HA, Portkey scaled, MCP tool servers scaled, Loki/Prometheus sized for 5K tenants. Quorum-friendly and separate from runtime volatility.</TechPara>
+          <TechPara><strong>Why this storage.</strong> 6 TB block covers Postgres catalog + pgvector (RAG vectors for 5K knowledge bases) and observability with longer retention. Object storage 10 TB absorbs ~2 GB/month of audio+transcripts per tenant.</TechPara>
+          <TechPara><strong>Natural ceiling.</strong> At ~8,000-10,000 tenants the platform pool tightens (Postgres + Loki + Prometheus). Beyond that → Postgres sharding, observability federation, or move into <strong>P2</strong> with multi-cluster federation + regional failover.</TechPara>
+        </Disclosure>
+
+        {/* P2 */}
+        <Disclosure level={2} title="P2 · Day 180+ — sovereign, auto-scalable, multi-region">
+          <TechSubH>What changes vs P1</TechSubH>
+          <TechPara>P2 is the same architecture brought to the <strong>highest compliance tier</strong> and prepared for <strong>government, critical infrastructure, and classified data</strong>. Changes over Layer 1 are hardware/topology:</TechPara>
+          <SpecTable head={["Dimension","P1 → P2 leap"]} rows={[
+            [<strong>Compliance tiers served</strong>, <span>T1 + T2 → <strong>T3 + T4</strong> · NESA P1-P4 · ISO 42001 · ENS-Alto equivalent</span>],
+            [<strong>Runtime isolation</strong>, <span>Standard K8s pod → <strong>Kernel-sandboxed</strong> (Kata Containers / gVisor) + <strong>cryptographic isolation</strong> per tenant</span>],
+            [<strong>Cryptographic root</strong>, <span>Managed KMS + Vault HA → <strong>Physical HSM</strong> (FIPS 140-3 L3) + <strong>TPM 2.0</strong> on each node + pod attestation</span>],
+            [<strong>Topology</strong>, <span>1 managed cluster with multi-cloud manifests → <strong>Multi-cluster federation</strong> · 2-3 active regions · automatic regional failover</span>],
+            [<strong>K8s platform</strong>, <span>Managed (AKS / EKS / GKE / OpenInnovation) → <strong>OpenShift / RKE2 self-managed</strong> · full data residency · air-gapped option</span>],
+            [<strong>Tier 4 / government</strong>, <span>— → Option for <strong>dedicated air-gapped cluster</strong> + nodes with <strong>confidential computing</strong> (AMD SEV-SNP / Intel TDX)</span>],
+            [<strong>Observability</strong>, <span>Federated in cloud · distributed tracing · SLOs → <strong>Sovereign stack</strong> inside the perimeter · regulator-ready dashboards · national-grade retention</span>],
+            [<strong>Audit trail</strong>, <span>Immutable event stream · jailbreak detection → + <strong>Evidence packs</strong> · classified redaction · chain of custody</span>],
+            [<strong>Auto-scaling</strong>, <span>HPA per component → <strong>HPA + Cluster Autoscaler</strong> per region · triggered by load and by failover across regions</span>],
+          ]}/>
+          <Note label="Key operational leap">
+            <strong>Active-active multi-region</strong>: P2 serves government and critical sectors where the SLA requires tolerance to a full-region failure. Surviving regions absorb the loss of one within minutes via autoscaler, with no perceptible downtime.
+          </Note>
+
+          <Disclosure level={2} title="Scenario A — 15,000 SMBs">
+            <TechSubH>Estimated scenario</TechSubH>
+            <SpecTable head={["Parameter","Value"]} rows={[
+              ["SMB tenants", <strong>15,000</strong>],
+              ["Runtime model", <strong>Kernel-sandboxed dedicated pod · scale-to-zero · hibernation snapshots</strong>],
+              ["Daily interactions per SMB", "~50"],
+              ["Average utilization per SMB", "~10% of the day"],
+              ["Average concurrency", "~1,500 active tenants"],
+              ["Peak concurrency (3×)", <span>~<strong>4,500</strong> active tenants</span>],
+              ["Compliance tiers served", <span>T1 + T2 + <strong>T3 + T4</strong> (selectable per tenant)</span>],
+              ["Active regions", <strong>2</strong>],
+              ["Tenant distribution", "50/50 across regions"],
+              ["Per-region sizing", "70% of total peak · autoscale absorbs regional failover"],
+              ["Regional failover", "Automatic via Cluster Autoscaler · ~3-5 min to reach 100%"],
+            ]}/>
+            <TechSubH>Physical resources (per region · × 2 regions)</TechSubH>
+            <SpecTable head={["Pool / component","Spec","Baseline","Autoscale ceiling"]} rows={[
+              ["Runtime pool", "32 vCPU · 256 GiB · 500 GB NVMe · 25 GbE", <strong>8 nodes</strong>, <span>up to <strong>14</strong></span>],
+              ["Platform pool", "16 vCPU · 64 GiB · 400 GB NVMe · 25 GbE", <strong>4 nodes</strong>, <span>up to <strong>6</strong></span>],
+              ["HSM appliances", "FIPS 140-3 L3 · active-active", <strong>2</strong>, "—"],
+              ["Premium block storage", "3-AZ replicated in-region", <strong>10 TB</strong>, "elastic"],
+              ["Object storage", "S3-compatible · sovereign region · versioned · WORM optional", <strong>20 TB</strong>, "elastic"],
+            ]}/>
+            <TechPara><strong>Aggregated totals (2 regions):</strong> baseline <strong>24 nodes</strong> · ~448 vCPU · ~3.5 TiB RAM · 4 HSMs · 20 TB block · 40 TB object. Autoscale: <strong>40 nodes</strong> · ~736 vCPU · ~5.8 TiB RAM.</TechPara>
+          </Disclosure>
+
+          <Disclosure level={2} title="Scenario B — 50,000 SMBs">
+            <TechSubH>Estimated scenario</TechSubH>
+            <SpecTable head={["Parameter","Value"]} rows={[
+              ["SMB tenants", <strong>50,000</strong>],
+              ["Runtime model", <strong>Kernel-sandboxed dedicated pod · scale-to-zero · hibernation snapshots</strong>],
+              ["Daily interactions per SMB", "~50"],
+              ["Average utilization per SMB", "~10% of the day"],
+              ["Average concurrency", "~5,000 active tenants"],
+              ["Peak concurrency (3×)", <span>~<strong>15,000</strong> active tenants</span>],
+              ["Compliance tiers served", <span>T1 + T2 + <strong>T3 + T4</strong> (selectable per tenant)</span>],
+              ["Active regions", <strong>3</strong>],
+              ["Tenant distribution", "~33% per region"],
+              ["Per-region sizing", "50% of total peak · autoscale to 75% on failover"],
+              ["Regional failover", "Automatic · the 2 surviving regions absorb"],
+            ]}/>
+            <TechSubH>Physical resources (per region · × 3 regions)</TechSubH>
+            <SpecTable head={["Pool / component","Spec","Baseline","Autoscale ceiling"]} rows={[
+              ["Runtime pool", "32 vCPU · 256 GiB · 500 GB NVMe · 25 GbE", <strong>18 nodes</strong>, <span>up to <strong>30</strong></span>],
+              ["Platform pool", "16 vCPU · 64 GiB · 400 GB NVMe · 25 GbE", <strong>6 nodes</strong>, <span>up to <strong>9</strong></span>],
+              ["HSM appliances", "FIPS 140-3 L3 · active-active", <strong>3</strong>, "—"],
+              ["Premium block storage", "3-AZ replicated in-region", <strong>25 TB</strong>, "elastic"],
+              ["Object storage", "S3-compatible · sovereign region · versioned · WORM optional", <strong>60 TB</strong>, "elastic"],
+            ]}/>
+            <TechPara><strong>Aggregated totals (3 regions):</strong> baseline <strong>72 nodes</strong> · ~1,440 vCPU · ~11.5 TiB RAM · 9 HSMs · 75 TB block · 180 TB object. Autoscale: <strong>117 nodes</strong> · ~2,340 vCPU · ~18.7 TiB RAM.</TechPara>
+          </Disclosure>
+
+          <TechSubH>Why these numbers</TechSubH>
+          <TechPara><strong>Why active-active multi-region.</strong> P2 serves government and critical sectors where the SLA requires tolerance to a full-region failure. Two (or three) active regions with tenants geographically distributed allow the loss of one region to be absorbed within minutes via autoscaler, with no perceptible downtime. This is the requirement that separates "enterprise" from "national-grade".</TechPara>
+          <TechPara><strong>Why size each region to 70% (15K) or 50% (50K).</strong> Surviving regions must absorb the loss of one. At 15K with 2 regions, each must be able to reach 100%; 70% baseline + autoscale to 100% absorbs the event in ~3-5 min. At 50K with 3 regions, ~50% baseline and autoscale to 75% per region spreads risk better and reduces baseline OPEX.</TechPara>
+          <TechPara><strong>Why physical HSMs in each region.</strong> Tier 4 (government, critical infrastructure) requires a cryptographic root in certified hardware (FIPS 140-3 / NESA P3-P4). Each region needs an active-active pair so loss of one does not block token signing, payload encryption, and pod attestation. HSMs are not replicated across regions — each region has its own for data residency.</TechPara>
+          <TechPara><strong>Why kernel-sandboxed runtime (10-15% overhead).</strong> Cryptographic isolation across tenants can no longer be delegated only to the shared Kubernetes kernel — Kata Containers or gVisor encapsulate each pod in its own mini-kernel. The overhead is absorbed in the sizing (32 vCPU nodes leave enough margin).</TechPara>
+          <TechPara><strong>Why OpenShift / RKE2 instead of managed K8s.</strong> In P2 you leave hyperscaler managed K8s because air-gapped options and full data residency require complete control of the stack. OpenShift (RedHat) and RKE2 (SUSE/Rancher) are industry standards for sovereign K8s with government certifications (Common Criteria, FedRAMP High, NESA).</TechPara>
+          <TechPara><strong>Why the autoscaling ceiling is only ~1.5× baseline.</strong> Expected peaks: Ramadan, month-end, launches. Nothing like "double in 10 min" except regional failover, which the other region absorbs. If a large tenant needs a sudden scale-out, queue + provisioning resilience (Temporal workflows already present since P1) absorb it without collapsing the pool.</TechPara>
+          <TechPara><strong>Natural ceiling.</strong> At ~80,000-100,000 tenants the federated K8s control plane and HSMs tighten. Beyond that: add a 4th region or segment by OpCo (each country in e&amp;'s OpCo footprint with its own federated cluster).</TechPara>
+        </Disclosure>
+      </Disclosure>
+
+      <Disclosure level={1} title="Inference resources" sub="GPU sizing · local (e& DGX H100) vs local + G42 H200">
+        <TechPara>Two scenarios, separated by a <strong>capacity break point</strong>, not by program phase:</TechPara>
+        <ul style={{fontSize:12,color:"#555",lineHeight:1.7,margin:"0 0 14px",paddingLeft:18}}>
+          <li><strong>Scenario A — Local only</strong>: e&amp; 2× DGX H100 cover all inference.</li>
+          <li><strong>Break point</strong>: when voice STT/TTS saturates and starts to degrade — around <strong>1,500-2,000 active SMBs</strong>.</li>
+          <li><strong>Scenario B — Local + G42 H200</strong>: e&amp; DGX H100 remains primary; G42 H200 absorbs overflow, peaks, and premium real-time voice. Elastic capacity via contract with G42.</li>
+        </ul>
+
+        <Disclosure level={2} title="Scenario A — Local only · e& 2× DGX H100">
+          <TechSubH>Serviceable demand range</TechSubH>
+          <SpecTable head={["Metric","Value"]} rows={[
+            ["SMB tenant range", <span><strong>15 → ~1,500</strong> (comfortable) · 1,500-2,500 stretching voice</span>],
+            ["Hardware", "2× DGX/HGX H100 · 16× H100 80 GB SXM5 · 1.28 TB total GPU memory"],
+            ["Cluster role", "DGX-1: production · DGX-2: HA active-passive + fine-tuning + staging"],
+            ["Sustained throughput (text)", "~400-500 req/s on DGX-1"],
+            ["Sustained throughput (voice)", "~100 STT streams + ~50 TTS streams concurrent"],
+            ["True bottleneck", <span><strong>Voice STT/TTS</strong> (saturates before text)</span>],
+          ]}/>
+          <TechSubH>GPU allocation in DGX-1 (production)</TechSubH>
+          <SpecTable head={["GPUs","Model","Service"]} rows={[
+            ["2× H100", <span><strong>Llama 4 Scout 109B MoE (fp8)</strong> · 17B active per token · tensor parallel</span>, "Deep general text (EN + ML)"],
+            ["1× H100", <span><strong>Jais 70B Chat (fp8)</strong> (Inception / MBZUAI)</span>, "Deep Arabic text — Gulf dialect, formal Arabic, AR/EN code-switching"],
+            ["1× H100", <span><strong>Qwen3 32B dense (fp8)</strong></span>, "Tooling / intensive function calling + deep backup"],
+            ["1× H100", <span><strong>DeepSeek R1 Distill 70B (fp8)</strong></span>, "Reasoning fallback (chain-of-thought) — invoked on-demand; idle most of the time"],
+            ["1× H100", <span><strong>Llama 3.2 8B + Jais 13B</strong> · vLLM multi-model</span>, "Fast track + intent classifier"],
+            ["1× H100", "Whisper Large v3 + Silero VAD", "STT (~100 streams)"],
+            ["1× H100", "XTTS-v2 + F5-TTS + Kokoro", "TTS (~50 streams)"],
+          ]}/>
+          <TechPara>DGX-2 (8× H100): clone of DGX-1 on standby (HA active-passive) + 2-3 GPUs dedicated to LoRA fine-tuning of Jais 70B per vertical (restaurant, clinic, retail, real estate) and experimentation with new models. The "reserve / failover" of the single slot is offset by DGX-2.</TechPara>
+          <TechSubH>Utilization curve by scale</TechSubH>
+          <SpecTable head={["Tenants","Average DGX-1 utilization","Peak margin"]} rows={[
+            ["15 (P0 beta)", "~5-10%", "95% free"],
+            ["100", "~15-20%", "Comfortable"],
+            ["500", "~40-50%", "Acceptable"],
+            ["1,000", "~65-75%", "Voice starts tightening"],
+            [<strong>1,500</strong>, <strong>~85-95% (voice-limited)</strong>, <strong>Break point</strong>],
+          ]}/>
+        </Disclosure>
+
+        <Disclosure level={2} title="Break point — what saturates first">
+          <TechPara><strong>Voice, not text.</strong></TechPara>
+          <TechPara>At 1,500 active SMBs:</TechPara>
+          <ul style={{fontSize:12,color:"#555",lineHeight:1.7,margin:"0 0 12px",paddingLeft:18}}>
+            <li>Text: ~300 req/s → ~70% of sustained capacity. Comfortable (Llama 4 Scout MoE).</li>
+            <li>Voice STT: ~150 concurrent streams at peak → <strong>exceeds the 100 streams of the single dedicated H100</strong>. Turn latency rises from 1 s to 3 s, drop rate appears.</li>
+            <li>Voice TTS: same pressure.</li>
+          </ul>
+          <TechPara>Options when you reach the break point:</TechPara>
+          <ol style={{fontSize:12,color:"#555",lineHeight:1.7,margin:"0 0 12px",paddingLeft:20}}>
+            <li><strong>Reassign GPUs internally</strong> (take 1-2 H100 from fast/deep to voice) → stretches to ~2,500 SMBs, but degrades deep text.</li>
+            <li><strong>Activate Scenario B</strong> (add elastic G42 H200) → sustainable solution.</li>
+            <li><strong>Accept tier-2 fallback</strong> for real-time voice (Azure OpenAI real-time) → valid if token cost offsets hardware savings.</li>
+          </ol>
+          <Note label="Recommendation">When projecting &gt;1,200 sustained SMBs, contract G42 before saturation.</Note>
+        </Disclosure>
+
+        <Disclosure level={2} title="Scenario B — Local + G42 H200 (elastic)">
+          <TechSubH>Roles</TechSubH>
+          <SpecTable head={["Substrate","Role","Consumption model"]} rows={[
+            [<strong>e&amp; DGX-1</strong>, "Primary · serves most traffic (~60-70%) · Llama 4 Scout + Jais 70B + Qwen3 32B + voice", "Sunk CAPEX · marginal cost = electricity only"],
+            [<strong>e&amp; DGX-2</strong>, "HA active-passive + Arabic LoRA fine-tuning (Jais 70B)", "Strategic reserve"],
+            [<strong>G42 H200</strong>, "Overflow + peaks + premium real-time voice + premium models (Llama 4 Maverick 400B, DeepSeek V3.2) that don't fit in H100", "Elastic OPEX · pay per reserved/consumed hour"],
+            [<strong>Azure OpenAI UAE North</strong>, "Tier-2 fallback (text + region-close real-time voice)", "OPEX per token"],
+            [<strong>AWS Bedrock Bahrain</strong>, "Tier-3 premium (Claude Sonnet 4.7 edge cases)", "OPEX per token"],
+          ]}/>
+          <TechSubH>Sizing matrix by demand</TechSubH>
+          <SpecTable head={["Tenant range","Reserved G42 H200","Notes"]} rows={[
+            ["1,500 – 5,000", <span><strong>1× HGX H200 (8× H200 141 GB)</strong> elastic</span>, "~50% of traffic above DGX. Real-time voice mainly on H200. Llama 4 Scout also deployed on H200 for overflow."],
+            ["5,000 – 15,000", <strong>2× HGX H200</strong>, "~2/3 of traffic already on G42. e& DGX specialize in Arabic (Jais 70B + LoRAs) and private/fine-tuned models. Llama 4 Maverick 400B MoE enters the catalog (fits in 4× H200 fp8)."],
+            ["15,000 – 50,000", <span><strong>4× HGX H200</strong> (ideally 2 G42 regions for geographic resilience)</span>, "e& DGX become 'private / fine-tuned models' — G42 serves most of the general catalog + DeepSeek V3.2 671B MoE for premium edge cases without leaving to 3rd party."],
+            ["50,000+", <strong>Re-evaluate: either more reserved H200 (5-8) or buy more DGX (H200 or B200)</strong>, "CAPEX vs OPEX inflection point."],
+          ]}/>
+          <Note label="HA model — read carefully">
+            The table above is <strong>not</strong> physically redundant inside G42 in the smallest tiers — it relies on <strong>HA via Portkey cascade</strong>. If the single HGX H200 fails (1.5K-5K range), Portkey re-routes to e&amp; DGX (primary substrate) and then to Azure OpenAI UAE North (tier 2). Latency rises ~200-500 ms and per-token cost increases during the incident, but the agent does not go down. <strong>Physical HA inside G42 starts at the 15K-50K tier with 4× HGX H200 spread across 2 G42 regions</strong> — the right inflection point to add geographic redundancy is when enterprise (T2) tenants with strict SLAs are onboard. SMB-only (T1) deployments tolerate the cascade-based HA without service interruption.
+          </Note>
+          <TechSubH>Why H200 and not H100 at G42</TechSubH>
+          <ul style={{fontSize:12,color:"#555",lineHeight:1.7,margin:"0 0 12px",paddingLeft:18}}>
+            <li>H200: 141 GB HBM3e per GPU (vs 80 GB on H100) → allows loading <strong>Llama 4 Scout 109B MoE in fp16 on 2× H200</strong> (vs fp8 on 2× H100), and <strong>Llama 4 Maverick 400B MoE in fp8 on 4× H200</strong>. Without H200, Maverick and DeepSeek V3.2 are out of the sovereign catalog.</li>
+            <li>~1.5-2× sustained throughput vs H100 in batch inference.</li>
+            <li>Same SM90 architecture as H100 → vLLM/TGI/Triton can run weights without recompiling.</li>
+            <li>G42 offers reserved capacity in MENA with UAE/KSA compliance, preserving the sovereign proposition.</li>
+          </ul>
+          <TechSubH>Routing policy between e& and G42 (Portkey)</TechSubH>
+          <ul style={{fontSize:12,color:"#555",lineHeight:1.7,margin:"0 0 12px",paddingLeft:18}}>
+            <li><strong>Cache hit (semantic cache)</strong> → doesn't even touch the GPU.</li>
+            <li><strong>Anything in Arabic</strong> → e&amp; DGX (Jais 70B on-prem). Overflow to G42 only if DGX saturated.</li>
+            <li><strong>General fast text</strong> → e&amp; DGX (Llama 3.2 8B + Jais 13B) if &lt;70% util, else G42.</li>
+            <li><strong>General deep text</strong> → e&amp; DGX (Llama 4 Scout 109B MoE) if &lt;70% util, else G42 H200 (Scout or Maverick depending on contract).</li>
+            <li><strong>Heavy reasoning (chain-of-thought)</strong> → e&amp; DGX (DeepSeek R1 Distill 70B); overflow to G42 (DeepSeek R1 full or V3.2).</li>
+            <li><strong>Heavy function calling</strong> → e&amp; DGX (Qwen3 32B); overflow to G42.</li>
+            <li><strong>Standard voice STT/TTS</strong> → e&amp; DGX until saturation; overflow to G42 (Whisper/XTTS on H200).</li>
+            <li><strong>Premium real-time voice (&lt;400 ms turn)</strong> → G42 if it has a real-time endpoint, else Azure OpenAI Sweden with tenant consent.</li>
+            <li><strong>Failure fallback (fast-fail)</strong> → Azure OpenAI UAE North (GPT-4o-mini fast, GPT-5 deep).</li>
+            <li><strong>Premium quality edge cases</strong> → Bedrock Bahrain Claude Sonnet 4.7.</li>
+          </ul>
+        </Disclosure>
+      </Disclosure>
+
+    </div>
+  </Card>;
+}
+
 function ZoomableImage({src,alt,extraFooter}) {
   const [open,setOpen] = useState(false);
   const [zoom,setZoom] = useState(1.35);
@@ -3040,7 +3354,7 @@ function SummarySection({showPricing=true}) {
             {[
               {group:"Scale & unit economics"},
               {c:"LLM Gateway",b:"Cost control · vendor independence · resilience",p0:"Multi-provider routing · virtual keys · basic budgets",p1:"Prompt versioning · semantic cache · A/B testing",p2:"Sovereign vLLM · regional routing · full model-call audit"},
-              {c:"Idle & runtime strategy",b:"SMB unit economics when thousands of agents sit idle",p0:"Shared runtime pool for SMB tenants",p1:"Dedicated pod with scaling-to-zero",p2:"Kernel-sandboxed runtime · hibernation · cryptographic isolation"},
+              {c:"Idle & runtime strategy",b:"SMB unit economics when thousands of agents sit idle",p0:"Shared runtime pool for SMB tenants",p1:"Dedicated pod · scale-to-zero · hibernation snapshots",p2:"Kernel-sandboxed runtime · cryptographic isolation"},
               {c:"Agent Template Instancer",b:"Self-service at scale · agent launch in hours",p0:"Provisioning service · queue · rollback · Helm templates",p1:"K8s Operator · signed OCI templates · blue/green upgrades",p2:"Third-party publishing · mandatory signing · central review"},
               {group:"Compliance & governance"},
               {c:"Trust Tiers framework",b:"One platform for SMB, Enterprise and Government",p0:"T1 logical multi-tenancy · ISO/SOC/NESA baseline",p1:"T1 + T2 · enterprise compliance selectable per tenant",p2:"T3 + T4 · NESA P1-P4 · ISO 42001 · HSM / air-gap"},
@@ -3556,7 +3870,10 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
 
     <SH id={_a("contract-art-3-1")}>3.1 · Layer by layer — top to bottom</SH>
     <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:18}}>
-      {STACK_LAYERS.map(L => L.isForge ? <ForgeLayerCard key={L.n} L={L}/> : <StackLayerCard key={L.n} L={L}/>)}
+      {STACK_LAYERS.map(L => <Fragment key={L.n}>
+        {L.isForge ? <ForgeLayerCard L={L}/> : <StackLayerCard L={L}/>}
+        {L.n === "1" && <TechMinEstimations/>}
+      </Fragment>)}
     </div>
 
     <SH id={_a("contract-art-3-2")}>3.2 · Inside Forge — operations and development as one platform</SH>
