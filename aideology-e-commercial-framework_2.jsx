@@ -7673,11 +7673,10 @@ function RazziMeetingSection() {
 /* ════════════════════════════════════════════════════════════ */
 const CONTRACT_NAV_SCREEN_CSS = `
 .contract-print-area .contract-nav-sidebar {
-  flex: 0 0 230px;
   width: 230px;
-  position: sticky;
+  position: fixed;
   top: 0;
-  align-self: flex-start;
+  left: 0;
   height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
@@ -7687,7 +7686,10 @@ const CONTRACT_NAV_SCREEN_CSS = `
   font-family: "Suisse International", Arial, sans-serif;
   border-right: 1px solid #2a2a2a;
   padding: 20px 14px 24px 16px;
-  margin-top: 0;
+  z-index: 10;
+}
+@media screen {
+  .contract-print-area { padding-left: 230px; }
 }
 .contract-print-area .contract-nav-sidebar .contract-nav-link {
   transition: background 0.15s ease, color 0.15s ease;
