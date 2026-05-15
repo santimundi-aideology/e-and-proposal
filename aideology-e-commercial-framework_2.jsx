@@ -7781,9 +7781,9 @@ function ContractNavSidebar({ showPricing }) {
 
   const items = ALL_ITEMS.filter((it) => !it.pricing || showPricing);
 
-  const [activeId, setActiveId] = React.useState(null);
+  const [activeId, setActiveId] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const ids = items.map((it) => it.id);
     const observers = [];
     const visible = new Map();
