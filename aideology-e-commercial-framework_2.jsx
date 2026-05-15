@@ -7673,19 +7673,20 @@ function RazziMeetingSection() {
 /* ════════════════════════════════════════════════════════════ */
 const CONTRACT_NAV_SCREEN_CSS = `
 .contract-print-area .contract-nav-sidebar {
-  flex: 0 0 220px;
-  width: 220px;
+  flex: 0 0 230px;
+  width: 230px;
   position: sticky;
-  top: 16px;
+  top: 0;
   align-self: flex-start;
-  max-height: calc(100vh - 24px);
+  height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
   background: #111111;
   color: #ffffff;
   font-family: "Suisse International", Arial, sans-serif;
   border-right: 1px solid #2a2a2a;
-  padding: 16px 12px 18px 14px;
+  padding: 20px 14px 24px 16px;
   margin-top: 0;
 }
 .contract-print-area .contract-nav-sidebar .contract-nav-link {
@@ -7992,9 +7993,9 @@ function ContractPage() {
     </div>
 
     {/* ── CONTRACT BODY + LEFT NAV (nav hidden when printing/PDF) ─ */}
-    <div className="contract-layout-row" style={{display:"flex",maxWidth:1360,margin:"0 auto",padding:"0 16px 72px",alignItems:"flex-start",gap:20,justifyContent:"center"}}>
+    <div className="contract-layout-row" style={{display:"flex",alignItems:"flex-start"}}>
       <ContractNavSidebar showPricing={showPricing} />
-      <div style={{flex:"1 1 0",minWidth:0,maxWidth:1120,padding:"0 8px"}}>
+      <div style={{flex:"1 1 0",minWidth:0,maxWidth:1120,padding:"0 28px 72px 28px"}}>
         <FullStackSection showPricing={showPricing} contractNavIds />
       </div>
     </div>
