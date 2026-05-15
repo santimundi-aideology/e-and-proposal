@@ -23,7 +23,7 @@ const Badge = ({children,v="default"}) => {
 };
 const SH = ({children,...p}) => <div {...p} style={{margin:"44px 0 18px",...(p.style||{})}}><h3 style={{fontSize:13,fontWeight:700,color:BRAND.black,letterSpacing:"0.06em",textTransform:"uppercase",margin:"0 0 10px"}}>{children}</h3><div style={{height:3,width:96,background:BRAND.continuum}}/></div>;
 const Card = ({children,style,...p}) => <div {...p} style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,borderRadius:0,padding:24,marginBottom:16,...(style||{})}}>{children}</div>;
-const Note = ({label,children,color=BRAND.red,bg=BRAND.lightGrey,border=BRAND.border}) => <div style={{background:bg,border:`1px solid ${border}`,borderLeft:`4px solid ${BRAND.red}`,borderRadius:0,padding:20,marginBottom:16}}><div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color,textTransform:"uppercase",marginBottom:8}}>{label}</div><p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,margin:0}}>{children}</p></div>;
+const Note = ({label,children,color=BRAND.red,bg=BRAND.lightGrey,border=BRAND.border,...p}) => <div {...p} style={{background:bg,border:`1px solid ${border}`,borderLeft:`4px solid ${BRAND.red}`,borderRadius:0,padding:20,marginBottom:16,...(p.style||{})}}><div style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",color,textTransform:"uppercase",marginBottom:8}}>{label}</div><p style={{fontSize:13,color:BRAND.grey,lineHeight:1.6,margin:0}}>{children}</p></div>;
 
 function CollapsibleTimeline({badge,span:spanText,title,desc,footer,defaultOpen=false,children}) {
   const [open,setOpen] = useState(defaultOpen);
@@ -394,7 +394,7 @@ function AgentRoadmapGrid() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
-/* Pillar 01 — shared: roadmap + launch timelines (SMB tab + Article 4) */
+/* Pillar 01 — shared: roadmap + launch timelines (SMB tab + Article 3) */
 function Pillar01AgentRoadmapAndLaunchPlan() {
   return <>
     <SH>Platform-centric agent roadmap</SH>
@@ -3447,10 +3447,12 @@ function StackOwnershipTable() {
   </Card>;
 }
 
-function FullStackSection({showPricing=true}) {
+function FullStackSection({showPricing=true, contractNavIds=false}) {
+  /** Stable anchor ids for contract-page table of contents only (avoids duplicate ids in hidden corpus). */
+  const _a = (id) => (contractNavIds ? id : undefined);
   return <div style={{padding:"44px 0 0"}}>
     {/* ── COVER / PREAMBLE ─────────────────────────────────────── */}
-    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+    <div id={_a("contract-cover")} style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
       <Badge v="rose">Commercial Framework Agreement</Badge>
       <span style={{fontSize:12,color:"#888"}}>e& AI Networks & Solutions × AIdeology · v0.1 · Confidential</span>
     </div>
@@ -3483,20 +3485,20 @@ function FullStackSection({showPricing=true}) {
     </div>
 
     {/* ── ARTICLE 1 · DEFINITIONS ──────────────────────────────── */}
-    <SH>Article 1 · Definitions</SH>
+    <SH id={_a("contract-art-1")}>Article 1 · Definitions</SH>
     <Card>
       <div style={{display:"grid",gridTemplateColumns:"180px 1fr",gap:"12px 18px",fontSize:12.5,color:"#444",lineHeight:1.65}}>
         {[
           ["Agreement","This Commercial Framework Agreement, including any annexes, schedules and statements of work executed under it."],
           ["AIdeology","The platform builder and delivery counterparty under this Agreement."],
           ["e&","e& AI Networks & Solutions, the contracting entity within the e& Group."],
-          ["Forge","AIdeology's proprietary agentic intelligence platform — the AI control plane and developer plane described in Article 4."],
+          ["Forge","AIdeology's proprietary agentic intelligence platform — the AI control plane and developer plane described in Article 3."],
           ["SDD","Solution Design Document — the structured specification produced before every agent build."],
-          ["Agent IP","Source code, prompts, workflows, fine-tunes, evaluation sets and tenant configurations of a deployed agentic solution. Transfers to e& under Article 10."],
-          ["Platform IP","Forge orchestration, governance, multi-cloud / multi-LLM gateway and supporting libraries. Remains AIdeology property; e& licensed under Article 10."],
-          ["Pillar 01","The SMB AI marketplace programme defined in Article 5."],
-          ["Pillar 02","Enterprise & Government tiered solutions defined in Article 6."],
-          ["Pillar 03","Sovereign GPU infrastructure scope referenced in Article 7."],
+          ["Agent IP","Source code, prompts, workflows, fine-tunes, evaluation sets and tenant configurations of a deployed agentic solution. Transfers to e& under Article 9."],
+          ["Platform IP","Forge orchestration, governance, multi-cloud / multi-LLM gateway and supporting libraries. Remains AIdeology property; e& licensed under Article 9."],
+          ["Pillar 01","The SMB AI marketplace programme defined in Article 4."],
+          ["Pillar 02","Enterprise & Government tiered solutions defined in Article 5."],
+          ["Pillar 03","Sovereign GPU infrastructure scope referenced in Article 6."],
           ["Wave","A delivery increment in the Pillar 01 schedule, each with named acceptance criteria."],
           ["OpCo","An e& operating company outside the UAE entity (e.g. Saudi, Morocco, Egypt, Kuwait)."],
         ].map(([k,v],i)=><Fragment key={i}>
@@ -3507,7 +3509,7 @@ function FullStackSection({showPricing=true}) {
     </Card>
 
     {/* ── ARTICLE 2 · SCOPE — THREE PROPOSITIONS ──────────────── */}
-    <SH>Article 2 · Scope of engagement — three propositions</SH>
+    <SH id={_a("contract-art-2")}>Article 2 · Scope of engagement — three propositions</SH>
     <Note label="Three propositions, four phases">
       This engagement runs as three concurrent propositions, each advancing through four shared phases: Design, Build, Launch commercially, and Support &amp; evolve. Proposition A builds and launches six agentic solutions across Pillars 01 and 02. Proposition B stands up e&'s Agentic Centre of Excellence — transferring capability so e& owns and operates its AI stack independently. Proposition C delivers the AI Control Plane and Development platform that connects compute, models, agents, and billing into a single sovereign operating layer.
     </Note>
@@ -3534,24 +3536,10 @@ function FullStackSection({showPricing=true}) {
       </Card>)}
     </div>
 
-    {/* ── ARTICLE 3 · WHAT WILL BE BUILT ──────────────────────── */}
-    <SH>Article 3 · What will be built</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))",gap:12,marginBottom:18}}>
-      {[
-        {t:"An e& AI operating layer — not point tools",d:"Customers will not be buying disconnected point tools. They will subscribe to an e& AI operating layer where each agentic solution owns a business function end-to-end. For SMB: Customer, Sales, Communications, Finance, Operations and People."},
-        {t:"A reusable platform funded by the first solution",d:"The platform will include onboarding, tenant back office, identity, billing, analytics, connector management, observability and reusable SDD blueprints. The first solution funds and validates the base platform; later solutions reuse the same infrastructure."},
-        {t:"P1 enterprise capability layer in Wave 2",d:"The SMB build also introduces the platform's P1 capability layer: enterprise-grade automation, compliance controls, audit trails, RBAC, guardrails and operational workflows. Deployed as part of Wave 2 so the platform is not only an SMB marketplace, but the foundation for future enterprise and regulated-market expansion."},
-        {t:"Two solutions in parallel per wave after Wave 1",d:"The first Customer Agent launches with the platform foundation. After that, AIdeology builds two larger agentic solutions in parallel per wave because the heavy platform work is already in place."},
-      ].map((x,i)=><Card key={i} style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
-        <h4 style={{fontSize:14,fontWeight:700,color:"#111",margin:"0 0 8px"}}>{x.t}</h4>
-        <p style={{fontSize:12.5,color:"#666",lineHeight:1.6,margin:0}}>{x.d}</p>
-      </Card>)}
-    </div>
-
     {/* ── ARTICLE 4 · THE e& AI STACK (INFOGRAPHICS PRESERVED) ── */}
-    <SH>Article 4 · The e& AI stack — technical scope of the delivery</SH>
+    <SH id={_a("contract-art-3")}>Article 3 · The e& AI stack — technical scope of the delivery</SH>
     <p style={{fontSize:13.5,color:"#666",lineHeight:1.7,maxWidth:860,marginBottom:18}}>
-      The deliverables under this Agreement implement a single AI stack across six layers. <strong style={{color:"#111"}}>Forge</strong> sits in the middle as the AI control plane that operates the platform and the development layer that builds new AI fast. Below Forge: the GPU orchestrator, sitting on top of e&'s sovereign infrastructure. Above Forge: the agents that customers actually buy, distributed through e&'s marketplace and invoice. This Article describes the <em>technical scope</em> of what AIdeology will deliver to e&; commercial terms appear from Article 5 onward.
+      The deliverables under this Agreement implement a single AI stack across six layers. <strong style={{color:"#111"}}>Forge</strong> sits in the middle as the AI control plane that operates the platform and the development layer that builds new AI fast. Below Forge: the GPU orchestrator, sitting on top of e&'s sovereign infrastructure. Above Forge: the agents that customers actually buy, distributed through e&'s marketplace and invoice. This Article describes the <em>technical scope</em> of what AIdeology will deliver to e&; commercial terms appear from Article 4 onward.
     </p>
 
     <div style={{display:"flex",gap:32,flexWrap:"wrap",marginBottom:32}}>
@@ -3566,34 +3554,34 @@ function FullStackSection({showPricing=true}) {
       </div>)}
     </div>
 
-    <SH>4.1 · Layer by layer — top to bottom</SH>
+    <SH id={_a("contract-art-3-1")}>3.1 · Layer by layer — top to bottom</SH>
     <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:18}}>
       {STACK_LAYERS.map(L => L.isForge ? <ForgeLayerCard key={L.n} L={L}/> : <StackLayerCard key={L.n} L={L}/>)}
     </div>
 
-    <SH>4.2 · Inside Forge — operations and development as one platform</SH>
+    <SH id={_a("contract-art-3-2")}>3.2 · Inside Forge — operations and development as one platform</SH>
     <Note label="Two halves, one platform">
       Forge is not just an operations platform and it is not just a development toolkit. It is both — unified. The control plane runs the AI business day to day; the SDD blueprints, prompts, guardrails and evaluation sets make every new agent ship in weeks instead of months. They share the same data model, the same governance layer, and the same multi-tenant fabric.
     </Note>
     <ForgeTwoPillarsCard/>
 
-    <div style={{marginTop:8,marginBottom:24}}>
+    <div id={_a("contract-smb-roadmap")} style={{marginTop:8,marginBottom:24}}>
       <Pillar01AgentRoadmapAndLaunchPlan />
     </div>
 
-    <SH>4.3 · End-to-end — one customer interaction across all six layers</SH>
+    <SH id={_a("contract-art-3-3")}>3.3 · End-to-end — one customer interaction across all six layers</SH>
     <StackExampleFlow/>
 
-    <SH>4.4 · Layer ownership</SH>
+    <SH id={_a("contract-art-3-4")}>3.4 · Layer ownership</SH>
     <StackOwnershipTable/>
     <Note label="Strategic message">
       e& owns Layers 1, 2, 5 and 6 outright — infrastructure, GPU orchestration, the agents themselves, and the entire customer relationship. Forge is the durable platform IP that AIdeology builds and licenses to e&. The stack is designed so every layer compounds: every new agent reuses the platform, every customer reuses the infrastructure, every workload reuses the compute orchestrator.
     </Note>
 
     {/* ── ARTICLE 5 · PILLAR 01 — SMB PROGRAMME ──────────────── */}
-    {showPricing && <SH>Article 5 · Pillar 01 — SMB AI programme</SH>}
+    {showPricing && <SH id={_a("contract-art-4")}>Article 4 · Pillar 01 — SMB AI programme</SH>}
     {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Pillar 01 covers six SMB agents delivered in five waves over 36 weeks — six agents in production by week 30, with Wave 5 running platform hardening, security audit and formal handoff through week 36 — plus three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 8, 9 and 10.
+      Pillar 01 covers six SMB agents delivered in five waves over 36 weeks — six agents in production by week 30, with Wave 5 running platform hardening, security audit and formal handoff through week 36 — plus three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 7, 8 and 9.
     </p>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
@@ -3632,7 +3620,7 @@ function FullStackSection({showPricing=true}) {
       </div>
     </Card>}
 
-    <Note label="Assumption · access to e& technical specs">
+    <Note id={_a("contract-specs-assumption")} label="Assumption · access to e& technical specs">
       The plan above assumes e& will grant timely access to the technical foundations, sandbox environments, cloud/GPU resources, security approvals, and integration owners required to build the platform and the first e& AI Solutions in parallel. Without these inputs, the timeline will slip workstream by workstream because engineering cannot validate deployment, data flows, identity, billing, voice, WhatsApp, observability, and beta operations in isolation.
     </Note>
     <Card style={{padding:0,overflow:"hidden",marginBottom:18}}>
@@ -3667,9 +3655,9 @@ function FullStackSection({showPricing=true}) {
     </Card>
 
     {/* ── ARTICLE 6 · PILLAR 02 — ENTERPRISE TIERS ───────────── */}
-    {showPricing && <SH>Article 6 · Pillar 02 — Enterprise & Government tiers</SH>}
+    {showPricing && <SH id={_a("contract-art-5")}>Article 5 · Pillar 02 — Enterprise & Government tiers</SH>}
     {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Pillar 02 is sold per customer through e&'s enterprise account teams. Three tiers escalate from adapted SMB agents to fully sovereign on-prem multi-agent deployments. Hosting, connectivity and Tier-3 hardware are 100% e&; build and managed-service fees follow the revenue split at Article 8.
+      Pillar 02 is sold per customer through e&'s enterprise account teams. Three tiers escalate from adapted SMB agents to fully sovereign on-prem multi-agent deployments. Hosting, connectivity and Tier-3 hardware are 100% e&; build and managed-service fees follow the revenue split at Article 7.
     </p>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <div style={{overflowX:"auto"}}>
@@ -3698,13 +3686,13 @@ function FullStackSection({showPricing=true}) {
     </Card>}
 
     {/* ── ARTICLE 7 · PILLAR 03 — GPUaaS REFERENCE ──────────── */}
-    <SH>Article 7 · Pillar 03 — Sovereign GPU infrastructure</SH>
+    <SH id={_a("contract-art-6")}>Article 6 · Pillar 03 — Sovereign GPU infrastructure</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       Pillar 03 covers AIdeology's infrastructure consulting services for e&'s sovereign AI compute programme. This includes designing Reference Architectures for on-premises AI PODs — spanning NVIDIA, AMD, Cerebras, and other accelerator vendors — and advising on GPU and accelerator fulfilment across e&'s planned 100 MW+ data centre portfolio. AIdeology's guidance is hardware-vendor agnostic: the right silicon is selected per workload, budget, and supply-chain availability. The GPUaaS commercial model (compute billing, orchestration, multi-tenancy) is governed by a separate Statement of Work executed under this Agreement.
     </p>
 
-    {/* --- 7.1 · Reference Architecture Design --- */}
-    <SH>7.1 · Reference Architecture design — POD consulting</SH>
+    {/* --- 6.1 · Reference Architecture Design --- */}
+    <SH id={_a("contract-art-6-1")}>6.1 · Reference Architecture design — POD consulting</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       AIdeology will design Reference Architectures for on-premises AI PODs tailored to e&'s sovereign infrastructure requirements. Designs span the full accelerator landscape — NVIDIA (HGX, NVL72, RTX PRO), AMD (Instinct MI300X / MI325X), Cerebras (CS-3 wafer-scale), and emerging alternatives — selected on the basis of workload fit, price-performance, and e&'s procurement position. Each engagement produces a validated, deployment-ready architecture covering accelerator selection, cluster topology, network fabric design, storage tier selection, OEM evaluation, thermal and power modelling, and a full Bill of Materials.
     </p>
@@ -3751,7 +3739,7 @@ function FullStackSection({showPricing=true}) {
     </Card>}
 
     {/* --- 7.2 · Data Centre GPU Fulfilment Advisory --- */}
-    <SH>7.2 · Data centre GPU fulfilment advisory — 100 MW programme</SH>
+    <SH id={_a("contract-art-6-2")}>6.2 · Data centre GPU fulfilment advisory — 100 MW programme</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       AIdeology will provide strategic consulting to assist e& in planning and populating its planned 100 MW+ data centre portfolio with GPU infrastructure. The engagement covers multi-site capacity planning, phased GPU procurement strategy, vendor negotiation support, power and cooling envelope modelling, and staged deployment coordination across e&'s entire DC footprint.
     </p>
@@ -3801,7 +3789,7 @@ function FullStackSection({showPricing=true}) {
     </Card>}
 
     {/* --- 7.3 · Partner-endorsed designs by vendor --- */}
-    <SH>7.3 · Reference designs by accelerator vendor</SH>
+    <SH id={_a("contract-art-6-3")}>6.3 · Reference designs by accelerator vendor</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       The table below lists the validated NVIDIA OEM reference designs (vetted by NVIDIA's Design Review Board) that form the baseline for Pillar 03 POD consulting. In addition, AIdeology's advisory scope covers AMD Instinct MI300X / MI325X cluster designs, Cerebras CS-3 wafer-scale deployments, and other accelerator form factors as the market evolves. The right vendor is selected per workload — inference, training, or fine-tuning — and per e&'s procurement position and sovereign requirements.
     </p>
@@ -3854,7 +3842,7 @@ function FullStackSection({showPricing=true}) {
     </Note>
 
     {/* ── ARTICLE 8 · COMMERCIAL HEADLINES ──────────────────── */}
-    {showPricing && <SH>Article 8 · Commercial headlines</SH>}
+    {showPricing && <SH id={_a("contract-art-7")}>Article 7 · Commercial headlines</SH>}
     {showPricing && <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead>
@@ -3878,8 +3866,8 @@ function FullStackSection({showPricing=true}) {
       </table>
     </Card>}
 
-    {/* --- 8.1 · Revenue share: declining model (mirrored from SMB page) --- */}
-    {showPricing && <SH>8.1 · Revenue share — declining model</SH>}
+    {/* --- 7.1 · Revenue share: declining model (mirrored from SMB page) --- */}
+    {showPricing && <SH id={_a("contract-art-7-1")}>7.1 · Revenue share — declining model</SH>}
     {showPricing && <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`,display:"flex",alignItems:"center",gap:12}}>
         <span style={{width:30,height:30,background:BRAND.red,display:"flex",alignItems:"center",justifyContent:"center",color:BRAND.white,fontSize:14,fontWeight:700,borderRadius:0}}>%</span>
@@ -3940,14 +3928,14 @@ function FullStackSection({showPricing=true}) {
       </div>
     </Card>}
 
-    {/* --- 8.2 · Build · Transfer · Partner philosophy --- */}
-    {showPricing && <SH>8.2 · Build · Transfer · Partner</SH>}
+    {/* --- 7.2 · Build · Transfer · Partner philosophy --- */}
+    {showPricing && <SH id={_a("contract-art-7-2")}>7.2 · Build · Transfer · Partner</SH>}
     {showPricing && <Note label="Build · Transfer · Partner">
       AIdeology will not be a permanent vendor. The engagement is designed as a three-phase transition: full-service build, progressive knowledge transfer, and a long-term platform partnership where e& owns day-to-day operations and AIdeology remains the innovation layer. Commercial support pricing is included in the AIdeology fees section above.
     </Note>}
 
-    {/* --- 8.3 · Platform support model --- */}
-    {showPricing && <SH>8.3 · Platform support model</SH>}
+    {/* --- 7.3 · Platform support model --- */}
+    {showPricing && <SH id={_a("contract-art-7-3")}>7.3 · Platform support model</SH>}
     {showPricing && <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
       <div style={{padding:"22px 26px",borderBottom:`1px solid ${BRAND.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><Badge v="teal">4 tiers</Badge><span style={{fontSize:11.5,color:"#888"}}>L1 & L2 → e& · L3 & L4 → AIdeology</span></div>
@@ -3992,7 +3980,7 @@ function FullStackSection({showPricing=true}) {
     </Card>}
 
     {/* ── ARTICLE 9 · PAYMENT SCHEDULE & MILESTONES ─────────── */}
-    {showPricing && <SH>Article 9 · Payment schedule & milestones</SH>}
+    {showPricing && <SH id={_a("contract-art-8")}>Article 8 · Payment schedule & milestones</SH>}
     {showPricing && <Note label="Fixed-fee, milestone-based">
       Pillar 01 fees are paid on a fixed-fee, milestone basis. e& pays only when a wave passes its named acceptance criteria. A 15% mobilisation advance is due on contract execution and is credited against the final milestone. Year 1–3 L3 platform support is bundled into the wave fees and the AIdeology revenue share, with no separate support invoice during the transition period.
     </Note>}
@@ -4034,7 +4022,7 @@ function FullStackSection({showPricing=true}) {
     </p>}
 
     {/* ── ARTICLE 9B · PILLAR 03 PAYMENT SCHEDULE ───────────── */}
-    {showPricing && <SH style={{margin:"32px 0 14px"}}>Article 9 (cont.) · Pillar 03 — Infrastructure consulting fees</SH>}
+    {showPricing && <SH id={_a("contract-art-8-p3")} style={{margin:"32px 0 14px"}}>Article 8 (cont.) · Pillar 03 — Infrastructure consulting fees</SH>}
     {showPricing && <Note label="Fixed-fee, milestone-based">
       Pillar 03 fees are structured on a milestone basis tied to defined deliverables. A 20% advance is invoiced on Statement of Work execution to mobilise the architecture and procurement team. All subsequent milestones are payable net thirty (30) days from the trigger event being certified by e&. The advance is credited in full against the final milestone.
     </Note>}
@@ -4106,7 +4094,7 @@ function FullStackSection({showPricing=true}) {
       RA design engagements (single-pod or multi-pod) follow a simplified two-milestone structure: 30% advance on SoW execution; 70% on blueprint delivery and e& sign-off. Monthly advisory retainers are invoiced in advance at the start of each calendar month.    </p>}
 
     {/* ── ARTICLE 10 · IP OWNERSHIP & TRANSFER ──────────────── */}
-    <SH>Article 10 · IP ownership & transfer</SH>
+    <SH id={_a("contract-art-9")}>Article 9 · IP ownership & transfer</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:14}}>
       <Card style={{padding:18,marginBottom:0,borderLeft:`3px solid ${BRAND.red}`}}>
         <Badge v="rose">e& owns — Agent IP</Badge>
@@ -4131,7 +4119,7 @@ function FullStackSection({showPricing=true}) {
     </div>
 
     {/* ── ARTICLE 11 · SUPPORT MODEL ─────────────────────────── */}
-    <SH>Article 11 · Support model — L1 to L4</SH>
+    <SH id={_a("contract-art-10")}>Article 10 · Support model — L1 to L4</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -4154,7 +4142,7 @@ function FullStackSection({showPricing=true}) {
     </Card>
 
     {/* ── ARTICLE 12 · BUILD-THEN-TRANSFER & OPCO ───────────── */}
-    <SH>Article 12 · Build-then-transfer & OpCo expansion</SH>
+    <SH id={_a("contract-art-11")}>Article 11 · Build-then-transfer & OpCo expansion</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
       {[
         {y:"Year 1",t:"Full service",d:"AIdeology is the primary development team. 2–3 e& engineers embedded for hands-on learning. Weekly knowledge-transfer sessions; joint code reviews and architecture decision records."},
@@ -4172,7 +4160,7 @@ function FullStackSection({showPricing=true}) {
     </Note>
 
     {/* ── ARTICLE 13 · NEXT STEPS ────────────────────────────── */}
-    <SH>Article 13 · Next steps to signature</SH>
+    <SH id={_a("contract-art-12")}>Article 12 · Next steps to signature</SH>
     <Card style={{padding:0,overflow:"hidden"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
         <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
@@ -4197,7 +4185,7 @@ function FullStackSection({showPricing=true}) {
 
     {/* ── COMMERCIAL SUMMARY ────────────────────────────────── */}
     {showPricing && <>
-    <SH>Commercial summary</SH>
+    <SH id={_a("contract-commercial-summary")}>Commercial summary</SH>
     <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
       The table below consolidates every commercial term across all three pillars and the infrastructure consulting engagement into a single reference page. All figures are subject to legal review and final negotiation.
     </p>
@@ -4365,7 +4353,7 @@ function FullStackSection({showPricing=true}) {
     </>}
 
     {/* ── SIGNATURES ────────────────────────────────────────── */}
-    <SH>Signatures</SH>
+    <SH id={_a("contract-signatures")}>Signatures</SH>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:24,marginBottom:24}}>
       {[
         {p:"For and on behalf of e& AI Networks & Solutions"},
@@ -7683,6 +7671,52 @@ function RazziMeetingSection() {
 /* CONTRACT PAGE — standalone, unlisted, print-ready          */
 /* Access via ?view=contract or #contract — never linked      */
 /* ════════════════════════════════════════════════════════════ */
+const CONTRACT_NAV_SCREEN_CSS = `
+.contract-print-area .contract-nav-sidebar {
+  flex: 0 0 220px;
+  width: 220px;
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: #111111;
+  color: #ffffff;
+  font-family: "Suisse International", Arial, sans-serif;
+  border-right: 1px solid #2a2a2a;
+  padding: 16px 12px 18px 14px;
+  margin-top: 0;
+}
+.contract-print-area .contract-nav-sidebar .contract-nav-link {
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.contract-print-area .contract-nav-sidebar .contract-nav-link:hover {
+  background: rgba(224, 8, 0, 0.35);
+  color: #ffffff !important;
+}
+.contract-print-area .contract-nav-sidebar::-webkit-scrollbar { width: 6px; }
+.contract-print-area .contract-nav-sidebar::-webkit-scrollbar-track { background: #1a1a1a; }
+.contract-print-area .contract-nav-sidebar::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+.contract-print-area [id^="contract-"] { scroll-margin-top: 88px; }
+@media (max-width: 900px) {
+  .contract-print-area .contract-layout-row { flex-direction: column !important; }
+  .contract-print-area .contract-nav-sidebar {
+    position: relative !important;
+    max-height: none !important;
+    width: 100% !important;
+    flex: none !important;
+    border-right: none;
+    border-bottom: 1px solid #2a2a2a;
+    padding-bottom: 18px;
+    margin-bottom: 12px;
+  }
+}
+`;
+
 const CONTRACT_PRINT_CSS = `
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -7705,6 +7739,144 @@ const CONTRACT_PRINT_CSS = `
   body.contract-printing .contract-print-only.contract-print-flex { display: flex !important; justify-content: space-between !important; }
 }
 `;
+
+function scrollToContractSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/** Left navigation for ?view=contract — structure legend (screen only, .contract-no-print). */
+function ContractNavSidebar({ showPricing }) {
+  const ALL_ITEMS = [
+    { id: "contract-cover",             label: "Cover & preamble",                   depth: 0 },
+    { id: "contract-art-1",             label: "Art. 1 · Definitions",               depth: 0 },
+    { id: "contract-art-2",             label: "Art. 2 · Scope",                     depth: 0 },
+    { id: "contract-art-3",             label: "Art. 3 · AI stack",                  depth: 0 },
+    { id: "contract-art-3-1",           label: "3.1 · Layers",                       depth: 1 },
+    { id: "contract-art-3-2",           label: "3.2 · Forge",                        depth: 1 },
+    { id: "contract-art-3-3",           label: "3.3 · End-to-end example",           depth: 1 },
+    { id: "contract-art-3-4",           label: "3.4 · Ownership",                    depth: 1 },
+    { id: "contract-art-4",             label: "Art. 4 · SMB programme",             depth: 0, pricing: true },
+    { id: "contract-smb-roadmap",       label: "4.1 · SMB roadmap & launch waves",   depth: 1, pricing: true },
+    { id: "contract-specs-assumption",  label: "Assumptions & e& specs",             depth: 0 },
+    { id: "contract-art-5",             label: "Art. 5 · Enterprise & Gov",          depth: 0, pricing: true },
+    { id: "contract-art-6",             label: "Art. 6 · GPU infrastructure",        depth: 0 },
+    { id: "contract-art-6-1",           label: "6.1 · RA / POD consulting",          depth: 1 },
+    { id: "contract-art-6-2",           label: "6.2 · 100 MW programme",             depth: 1 },
+    { id: "contract-art-6-3",           label: "6.3 · Vendor designs",               depth: 1 },
+    { id: "contract-art-7",             label: "Art. 7 · Commercial headlines",      depth: 0, pricing: true },
+    { id: "contract-art-7-1",           label: "7.1 · Revenue share",                depth: 1, pricing: true },
+    { id: "contract-art-7-2",           label: "7.2 · Build · Transfer · Partner",   depth: 1, pricing: true },
+    { id: "contract-art-7-3",           label: "7.3 · Platform support",             depth: 1, pricing: true },
+    { id: "contract-art-8",             label: "Art. 8 · Payment milestones",        depth: 0, pricing: true },
+    { id: "contract-art-8-p3",          label: "Art. 8 (cont.) · Pillar 03 fees",    depth: 0, pricing: true },
+    { id: "contract-art-9",             label: "Art. 9 · IP ownership",              depth: 0 },
+    { id: "contract-art-10",            label: "Art. 10 · Support L1–L4",            depth: 0 },
+    { id: "contract-art-11",            label: "Art. 11 · Build-then-transfer",      depth: 0 },
+    { id: "contract-art-12",            label: "Art. 12 · Next steps",               depth: 0 },
+    { id: "contract-commercial-summary",label: "Commercial summary",                 depth: 0, pricing: true },
+    { id: "contract-signatures",        label: "Signatures",                         depth: 0 },
+  ];
+
+  const items = ALL_ITEMS.filter((it) => !it.pricing || showPricing);
+
+  const [activeId, setActiveId] = React.useState(null);
+
+  React.useEffect(() => {
+    const ids = items.map((it) => it.id);
+    const observers = [];
+    const visible = new Map();
+
+    function pickActive() {
+      // choose the item whose section top is closest to — but still above — 120 px
+      let best = null;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        if (top <= 120) best = id;
+      }
+      setActiveId(best);
+    }
+
+    const io = new IntersectionObserver(
+      () => { pickActive(); },
+      { rootMargin: "0px 0px -60% 0px", threshold: 0 }
+    );
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+
+    window.addEventListener("scroll", pickActive, { passive: true });
+    pickActive();
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", pickActive);
+    };
+  }, [showPricing]);
+
+  return (
+    <nav
+      className="contract-no-print contract-nav-sidebar"
+      aria-label="Agreement sections"
+    >
+      <div
+        style={{
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          color: BRAND.white,
+          textTransform: "uppercase",
+          marginBottom: 14,
+          paddingBottom: 10,
+          borderBottom: `1px solid rgba(255,255,255,0.15)`,
+        }}
+      >
+        Contents
+      </div>
+      {items.map((it) => {
+        const isActive = it.id === activeId;
+        return (
+          <button
+            key={it.id}
+            type="button"
+            className={`contract-nav-link${it.depth ? " contract-nav-depth" : ""}`}
+            onClick={() => scrollToContractSection(it.id)}
+            style={{
+              display: "block",
+              width: "100%",
+              textAlign: "left",
+              border: "none",
+              background: isActive ? "rgba(229,57,53,0.18)" : "transparent",
+              cursor: "pointer",
+              fontSize: it.depth ? 10.5 : 11,
+              fontWeight: isActive ? 700 : (it.depth ? 500 : 600),
+              color: isActive
+                ? "#ff6b6b"
+                : it.depth
+                  ? "rgba(255,255,255,0.72)"
+                  : "rgba(255,255,255,0.95)",
+              padding: it.depth ? "5px 8px 5px 12px" : "7px 8px",
+              lineHeight: 1.35,
+              borderRadius: 3,
+              borderLeft: isActive
+                ? `3px solid ${BRAND.red}`
+                : it.depth
+                  ? "2px solid rgba(255,255,255,0.2)"
+                  : "3px solid transparent",
+              transition: "background 0.15s, color 0.15s",
+            }}
+          >
+            {it.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
 
 function ContractPage() {
   const [showPricing, setShowPricing] = useState(true);
@@ -7755,6 +7927,7 @@ function ContractPage() {
   };
 
   return <div className="contract-print-area" style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font}}>
+    <style>{CONTRACT_NAV_SCREEN_CSS}</style>
     <style>{CONTRACT_PRINT_CSS}</style>
 
     {/* ── SCREEN-ONLY HEADER ────────────────────────────────── */}
@@ -7818,9 +7991,12 @@ function ContractPage() {
       </div>
     </div>
 
-    {/* ── CONTRACT BODY ─────────────────────────────────────── */}
-    <div style={{maxWidth:1120,margin:"0 auto",padding:"0 28px 72px"}}>
-      <FullStackSection showPricing={showPricing}/>
+    {/* ── CONTRACT BODY + LEFT NAV (nav hidden when printing/PDF) ─ */}
+    <div className="contract-layout-row" style={{display:"flex",maxWidth:1360,margin:"0 auto",padding:"0 16px 72px",alignItems:"flex-start",gap:20,justifyContent:"center"}}>
+      <ContractNavSidebar showPricing={showPricing} />
+      <div style={{flex:"1 1 0",minWidth:0,maxWidth:1120,padding:"0 8px"}}>
+        <FullStackSection showPricing={showPricing} contractNavIds />
+      </div>
     </div>
 
     {/* ── PRINT-ONLY FOOTER ─────────────────────────────────── */}
