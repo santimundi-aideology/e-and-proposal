@@ -9272,6 +9272,9 @@ function HaithemPage() {
         <strong>Three initiatives × four phases = one delivery cadence.</strong> Each agentic wave follows the same Design → Build → Launch → Support rhythm, <span style={{color:BRAND.red,textDecoration:"underline",fontWeight:600}}>so e&'s teams become fluent in the method while capability transfers wave by wave.</span>
       </div>
 
+      {/* ── SOVEREIGN ARCHITECTURE DIAGRAM ────────────────────── */}
+      <SovereignArchitectureDiagram/>
+
       {/* ── THE STACK ───────────────────────────────────────── */}
       <SH>The e& AI stack — 6 layers</SH>
       <div style={{marginBottom:40}}>
