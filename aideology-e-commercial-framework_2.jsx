@@ -8686,26 +8686,19 @@ function FinancialsCalculator() {
   const [smbArpuY3, setSmbArpuY3] = useState(420);
   const [smbInfra, setSmbInfra] = useState(42);                // AED/SMB/mo
 
-  // ── Enterprise segment ────────────────────────────────────
-  const [entY1, setEntY1] = useState(8);
-  const [entY2, setEntY2] = useState(30);
-  const [entY3, setEntY3] = useState(80);
-  const [entArpu, setEntArpu] = useState(25000);               // AED/account/mo
-  const [entSetup, setEntSetup] = useState(220000);            // AED one-time/account
-  const [entInfra, setEntInfra] = useState(2000);              // AED/account/mo
-
-  // ── Government segment ────────────────────────────────────
-  const [govY1, setGovY1] = useState(2);
-  const [govY2, setGovY2] = useState(6);
-  const [govY3, setGovY3] = useState(15);
-  const [govArpu, setGovArpu] = useState(80000);               // AED/account/mo
-  const [govSetup, setGovSetup] = useState(2500000);           // AED one-time/account
-  const [govInfra, setGovInfra] = useState(10000);             // AED/account/mo
+  // ── Small Enterprise segment (~1% of SMBs, 2× SMB ARPU) ───
+  const [sEntY1, setSEntY1] = useState(240);
+  const [sEntY2, setSEntY2] = useState(620);
+  const [sEntY3, setSEntY3] = useState(1200);
+  const [sEntArpu, setSEntArpu] = useState(570);               // AED/account/mo (~2× SMB)
+  const [sEntSetup, setSEntSetup] = useState(50000);           // AED one-time/account
+  const [sEntInfra, setSEntInfra] = useState(150);             // AED/account/mo
 
   // ── AIdeology platform royalty % ──────────────────────────
-  const [royaltyY12, setRoyaltyY12] = useState(7);
-  const [royaltyY3, setRoyaltyY3] = useState(5);
-  const [royaltyY4, setRoyaltyY4] = useState(3);
+  const [includeRoyalty, setIncludeRoyalty] = useState(true);
+  const [royaltyY12, setRoyaltyY12] = useState(15);
+  const [royaltyY3, setRoyaltyY3] = useState(12);
+  const [royaltyY4, setRoyaltyY4] = useState(10);
 
   // ── e& fixed cost base ────────────────────────────────────
   const [buildFeeUSD, setBuildFeeUSD] = useState(4);           // $M one-time
@@ -8720,32 +8713,27 @@ function FinancialsCalculator() {
     // Account counts (Year 4+ assumes 10–15% growth on Year 3)
     const smbAccounts = year===1?smbY1 : year===2?smbY2 : year===3?smbY3 : Math.round(smbY3*1.1);
     const smbArpu = year===1?smbArpuY1 : year===2?smbArpuY2 : year===3?smbArpuY3 : Math.round(smbArpuY3*1.05);
-    const entAccounts = year===1?entY1 : year===2?entY2 : year===3?entY3 : Math.round(entY3*1.15);
-    const govAccounts = year===1?govY1 : year===2?govY2 : year===3?govY3 : Math.round(govY3*1.15);
+
+    const sEntAccounts = year===1?sEntY1 : year===2?sEntY2 : year===3?sEntY3 : Math.round(sEntY3*1.12);
 
     // New accounts in this year (drives setup fee revenue)
-    const prevEnt = year===1?0 : year===2?entY1 : year===3?entY2 : entY3;
-    const prevGov = year===1?0 : year===2?govY1 : year===3?govY2 : govY3;
-    const newEnt = Math.max(0, entAccounts - prevEnt);
-    const newGov = Math.max(0, govAccounts - prevGov);
+    const prevSEnt = year===1?0 : year===2?sEntY1 : year===3?sEntY2 : sEntY3;
+    const newSEnt = Math.max(0, sEntAccounts - prevSEnt);
 
     // Revenue by segment
     const smbRev = smbAccounts * smbArpu * 12;
-    const entRecurring = entAccounts * entArpu * 12;
-    const govRecurring = govAccounts * govArpu * 12;
-    const entSetupRev = newEnt * entSetup;
-    const govSetupRev = newGov * govSetup;
-    const recurringRev = smbRev + entRecurring + govRecurring;
-    const setupRev = entSetupRev + govSetupRev;
+    const sEntRecurring = sEntAccounts * sEntArpu * 12;
+    const sEntSetupRev = newSEnt * sEntSetup;
+    const recurringRev = smbRev + sEntRecurring;
+    const setupRev = sEntSetupRev;
     const grossRev = recurringRev + setupRev;
 
     // Costs
     const royaltyPct = year<=2?royaltyY12 : year===3?royaltyY3 : royaltyY4;
-    const royalty = recurringRev * royaltyPct / 100;           // royalty on recurring only
+    const royalty = includeRoyalty ? recurringRev * royaltyPct / 100 : 0;
     const smbInfraCost = smbAccounts * smbInfra * 12;
-    const entInfraCost = entAccounts * entInfra * 12;
-    const govInfraCost = govAccounts * govInfra * 12;
-    const infraCost = smbInfraCost + entInfraCost + govInfraCost;
+    const sEntInfraCost = sEntAccounts * sEntInfra * 12;
+    const infraCost = smbInfraCost + sEntInfraCost;
     const salesCost = grossRev * salesPct / 100;
     const dcCost = dcOpex * 1_000_000;
     const peopleCost = people * 1_000_000;
@@ -8757,9 +8745,9 @@ function FinancialsCalculator() {
     const margin = grossRev > 0 ? (netProfit / grossRev) * 100 : 0;
 
     return {
-      smbAccounts, smbArpu, entAccounts, govAccounts, newEnt, newGov,
-      smbRev, entRecurring, govRecurring, entSetupRev, govSetupRev, setupRev, recurringRev, grossRev,
-      royaltyPct, royalty, smbInfraCost, entInfraCost, govInfraCost, infraCost,
+      smbAccounts, smbArpu, sEntAccounts, newSEnt,
+      smbRev, sEntRecurring, sEntSetupRev, setupRev, recurringRev, grossRev,
+      royaltyPct, royalty, smbInfraCost, sEntInfraCost, infraCost,
       salesCost, dcCost, peopleCost, hwAmort, buildAmort, totalCost, netProfit, margin,
     };
   };
@@ -8815,8 +8803,7 @@ function FinancialsCalculator() {
   const costBars = [
     {l:"Platform royalty (AIdeology)", v:Y[2].royalty, c:"#E00800"},
     {l:"Infrastructure — SMB", v:Y[2].smbInfraCost, c:"#185FA5"},
-    {l:"Infrastructure — Enterprise", v:Y[2].entInfraCost, c:"#4338CA"},
-    {l:"Infrastructure — Government", v:Y[2].govInfraCost, c:"#7A2BA1"},
+    {l:"Infrastructure — Small Enterprise", v:Y[2].sEntInfraCost, c:"#0E7490"},
     {l:"Sales, GTM & support", v:Y[2].salesCost, c:"#004B2E"},
     {l:"Data centre OPEX", v:Y[2].dcCost, c:"#A16207"},
     {l:"People (e& AI team)", v:Y[2].peopleCost, c:"#15803D"},
@@ -8827,12 +8814,10 @@ function FinancialsCalculator() {
   // P&L rows
   const plRows = [
     {l:"SMB accounts (EOY)", get:y=>y.smbAccounts.toLocaleString(), bold:false},
-    {l:"Enterprise accounts (EOY)", get:y=>y.entAccounts.toLocaleString(), bold:false},
-    {l:"Government accounts (EOY)", get:y=>y.govAccounts.toLocaleString(), bold:false},
+    {l:"Small Enterprise accounts (EOY)", get:y=>y.sEntAccounts.toLocaleString(), bold:false},
     {l:"SMB recurring revenue", get:y=>fmtAED(y.smbRev), bold:false, color:"#444"},
-    {l:"Enterprise recurring revenue", get:y=>fmtAED(y.entRecurring), bold:false, color:"#444"},
-    {l:"Government recurring revenue", get:y=>fmtAED(y.govRecurring), bold:false, color:"#444"},
-    {l:"Setup fees (Enterprise + Gov)", get:y=>y.setupRev>0?fmtAED(y.setupRev):"—", bold:false, color:"#444"},
+    {l:"Small Enterprise recurring", get:y=>fmtAED(y.sEntRecurring), bold:false, color:"#444"},
+    {l:"Small Enterprise setup fees", get:y=>y.setupRev>0?fmtAED(y.setupRev):"—", bold:false, color:"#444"},
     {l:"Gross revenue", get:y=>fmtAED(y.grossRev), bold:true, color:"#111"},
     {l:"− AIdeology royalty", get:y=>`(${fmtAED(y.royalty)})`, bold:false, color:"#888"},
     {l:"− Infrastructure (all segments)", get:y=>`(${fmtAED(y.infraCost)})`, bold:false, color:"#888"},
@@ -8848,7 +8833,7 @@ function FinancialsCalculator() {
   return <>
     <SH>Interactive financial modeller — e& P&L scenario builder</SH>
     <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,marginBottom:14,maxWidth:880}}>
-      Adjust the three commercial segments (SMB, Enterprise, Government), the AIdeology platform royalty, and e&'s direct cost base (data centre, hardware, people). Enterprise and Government accounts pay a one-time setup fee at acquisition plus a monthly subscription. The model recalculates revenue, costs, net profit, margin and break-even in real time.
+      Adjust the two commercial segments (SMB and Small Enterprise), toggle the AIdeology platform royalty on or off, and configure e&'s direct cost base (data centre, hardware, people). Small Enterprise accounts pay a one-time setup fee at acquisition plus a monthly subscription at ~2× SMB ARPU. The model recalculates revenue, costs, net profit, margin and break-even in real time.
     </p>
 
     {/* ── SMB SEGMENT ──────────────────────────────────────── */}
@@ -8864,37 +8849,40 @@ function FinancialsCalculator() {
       </div>
     </SegmentPanel>
 
-    {/* ── ENTERPRISE SEGMENT ───────────────────────────────── */}
-    <SegmentPanel title="Enterprise segment" subtitle="Mid-volume · setup fee + monthly subscription · adapted agents / custom builds" color="#4338CA">
+    {/* ── SMALL ENTERPRISE SEGMENT ──────────────────────────── */}
+    <SegmentPanel title="Small Enterprise segment" subtitle="~1% of SMB volume · 2× SMB ARPU · one-time setup fee + monthly subscription" color="#0E7490">
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:8}}>
-        <Slider label="Year 1 accounts" value={entY1} set={setEntY1} min={0} max={50} step={1} accent="#4338CA"/>
-        <Slider label="Year 2 accounts" value={entY2} set={setEntY2} min={5} max={150} step={1} accent="#4338CA"/>
-        <Slider label="Year 3 accounts" value={entY3} set={setEntY3} min={20} max={400} step={5} accent="#4338CA"/>
-        <Slider label="Monthly ARPU" value={entArpu} set={setEntArpu} min={5000} max={80000} step={500} suffix=" AED/mo" accent="#4338CA" helper="Per enterprise account"/>
-        <Slider label="Setup fee" value={entSetup} set={setEntSetup} min={50000} max={1500000} step={10000} suffix=" AED" accent="#4338CA" helper="One-time per new account"/>
-        <Slider label="Infra cost / account / mo" value={entInfra} set={setEntInfra} min={500} max={10000} step={100} suffix=" AED" accent="#4338CA" helper="Dedicated compute + integrations"/>
-      </div>
-    </SegmentPanel>
-
-    {/* ── GOVERNMENT SEGMENT ───────────────────────────────── */}
-    <SegmentPanel title="Government segment" subtitle="Low-volume · large setup fee + premium subscription · sovereign / on-prem" color="#7A2BA1">
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:8}}>
-        <Slider label="Year 1 accounts" value={govY1} set={setGovY1} min={0} max={10} step={1} accent="#7A2BA1"/>
-        <Slider label="Year 2 accounts" value={govY2} set={setGovY2} min={0} max={25} step={1} accent="#7A2BA1"/>
-        <Slider label="Year 3 accounts" value={govY3} set={setGovY3} min={2} max={50} step={1} accent="#7A2BA1"/>
-        <Slider label="Monthly ARPU" value={govArpu} set={setGovArpu} min={20000} max={300000} step={5000} suffix=" AED/mo" accent="#7A2BA1" helper="Per gov / ministry account"/>
-        <Slider label="Setup fee" value={govSetup} set={setGovSetup} min={500000} max={5000000} step={50000} suffix=" AED" accent="#7A2BA1" helper="Sovereign deployment / on-prem"/>
-        <Slider label="Infra cost / account / mo" value={govInfra} set={setGovInfra} min={2000} max={40000} step={500} suffix=" AED" accent="#7A2BA1" helper="Isolated cluster + audit / security"/>
+        <Slider label="Year 1 accounts" value={sEntY1} set={setSEntY1} min={50} max={2000} step={10} accent="#0E7490"/>
+        <Slider label="Year 2 accounts" value={sEntY2} set={setSEntY2} min={100} max={5000} step={10} accent="#0E7490"/>
+        <Slider label="Year 3 accounts" value={sEntY3} set={setSEntY3} min={200} max={10000} step={50} accent="#0E7490"/>
+        <Slider label="Monthly ARPU" value={sEntArpu} set={setSEntArpu} min={300} max={2000} step={10} suffix=" AED/mo" accent="#0E7490" helper="~2× SMB licence price"/>
+        <Slider label="Setup fee" value={sEntSetup} set={setSEntSetup} min={10000} max={300000} step={5000} suffix=" AED" accent="#0E7490" helper="One-time per new account"/>
+        <Slider label="Infra cost / account / mo" value={sEntInfra} set={setSEntInfra} min={50} max={500} step={10} suffix=" AED" accent="#0E7490" helper="Enhanced compute + integrations"/>
       </div>
     </SegmentPanel>
 
     {/* ── ROYALTY ──────────────────────────────────────────── */}
     <SegmentPanel title="AIdeology platform royalty" subtitle="Applied to recurring SaaS revenue only — declines as e& takes ownership" color="#E00800">
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:8}}>
-        <Slider label="Years 1–2 royalty" value={royaltyY12} set={setRoyaltyY12} min={0} max={15} step={0.5} suffix="%" helper="Platform early stage"/>
-        <Slider label="Year 3 royalty" value={royaltyY3} set={setRoyaltyY3} min={0} max={12} step={0.5} suffix="%" helper="e& taking ownership"/>
-        <Slider label="Year 4+ royalty" value={royaltyY4} set={setRoyaltyY4} min={0} max={10} step={0.5} suffix="%" helper="Full e& ownership"/>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+        <button
+          onClick={()=>setIncludeRoyalty(v=>!v)}
+          style={{
+            padding:"6px 16px",fontSize:11.5,fontWeight:700,letterSpacing:"0.04em",textTransform:"uppercase",
+            border:`2px solid ${BRAND.red}`,borderRadius:2,cursor:"pointer",
+            background:includeRoyalty?BRAND.red:BRAND.white,
+            color:includeRoyalty?BRAND.white:BRAND.red,
+            transition:"all 0.15s",
+          }}
+        >
+          {includeRoyalty ? "Royalty included ✓" : "Royalty excluded"}
+        </button>
+        {!includeRoyalty && <span style={{fontSize:11,color:"#888"}}>Toggle on to model AIdeology's platform fee as a cost</span>}
       </div>
+      {includeRoyalty && <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:8}}>
+        <Slider label="Years 1–2 royalty" value={royaltyY12} set={setRoyaltyY12} min={0} max={25} step={0.5} suffix="%" helper="Platform early stage"/>
+        <Slider label="Year 3 royalty" value={royaltyY3} set={setRoyaltyY3} min={0} max={20} step={0.5} suffix="%" helper="e& taking ownership"/>
+        <Slider label="Year 4+ royalty" value={royaltyY4} set={setRoyaltyY4} min={0} max={15} step={0.5} suffix="%" helper="Full e& ownership"/>
+      </div>}
     </SegmentPanel>
 
     {/* ── e& FIXED COST BASE ───────────────────────────────── */}
@@ -8935,10 +8923,8 @@ function FinancialsCalculator() {
       <div style={{display:"flex",height:28,width:"100%",overflow:"hidden",border:`1px solid ${BRAND.border}`,marginBottom:12}}>
         {[
           {l:"SMB recurring",v:Y[2].smbRev,c:"#185FA5"},
-          {l:"Enterprise recurring",v:Y[2].entRecurring,c:"#4338CA"},
-          {l:"Government recurring",v:Y[2].govRecurring,c:"#7A2BA1"},
-          {l:"Enterprise setup",v:Y[2].entSetupRev,c:"#8B7CF6"},
-          {l:"Government setup",v:Y[2].govSetupRev,c:"#C084E0"},
+          {l:"Small Enterprise recurring",v:Y[2].sEntRecurring,c:"#0E7490"},
+          {l:"Small Enterprise setup",v:Y[2].sEntSetupRev,c:"#67E8F9"},
         ].map((b,i)=>{const pct = Y[2].grossRev>0 ? (b.v/Y[2].grossRev*100) : 0; return pct > 0.3 && <div key={i} style={{flex:`${pct} 0 0`,background:b.c,position:"relative"}} title={`${b.l}: ${fmtAED(b.v)} (${pct.toFixed(1)}%)`}>
           {pct >= 8 && <span style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",fontSize:10,fontWeight:700,color:BRAND.white,whiteSpace:"nowrap"}}>{pct.toFixed(0)}%</span>}
         </div>;})}
@@ -8946,10 +8932,8 @@ function FinancialsCalculator() {
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:6}}>
         {[
           {l:"SMB recurring",v:Y[2].smbRev,c:"#185FA5"},
-          {l:"Enterprise recurring",v:Y[2].entRecurring,c:"#4338CA"},
-          {l:"Government recurring",v:Y[2].govRecurring,c:"#7A2BA1"},
-          {l:"Enterprise setup fees",v:Y[2].entSetupRev,c:"#8B7CF6"},
-          {l:"Government setup fees",v:Y[2].govSetupRev,c:"#C084E0"},
+          {l:"Small Enterprise recurring",v:Y[2].sEntRecurring,c:"#0E7490"},
+          {l:"Small Enterprise setup fees",v:Y[2].sEntSetupRev,c:"#67E8F9"},
         ].map((b,i)=>{const pct = Y[2].grossRev>0 ? (b.v/Y[2].grossRev*100) : 0; return <div key={i} style={{display:"flex",alignItems:"center",gap:8,fontSize:11.5}}>
           <span style={{width:10,height:10,background:b.c,flexShrink:0}}/>
           <span style={{flex:1,color:"#444"}}>{b.l}</span>
@@ -9025,10 +9009,10 @@ function FinancialsCalculator() {
     <div style={{padding:"16px 20px",background:BRAND.lightGrey,borderLeft:`4px solid ${BRAND.red}`,marginBottom:40,fontSize:12.5,color:"#333",lineHeight:1.65}}>
       <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>What the model tells us</div>
       <div style={{marginBottom:6}}>
-        By Year 3 e& serves <strong>{smbY3.toLocaleString()} SMBs</strong>, <strong>{entY3} enterprise accounts</strong> and <strong>{govY3} government accounts</strong> on the same platform. Gross revenue reaches <strong style={{color:BRAND.red}}>{fmtAED(Y[2].grossRev)}</strong> ({fmtUSD(Y[2].grossRev)}); total costs are <strong>{fmtAED(Y[2].totalCost)}</strong>; net profit is <strong style={{color:BRAND.red}}>{fmtAED(Y[2].netProfit)}</strong> at a <strong>{Y[2].margin.toFixed(1)}%</strong> margin.
+        By Year 3 e& serves <strong>{smbY3.toLocaleString()} SMBs</strong> and <strong>{Y[2].sEntAccounts.toLocaleString()} small enterprise accounts</strong> on the same platform. Gross revenue reaches <strong style={{color:BRAND.red}}>{fmtAED(Y[2].grossRev)}</strong> ({fmtUSD(Y[2].grossRev)}); total costs are <strong>{fmtAED(Y[2].totalCost)}</strong>; net profit is <strong style={{color:BRAND.red}}>{fmtAED(Y[2].netProfit)}</strong> at a <strong>{Y[2].margin.toFixed(1)}%</strong> margin.
       </div>
       <div style={{marginBottom:6}}>
-        Revenue mix: <strong>{((Y[2].smbRev/Y[2].grossRev)*100).toFixed(0)}%</strong> SMB, <strong>{(((Y[2].entRecurring+Y[2].entSetupRev)/Y[2].grossRev)*100).toFixed(0)}%</strong> Enterprise, <strong>{(((Y[2].govRecurring+Y[2].govSetupRev)/Y[2].grossRev)*100).toFixed(0)}%</strong> Government. The AIdeology royalty represents only <strong>{((Y[2].royalty/Y[2].grossRev)*100).toFixed(1)}%</strong> of revenue ({fmtAED(Y[2].royalty)}). Dominant cost: <strong>{costBars.reduce((a,b)=>a.v>b.v?a:b).l.toLowerCase()}</strong>.
+        Revenue mix: <strong>{((Y[2].smbRev/Y[2].grossRev)*100).toFixed(0)}%</strong> SMB, <strong>{(((Y[2].sEntRecurring+Y[2].sEntSetupRev)/Y[2].grossRev)*100).toFixed(0)}%</strong> Small Enterprise. {includeRoyalty ? <>The AIdeology royalty represents <strong>{((Y[2].royalty/Y[2].grossRev)*100).toFixed(1)}%</strong> of revenue ({fmtAED(Y[2].royalty)}).</> : <>AIdeology royalty excluded from this scenario.</>} Dominant cost: <strong>{costBars.reduce((a,b)=>a.v>b.v?a:b).l.toLowerCase()}</strong>.
       </div>
       <div>
         The <strong>${buildFeeUSD}M build fee</strong> is recovered in <strong>{isFinite(breakEvenMonths) ? `${breakEvenMonths.toFixed(1)} months` : "more than Year 1"}</strong>. By end of Year 3, e& has accumulated <strong style={{color:BRAND.red}}>{fmtAED(cumY3)}</strong> ({fmtUSD(cumY3)}) in net cash — an ROI of <strong>{(cumY3/upfrontCashAED).toFixed(1)}×</strong> on the original investment.
@@ -9043,13 +9027,13 @@ function FinancialsCalculator() {
 /* ════════════════════════════════════════════════════════════ */
 function HaithemFinancialsTab() {
   const PILLAR_FEES = [
-    {pillar:"Pillar 01 — Horizontal Agents · SMB, Enterprise & Government",scope:"6 agents · 5 waves · 36 weeks · 2-year L3 support",fee:"$3M – $4M",model:"Fixed fee · 7 milestones"},
-    {pillar:"Pillar 02 — Enterprise & Gov",scope:"T1 adapted agents · T2 custom AI · T3 sovereign on-prem",fee:"Per opportunity",model:"Per SoW · billed on delivery"},
+    {pillar:"Pillar 01 — Horizontal Agents · SMB, Enterprise & Government",scope:"6 agentic solutions · 5 waves · 36 weeks · 2-year L3 support",fee:"$3M – $4M",model:"Fixed fee · 7 milestones"},
+    {pillar:"Pillar 02 — Enterprise & Gov",scope:"T1 adapted agentic solutions · T2 custom AI · T3 sovereign on-prem",fee:"Per opportunity",model:"Per SoW · billed on delivery"},
     {pillar:"Pillar 03 — GPU Infra Consulting",scope:"RA design (quoted per project) · monthly advisory retainer · multi-vendor · AI Proposal & RFP Agent (auto-generates commercial and technical proposals)",fee:"$720K / yr retainer",model:"$60K/mo retainer + RA design per engagement"},
   ];
 
   const MILESTONES = [
-    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"~15% advance"},
+    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"~15% advance · Per SoW"},
     {m:"M1",w:"Wave 1",e:"SDD signed off + platform foundation kick-off (W4)",a:"Per SoW"},
     {m:"M2",w:"Wave 1",e:"Customer Agent in closed beta with 10+ SMBs (W10)",a:"Per SoW"},
     {m:"M3",w:"Wave 1",e:"Customer Agent GA on e& sovereign infrastructure (W12)",a:"Per SoW"},
@@ -9126,27 +9110,6 @@ function HaithemFinancialsTab() {
       M0 mobilisation advance (15%) is invoiced on contract execution and credited in full against M7. All invoices payable net 30 days from trigger event being met and certified by e&. Total fixed fees in the range of $3M–$4M; exact amounts agreed per Statement of Work.
     </p>
 
-    {/* ── PLATFORM ROYALTY — 3-7% ────────────────────────────── */}
-    <SH>Forge platform royalty — new applications built on the platform</SH>
-    <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,marginBottom:14}}>
-      Genuinely new applications built by e& or third-party partners on the Forge platform pay a <strong style={{color:"#111"}}>platform royalty only</strong> — not the full solution revenue share. The royalty declines as e& takes more operational ownership.
-    </p>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:10,marginBottom:14}}>
-      {[
-        {y:"Years 1–2",rate:"7%",note:"Platform early stage — AIdeology maintains core"},
-        {y:"Year 3",rate:"5%",note:"e& team starts owning platform ops"},
-        {y:"Year 4+",rate:"3%",note:"Full ownership at e& — minimal royalty"},
-      ].map((r,i)=><div key={i} style={{padding:"22px 22px",background:BRAND.white,border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${BRAND.red}`}}>
-        <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:10}}>{r.y}</div>
-        <div style={{fontSize:30,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{r.rate}</div>
-        <div style={{fontSize:10.5,color:BRAND.grey,marginTop:4,textTransform:"uppercase",letterSpacing:"0.04em"}}>platform royalty</div>
-        <div style={{fontSize:11.5,color:"#666",lineHeight:1.5,marginTop:10}}>{r.note}</div>
-      </div>)}
-    </div>
-    <div style={{padding:"14px 18px",background:BRAND.lightGrey,borderLeft:`4px solid ${BRAND.red}`,marginBottom:40,fontSize:12.5,color:"#333",lineHeight:1.6}}>
-      <strong>Important:</strong> Any application that reuses or derives from AIdeology-created agents, workflows, prompts or orchestration logic follows the full solution revenue share (35% → 20%), not the platform royalty.
-    </div>
-
     {/* ── HARDWARE CONSULTING FEES ──────────────────────────── */}
     <SH>Pillar 03 · GPU infrastructure consulting fees</SH>
     <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,marginBottom:14,overflow:"hidden"}}>
@@ -9179,24 +9142,6 @@ function HaithemFinancialsTab() {
     {/* ── INTERACTIVE FINANCIAL MODELLER ──────────────────── */}
     <FinancialsCalculator/>
 
-    {/* ── COMMERCIAL TERMS ─────────────────────────────────── */}
-    <SH>Key commercial terms</SH>
-    <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,overflow:"hidden",marginBottom:14}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))"}}>
-        {[
-          {term:"Revenue split",detail:"65% e& / 35% AIdeology",sub:"Declining to 80/20 by Year 4 as e& takes ownership"},
-          {term:"Payment model",detail:"Fixed-fee, milestone-based",sub:"$3M–$4M across 8 milestones · pay only on delivery"},
-          {term:"IP ownership",detail:"Agent IP → e&",sub:"Forge platform IP licensed perpetually to e&"},
-          {term:"Support",detail:"L1–L2 e& · L3–L4 AIdeology",sub:"Years 1–2 platform support included in fixed fees"},
-          {term:"Term",detail:"4-year build-then-transfer",sub:"e& owns agents, team and platform by Year 4"},
-          {term:"Exclusivity",detail:"AI platform partner — SMB UAE",sub:"AIdeology builds exclusively for e& in this market"},
-        ].map((x,i)=><div key={i} style={{padding:"18px 22px",borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:i<3?`1px solid ${BRAND.border}`:"none"}}>
-          <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{x.term}</div>
-          <div style={{fontSize:14,fontWeight:700,color:BRAND.red,marginBottom:5,fontFamily:BRAND.font}}>{x.detail}</div>
-          <div style={{fontSize:11.5,color:"#666",lineHeight:1.5}}>{x.sub}</div>
-        </div>)}
-      </div>
-    </div>
   </>;
 }
 
