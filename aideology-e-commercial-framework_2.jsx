@@ -3924,21 +3924,10 @@ function SovereignArchitectureDiagram() {
         <div/>
         <div style={{display:"flex",justifyContent:"center"}}>
           <svg width="180" height="26" viewBox="0 0 180 26" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="vflow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.0"/>
-                <stop offset="40%" stopColor={BRAND.red} stopOpacity="0.85"/>
-                <stop offset="100%" stopColor={BRAND.red}/>
-              </linearGradient>
-              <marker id="vd" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto">
-                <path d="M0 0 L4 7 L8 0" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-              <marker id="vu" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
-                <path d="M0 8 L4 1 L8 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-            </defs>
-            <line x1="60" y1="2" x2="60" y2="22" stroke="url(#vflow)" strokeWidth="2" markerEnd="url(#vd)" strokeLinecap="round"/>
-            <line x1="120" y1="22" x2="120" y2="2" stroke="url(#vflow)" strokeWidth="2" markerEnd="url(#vu)" strokeLinecap="round"/>
+            <line x1="60" y1="2" x2="60" y2="21" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M54 16 L60 22 L66 16" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <line x1="120" y1="24" x2="120" y2="5" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round"/>
+            <path d="M114 10 L120 4 L126 10" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
         <div/>
@@ -3965,16 +3954,8 @@ function SovereignArchitectureDiagram() {
         {/* Curved arrow: 3rd party → orchestrator */}
         <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,height:"100%"}}>
           <svg width="56" height="40" viewBox="0 0 56 40" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="hflowL" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.05"/>
-                <stop offset="100%" stopColor={BRAND.red}/>
-              </linearGradient>
-              <marker id="ahL" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-                <path d="M0 0 L8 4 L0 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-            </defs>
-            <path d="M2 20 C 22 20, 30 20, 52 20" stroke="url(#hflowL)" strokeWidth="2.2" fill="none" strokeLinecap="round" markerEnd="url(#ahL)"/>
+            <path d="M2 20 C 20 20, 32 20, 49 20" stroke={BRAND.red} strokeWidth="2.2" fill="none" strokeLinecap="round"/>
+            <path d="M43 14 L51 20 L43 26" fill="none" stroke={BRAND.red} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           <span style={{fontSize:9,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",lineHeight:1.2}}>dispatch</span>
         </div>
@@ -4009,16 +3990,8 @@ function SovereignArchitectureDiagram() {
         {/* Curved arrow: platform agents → orchestrator */}
         <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,height:"100%"}}>
           <svg width="56" height="40" viewBox="0 0 56 40" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="hflowR" x1="1" y1="0" x2="0" y2="0">
-                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.05"/>
-                <stop offset="100%" stopColor={BRAND.red}/>
-              </linearGradient>
-              <marker id="ahR" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto">
-                <path d="M8 0 L0 4 L8 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-            </defs>
-            <path d="M54 20 C 34 20, 26 20, 4 20" stroke="url(#hflowR)" strokeWidth="2.2" fill="none" strokeLinecap="round" markerEnd="url(#ahR)"/>
+            <path d="M54 20 C 36 20, 24 20, 7 20" stroke={BRAND.red} strokeWidth="2.2" fill="none" strokeLinecap="round"/>
+            <path d="M13 14 L5 20 L13 26" fill="none" stroke={BRAND.red} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           <span style={{fontSize:9,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",lineHeight:1.2}}>signals</span>
         </div>
@@ -4043,22 +4016,18 @@ function SovereignArchitectureDiagram() {
       <div style={{display:"grid",gridTemplateColumns:"1fr 2.1fr",alignItems:"center",padding:"6px 0"}}>
         <div style={{display:"flex",justifyContent:"center"}}>
           <svg width="120" height="26" viewBox="0 0 120 26" fill="none" aria-hidden="true">
-            <defs>
-              <marker id="vd2" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto">
-                <path d="M0 0 L4 7 L8 0" fill="none" stroke={MUTED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-              <marker id="vu2" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
-                <path d="M0 8 L4 1 L8 8" fill="none" stroke={MUTED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </marker>
-            </defs>
-            <line x1="42" y1="2" x2="42" y2="22" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vd2)" strokeLinecap="round"/>
-            <line x1="78" y1="22" x2="78" y2="2" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vu2)" strokeLinecap="round"/>
+            <line x1="42" y1="2" x2="42" y2="21" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M37 16 L42 22 L47 16" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <line x1="78" y1="24" x2="78" y2="5" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M73 10 L78 4 L83 10" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
         <div style={{display:"flex",justifyContent:"center"}}>
           <svg width="120" height="26" viewBox="0 0 120 26" fill="none" aria-hidden="true">
-            <line x1="42" y1="2" x2="42" y2="22" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vd2)" strokeLinecap="round"/>
-            <line x1="78" y1="22" x2="78" y2="2" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vu2)" strokeLinecap="round"/>
+            <line x1="42" y1="2" x2="42" y2="21" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M37 16 L42 22 L47 16" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <line x1="78" y1="24" x2="78" y2="5" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M73 10 L78 4 L83 10" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
       </div>
