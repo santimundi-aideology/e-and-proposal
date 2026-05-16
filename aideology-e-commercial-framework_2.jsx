@@ -9033,14 +9033,14 @@ function HaithemFinancialsTab() {
   ];
 
   const MILESTONES = [
-    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"~15% advance · Per SoW"},
+    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"Per SoW"},
     {m:"M1",w:"Wave 1",e:"SDD signed off + platform foundation kick-off (W4)",a:"Per SoW"},
     {m:"M2",w:"Wave 1",e:"Customer Agent in closed beta with 10+ SMBs (W10)",a:"Per SoW"},
     {m:"M3",w:"Wave 1",e:"Customer Agent GA on e& sovereign infrastructure (W12)",a:"Per SoW"},
     {m:"M4",w:"Wave 2",e:"Sales Agent + Comms Hub + P1 layer live (W18)",a:"Per SoW"},
     {m:"M5",w:"Wave 3",e:"Finance Agent + Ops Agent live (W24)",a:"Per SoW"},
     {m:"M6",w:"Wave 4",e:"People Agent live (W30)",a:"Per SoW"},
-    {m:"M7",w:"Wave 5",e:"Security audit + handoff (W36) — net of M0",a:"Net of M0"},
+    {m:"M7",w:"Wave 5",e:"Security audit + handoff (W36) — net of M0",a:"Per SoW"},
   ];
 
   const HW_FEES = [
@@ -9222,7 +9222,7 @@ function HaithemPage() {
         {[
           {v:"3",l:"Initiatives",sub:"Scope of engagement"},
           {v:"5",l:"Waves",sub:"Production deliverables"},
-          {v:"6",l:"AI agents",sub:"Across business functions"},
+          {v:"6",l:"AI agentic platforms",sub:"Across business functions"},
           {v:"36",l:"Weeks",sub:"Full programme"},
         ].map((s,i)=><div key={i} style={{padding:"22px 18px",border:`1px solid ${BRAND.border}`,background:BRAND.white,borderTop:`3px solid ${BRAND.red}`}}>
           <div style={{fontSize:42,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{s.v}</div>
