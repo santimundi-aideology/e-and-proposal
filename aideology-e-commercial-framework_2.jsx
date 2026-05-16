@@ -9207,7 +9207,7 @@ function HaithemPage() {
         <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:BRAND.continuum}}/>
         <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>The deal in one line</div>
         <h2 style={{fontSize:30,fontWeight:700,color:BRAND.white,lineHeight:1.15,margin:"0 0 12px",maxWidth:880}}>
-          Build e&'s sovereign AI platform and ship 6 production AI agents in <span style={{color:BRAND.red}}>36 weeks</span> — e& owns the customer, the data, the IP, and the margin.
+          Build e&'s sovereign AI platform and ship 6 production AI agentic platforms in <span style={{color:BRAND.red}}>36 weeks</span> — e& owns the customer, the data, the IP, and the margin.
         </h2>
         <p style={{fontSize:14,color:"rgba(255,255,255,0.75)",lineHeight:1.55,margin:"0 0 16px",maxWidth:780}}>
           Three initiatives running in parallel · Five production waves · Full handover to e&. AIdeology builds and trains;
