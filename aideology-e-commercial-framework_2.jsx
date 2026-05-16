@@ -1531,16 +1531,16 @@ function SMBSegment({onViewChange, upToSoftwareStack=false, showPricing=true}) {
       This section now consolidates the full SMB economics: AIdeology build and support fees to e&, e& revenue share, SMB subscription pricing, market benchmarks, e& break-even, revenue forecasts, and AIdeology revenue. The handover and knowledge-transfer plan follows after the commercial terms.
     </Note>
     <CommercialBox title="AIdeology fees to e& — SMB Platform Build, Support & Innovation" icon="$" iconBg="#F5F5F5" iconColor="#E00800" items={[
-      {label:"Wave 1 — Platform + Customer Agent",value:"$1,250,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"SDD, architecture, platform MVP, Customer Agent (voice + WhatsApp) live, e& team training and documentation. Includes Years 1–3 L3 platform support, knowledge transfer and transition coverage."},
+      {label:"Wave 1 — Platform + Customer Agent",value:"$1,250,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"SDD, architecture, platform MVP, Customer Agent (voice + WhatsApp) live, e& team training and documentation. Includes Years 1–2 L3 platform support, knowledge transfer and transition coverage."},
       {label:"Wave 2 — Sales + Comms + P1 Layer",value:"$700,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"Sales Agent + Comms Hub live, plus deployment of the P1 enterprise-readiness layer: automation workflows, compliance controls, audit trail, RBAC and operational guardrails. Includes beta support, L3 platform escalation, documentation updates and knowledge transfer."},
       {label:"Wave 3 — Finance + Ops Agents",value:"$600,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"Finance Agent (invoicing, VAT, FTA compliance) + Ops Agent (tasks, approvals). Includes L3 platform escalation, connector compatibility, release support and knowledge transfer."},
       {label:"Wave 4 — People Agent",value:"$275,000",color:"#E00800",type:"Fixed fee · build + support included",desc:"People Agent (WPS payroll, attendance via e& SIM, leave management, visa tracking, digital onboarding). Includes L3 platform escalation, release support and knowledge transfer; hardening and handoff are separated into Wave 5."},
-      {label:"Wave 5 — Platform hardening & full handoff",value:"$618,621",color:"#E00800",type:"Fixed fee · hardening + support included",desc:"Full security audit + pen test across all 6 agents, performance hardening, complete documentation, e& team training, runbooks, SLA definitions and formal ownership transfer. Includes the support framework for Years 1–3."},
-      {label:"Total fixed-fee envelope",value:"$3,443,621",color:"#E00800",type:"All 5 waves · build + 3-year support",desc:"Full programme delivery across 12 milestones over 36 weeks. The total includes platform build, all 6 agents, Wave 5 hardening, full handoff, and Years 1–3 AIdeology L3 platform support."},
-      {label:"3-year L3 platform support",value:"Included",color:"#E00800",type:"Included in Wave 1–5 pricing",desc:"Covers AIdeology L3 platform escalation, security patches, connector compatibility, release support, runbook updates and knowledge transfer through Years 1–3. e& owns L1 and L2 from Day 1. Commercially, this support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during Years 1–3."},
+      {label:"Wave 5 — Platform hardening & full handoff",value:"$618,621",color:"#E00800",type:"Fixed fee · hardening + support included",desc:"Full security audit + pen test across all 6 agents, performance hardening, complete documentation, e& team training, runbooks, SLA definitions and formal ownership transfer. Includes the support framework for Years 1–2."},
+      {label:"Total fixed-fee envelope",value:"$3,443,621",color:"#E00800",type:"All 5 waves · build + 2-year support",desc:"Full programme delivery across 12 milestones over 36 weeks. The total includes platform build, all 6 agents, Wave 5 hardening, full handoff, and Years 1–2 AIdeology L3 platform support."},
+      {label:"2-year L3 platform support",value:"Included",color:"#E00800",type:"Included in Wave 1–5 pricing",desc:"Covers AIdeology L3 platform escalation, security patches, connector compatibility, release support, runbook updates and knowledge transfer through Years 1–2. e& owns L1 and L2 from Day 1. Commercially, this support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during Years 1–2."},
     ]}/>
-    <Note label="3-year support included in fixed pricing">
-      The Wave 1–5 fixed pricing includes AIdeology L3 platform support through Years 1–3. This covers platform escalation, patches, connector compatibility, release support, runbook updates and knowledge transfer. e& owns L1 and L2 from Day 1. Commercially, Years 1–3 support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during the transition period.
+    <Note label="2-year support included in fixed pricing">
+      The Wave 1–5 fixed pricing includes AIdeology L3 platform support through Years 1–2. This covers platform escalation, patches, connector compatibility, release support, runbook updates and knowledge transfer. e& owns L1 and L2 from Day 1. Commercially, Years 1–2 support is included in the fixed fees and AIdeology revenue share, with no separate support invoice during the transition period.
     </Note>
     </>}
 
@@ -2221,7 +2221,7 @@ function SMBSegment({onViewChange, upToSoftwareStack=false, showPricing=true}) {
     {/* AGREEMENT STRUCTURE                                        */}
     {/* ════════════════════════════════════════════════════════════ */}
     {showPricing && <Note label="Agreement structure">
-      4-year minimum partnership. Build-then-transfer model: AIdeology builds and trains, e& progressively takes ownership. Agent IP transfers to e& by end of Year 2. Platform IP remains AIdeology property (non-exclusive license to e&). 65/35 revenue share declining to 80/20 as e& team ramps. Years 1–3 L3 platform support is included in the fixed Wave 1–5 platform + agent pricing and commercially covered within the AIdeology revenue share, with no separate support invoice during the transition period. Year 3–4 acquisition trigger: by then e& owns agents, customers and infrastructure — paying 20% forever becomes more expensive than a one-time buyout. Platform valuation at acquisition: AED 1.5B–2.5B.
+      4-year minimum partnership. Build-then-transfer model: AIdeology builds and trains, e& progressively takes ownership. Agent IP transfers to e& by end of Year 2. Platform IP remains AIdeology property (non-exclusive license to e&). 65/35 revenue share declining to 80/20 as e& team ramps. Years 1–2 L3 platform support is included in the fixed Wave 1–5 platform + agent pricing and commercially covered within the AIdeology revenue share, with no separate support invoice during the transition period. Year 3–4 acquisition trigger: by then e& owns agents, customers and infrastructure — paying 20% forever becomes more expensive than a one-time buyout. Platform valuation at acquisition: AED 1.5B–2.5B.
     </Note>}
     </>}
   </div>;
@@ -3780,6 +3780,370 @@ function StackOwnershipTable() {
   </Card>;
 }
 
+/** e& Sovereign AI Architecture — control-plane schema diagram. */
+function SovereignArchitectureDiagram() {
+  // Tightened palette — neutral ink with brand red as the only accent
+  const INK = "#0B1220";
+  const INK_SOFT = "#1B2538";
+  const MUTED = "#5D667A";
+  const FAINT = "#8B93A3";
+  const BORDER = "#E3E6EE";
+  const BORDER_SOFT = "#EDEFF5";
+  const SURFACE = "#FFFFFF";
+  const SURFACE_TINT = "#F7F8FB";
+
+  const EandChip = ({size=28}) => (
+    <span style={{
+      width:size,height:size,minWidth:size,
+      background:`linear-gradient(135deg, ${BRAND.red} 0%, #9F0500 100%)`,
+      color:BRAND.white,display:"inline-flex",alignItems:"center",justifyContent:"center",
+      fontWeight:800,fontSize:size*0.36,letterSpacing:"-0.05em",
+      boxShadow:"0 1px 2px rgba(159,5,0,0.45), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)",
+      borderRadius:size*0.22,
+    }}>e&</span>
+  );
+
+  const OwnedDot = ({title="Owned by e&"}) => (
+    <span title={title} style={{
+      width:8,height:8,minWidth:8,borderRadius:8,
+      background:BRAND.red,
+      boxShadow:"0 0 0 3px rgba(224,8,0,0.12)",display:"inline-block"
+    }}/>
+  );
+
+  const Pill = ({children,muted=false}) => (
+    <span style={{
+      display:"inline-flex",alignItems:"center",
+      background:muted?SURFACE_TINT:SURFACE,
+      color:INK,
+      border:`1px solid ${BORDER}`,
+      padding:"5px 11px",fontSize:11.5,fontWeight:600,
+      borderRadius:999,letterSpacing:"0.005em",
+      boxShadow:"0 1px 0 rgba(11,18,32,0.02)",
+      whiteSpace:"nowrap",fontFamily:BRAND.font,
+    }}>{children}</span>
+  );
+
+  const Eyebrow = ({children,color=FAINT}) => (
+    <div style={{fontSize:9.5,fontWeight:700,color,letterSpacing:"0.14em",textTransform:"uppercase"}}>{children}</div>
+  );
+
+  // Mini icons for category cards
+  const ICONS = {
+    code: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 4L2 8l4 4M10 4l4 4-4 4"/></svg>,
+    cloud: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 12a3 3 0 010-6 4 4 0 017.8 1A2.5 2.5 0 0112 12H4.5z"/></svg>,
+    grid: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>,
+    server: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="2" y="3" width="12" height="4"/><rect x="2" y="9" width="12" height="4"/><circle cx="5" cy="5" r="0.5" fill="currentColor"/><circle cx="5" cy="11" r="0.5" fill="currentColor"/></svg>,
+    layers: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M8 1.5l6 3-6 3-6-3 6-3zM2 8l6 3 6-3M2 11.5l6 3 6-3"/></svg>,
+    shield: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M8 1.5l5.5 2v4c0 3.6-2.5 6.5-5.5 7-3-0.5-5.5-3.4-5.5-7v-4L8 1.5z"/></svg>,
+  };
+
+  // Standalone card frame
+  const cardBase = {
+    background:SURFACE,
+    border:`1px solid ${BORDER}`,
+    borderRadius:12,
+    boxShadow:"0 1px 0 rgba(11,18,32,0.02), 0 10px 24px -18px rgba(11,18,32,0.18)",
+  };
+
+  // Dark side cards
+  const darkCardBase = {
+    background:`linear-gradient(180deg, ${INK_SOFT} 0%, ${INK} 100%)`,
+    border:"1px solid #232C3F",
+    borderRadius:12,
+    color:BRAND.white,
+    boxShadow:"inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 28px -16px rgba(11,18,32,0.55)",
+  };
+
+  // Subtle dotted background pattern (blueprint feel)
+  const dotPattern = "radial-gradient(circle at 1px 1px, rgba(11,18,32,0.06) 1px, transparent 0)";
+
+  return <div style={{
+    position:"relative",
+    marginTop:20,marginBottom:24,
+    background:`${dotPattern}, linear-gradient(180deg,#FFFFFF 0%,#F4F6FA 100%)`,
+    backgroundSize:"18px 18px, auto",
+    border:`1px solid ${BORDER}`,
+    borderRadius:14,
+    boxShadow:"0 1px 2px rgba(11,18,32,0.04), 0 16px 40px -22px rgba(11,18,32,0.14)",
+    overflow:"hidden",
+  }}>
+    {/* Brand continuum top accent */}
+    <div style={{height:3,background:BRAND.continuum}}/>
+
+    {/* Header */}
+    <div style={{padding:"22px 28px 20px",display:"flex",alignItems:"flex-start",gap:16,borderBottom:`1px solid ${BORDER_SOFT}`,background:`linear-gradient(180deg,#FFFFFF 0%,#FBFCFE 100%)`,position:"relative"}}>
+      <EandChip size={44}/>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
+          <Eyebrow color={BRAND.red}>Schema · §2.1</Eyebrow>
+          <span style={{width:3,height:3,borderRadius:3,background:FAINT}}/>
+          <Eyebrow>Control plane</Eyebrow>
+        </div>
+        <h4 style={{fontSize:22,fontWeight:700,color:INK,margin:"0 0 4px",letterSpacing:"-0.015em",lineHeight:1.15}}>e&amp; Sovereign AI Architecture</h4>
+        <p style={{fontSize:13,color:MUTED,lineHeight:1.55,margin:0,maxWidth:780}}>Clear separation of concerns — e&amp; owns the customer relationship and orchestration; partners provide specialized infrastructure capabilities at the layers below.</p>
+      </div>
+      <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 14px",border:`1px solid ${BORDER}`,borderRadius:999,background:SURFACE,boxShadow:"0 1px 0 rgba(11,18,32,0.02)",whiteSpace:"nowrap"}}>
+        <OwnedDot/>
+        <span style={{fontSize:11,fontWeight:700,color:INK,letterSpacing:"0.02em"}}>Owned by e&amp;</span>
+      </div>
+    </div>
+
+    <div style={{padding:"26px 28px 28px"}}>
+      {/* ── 1 · Customer interface layer ───────────────────── */}
+      <div style={{...cardBase,padding:0,overflow:"hidden",position:"relative"}}>
+        <div style={{position:"absolute",top:0,left:0,bottom:0,width:3,background:BRAND.red}}/>
+        <div style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:14,borderBottom:`1px solid ${BORDER_SOFT}`}}>
+          <EandChip size={28}/>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <Eyebrow color={BRAND.red}>Layer 01</Eyebrow>
+              <OwnedDot/>
+            </div>
+            <div style={{fontSize:16,fontWeight:700,color:INK,letterSpacing:"-0.005em",marginTop:2}}>Customer interface layer</div>
+            <div style={{fontSize:11.5,color:MUTED,marginTop:2}}>Agents, verticals, customer relationships, and demand signals — fully e&amp;-owned.</div>
+          </div>
+        </div>
+        {[
+          {label:"Horizontal agentic solutions",items:["Customer","Sales","Comms","Finance","Operations","People","e& Telco Agentic"]},
+          {label:"Vertical specialized solutions",items:["Banks","Healthcare","Energy","Manufacturing","Government","+ others"]},
+        ].map((row,i)=><div key={i} style={{display:"grid",gridTemplateColumns:"220px 1fr",gap:18,padding:"14px 20px",borderTop:i===0?"none":`1px dashed ${BORDER_SOFT}`,alignItems:"center"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{color:FAINT,display:"inline-flex"}}>{i===0?ICONS.grid:ICONS.layers}</span>
+            <Eyebrow>{row.label}</Eyebrow>
+          </div>
+          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+            {row.items.map((it,j)=><Pill key={j}>{it}</Pill>)}
+          </div>
+        </div>)}
+      </div>
+
+      {/* Vertical flow connectors between customer layer and orchestrator row */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 44px 2.1fr 44px 1fr",alignItems:"center",padding:"8px 0"}}>
+        <div/>
+        <div/>
+        <div style={{display:"flex",justifyContent:"center"}}>
+          <svg width="180" height="26" viewBox="0 0 180 26" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="vflow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.0"/>
+                <stop offset="40%" stopColor={BRAND.red} stopOpacity="0.85"/>
+                <stop offset="100%" stopColor={BRAND.red}/>
+              </linearGradient>
+              <marker id="vd" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto">
+                <path d="M0 0 L4 7 L8 0" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+              <marker id="vu" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
+                <path d="M0 8 L4 1 L8 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+            </defs>
+            <line x1="60" y1="2" x2="60" y2="22" stroke="url(#vflow)" strokeWidth="2" markerEnd="url(#vd)" strokeLinecap="round"/>
+            <line x1="120" y1="22" x2="120" y2="2" stroke="url(#vflow)" strokeWidth="2" markerEnd="url(#vu)" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <div/>
+        <div/>
+      </div>
+
+      {/* ── 2 · Middle: 3rd party → Orchestrator ← Platform agents ── */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 56px 2.1fr 56px 1fr",alignItems:"center",gap:0}}>
+        {/* 3rd party agents */}
+        <div style={{...darkCardBase,padding:"16px 18px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{color:"rgba(255,255,255,0.55)",display:"inline-flex"}}>{ICONS.code}</span>
+            <Eyebrow color="rgba(255,255,255,0.55)">Inputs · 3rd party</Eyebrow>
+          </div>
+          <div style={{fontSize:14,fontWeight:700,color:BRAND.white,marginBottom:12,letterSpacing:"-0.005em"}}>3rd party agents</div>
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {["Developers","Startups","Independent ISVs","Partners"].map((x,i)=><div key={i} style={{fontSize:11.5,color:"rgba(255,255,255,0.86)",fontWeight:500,letterSpacing:"0.01em",display:"flex",alignItems:"center",gap:9}}>
+              <span style={{width:3,height:3,borderRadius:3,background:BRAND.red,display:"inline-block",boxShadow:"0 0 0 3px rgba(224,8,0,0.16)"}}/>
+              {x}
+            </div>)}
+          </div>
+        </div>
+
+        {/* Curved arrow: 3rd party → orchestrator */}
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,height:"100%"}}>
+          <svg width="56" height="40" viewBox="0 0 56 40" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="hflowL" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.05"/>
+                <stop offset="100%" stopColor={BRAND.red}/>
+              </linearGradient>
+              <marker id="ahL" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0 0 L8 4 L0 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+            </defs>
+            <path d="M2 20 C 22 20, 30 20, 52 20" stroke="url(#hflowL)" strokeWidth="2.2" fill="none" strokeLinecap="round" markerEnd="url(#ahL)"/>
+          </svg>
+          <span style={{fontSize:9,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",lineHeight:1.2}}>dispatch</span>
+        </div>
+
+        {/* Orchestrator — hero */}
+        <div style={{position:"relative",borderRadius:14,background:`linear-gradient(180deg,#FFFFFF 0%,#FAFBFE 100%)`,border:`2px solid ${BRAND.red}`,padding:"18px 22px",boxShadow:`0 0 0 6px rgba(224,8,0,0.05), 0 2px 0 rgba(224,8,0,0.06), 0 22px 48px -22px rgba(224,8,0,0.35)`}}>
+          <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:`linear-gradient(90deg, ${BRAND.red} 0%, #9F0500 100%)`,borderTopLeftRadius:12,borderTopRightRadius:12}}/>
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+            <EandChip size={30}/>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{display:"flex",alignItems:"center",gap:8}}>
+                <Eyebrow color={BRAND.red}>The decoupling plane</Eyebrow>
+                <OwnedDot/>
+              </div>
+              <div style={{fontSize:17,fontWeight:700,color:INK,letterSpacing:"-0.01em",lineHeight:1.2,marginTop:2}}>Agentic orchestrator <span style={{color:MUTED,fontWeight:500}}>/ filter layer</span></div>
+            </div>
+          </div>
+          <div style={{fontSize:12,color:MUTED,lineHeight:1.55,marginBottom:12}}>Decouples the customer interface from infrastructure providers — every request is routed, filtered and policy-checked here.</div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:8}}>
+            {[
+              {t:"Vertical stack",d:"Per-industry context"},
+              {t:"Routing logic",d:"Model + agent selection"},
+              {t:"Customer data",d:"Identity · session · history"},
+              {t:"Compliance",d:"Policy · residency · audit"},
+            ].map((m,i)=><div key={i} style={{padding:"10px 12px",borderRadius:8,background:SURFACE,border:`1px solid ${BORDER}`,boxShadow:"0 1px 0 rgba(11,18,32,0.02)"}}>
+              <div style={{fontSize:11.5,fontWeight:700,color:INK,marginBottom:2,letterSpacing:"-0.005em"}}>{m.t}</div>
+              <div style={{fontSize:10,color:MUTED,lineHeight:1.45}}>{m.d}</div>
+            </div>)}
+          </div>
+        </div>
+
+        {/* Curved arrow: platform agents → orchestrator */}
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,height:"100%"}}>
+          <svg width="56" height="40" viewBox="0 0 56 40" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="hflowR" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stopColor={BRAND.red} stopOpacity="0.05"/>
+                <stop offset="100%" stopColor={BRAND.red}/>
+              </linearGradient>
+              <marker id="ahR" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto">
+                <path d="M8 0 L0 4 L8 8" fill="none" stroke={BRAND.red} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+            </defs>
+            <path d="M54 20 C 34 20, 26 20, 4 20" stroke="url(#hflowR)" strokeWidth="2.2" fill="none" strokeLinecap="round" markerEnd="url(#ahR)"/>
+          </svg>
+          <span style={{fontSize:9,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",lineHeight:1.2}}>signals</span>
+        </div>
+
+        {/* Platform agents */}
+        <div style={{...darkCardBase,padding:"16px 18px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{color:"rgba(255,255,255,0.55)",display:"inline-flex"}}>{ICONS.cloud}</span>
+            <Eyebrow color="rgba(255,255,255,0.55)">Inputs · platform</Eyebrow>
+          </div>
+          <div style={{fontSize:14,fontWeight:700,color:BRAND.white,marginBottom:12,letterSpacing:"-0.005em"}}>Platform agents</div>
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {["OpenAI","Google","Microsoft","AWS ecosystem"].map((x,i)=><div key={i} style={{fontSize:11.5,color:"rgba(255,255,255,0.86)",fontWeight:500,letterSpacing:"0.01em",display:"flex",alignItems:"center",gap:9}}>
+              <span style={{width:3,height:3,borderRadius:3,background:BRAND.red,display:"inline-block",boxShadow:"0 0 0 3px rgba(224,8,0,0.16)"}}/>
+              {x}
+            </div>)}
+          </div>
+        </div>
+      </div>
+
+      {/* Vertical connectors down to infrastructure */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 2.1fr",alignItems:"center",padding:"6px 0"}}>
+        <div style={{display:"flex",justifyContent:"center"}}>
+          <svg width="120" height="26" viewBox="0 0 120 26" fill="none" aria-hidden="true">
+            <defs>
+              <marker id="vd2" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto">
+                <path d="M0 0 L4 7 L8 0" fill="none" stroke={MUTED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+              <marker id="vu2" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
+                <path d="M0 8 L4 1 L8 8" fill="none" stroke={MUTED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </marker>
+            </defs>
+            <line x1="42" y1="2" x2="42" y2="22" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vd2)" strokeLinecap="round"/>
+            <line x1="78" y1="22" x2="78" y2="2" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vu2)" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <div style={{display:"flex",justifyContent:"center"}}>
+          <svg width="120" height="26" viewBox="0 0 120 26" fill="none" aria-hidden="true">
+            <line x1="42" y1="2" x2="42" y2="22" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vd2)" strokeLinecap="round"/>
+            <line x1="78" y1="22" x2="78" y2="2" stroke={MUTED} strokeWidth="1.8" markerEnd="url(#vu2)" strokeLinecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* ── 3 · Bottom: e& core infra | Partners & vendors ──── */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 2.1fr",gap:14}}>
+        {/* e& core infrastructure */}
+        <div style={{...cardBase,padding:0,overflow:"hidden",position:"relative",borderColor:"#F3C2C0"}}>
+          <div style={{position:"absolute",top:0,left:0,bottom:0,width:3,background:BRAND.red}}/>
+          <div style={{padding:"16px 18px",borderBottom:`1px solid ${BORDER_SOFT}`,display:"flex",alignItems:"center",gap:10}}>
+            <EandChip size={26}/>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{display:"flex",alignItems:"center",gap:8}}>
+                <Eyebrow color={BRAND.red}>e&amp; owned · 100%</Eyebrow>
+                <OwnedDot/>
+              </div>
+              <div style={{fontSize:14,fontWeight:700,color:INK,letterSpacing:"-0.005em",marginTop:2}}>Core infrastructure</div>
+            </div>
+            <span style={{fontSize:10,fontWeight:800,color:BRAND.white,background:BRAND.red,padding:"4px 8px",borderRadius:6,letterSpacing:"0.06em"}}>100%</span>
+          </div>
+          <div style={{padding:"14px 18px",display:"flex",flexDirection:"column",gap:8}}>
+            {[
+              {t:"Data center",icon:ICONS.server},
+              {t:"Connectivity",icon:ICONS.shield},
+            ].map((row,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",border:`1px solid ${BORDER}`,borderRadius:8,background:SURFACE_TINT}}>
+              <span style={{color:BRAND.red,display:"inline-flex"}}>{row.icon}</span>
+              <div style={{fontSize:12,color:INK,fontWeight:600,flex:1}}>{row.t}</div>
+              <OwnedDot/>
+            </div>)}
+            <div style={{marginTop:4,padding:"8px 10px",borderRadius:6,background:"rgba(224,8,0,0.06)",border:`1px dashed ${BRAND.red}44`,display:"flex",alignItems:"center",gap:8}}>
+              <span style={{color:BRAND.red,display:"inline-flex"}}>{ICONS.shield}</span>
+              <Eyebrow color={BRAND.red}>Sovereignty controls</Eyebrow>
+            </div>
+          </div>
+        </div>
+
+        {/* Partners & vendors */}
+        <div style={{...cardBase,padding:0,overflow:"hidden"}}>
+          <div style={{padding:"16px 18px",borderBottom:`1px solid ${BORDER_SOFT}`,display:"flex",alignItems:"center",gap:10}}>
+            <span style={{color:FAINT,display:"inline-flex"}}>{ICONS.cloud}</span>
+            <div style={{flex:1,minWidth:0}}>
+              <Eyebrow>Negotiated · best-of-breed</Eyebrow>
+              <div style={{fontSize:14,fontWeight:700,color:INK,letterSpacing:"-0.005em",marginTop:2}}>Partners &amp; vendors</div>
+            </div>
+          </div>
+          <div style={{padding:"14px 18px"}}>
+            <div style={{fontSize:11.5,color:MUTED,lineHeight:1.55,marginBottom:12}}>Specialized capabilities sourced from e&amp;'s position of strength — swappable per workload and per market.</div>
+            {[
+              {g:"Compute & models",items:["LLMs","GPU / compute","Hosting"]},
+              {g:"APIs & access",items:["Tokens / APIs","Security"]},
+              {g:"Network & edge",items:["Residency / network","Edge"]},
+            ].map((grp,i)=><div key={i} style={{display:"grid",gridTemplateColumns:"140px 1fr",gap:14,alignItems:"center",padding:i===0?"0 0 8px":"8px 0",borderTop:i>0?`1px dashed ${BORDER_SOFT}`:"none"}}>
+              <Eyebrow>{grp.g}</Eyebrow>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {grp.items.map((x,j)=><Pill key={j} muted>{x}</Pill>)}
+              </div>
+            </div>)}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Strategic ownership model footer ─────────────────── */}
+      <div style={{marginTop:20,borderRadius:12,background:`linear-gradient(180deg,#0E1525 0%,#1B2538 100%)`,padding:"18px 22px",display:"flex",alignItems:"center",gap:18,boxShadow:"0 14px 32px -22px rgba(11,18,32,0.55)",position:"relative",overflow:"hidden",color:BRAND.white}}>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:BRAND.continuum}}/>
+        <EandChip size={38}/>
+        <div style={{flex:1,minWidth:0}}>
+          <Eyebrow color="rgba(255,255,255,0.65)">Strategic ownership model</Eyebrow>
+          <div style={{fontSize:13.5,color:"rgba(255,255,255,0.92)",lineHeight:1.55,fontWeight:500,marginTop:4}}>
+            e&amp; retains control of the <strong style={{color:BRAND.white}}>customer interface</strong>, <strong style={{color:BRAND.white}}>orchestration</strong>, <strong style={{color:BRAND.white}}>data center</strong>, <strong style={{color:BRAND.white}}>connectivity</strong>, and <strong style={{color:BRAND.white}}>sovereignty</strong> — while sourcing best-of-breed capabilities from partners.
+          </div>
+        </div>
+        <div style={{display:"flex",gap:18,paddingLeft:18,borderLeft:"1px solid rgba(255,255,255,0.12)"}}>
+          {[
+            {v:"4 of 6",l:"Layers owned"},
+            {v:"100%",l:"Customer control"},
+          ].map((s,i)=><div key={i} style={{textAlign:"left"}}>
+            <div style={{fontSize:18,fontWeight:700,color:BRAND.white,fontFamily:BRAND.font,lineHeight:1,letterSpacing:"-0.01em"}}>{s.v}</div>
+            <div style={{fontSize:9.5,fontWeight:700,color:"rgba(255,255,255,0.55)",letterSpacing:"0.12em",textTransform:"uppercase",marginTop:4}}>{s.l}</div>
+          </div>)}
+        </div>
+      </div>
+    </div>
+  </div>;
+}
+
 function FullStackSection({showPricing=true, contractNavIds=false}) {
   /** Stable anchor ids for contract-page table of contents only (avoids duplicate ids in hidden corpus). */
   const _a = (id) => (contractNavIds ? id : undefined);
@@ -3825,7 +4189,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
     </Note>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:18}}>
       {[
-        {k:"A",t:"Agentic solutions",d:"Six agentic solutions across Pillars 01 and 02, delivered in 90-day waves through the four phases — Design, Build, Launch commercially, and Support & evolve — expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint. e& retains all end-customer contracts and commercial relationships from inception.",role:"Support e&'s technical teams through each build wave; progressively reduce dependency as e& Squads take lead delivery from Wave 3 onwards."},
+        {k:"A",t:"Agentic solutions",d:"Six AI complex Agentic solutions with specialized Agents across Pillars 01 and 02, delivered in 90-day waves through the four phases — Design, Build, Launch commercially, and Support & evolve — expanding coverage from SMB to Enterprise to Government on a single agentic stack.",o:"Time-to-market: live agents inside 90 days, with the next wave already in build. e& moves up-market on the same architecture.",own:"e& owns and scales across all OpCos, supported by AIdeology. Agent IP transfers to e& after each wave; full agent catalogue extensible across the OpCo footprint. e& retains all end-customer contracts and commercial relationships from inception.",role:"Support e&'s technical teams through each build wave; progressively reduce dependency as e& Squads take lead delivery from Wave 3 onwards."},
         {k:"B",t:"Centre of Excellence",d:"AIdeology embeds within e&'s teams to stand up the Agentic Centre of Excellence — systematically transferring knowledge and building internal capability so e& independently manages agents and platform operations without structural dependency on AIdeology.",o:"e& owns the design, build and evolution of its own SDD architecture — full autonomous operation and independent delivery capability by the end of the transition period.",own:"Squad capability, SDD playbooks, design authority and full operational control of the agentic stack.",role:"Embed senior architects in the CoE; coach Squads through real builds across all four phases, then step back to advisory as capability matures."},
         {k:"C",t:"AI Agent Orchestration Platform",d:"AIdeology builds and delivers the AI Agent Orchestration Platform — a unified software layer connecting compute infrastructure, AI models, agentic agents, customer interfaces, and billing into a single operating ecosystem. e& takes full ownership of all proprietary IP by the end of the transition period.",o:"e& operates a sovereign, fully-owned AI platform with no structural dependency on AIdeology beyond the transition. The platform is never locked into a single cloud, model, or vendor.",own:"Full ownership of all proprietary platform IP at transition; perpetual right to operate and evolve the platform across the e& footprint and all OpCos.",role:"Build and deliver the platform through the Design and Build phases; support e& teams through Launch and Support & evolve until full handover is complete."},
       ].map((p,i)=><Card key={i} style={{padding:0,overflow:"hidden",marginBottom:0,borderTop:`3px solid ${BRAND.red}`}}>
@@ -3866,6 +4230,9 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
 
     <SH id={_a("contract-art-3-1")}>2.1 · Layer by layer — top to bottom</SH>
     <StackLayersAccordion/>
+
+    {/* ── 2.1 · SOVEREIGN AI ARCHITECTURE SCHEMA ─────────────── */}
+    <SovereignArchitectureDiagram/>
 
     <SH id={_a("contract-art-3-2")}>2.2 · End-to-end — one customer interaction across all six layers</SH>
     <StackExampleFlow/>
@@ -3914,7 +4281,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
     {/* ── ARTICLE 3 · PILLAR 01 — SMB PROGRAMME ──────────────── */}
     {showPricing && <SH id={_a("contract-art-4")}>Article 3 · Pillar 01 — SMB AI programme</SH>}
     {showPricing && <p style={{fontSize:13,color:"#666",lineHeight:1.65,maxWidth:860,marginBottom:18}}>
-      Pillar 01 covers six SMB agents delivered in five waves over 36 weeks — six agents in production by week 30, with Wave 5 running platform hardening, security audit and formal handoff through week 36 — plus three-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 6, 7 and 8.
+      Pillar 01 covers six SMB agents delivered in five waves over 36 weeks — six agents in production by week 30, with Wave 5 running platform hardening, security audit and formal handoff through week 36 — plus two-year L3 platform support. Subscription tiers (Spark / Scale / Command, in AED per month) and GTM build cost per agent are set out below. Revenue share, payment milestones and IP transfer mechanics are at Articles 6, 7 and 8.
     </p>}
     <div id={_a("contract-smb-roadmap")} style={{marginTop:8,marginBottom:24}}>
       <Pillar01AgentRoadmapAndLaunchPlan />
@@ -3933,7 +4300,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
               {n:"Finance",d:"Invoices, e& Pay links, FTA VAT, AI reminders, cash-flow forecast. Syncs to QuickBooks, Xero, Business Central.",p:"199 / 449 / 849",c:"$300,000",w:"Wave 3"},
               {n:"Ops",d:"Tasks, approvals, SOP knowledge base, daily WhatsApp summaries. Syncs to Teams, SharePoint, Google Workspace.",p:"149 / 299 / 599",c:"$300,000",w:"Wave 3"},
               {n:"People",d:"WPS payroll, attendance via e& SIM, leave, onboarding, visa-expiry alerts, AI CV screening. Connects MOHRE / GDRFA.",p:"199 / 449 / 849",c:"$275,000",w:"Wave 4"},
-              {n:"Platform hardening & 3-year L3 support",d:"Wave-1 platform foundation + Wave-5 security audit, pen test, runbooks, documentation, formal handoff and 3-year L3 platform support.",p:"—",c:"$618,621",w:"Wave 1 + 5"},
+              {n:"Platform hardening & 2-year L3 support",d:"Wave-1 platform foundation + Wave-5 security audit, pen test, runbooks, documentation, formal handoff and 2-year L3 platform support.",p:"—",c:"$618,621",w:"Wave 1 + 5"},
             ].map((r,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,verticalAlign:"top"}}>
               <td style={{padding:"12px 16px",fontWeight:700,color:BRAND.black,whiteSpace:"nowrap"}}>{r.n}</td>
               <td style={{padding:"12px 16px",color:"#555",lineHeight:1.55}}>{r.d}</td>
@@ -3942,7 +4309,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
               <td style={{padding:"12px 16px",color:"#666",whiteSpace:"nowrap"}}>{r.w}</td>
             </tr>)}
             <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
-              <td style={{padding:"14px 16px",fontWeight:700,color:"#111"}}>Total — all 6 agents + platform + 3-year support</td>
+              <td style={{padding:"14px 16px",fontWeight:700,color:"#111"}}>Total — all 6 agents + platform + 2-year support</td>
               <td style={{padding:"14px 16px",color:"#555",lineHeight:1.55}}>Full SMB programme delivered in 36 weeks (six agents live by week 30; Wave 5 hardening and handoff through week 36); platform handed over to e&.</td>
               <td style={{padding:"14px 16px"}}>—</td>
               <td style={{padding:"14px 16px",color:BRAND.red,fontWeight:700,fontSize:13.5,whiteSpace:"nowrap"}}>$3,443,621</td>
@@ -3952,7 +4319,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
         </table>
       </div>
       <div style={{padding:"12px 16px",borderTop:`1px solid ${BRAND.border}`,fontSize:11,color:"#888",lineHeight:1.55}}>
-        * The Customer Agent is bundled inside Wave 1 with the orchestration platform foundation — the first agent absorbs the platform investment every later agent reuses. Wave-5 hardening and 3-year L3 platform support are included in the totals.
+        * The Customer Agent is bundled inside Wave 1 with the orchestration platform foundation — the first agent absorbs the platform investment every later agent reuses. Wave-5 hardening and 2-year L3 platform support are included in the totals.
       </div>
     </Card>}
 
@@ -4167,7 +4534,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
             ["SMB revenue share","65 / 35 in Years 1–2 → 72 / 28 in Year 3 → 80 / 20 in Year 4+ (e& majority from Day 1; AIdeology share declines as the e& team ramps)."],
             ["Enterprise revenue split","60 / 40 AIdeology / e& on build and managed service. Hosting, connectivity and hardware 100% e&."],
             ["IP ownership","Agent IP transfers to e& after deployment plus knowledge transfer to evolve the agent. Platform IP (Forge) stays with AIdeology under a perpetual non-exclusive licence to e&."],
-            ["Support tiers","L1 + L2 owned by e& from Day 1. L3 + L4 (platform engineering) owned by AIdeology — included in the fixed fee for Years 1–3."],
+            ["Support tiers","L1 + L2 owned by e& from Day 1. L3 + L4 (platform engineering) owned by AIdeology — included in the fixed fee for Years 1–2."],
             ["Build-then-transfer","AIdeology builds and trains; e& progressively takes ownership. 2–3 e& engineers embedded in Year 1, 6–8 by Year 3, full ownership by Year 4."],
             ["OpCo expansion","After UAE proof, e& OpCo teams localise and deploy themselves — no second build fee per country. Saudi → Morocco → Egypt / Kuwait → rest."],
           ].map((r,i)=><tr key={i} style={{borderBottom:i<5?`1px solid ${BRAND.border}`:"none"}}>
@@ -4323,7 +4690,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
             <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r[3]}</td>
           </tr>)}
           <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
-            <td colSpan={3} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Pillar 01 — total fixed-fee envelope (all waves + 3-year L3 support)</td>
+            <td colSpan={3} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Pillar 01 — total fixed-fee envelope (all waves + 2-year L3 support)</td>
             <td style={{padding:"14px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontSize:14,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$3,443,621</td>
           </tr>
         </tbody>
@@ -4433,8 +4800,8 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
           {[
             ["L1","Customer-facing support, account issues, basic agent operations","e&","Included in e&'s customer subscription / managed-service fees"],
             ["L2","Operational support, tenant configuration, connector troubleshooting","e&","Included in e&'s customer subscription / managed-service fees"],
-            ["L3","Platform engineering, release support, runbook updates, connector compatibility","AIdeology","Bundled in Wave 1–5 fees for Years 1–3 · then covered by AIdeology revenue share"],
-            ["L4","Architecture changes, security patches, model upgrades, framework evolution","AIdeology","Bundled in Wave 1–5 fees for Years 1–3 · then covered by AIdeology revenue share"],
+            ["L3","Platform engineering, release support, runbook updates, connector compatibility","AIdeology","Bundled in Wave 1–5 fees for Years 1–2 · then covered by AIdeology revenue share"],
+            ["L4","Architecture changes, security patches, model upgrades, framework evolution","AIdeology","Bundled in Wave 1–5 fees for Years 1–2 · then covered by AIdeology revenue share"],
           ].map((r,i)=><tr key={i} style={{borderBottom:i<3?`1px solid ${BRAND.border}`:"none"}}>
             <td style={{padding:"12px 18px",fontWeight:700,color:BRAND.red,whiteSpace:"nowrap"}}>{r[0]}</td>
             <td style={{padding:"12px 18px",color:"#555",lineHeight:1.55}}>{r[1]}</td>
@@ -4531,7 +4898,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
       <div style={{padding:"18px 24px",borderBottom:`1px solid ${BRAND.border}`,background:BRAND.lightGrey}}>
         <Badge v="rose">Revenue share — ongoing</Badge>
         <h4 style={{fontSize:15,fontWeight:700,color:"#111",margin:"10px 0 4px"}}>All revenue streams — consolidated view</h4>
-        <p style={{fontSize:12,color:"#777",margin:0}}>Three distinct revenue-share mechanisms apply across the three initiatives. All rates are inclusive of platform support during Years 1–3.</p>
+        <p style={{fontSize:12,color:"#777",margin:0}}>Three distinct revenue-share mechanisms apply across the three initiatives. All rates are inclusive of platform support during Years 1–2.</p>
       </div>
 
       {/* Pillar 01 — SMB declining share */}
@@ -4632,7 +4999,7 @@ function FullStackSection({showPricing=true, contractNavIds=false}) {
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:12,marginBottom:14}}>
       {[
         {t:"IP ownership",d:"Agent IP transfers to e& wave-by-wave, complete by end of Year 2. Forge platform IP stays with AIdeology under a perpetual non-exclusive licence to e&."},
-        {t:"Support model",d:"L1 + L2 owned by e& from Day 1. L3 + L4 owned by AIdeology — included in fixed fees for Years 1–3, then commercially covered by the AIdeology revenue share."},
+        {t:"Support model",d:"L1 + L2 owned by e& from Day 1. L3 + L4 owned by AIdeology — included in fixed fees for Years 1–2, then commercially covered by the AIdeology revenue share."},
         {t:"Build-then-transfer",d:"AIdeology builds and trains; e& progressively takes ownership. 2–3 e& engineers embedded in Year 1, 6–8 by Year 3, full ownership by Year 4."},
         {t:"Payment terms",d:"Fixed-fee, milestone-based. Invoices payable net 30 days from trigger event being met and certified by e&. No speculative payments."},
         {t:"Minimum term",d:"4 years from the Effective Date. 12-month notice period after Year 4. Revenue share and platform royalty continue for the duration of the partnership."},
@@ -6967,7 +7334,7 @@ function EandFinancialsSection({showPricing=true}) {
     {/* ──────── BUILD COST ──────── */}
     <SH>Cost to create the platform — what e& pays AIdeology</SH>
     <Note label="Build cost summary">
-      One-time fixed fees of <strong style={{color:"#111"}}>$3.44M ≈ AED 12.64M</strong>, paid only on delivery across four waves and ten milestones, plus Wave 4 hardening that includes AIdeology L3 platform support for Years 1–3. If e& chooses to amortise straight-line over 3 years, build cost charged to P&L is <strong style={{color:"#111"}}>~AED 4.21M/year</strong>; if expensed in Year 1, it lands as a single AED 12.64M deduction. The calculator below uses the cash-basis view (expensed when paid by milestone), which is the most conservative view for the CFO.
+      One-time fixed fees of <strong style={{color:"#111"}}>$3.44M ≈ AED 12.64M</strong>, paid only on delivery across four waves and ten milestones, plus Wave 4 hardening that includes AIdeology L3 platform support for Years 1–2. If e& chooses to amortise straight-line over 3 years, build cost charged to P&L is <strong style={{color:"#111"}}>~AED 4.21M/year</strong>; if expensed in Year 1, it lands as a single AED 12.64M deduction. The calculator below uses the cash-basis view (expensed when paid by milestone), which is the most conservative view for the CFO.
     </Note>
     <Card style={{padding:0,overflow:"hidden",marginBottom:14}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5}}>
@@ -6988,7 +7355,7 @@ function EandFinancialsSection({showPricing=true}) {
           })}
           <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
             <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>Total</td>
-            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>6 AI agents + platform + 3-yr L3 support</td>
+            <td style={{padding:"12px 14px",fontWeight:700,color:"#111"}}>6 AI agents + platform + 2-yr L3 support</td>
             <td style={{padding:"12px 14px",color:"#111",fontFamily:"monospace",fontSize:11.5,fontWeight:700}}>30 weeks</td>
             <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font}}>${buildTotal.toLocaleString()}</td>
             <td style={{padding:"12px 14px",textAlign:"right",fontWeight:700,color:"#111",fontFamily:BRAND.font}}>{fmtAED(buildTotal * FX)}</td>
@@ -8305,25 +8672,391 @@ function ContractPage() {
 }
 
 /* ════════════════════════════════════════════════════════════ */
+/* INTERACTIVE FINANCIAL MODELLER — for HaithemFinancialsTab   */
+/* Lets viewer adjust SMB volume, royalty %, e& cost base      */
+/* and inspect P&L, margins, and break-even.                   */
+/* ════════════════════════════════════════════════════════════ */
+function FinancialsCalculator() {
+  // ── SMB segment ───────────────────────────────────────────
+  const [smbY1, setSmbY1] = useState(24000);
+  const [smbY2, setSmbY2] = useState(62000);
+  const [smbY3, setSmbY3] = useState(120000);
+  const [smbArpuY1, setSmbArpuY1] = useState(285);
+  const [smbArpuY2, setSmbArpuY2] = useState(350);
+  const [smbArpuY3, setSmbArpuY3] = useState(420);
+  const [smbInfra, setSmbInfra] = useState(42);                // AED/SMB/mo
+
+  // ── Enterprise segment ────────────────────────────────────
+  const [entY1, setEntY1] = useState(8);
+  const [entY2, setEntY2] = useState(30);
+  const [entY3, setEntY3] = useState(80);
+  const [entArpu, setEntArpu] = useState(25000);               // AED/account/mo
+  const [entSetup, setEntSetup] = useState(220000);            // AED one-time/account
+  const [entInfra, setEntInfra] = useState(2000);              // AED/account/mo
+
+  // ── Government segment ────────────────────────────────────
+  const [govY1, setGovY1] = useState(2);
+  const [govY2, setGovY2] = useState(6);
+  const [govY3, setGovY3] = useState(15);
+  const [govArpu, setGovArpu] = useState(80000);               // AED/account/mo
+  const [govSetup, setGovSetup] = useState(2500000);           // AED one-time/account
+  const [govInfra, setGovInfra] = useState(10000);             // AED/account/mo
+
+  // ── AIdeology platform royalty % ──────────────────────────
+  const [royaltyY12, setRoyaltyY12] = useState(7);
+  const [royaltyY3, setRoyaltyY3] = useState(5);
+  const [royaltyY4, setRoyaltyY4] = useState(3);
+
+  // ── e& fixed cost base ────────────────────────────────────
+  const [buildFeeUSD, setBuildFeeUSD] = useState(4);           // $M one-time
+  const [dcOpex, setDcOpex] = useState(18);                    // AED M/yr
+  const [hwCapex, setHwCapex] = useState(45);                  // AED M (amort 5y)
+  const [people, setPeople] = useState(15);                    // AED M/yr
+  const [salesPct, setSalesPct] = useState(15);                // % of revenue
+
+  const FX = 3.67; // AED per USD
+
+  const compute = (year) => {
+    // Account counts (Year 4+ assumes 10–15% growth on Year 3)
+    const smbAccounts = year===1?smbY1 : year===2?smbY2 : year===3?smbY3 : Math.round(smbY3*1.1);
+    const smbArpu = year===1?smbArpuY1 : year===2?smbArpuY2 : year===3?smbArpuY3 : Math.round(smbArpuY3*1.05);
+    const entAccounts = year===1?entY1 : year===2?entY2 : year===3?entY3 : Math.round(entY3*1.15);
+    const govAccounts = year===1?govY1 : year===2?govY2 : year===3?govY3 : Math.round(govY3*1.15);
+
+    // New accounts in this year (drives setup fee revenue)
+    const prevEnt = year===1?0 : year===2?entY1 : year===3?entY2 : entY3;
+    const prevGov = year===1?0 : year===2?govY1 : year===3?govY2 : govY3;
+    const newEnt = Math.max(0, entAccounts - prevEnt);
+    const newGov = Math.max(0, govAccounts - prevGov);
+
+    // Revenue by segment
+    const smbRev = smbAccounts * smbArpu * 12;
+    const entRecurring = entAccounts * entArpu * 12;
+    const govRecurring = govAccounts * govArpu * 12;
+    const entSetupRev = newEnt * entSetup;
+    const govSetupRev = newGov * govSetup;
+    const recurringRev = smbRev + entRecurring + govRecurring;
+    const setupRev = entSetupRev + govSetupRev;
+    const grossRev = recurringRev + setupRev;
+
+    // Costs
+    const royaltyPct = year<=2?royaltyY12 : year===3?royaltyY3 : royaltyY4;
+    const royalty = recurringRev * royaltyPct / 100;           // royalty on recurring only
+    const smbInfraCost = smbAccounts * smbInfra * 12;
+    const entInfraCost = entAccounts * entInfra * 12;
+    const govInfraCost = govAccounts * govInfra * 12;
+    const infraCost = smbInfraCost + entInfraCost + govInfraCost;
+    const salesCost = grossRev * salesPct / 100;
+    const dcCost = dcOpex * 1_000_000;
+    const peopleCost = people * 1_000_000;
+    const hwAmort = (hwCapex / 5) * 1_000_000;
+    const buildAmort = year <= 3 ? (buildFeeUSD * FX / 3) * 1_000_000 : 0;
+
+    const totalCost = royalty + infraCost + salesCost + dcCost + peopleCost + hwAmort + buildAmort;
+    const netProfit = grossRev - totalCost;
+    const margin = grossRev > 0 ? (netProfit / grossRev) * 100 : 0;
+
+    return {
+      smbAccounts, smbArpu, entAccounts, govAccounts, newEnt, newGov,
+      smbRev, entRecurring, govRecurring, entSetupRev, govSetupRev, setupRev, recurringRev, grossRev,
+      royaltyPct, royalty, smbInfraCost, entInfraCost, govInfraCost, infraCost,
+      salesCost, dcCost, peopleCost, hwAmort, buildAmort, totalCost, netProfit, margin,
+    };
+  };
+
+  const Y = [compute(1), compute(2), compute(3), compute(4)];
+
+  // ── Break-even on $4M build fee ──────────────────────────
+  const upfrontCashAED = buildFeeUSD * FX * 1_000_000;
+  const y1MonthlyNet = Y[0].netProfit / 12;
+  const breakEvenMonths = y1MonthlyNet > 0 ? upfrontCashAED / y1MonthlyNet : Infinity;
+  const cumY1 = Y[0].netProfit - upfrontCashAED;
+  const cumY2 = cumY1 + Y[1].netProfit;
+  const cumY3 = cumY2 + Y[2].netProfit;
+
+  // ── Format helpers ───────────────────────────────────────
+  const fmtAED = (v) => {
+    const abs = Math.abs(v); const sign = v < 0 ? "-" : "";
+    if (abs >= 1e9) return `${sign}AED ${(abs/1e9).toFixed(2)}B`;
+    if (abs >= 1e6) return `${sign}AED ${(abs/1e6).toFixed(1)}M`;
+    return `${sign}AED ${(abs/1e3).toFixed(0)}K`;
+  };
+  const fmtUSD = (vAED) => {
+    const v = vAED / FX; const abs = Math.abs(v); const sign = v < 0 ? "-" : "";
+    if (abs >= 1e9) return `${sign}$${(abs/1e9).toFixed(2)}B`;
+    if (abs >= 1e6) return `${sign}$${(abs/1e6).toFixed(1)}M`;
+    return `${sign}$${(abs/1e3).toFixed(0)}K`;
+  };
+
+  const Slider = ({label, value, set, min, max, step=1, suffix="", prefix="", helper, accent=BRAND.red}) => (
+    <div style={{padding:"12px 14px",background:BRAND.white,border:`1px solid ${BRAND.border}`}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6,gap:8}}>
+        <span style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.04em",textTransform:"uppercase",lineHeight:1.3}}>{label}</span>
+        <span style={{fontSize:13.5,fontWeight:700,color:accent,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{prefix}{typeof value === 'number' && value >= 1000 ? value.toLocaleString() : value}{suffix}</span>
+      </div>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={e=>set(Number(e.target.value))} style={{width:"100%",accentColor:accent,cursor:"pointer"}}/>
+      {helper && <div style={{fontSize:9.5,color:"#999",marginTop:3,lineHeight:1.3}}>{helper}</div>}
+    </div>
+  );
+
+  // Segment panel wrapper with colored border
+  const SegmentPanel = ({title, subtitle, color, children}) => (
+    <div style={{background:"#FAFAFA",border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${color}`,padding:16,marginBottom:14}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:10,flexWrap:"wrap",gap:8}}>
+        <div style={{fontSize:12,fontWeight:700,color:color,letterSpacing:"0.06em",textTransform:"uppercase"}}>{title}</div>
+        {subtitle && <div style={{fontSize:10.5,color:"#888"}}>{subtitle}</div>}
+      </div>
+      {children}
+    </div>
+  );
+
+  // ── Year 3 cost composition ─────────────────────────────
+  const y3Total = Y[2].totalCost;
+  const costBars = [
+    {l:"Platform royalty (AIdeology)", v:Y[2].royalty, c:"#E00800"},
+    {l:"Infrastructure — SMB", v:Y[2].smbInfraCost, c:"#185FA5"},
+    {l:"Infrastructure — Enterprise", v:Y[2].entInfraCost, c:"#4338CA"},
+    {l:"Infrastructure — Government", v:Y[2].govInfraCost, c:"#7A2BA1"},
+    {l:"Sales, GTM & support", v:Y[2].salesCost, c:"#004B2E"},
+    {l:"Data centre OPEX", v:Y[2].dcCost, c:"#A16207"},
+    {l:"People (e& AI team)", v:Y[2].peopleCost, c:"#15803D"},
+    {l:"Hardware amortisation", v:Y[2].hwAmort, c:"#534AB7"},
+    {l:"Build fee amortisation", v:Y[2].buildAmort, c:"#854F0B"},
+  ];
+
+  // P&L rows
+  const plRows = [
+    {l:"SMB accounts (EOY)", get:y=>y.smbAccounts.toLocaleString(), bold:false},
+    {l:"Enterprise accounts (EOY)", get:y=>y.entAccounts.toLocaleString(), bold:false},
+    {l:"Government accounts (EOY)", get:y=>y.govAccounts.toLocaleString(), bold:false},
+    {l:"SMB recurring revenue", get:y=>fmtAED(y.smbRev), bold:false, color:"#444"},
+    {l:"Enterprise recurring revenue", get:y=>fmtAED(y.entRecurring), bold:false, color:"#444"},
+    {l:"Government recurring revenue", get:y=>fmtAED(y.govRecurring), bold:false, color:"#444"},
+    {l:"Setup fees (Enterprise + Gov)", get:y=>y.setupRev>0?fmtAED(y.setupRev):"—", bold:false, color:"#444"},
+    {l:"Gross revenue", get:y=>fmtAED(y.grossRev), bold:true, color:"#111"},
+    {l:"− AIdeology royalty", get:y=>`(${fmtAED(y.royalty)})`, bold:false, color:"#888"},
+    {l:"− Infrastructure (all segments)", get:y=>`(${fmtAED(y.infraCost)})`, bold:false, color:"#888"},
+    {l:"− Sales & GTM", get:y=>`(${fmtAED(y.salesCost)})`, bold:false, color:"#888"},
+    {l:"− Data centre OPEX", get:y=>`(${fmtAED(y.dcCost)})`, bold:false, color:"#888"},
+    {l:"− People (FTEs)", get:y=>`(${fmtAED(y.peopleCost)})`, bold:false, color:"#888"},
+    {l:"− Hardware amortisation", get:y=>`(${fmtAED(y.hwAmort)})`, bold:false, color:"#888"},
+    {l:"− Build fee amortisation", get:y=>y.buildAmort>0?`(${fmtAED(y.buildAmort)})`:"—", bold:false, color:"#888"},
+    {l:"Net profit", get:y=>fmtAED(y.netProfit), bold:true, color:BRAND.red, highlight:true},
+    {l:"Net margin", get:y=>`${y.margin.toFixed(1)}%`, bold:true, color:BRAND.red, highlight:true},
+  ];
+
+  return <>
+    <SH>Interactive financial modeller — e& P&L scenario builder</SH>
+    <p style={{fontSize:12.5,color:"#555",lineHeight:1.6,marginBottom:14,maxWidth:880}}>
+      Adjust the three commercial segments (SMB, Enterprise, Government), the AIdeology platform royalty, and e&'s direct cost base (data centre, hardware, people). Enterprise and Government accounts pay a one-time setup fee at acquisition plus a monthly subscription. The model recalculates revenue, costs, net profit, margin and break-even in real time.
+    </p>
+
+    {/* ── SMB SEGMENT ──────────────────────────────────────── */}
+    <SegmentPanel title="SMB segment" subtitle="High-volume marketplace · monthly subscription · no setup fee" color="#185FA5">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:8}}>
+        <Slider label="Year 1 SMBs" value={smbY1} set={setSmbY1} min={5000} max={60000} step={1000} accent="#185FA5"/>
+        <Slider label="Year 2 SMBs" value={smbY2} set={setSmbY2} min={20000} max={120000} step={1000} accent="#185FA5"/>
+        <Slider label="Year 3 SMBs" value={smbY3} set={setSmbY3} min={60000} max={250000} step={1000} accent="#185FA5"/>
+        <Slider label="Y1 ARPU" value={smbArpuY1} set={setSmbArpuY1} min={150} max={500} step={5} suffix=" AED/mo" accent="#185FA5"/>
+        <Slider label="Y2 ARPU" value={smbArpuY2} set={setSmbArpuY2} min={200} max={600} step={5} suffix=" AED/mo" accent="#185FA5"/>
+        <Slider label="Y3 ARPU" value={smbArpuY3} set={setSmbArpuY3} min={250} max={700} step={5} suffix=" AED/mo" accent="#185FA5"/>
+        <Slider label="Infra cost / SMB / mo" value={smbInfra} set={setSmbInfra} min={20} max={80} step={1} suffix=" AED" accent="#185FA5" helper="LLM API + WhatsApp BSP + compute"/>
+      </div>
+    </SegmentPanel>
+
+    {/* ── ENTERPRISE SEGMENT ───────────────────────────────── */}
+    <SegmentPanel title="Enterprise segment" subtitle="Mid-volume · setup fee + monthly subscription · adapted agents / custom builds" color="#4338CA">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:8}}>
+        <Slider label="Year 1 accounts" value={entY1} set={setEntY1} min={0} max={50} step={1} accent="#4338CA"/>
+        <Slider label="Year 2 accounts" value={entY2} set={setEntY2} min={5} max={150} step={1} accent="#4338CA"/>
+        <Slider label="Year 3 accounts" value={entY3} set={setEntY3} min={20} max={400} step={5} accent="#4338CA"/>
+        <Slider label="Monthly ARPU" value={entArpu} set={setEntArpu} min={5000} max={80000} step={500} suffix=" AED/mo" accent="#4338CA" helper="Per enterprise account"/>
+        <Slider label="Setup fee" value={entSetup} set={setEntSetup} min={50000} max={1500000} step={10000} suffix=" AED" accent="#4338CA" helper="One-time per new account"/>
+        <Slider label="Infra cost / account / mo" value={entInfra} set={setEntInfra} min={500} max={10000} step={100} suffix=" AED" accent="#4338CA" helper="Dedicated compute + integrations"/>
+      </div>
+    </SegmentPanel>
+
+    {/* ── GOVERNMENT SEGMENT ───────────────────────────────── */}
+    <SegmentPanel title="Government segment" subtitle="Low-volume · large setup fee + premium subscription · sovereign / on-prem" color="#7A2BA1">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(170px, 1fr))",gap:8}}>
+        <Slider label="Year 1 accounts" value={govY1} set={setGovY1} min={0} max={10} step={1} accent="#7A2BA1"/>
+        <Slider label="Year 2 accounts" value={govY2} set={setGovY2} min={0} max={25} step={1} accent="#7A2BA1"/>
+        <Slider label="Year 3 accounts" value={govY3} set={setGovY3} min={2} max={50} step={1} accent="#7A2BA1"/>
+        <Slider label="Monthly ARPU" value={govArpu} set={setGovArpu} min={20000} max={300000} step={5000} suffix=" AED/mo" accent="#7A2BA1" helper="Per gov / ministry account"/>
+        <Slider label="Setup fee" value={govSetup} set={setGovSetup} min={500000} max={5000000} step={50000} suffix=" AED" accent="#7A2BA1" helper="Sovereign deployment / on-prem"/>
+        <Slider label="Infra cost / account / mo" value={govInfra} set={setGovInfra} min={2000} max={40000} step={500} suffix=" AED" accent="#7A2BA1" helper="Isolated cluster + audit / security"/>
+      </div>
+    </SegmentPanel>
+
+    {/* ── ROYALTY ──────────────────────────────────────────── */}
+    <SegmentPanel title="AIdeology platform royalty" subtitle="Applied to recurring SaaS revenue only — declines as e& takes ownership" color="#E00800">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:8}}>
+        <Slider label="Years 1–2 royalty" value={royaltyY12} set={setRoyaltyY12} min={0} max={15} step={0.5} suffix="%" helper="Platform early stage"/>
+        <Slider label="Year 3 royalty" value={royaltyY3} set={setRoyaltyY3} min={0} max={12} step={0.5} suffix="%" helper="e& taking ownership"/>
+        <Slider label="Year 4+ royalty" value={royaltyY4} set={setRoyaltyY4} min={0} max={10} step={0.5} suffix="%" helper="Full e& ownership"/>
+      </div>
+    </SegmentPanel>
+
+    {/* ── e& FIXED COST BASE ───────────────────────────────── */}
+    <SegmentPanel title="e& fixed cost base" subtitle="Data centre, hardware, people, build fee & GTM" color="#004B2E">
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",gap:8}}>
+        <Slider label="AIdeology build fee" value={buildFeeUSD} set={setBuildFeeUSD} min={2} max={8} step={0.25} prefix="$" suffix="M" helper="One-time · amort 3 yrs"/>
+        <Slider label="Data centre OPEX" value={dcOpex} set={setDcOpex} min={5} max={80} step={1} suffix=" AED M/yr" helper="Power, cooling, colo, network"/>
+        <Slider label="Hardware CAPEX" value={hwCapex} set={setHwCapex} min={15} max={200} step={5} suffix=" AED M" helper="GPUs / servers · amort 5 yrs"/>
+        <Slider label="People (e& AI team)" value={people} set={setPeople} min={3} max={80} step={1} suffix=" AED M/yr" helper="Engineering, ops, customer success"/>
+        <Slider label="Sales & GTM" value={salesPct} set={setSalesPct} min={5} max={30} step={1} suffix="% of rev" helper="Commissions, onboarding, marketing"/>
+      </div>
+    </SegmentPanel>
+
+    {/* ── HEADLINE OUTPUTS ─────────────────────────────────── */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:10,margin:"24px 0 20px"}}>
+      {[
+        {l:"Year 3 gross revenue", v:fmtAED(Y[2].grossRev), s:fmtUSD(Y[2].grossRev), c:"#111"},
+        {l:"Year 3 net profit", v:fmtAED(Y[2].netProfit), s:fmtUSD(Y[2].netProfit), c:Y[2].netProfit>=0?BRAND.red:"#999"},
+        {l:"Year 3 net margin", v:`${Y[2].margin.toFixed(1)}%`, s:"After all costs", c:BRAND.red},
+        {l:"Break-even", v:isFinite(breakEvenMonths)?`${breakEvenMonths.toFixed(1)} mo`:"n/a", s:"Build fee recovered", c:BRAND.red},
+        {l:"3-yr cumulative net", v:fmtAED(cumY3), s:fmtUSD(cumY3), c:cumY3>=0?BRAND.red:"#999"},
+      ].map((s,i)=><div key={i} style={{padding:"18px 18px",background:BRAND.white,border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${s.c}`}}>
+        <div style={{fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:6}}>{s.l}</div>
+        <div style={{fontSize:20,fontWeight:700,color:s.c,fontFamily:BRAND.font,lineHeight:1.1}}>{s.v}</div>
+        <div style={{fontSize:11,color:"#888",marginTop:4}}>{s.s}</div>
+      </div>)}
+    </div>
+
+    {/* ── REVENUE MIX (Year 3) ─────────────────────────────── */}
+    <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:"20px 22px",marginBottom:20}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:14,flexWrap:"wrap",gap:8}}>
+        <div>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:3}}>Year 3 revenue mix</div>
+          <div style={{fontSize:15,fontWeight:700,color:"#111"}}>Where revenue comes from</div>
+        </div>
+        <div style={{fontSize:13,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>Gross: {fmtAED(Y[2].grossRev)}</div>
+      </div>
+      <div style={{display:"flex",height:28,width:"100%",overflow:"hidden",border:`1px solid ${BRAND.border}`,marginBottom:12}}>
+        {[
+          {l:"SMB recurring",v:Y[2].smbRev,c:"#185FA5"},
+          {l:"Enterprise recurring",v:Y[2].entRecurring,c:"#4338CA"},
+          {l:"Government recurring",v:Y[2].govRecurring,c:"#7A2BA1"},
+          {l:"Enterprise setup",v:Y[2].entSetupRev,c:"#8B7CF6"},
+          {l:"Government setup",v:Y[2].govSetupRev,c:"#C084E0"},
+        ].map((b,i)=>{const pct = Y[2].grossRev>0 ? (b.v/Y[2].grossRev*100) : 0; return pct > 0.3 && <div key={i} style={{flex:`${pct} 0 0`,background:b.c,position:"relative"}} title={`${b.l}: ${fmtAED(b.v)} (${pct.toFixed(1)}%)`}>
+          {pct >= 8 && <span style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",fontSize:10,fontWeight:700,color:BRAND.white,whiteSpace:"nowrap"}}>{pct.toFixed(0)}%</span>}
+        </div>;})}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:6}}>
+        {[
+          {l:"SMB recurring",v:Y[2].smbRev,c:"#185FA5"},
+          {l:"Enterprise recurring",v:Y[2].entRecurring,c:"#4338CA"},
+          {l:"Government recurring",v:Y[2].govRecurring,c:"#7A2BA1"},
+          {l:"Enterprise setup fees",v:Y[2].entSetupRev,c:"#8B7CF6"},
+          {l:"Government setup fees",v:Y[2].govSetupRev,c:"#C084E0"},
+        ].map((b,i)=>{const pct = Y[2].grossRev>0 ? (b.v/Y[2].grossRev*100) : 0; return <div key={i} style={{display:"flex",alignItems:"center",gap:8,fontSize:11.5}}>
+          <span style={{width:10,height:10,background:b.c,flexShrink:0}}/>
+          <span style={{flex:1,color:"#444"}}>{b.l}</span>
+          <span style={{color:"#888",fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{fmtAED(b.v)}</span>
+          <span style={{color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,minWidth:42,textAlign:"right"}}>{pct.toFixed(1)}%</span>
+        </div>;})}
+      </div>
+    </div>
+
+    {/* ── YEAR-BY-YEAR P&L ─────────────────────────────────── */}
+    <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,overflow:"auto",marginBottom:20}}>
+      <table style={{width:"100%",borderCollapse:"collapse",fontSize:12.5,minWidth:720}}>
+        <thead><tr style={{background:BRAND.lightGrey,borderBottom:`1px solid ${BRAND.border}`}}>
+          {["P&L line", "Year 1", "Year 2", "Year 3", "Year 4+"].map((h,i)=><th key={i} style={{textAlign:i===0?"left":"right",padding:"12px 16px",fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>{h}</th>)}
+        </tr></thead>
+        <tbody>
+          {plRows.map((row,i)=><tr key={i} style={{borderBottom:`1px solid ${BRAND.border}`,background:row.highlight?"#FFF8F8":(row.bold?"#FAFAFA":"transparent")}}>
+            <td style={{padding:"9px 16px",fontWeight:row.bold?700:500,color:row.color||"#444",fontSize:12}}>{row.l}</td>
+            {Y.map((y,j)=><td key={j} style={{padding:"9px 16px",textAlign:"right",fontWeight:row.bold?700:500,color:row.color||"#555",fontFamily:row.bold?BRAND.font:"inherit",whiteSpace:"nowrap"}}>{row.get(y)}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    {/* ── COST COMPOSITION (Year 3) ────────────────────────── */}
+    <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:"20px 22px",marginBottom:20}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:14,flexWrap:"wrap",gap:8}}>
+        <div>
+          <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:3}}>Year 3 cost composition</div>
+          <div style={{fontSize:15,fontWeight:700,color:"#111"}}>Where every dirham of cost goes</div>
+        </div>
+        <div style={{fontSize:13,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font}}>Total cost: {fmtAED(y3Total)}</div>
+      </div>
+      <div style={{display:"flex",height:28,width:"100%",overflow:"hidden",border:`1px solid ${BRAND.border}`,marginBottom:12}}>
+        {costBars.map((b,i)=>{const pct = y3Total>0 ? (b.v/y3Total*100) : 0; return pct > 0.3 && <div key={i} style={{flex:`${pct} 0 0`,background:b.c,position:"relative"}} title={`${b.l}: ${fmtAED(b.v)} (${pct.toFixed(1)}%)`}>
+          {pct >= 8 && <span style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",fontSize:10,fontWeight:700,color:BRAND.white,whiteSpace:"nowrap"}}>{pct.toFixed(0)}%</span>}
+        </div>;})}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:6}}>
+        {costBars.map((b,i)=>{const pct = y3Total>0 ? (b.v/y3Total*100) : 0; return <div key={i} style={{display:"flex",alignItems:"center",gap:8,fontSize:11.5}}>
+          <span style={{width:10,height:10,background:b.c,flexShrink:0}}/>
+          <span style={{flex:1,color:"#444"}}>{b.l}</span>
+          <span style={{color:"#888",fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{fmtAED(b.v)}</span>
+          <span style={{color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,minWidth:42,textAlign:"right"}}>{pct.toFixed(1)}%</span>
+        </div>;})}
+      </div>
+    </div>
+
+    {/* ── BREAK-EVEN & CUMULATIVE CASHFLOW ─────────────────── */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:12,marginBottom:20}}>
+      <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:"20px 22px",borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>Break-even on build fee</div>
+        <div style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1.1,marginBottom:6}}>
+          {isFinite(breakEvenMonths) ? `${breakEvenMonths.toFixed(1)} months` : "Not reached in Y1"}
+        </div>
+        <div style={{fontSize:11.5,color:"#666",lineHeight:1.55}}>
+          Upfront cash outflow of <strong style={{color:"#111"}}>{fmtAED(upfrontCashAED)}</strong> (~{fmtUSD(upfrontCashAED)}) recovered at Year 1 monthly net of {fmtAED(y1MonthlyNet)}.
+        </div>
+      </div>
+      <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,padding:"20px 22px",borderTop:`3px solid ${BRAND.red}`}}>
+        <div style={{fontSize:10.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:8}}>Cumulative cash position</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3, 1fr)",gap:8,marginTop:4}}>
+          {[{l:"End Y1",v:cumY1},{l:"End Y2",v:cumY2},{l:"End Y3",v:cumY3}].map((c,i)=><div key={i}>
+            <div style={{fontSize:10,fontWeight:700,color:BRAND.grey,letterSpacing:"0.04em",textTransform:"uppercase",marginBottom:3}}>{c.l}</div>
+            <div style={{fontSize:15,fontWeight:700,color:c.v>=0?BRAND.red:"#999",fontFamily:BRAND.font,lineHeight:1.1}}>{fmtAED(c.v)}</div>
+            <div style={{fontSize:10,color:"#888",marginTop:2}}>{fmtUSD(c.v)}</div>
+          </div>)}
+        </div>
+      </div>
+    </div>
+
+    {/* ── ANALYTICAL CALLOUT ───────────────────────────────── */}
+    <div style={{padding:"16px 20px",background:BRAND.lightGrey,borderLeft:`4px solid ${BRAND.red}`,marginBottom:40,fontSize:12.5,color:"#333",lineHeight:1.65}}>
+      <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>What the model tells us</div>
+      <div style={{marginBottom:6}}>
+        By Year 3 e& serves <strong>{smbY3.toLocaleString()} SMBs</strong>, <strong>{entY3} enterprise accounts</strong> and <strong>{govY3} government accounts</strong> on the same platform. Gross revenue reaches <strong style={{color:BRAND.red}}>{fmtAED(Y[2].grossRev)}</strong> ({fmtUSD(Y[2].grossRev)}); total costs are <strong>{fmtAED(Y[2].totalCost)}</strong>; net profit is <strong style={{color:BRAND.red}}>{fmtAED(Y[2].netProfit)}</strong> at a <strong>{Y[2].margin.toFixed(1)}%</strong> margin.
+      </div>
+      <div style={{marginBottom:6}}>
+        Revenue mix: <strong>{((Y[2].smbRev/Y[2].grossRev)*100).toFixed(0)}%</strong> SMB, <strong>{(((Y[2].entRecurring+Y[2].entSetupRev)/Y[2].grossRev)*100).toFixed(0)}%</strong> Enterprise, <strong>{(((Y[2].govRecurring+Y[2].govSetupRev)/Y[2].grossRev)*100).toFixed(0)}%</strong> Government. The AIdeology royalty represents only <strong>{((Y[2].royalty/Y[2].grossRev)*100).toFixed(1)}%</strong> of revenue ({fmtAED(Y[2].royalty)}). Dominant cost: <strong>{costBars.reduce((a,b)=>a.v>b.v?a:b).l.toLowerCase()}</strong>.
+      </div>
+      <div>
+        The <strong>${buildFeeUSD}M build fee</strong> is recovered in <strong>{isFinite(breakEvenMonths) ? `${breakEvenMonths.toFixed(1)} months` : "more than Year 1"}</strong>. By end of Year 3, e& has accumulated <strong style={{color:BRAND.red}}>{fmtAED(cumY3)}</strong> ({fmtUSD(cumY3)}) in net cash — an ROI of <strong>{(cumY3/upfrontCashAED).toFixed(1)}×</strong> on the original investment.
+      </div>
+    </div>
+  </>;
+}
+
+/* ════════════════════════════════════════════════════════════ */
 /* HAITHEM CEO PAGE — visual summary of the contract           */
 /* Access via ?view=haithem — never linked from the nav bar   */
 /* ════════════════════════════════════════════════════════════ */
 function HaithemFinancialsTab() {
   const PILLAR_FEES = [
-    {pillar:"Pillar 01 — SMB Programme",scope:"6 agents · 5 waves · 36 weeks · 3-year L3 support",fee:"$3.44M",model:"Fixed fee · 7 milestones"},
-    {pillar:"Pillar 02 — Enterprise & Gov",scope:"T1 adapted agents · T2 custom AI · T3 sovereign on-prem",fee:"Per opportunity",model:"60/40 split on build & managed service"},
-    {pillar:"Pillar 03 — GPU Infra Consulting",scope:"RA design (quoted per project) · monthly advisory retainer · multi-vendor",fee:"$720K / yr retainer",model:"$60K/mo retainer + RA design per engagement"},
+    {pillar:"Pillar 01 — Horizontal Agents · SMB, Enterprise & Government",scope:"6 agents · 5 waves · 36 weeks · 2-year L3 support",fee:"$3M – $4M",model:"Fixed fee · 7 milestones"},
+    {pillar:"Pillar 02 — Enterprise & Gov",scope:"T1 adapted agents · T2 custom AI · T3 sovereign on-prem",fee:"Per opportunity",model:"Per SoW · billed on delivery"},
+    {pillar:"Pillar 03 — GPU Infra Consulting",scope:"RA design (quoted per project) · monthly advisory retainer · multi-vendor · AI Proposal & RFP Agent (auto-generates commercial and technical proposals)",fee:"$720K / yr retainer",model:"$60K/mo retainer + RA design per engagement"},
   ];
 
   const MILESTONES = [
-    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"$516,543"},
-    {m:"M1",w:"Wave 1",e:"SDD signed off + platform foundation kick-off (W4)",a:"$250,000"},
-    {m:"M2",w:"Wave 1",e:"Customer Agent in closed beta with 10+ SMBs (W10)",a:"$500,000"},
-    {m:"M3",w:"Wave 1",e:"Customer Agent GA on e& sovereign infrastructure (W12)",a:"$500,000"},
-    {m:"M4",w:"Wave 2",e:"Sales Agent + Comms Hub + P1 layer live (W18)",a:"$700,000"},
-    {m:"M5",w:"Wave 3",e:"Finance Agent + Ops Agent live (W24)",a:"$600,000"},
-    {m:"M6",w:"Wave 4",e:"People Agent live (W30)",a:"$275,000"},
-    {m:"M7",w:"Wave 5",e:"Security audit + handoff (W36) — net of M0",a:"$102,078"},
+    {m:"M0",w:"Mobilisation",e:"Contract execution — 15% advance, credited to M7",a:"~15% advance"},
+    {m:"M1",w:"Wave 1",e:"SDD signed off + platform foundation kick-off (W4)",a:"Per SoW"},
+    {m:"M2",w:"Wave 1",e:"Customer Agent in closed beta with 10+ SMBs (W10)",a:"Per SoW"},
+    {m:"M3",w:"Wave 1",e:"Customer Agent GA on e& sovereign infrastructure (W12)",a:"Per SoW"},
+    {m:"M4",w:"Wave 2",e:"Sales Agent + Comms Hub + P1 layer live (W18)",a:"Per SoW"},
+    {m:"M5",w:"Wave 3",e:"Finance Agent + Ops Agent live (W24)",a:"Per SoW"},
+    {m:"M6",w:"Wave 4",e:"People Agent live (W30)",a:"Per SoW"},
+    {m:"M7",w:"Wave 5",e:"Security audit + handoff (W36) — net of M0",a:"Net of M0"},
   ];
 
   const HW_FEES = [
@@ -8343,26 +9076,11 @@ function HaithemFinancialsTab() {
       <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:BRAND.continuum}}/>
       <div style={{fontSize:11,fontWeight:700,color:BRAND.red,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>The economics in one line</div>
       <h2 style={{fontSize:30,fontWeight:700,color:BRAND.white,lineHeight:1.15,margin:"0 0 12px",maxWidth:880}}>
-        Pay-on-delivery: <span style={{color:BRAND.red}}>$3.44M</span> total fixed fees for the SMB programme — paid only when each wave passes acceptance.
+        A structured commercial framework designed for e& to own the platform, the IP, and the margin.
       </h2>
       <p style={{fontSize:14,color:"rgba(255,255,255,0.75)",lineHeight:1.55,margin:0,maxWidth:780}}>
-        Plus a 35% revenue share that declines to 20% by Year 4 as e& takes ownership. Enterprise and GPU infrastructure consulting are billed separately on their own SoWs.
+        Every initiative has a clear delivery model, defined milestones, and a handover that leaves e& in full autonomous control — commercially, technically, and operationally.
       </p>
-    </div>
-
-    {/* ── KEY FINANCIAL NUMBERS ─────────────────────────────── */}
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))",gap:12,marginBottom:40}}>
-      {[
-        {v:"$3.44M",l:"SMB fixed fees",sub:"Pillar 01 · all waves + 3-yr L3"},
-        {v:"35% → 20%",l:"Revenue share",sub:"Declining to e& by Year 4"},
-        {v:"$720K / yr",l:"GPU consulting retainer",sub:"Pillar 03 · RA design quoted per project"},
-        {v:"60 / 40",l:"Enterprise split",sub:"Pillar 02 · build & managed service"},
-        {v:"3–7%",l:"Platform royalty",sub:"New apps on Forge · declining over time"},
-      ].map((s,i)=><div key={i} style={{padding:"22px 18px",border:`1px solid ${BRAND.border}`,background:BRAND.white,borderTop:`3px solid ${BRAND.red}`}}>
-        <div style={{fontSize:24,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1.1}}>{s.v}</div>
-        <div style={{fontSize:13,fontWeight:700,color:"#111",marginTop:8}}>{s.l}</div>
-        <div style={{fontSize:10.5,color:BRAND.grey,marginTop:3,letterSpacing:"0.04em",textTransform:"uppercase"}}>{s.sub}</div>
-      </div>)}
     </div>
 
     {/* ── FEE STRUCTURE — 3 INITIATIVES ─────────────────────── */}
@@ -8398,34 +9116,15 @@ function HaithemFinancialsTab() {
             <td style={{padding:"12px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>{r.a}</td>
           </tr>)}
           <tr style={{background:BRAND.lightGrey,borderTop:`2px solid ${BRAND.red}`}}>
-            <td colSpan={3} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Total fixed-fee envelope (all waves + 3-year L3 support)</td>
-            <td style={{padding:"14px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontSize:14,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$3,443,621</td>
+            <td colSpan={3} style={{padding:"14px 18px",fontWeight:700,color:"#111"}}>Total fixed-fee envelope (all waves + 2-year L3 support)</td>
+            <td style={{padding:"14px 18px",textAlign:"right",color:BRAND.red,fontWeight:700,fontSize:14,fontFamily:BRAND.font,whiteSpace:"nowrap"}}>$3M – $4M</td>
           </tr>
         </tbody>
       </table>
     </div>
     <p style={{fontSize:11.5,color:"#888",lineHeight:1.55,marginBottom:40}}>
-      M0 mobilisation advance (15%) is invoiced on contract execution and credited in full against M7. All invoices payable net 30 days from trigger event being met and certified by e&.
+      M0 mobilisation advance (15%) is invoiced on contract execution and credited in full against M7. All invoices payable net 30 days from trigger event being met and certified by e&. Total fixed fees in the range of $3M–$4M; exact amounts agreed per Statement of Work.
     </p>
-
-    {/* ── REVENUE SHARE — DECLINING ────────────────────────── */}
-    <SH>SMB revenue share — declining model</SH>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",gap:10,marginBottom:14}}>
-      {REV_SHARE.map((r,i)=><div key={i} style={{padding:"22px 22px",background:BRAND.white,border:`1px solid ${BRAND.border}`,borderTop:`3px solid ${BRAND.red}`}}>
-        <div style={{fontSize:11,fontWeight:700,color:BRAND.grey,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:10}}>{r.y}</div>
-        <div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:8}}>
-          <span style={{fontSize:26,fontWeight:700,color:BRAND.red,fontFamily:BRAND.font,lineHeight:1}}>{r.e}</span>
-          <span style={{fontSize:12,color:"#999"}}>e&</span>
-          <span style={{fontSize:14,color:"#ccc"}}>/</span>
-          <span style={{fontSize:18,fontWeight:700,color:"#666",fontFamily:BRAND.font}}>{r.a}</span>
-          <span style={{fontSize:12,color:"#999"}}>AIdeology</span>
-        </div>
-        <div style={{fontSize:11.5,color:"#666",lineHeight:1.5}}>{r.note}</div>
-      </div>)}
-    </div>
-    <div style={{padding:"14px 18px",background:BRAND.lightGrey,borderLeft:`4px solid ${BRAND.red}`,marginBottom:40,fontSize:12.5,color:"#333",lineHeight:1.6}}>
-      <strong>Enterprise (Pillar 02):</strong> 60 / 40 split AIdeology / e& on build and managed service. Hosting, connectivity and Tier-3 hardware are 100% e&.
-    </div>
 
     {/* ── PLATFORM ROYALTY — 3-7% ────────────────────────────── */}
     <SH>Forge platform royalty — new applications built on the platform</SH>
@@ -8477,15 +9176,18 @@ function HaithemFinancialsTab() {
       Pillar 03 fees governed by a separate Statement of Work. RA engagements: 30% advance + 70% on blueprint sign-off. 100 MW programme: 6 milestones tied to assessment, blueprint, procurement, deployment and handoff.
     </p>
 
+    {/* ── INTERACTIVE FINANCIAL MODELLER ──────────────────── */}
+    <FinancialsCalculator/>
+
     {/* ── COMMERCIAL TERMS ─────────────────────────────────── */}
     <SH>Key commercial terms</SH>
     <div style={{background:BRAND.white,border:`1px solid ${BRAND.border}`,overflow:"hidden",marginBottom:14}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))"}}>
         {[
           {term:"Revenue split",detail:"65% e& / 35% AIdeology",sub:"Declining to 80/20 by Year 4 as e& takes ownership"},
-          {term:"Payment model",detail:"Fixed-fee, milestone-based",sub:"$3.44M across 8 milestones · pay only on delivery"},
+          {term:"Payment model",detail:"Fixed-fee, milestone-based",sub:"$3M–$4M across 8 milestones · pay only on delivery"},
           {term:"IP ownership",detail:"Agent IP → e&",sub:"Forge platform IP licensed perpetually to e&"},
-          {term:"Support",detail:"L1–L2 e& · L3–L4 AIdeology",sub:"Years 1–3 platform support included in fixed fees"},
+          {term:"Support",detail:"L1–L2 e& · L3–L4 AIdeology",sub:"Years 1–2 platform support included in fixed fees"},
           {term:"Term",detail:"4-year build-then-transfer",sub:"e& owns agents, team and platform by Year 4"},
           {term:"Exclusivity",detail:"AI platform partner — SMB UAE",sub:"AIdeology builds exclusively for e& in this market"},
         ].map((x,i)=><div key={i} style={{padding:"18px 22px",borderRight:(i+1)%3?`1px solid ${BRAND.border}`:"none",borderBottom:i<3?`1px solid ${BRAND.border}`:"none"}}>
@@ -8503,7 +9205,7 @@ function HaithemPage() {
   const handleExport = () => { window.print(); };
 
   const INITIATIVES = [
-    {k:"A",t:"Agentic Solutions",d:"Six AI agents delivered in 90-day waves: Customer, Sales, Comms, Finance, Ops, People.",color:BRAND.red,icon:"01"},
+    {k:"A",t:"Agentic Solutions",d:"Six AI complex Agentic solutions with specialized Agents delivered in 90-day waves: Customer, Sales, Comms, Finance, Ops, People.",color:BRAND.red,icon:"01"},
     {k:"B",t:"Centre of Excellence",d:"AIdeology embeds with e& teams to transfer capability and build internal autonomy.",color:"#004B2E",icon:"02"},
     {k:"C",t:"AI Agent Orchestration Platform",d:"Forge — the unified software layer connecting compute, models, agents, customers and billing.",color:"#7A2BA1",icon:"03"},
   ];
@@ -8522,7 +9224,7 @@ function HaithemPage() {
     {w:"2",span:"W13–W18",title:"Sales Agent + Comms Hub",d:"Lead scoring, follow-ups, proposal drafting; unified inbox + AI campaigns across channels."},
     {w:"3",span:"W19–W24",title:"Finance + Ops Agents",d:"Invoices, VAT, cash forecast; tasks, approvals, SOP knowledge base, daily summaries."},
     {w:"4",span:"W25–W30",title:"People Agent",d:"WPS payroll, attendance via e& SIM, leave, onboarding, visa-expiry alerts, AI CV screening."},
-    {w:"5",span:"W31–W36",title:"Hardening & Handoff",d:"Security audit, pen test, runbooks, documentation, formal handoff and 3-year L3 support."},
+    {w:"5",span:"W31–W36",title:"Hardening & Handoff",d:"Security audit, pen test, runbooks, documentation, formal handoff and 2-year L3 support."},
   ];
 
   return <div style={{minHeight:"100vh",background:BRAND.white,fontFamily:BRAND.font}}>
@@ -8622,28 +9324,13 @@ function HaithemPage() {
         </div>)}
       </div>
       <div style={{padding:"14px 18px",background:BRAND.lightGrey,borderLeft:`4px solid ${BRAND.red}`,marginBottom:40,fontSize:12.5,color:"#333",lineHeight:1.6}}>
-        <strong>Three initiatives × four phases = one delivery cadence.</strong> Each agentic wave follows the same Design → Build → Launch → Support rhythm, so e&'s teams become fluent in the method while capability transfers wave by wave.
+        <strong>Three initiatives × four phases = one delivery cadence.</strong> Each agentic wave follows the same Design → Build → Launch → Support rhythm, <span style={{color:BRAND.red,textDecoration:"underline",fontWeight:600}}>so e&'s teams become fluent in the method while capability transfers wave by wave.</span>
       </div>
 
       {/* ── THE STACK ───────────────────────────────────────── */}
       <SH>The e& AI stack — 6 layers</SH>
-      <div style={{display:"flex",flexDirection:"column",gap:6,marginBottom:40}}>
-        {STACK.map((L,i)=><div key={i} style={{display:"grid",gridTemplateColumns:"68px 1fr 200px",border:L.isForge?`2px solid ${BRAND.red}`:`1px solid ${BRAND.border}`,background:BRAND.white,overflow:"hidden",boxShadow:L.isForge?"0 8px 20px -14px rgba(224,8,0,0.4)":"none"}}>
-          <div style={{background:L.color,color:BRAND.white,padding:"16px 10px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-            <div style={{fontSize:9,fontWeight:700,letterSpacing:"0.12em",opacity:0.8,textTransform:"uppercase"}}>Layer</div>
-            <div style={{fontSize:24,fontWeight:700,fontFamily:BRAND.font,lineHeight:1,marginTop:2}}>{L.n}</div>
-          </div>
-          <div style={{padding:"14px 18px",display:"flex",alignItems:"center"}}>
-            <div>
-              <h5 style={{fontSize:14,fontWeight:700,color:"#111",margin:0,lineHeight:1.25}}>{L.name}</h5>
-              {L.isForge && <div style={{fontSize:10.5,color:BRAND.red,fontWeight:700,letterSpacing:"0.06em",textTransform:"uppercase",marginTop:3}}>The durable platform</div>}
-            </div>
-          </div>
-          <div style={{padding:"14px 18px",borderLeft:`1px solid ${BRAND.border}`,background:"#FAFAFA",display:"flex",flexDirection:"column",justifyContent:"center"}}>
-            <div style={{fontSize:9.5,fontWeight:700,color:BRAND.grey,letterSpacing:"0.06em",textTransform:"uppercase"}}>Owner</div>
-            <div style={{fontSize:12,fontWeight:600,color:"#111",marginTop:2}}>{L.own}</div>
-          </div>
-        </div>)}
+      <div style={{marginBottom:40}}>
+        <StackLayersAccordion/>
       </div>
 
       {/* ── END-TO-END LIVE EXAMPLE ─────────────────────────── */}
